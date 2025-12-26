@@ -1,66 +1,81 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <a href="http://localhost:8000">
+    <img src="https://via.placeholder.com/150x150/1e3a8a/ffffff?text=SIMS" alt="Logo SIMS" width="100" height="100">
+  </a>
 </p>
 
-## About Laravel
+<h1 align="center">SIMS Terpadu (Sistem Informasi Manajemen Sekolah)</h1>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p align="center">
+  <strong>Platform Digitalisasi Sekolah Modern, Terintegrasi, dan White-Label.</strong>
+</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<p align="center">
+  <a href="https://laravel.com"><img src="https://img.shields.io/badge/Laravel-10.x-FF2D20?style=for-the-badge&logo=laravel" alt="Laravel"></a>
+  <a href="https://tailwindcss.com"><img src="https://img.shields.io/badge/Tailwind_CSS-3.0-38B2AC?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS"></a>
+  <a href="https://mysql.com"><img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql" alt="MySQL"></a>
+</p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<br>
 
-## Learning Laravel
+## 📖 Tentang Aplikasi
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**SIMS Terpadu** adalah solusi manajemen sekolah berbasis web yang dirancang untuk membantu institusi pendidikan dalam mengelola administrasi, informasi publik, dan presensi secara digital.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Aplikasi ini dibangun dengan konsep **White Label**, artinya seluruh identitas sekolah (Nama, Logo, Kontak, Visi Misi, hingga Jadwal Pelajaran) dapat diubah secara dinamis melalui panel admin tanpa perlu menyentuh kodingan.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### ✨ Fitur Unggulan
 
-## Laravel Sponsors
+#### 1. 🏢 Portal Informasi Publik (Landing Page)
+Halaman depan yang profesional dan responsif untuk pengunjung.
+- **Berita & Artikel:** Update kegiatan sekolah secara *real-time*.
+- **Agenda & Kalender:** Informasi kegiatan akademik per bulan.
+- **Profil Sekolah Dinamis:** Visi, Misi, dan Struktur Organisasi yang bisa diedit.
+- **Galeri Fasilitas:** Showcase sarana prasarana sekolah.
+- **Download Jadwal:** Orang tua bisa mengunduh jadwal pelajaran (PDF) per kelas.
+- **Form Kontak:** Pengunjung bisa mengirim pesan langsung ke Inbox Admin.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+#### 2. 📸 Kiosk Presensi Biometrik
+Sistem absensi modern untuk guru dan siswa.
+- **Face Capture:** Validasi kehadiran menggunakan bukti foto wajah (*anti-fraud*).
+- **Real-time Recording:** Data kehadiran langsung tersimpan di database.
 
-### Premium Partners
+#### 3. ⚙️ Admin Dashboard (Back Office)
+Pusat kendali untuk Tata Usaha / Administrator.
+- **Manajemen Berita (CRUD):** Tulis artikel dengan upload thumbnail.
+- **Manajemen Agenda:** Atur kalender akademik dan hari libur.
+- **Manajemen Jadwal:** Upload file PDF jadwal pelajaran.
+- **Kotak Masuk (Inbox):** Membaca dan menghapus pesan dari pengunjung web.
+- **Pengaturan Web (Web Settings):** - Ganti Nama Sekolah, No. Telp, Email, & Alamat.
+  - Ganti Background Hero Section & Judul Utama.
+  - Update Visi Misi & Struktur Organisasi.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+## 📷 Screenshots
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| Landing Page | Detail Berita |
+|Data:image/landing-page-placeholder|Data:image/news-detail-placeholder|
+| **Admin Dashboard** | **Kiosk Presensi** |
+|Data:image/admin-dashboard-placeholder|Data:image/presensi-kiosk-placeholder|
 
-## Code of Conduct
+*(Silakan ganti placeholder ini dengan screenshot asli aplikasi Anda)*
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 🚀 Instalasi & Penggunaan
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Ikuti langkah-langkah berikut untuk menjalankan proyek ini di komputer lokal Anda:
 
-## License
+### Prasyarat
+- PHP >= 8.1
+- Composer
+- Node.js & NPM
+- MySQL
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Langkah Instalasi
+
+1. **Clone Repositori**
+   ```bash
+   git clone [https://github.com/username-anda/sims-terpadu.git](https://github.com/username-anda/sims-terpadu.git)
+   cd sims-terpadu
