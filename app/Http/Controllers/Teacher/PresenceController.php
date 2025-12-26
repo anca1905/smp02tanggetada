@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Teacher;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Models\Teacher;
+use Illuminate\Http\Request;
 use App\Models\Teacher_absence;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
 
 class PresenceController extends Controller
 {
@@ -24,7 +25,7 @@ class PresenceController extends Controller
 
         $teachers = Teacher::where('name', 'like', "%{$query}%")
             ->orWhere('ID', 'like', "%{$query}%")
-            ->where('status', 'Aktif')
+            ->where('status', 'Active')
             ->limit(5)
             ->get(['name', 'ID']);
 
@@ -46,6 +47,8 @@ class PresenceController extends Controller
         if (!$teacher) {
             return response()->json(['status' => 'error', 'message' => 'Data guru tidak ditemukan.']);
         }
+
+        Auth::guard('teacher')->login($teacher);
 
         if (!Hash::check($request->password, $teacher->password)) {
             return response()->json(['status' => 'error', 'message' => 'Password salah. Silakan coba lagi.']);
