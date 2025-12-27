@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>`;
             modalTitle.classList.add('text-green-600');
-            modalDetails.classList.add('bg-green-50', 'text-black-800');
+            modalDetails.classList.add('bg-green-50', 'text-green-800');
         } else if (type === 'error') {
             modalIcon.classList.add('bg-red-100');
             modalIcon.innerHTML = `

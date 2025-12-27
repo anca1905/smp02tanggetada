@@ -244,7 +244,7 @@
                                             </svg>
                                             Ambil Gambar
                                         </button>
-                                        <a href="{{ route('login') }}" id="login-btn"
+                                        <a href="{{ route('teacher.dashboard') }}" id="login-btn"
                                             class="btn-secondary-login text-white py-2 px-3 text-sm font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 flex items-center justify-center relative z-10">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1"
                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
