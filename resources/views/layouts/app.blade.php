@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>@yield('title', 'Dashboard') - Yayasan Megatama Jambi</title>
+    <title>@yield('title', 'Dashboard') - Sistem Informasi Manajemen Sekolah</title>
 
     <link rel="stylesheet" href="{{ asset('assets/css/final.css') }}">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -216,7 +216,7 @@
                 </p>
             </div>
 
-            <a href="{{ $activeRole === 'operator' ? route('tu.settings') : route('teacher.settings') }}"
+            <a href="{{ $activeRole === 'operator' ? route('tu.settings.index') : route('teacher.settings') }}"
                 class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('*.settings') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                 <i class="fas fa-cog w-5 mr-3 text-center"></i> Settings
             </a>

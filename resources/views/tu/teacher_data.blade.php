@@ -152,7 +152,7 @@
                 </button>
             </div>
 
-            <form id="teacherForm" method="POST" action="{{ route('tu.teacher.store') }}"
+            <form id="teacherForm" method="POST" data-action="{{ route('tu.teacher.store') }}" action="{{ route('tu.teacher.store') }}"
                 enctype="multipart/form-data" class="p-6 space-y-4">
                 @csrf
                 <input type="hidden" name="_method" id="methodField" value="POST">

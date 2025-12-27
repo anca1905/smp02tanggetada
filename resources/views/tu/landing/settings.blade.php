@@ -23,6 +23,26 @@
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 h-fit">
                     <h3 class="font-bold text-gray-800 border-b border-gray-100 pb-3 mb-4">Identitas & Kontak</h3>
                     <div class="space-y-4">
+                        <div class="mb-4 flex items-center gap-4">
+                            <div class="shrink-0">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Logo Sekolah</label>
+                                <div
+                                    class="h-20 w-20 rounded-lg border border-gray-300 bg-gray-50 flex items-center justify-center overflow-hidden relative group">
+                                    @if (isset($settings['school_logo']))
+                                        <img src="{{ asset('storage/' . $settings['school_logo']) }}"
+                                            class="w-full h-full object-contain p-1">
+                                    @else
+                                        <i class="fas fa-image text-gray-400 text-2xl"></i>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="grow">
+                                <input type="file" name="school_logo" accept="image/*"
+                                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                                <p class="mt-1 text-xs text-gray-500">Format: PNG/JPG (Transparan direkomendasikan). Max:
+                                    2MB.</p>
+                            </div>
+                        </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Nama Aplikasi / Sekolah</label>
                             <input type="text" name="app_name" value="{{ $settings['app_name'] ?? 'SIMS Terpadu' }}"

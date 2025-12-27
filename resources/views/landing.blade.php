@@ -44,11 +44,11 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                 <div class="bg-white p-6 rounded shadow-sm border-b-4 border-blue-900">
-                    <div class="text-3xl font-bold text-blue-900 mb-1">1,250</div>
+                    <div class="text-3xl font-bold text-blue-900 mb-1">{{ $student }}</div>
                     <div class="text-sm text-gray-500 uppercase tracking-wide">Siswa Aktif</div>
                 </div>
                 <div class="bg-white p-6 rounded shadow-sm border-b-4 border-yellow-500">
-                    <div class="text-3xl font-bold text-blue-900 mb-1">85</div>
+                    <div class="text-3xl font-bold text-blue-900 mb-1">{{ $staff }}</div>
                     <div class="text-sm text-gray-500 uppercase tracking-wide">Guru & Staf</div>
                 </div>
                 <div class="bg-white p-6 rounded shadow-sm border-b-4 border-green-500">

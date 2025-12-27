@@ -166,6 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
             modalDetails.classList.add('bg-red-50', 'text-red-800');
         }
 
+        console.log('DETAIL:', detail);
+
+
         if (detail && typeof detail === 'object') {
             modalDetails.innerHTML = `
             <div class="space-y-2">
@@ -250,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = await response.json();
 
                 if (result.status === 'success') {
-                    showModal(result.message, '', 'success', result.data);
+                    showModal(result.message, '', 'success', result.detail);
 
                     identityInput.value = '';
                     passwordInput.value = '';

@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\Event;
 use App\Models\Message;
+use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
@@ -13,7 +15,9 @@ class PublicController extends Controller
     public function home()
     {
         $latest_posts = Post::where('is_published', true)->latest()->take(3)->get();
-        return view('landing', compact('latest_posts'));
+        $staff = Teacher::where('status', 'Aktif')->count();
+        $student = Student::where('student_status', 'Active')->count();
+        return view('landing', compact('latest_posts', 'staff', 'student'));
     }
 
     public function profil()

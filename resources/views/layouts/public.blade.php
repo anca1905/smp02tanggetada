@@ -59,10 +59,11 @@
             <div class="flex justify-between items-center h-20">
 
                 <a href="{{ route('home') }}" class="flex items-center space-x-3">
-                    <img src="https://via.placeholder.com/50x50/1e3a8a/ffffff?text=LOGO" alt="Logo"
-                        class="rounded-full h-10 w-10">
+                    <img src="{{ isset($site_settings['school_logo']) ? asset('storage/' . $site_settings['school_logo']) : 'https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg' }}"
+                        alt="Logo Sekolah" class="h-10 w-auto">
                     <div class="flex flex-col">
-                        <span class="text-blue-900 font-bold text-lg leading-tight tracking-wide">SIMS TERPADU</span>
+                        <span
+                            class="text-blue-900 font-bold text-lg leading-tight tracking-wide">{{ $site_settings['app_name'] }}</span>
                         <span class="text-xs text-gray-500 font-medium">Sistem Informasi Manajemen Sekolah</span>
                     </div>
                 </a>
