@@ -47,7 +47,7 @@
                 </div>
                 <div class="relative">
                     <div class="absolute -inset-4 bg-blue-100 rounded-xl transform rotate-3"></div>
-                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop"
+                    <img src="https://sman3batusangkar.sch.id/wp-content/uploads/2017/07/Gedung-Sekolah-3.jpg"
                         class="relative rounded-xl shadow-lg w-full" alt="Gedung Sekolah">
                 </div>
             </div>
@@ -156,7 +156,7 @@
                 </div>
 
                 <div class="group relative overflow-hidden rounded-xl shadow-md h-64 md:col-span-2">
-                    <img src="https://images.unsplash.com/photo-1598981493990-672535057a7d?q=80&w=2070&auto=format&fit=crop"
+                    <img src="https://konten.usu.ac.id/storage/satker/22/statis/aula-serba-guna.jpeg"
                         class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
                         alt="Aula">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">

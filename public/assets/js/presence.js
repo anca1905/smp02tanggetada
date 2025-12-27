@@ -166,6 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
             modalDetails.classList.add('bg-red-50', 'text-red-800');
         }
 
+        console.log('DETAIL:', detail);
+
 
         if (detail && typeof detail === 'object') {
             modalDetails.innerHTML = `

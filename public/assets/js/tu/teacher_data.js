@@ -28,7 +28,7 @@ function openModal(mode, data = null) {
         passwordHint.innerText = "Isi hanya jika ingin mengubah password.";
     } else {
         modalTitle.innerText = 'Tambah Guru Baru';
-        form.action = "{{ route('tu.teacher.store') }}";
+        form.action = data.action;
         methodField.value = 'POST';
         form.reset();
 
