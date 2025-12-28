@@ -100,12 +100,38 @@
                         </div>
                     </div>
                 </div>
-
             </div>
+
             <div class="bg-white rounded-xl shadow-sm border mt-8 border-gray-200 p-6 h-fit lg:col-span-2">
                 <h3 class="font-bold text-gray-800 border-b border-gray-100 pb-3 mb-4">Profil Sekolah</h3>
                 <div class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1">
+                        <div class="mb-2">
+                            <label for="history-title" class="block text-sm font-medium text-gray-700 mb-1">Judul
+                                Sejarah</label>
+                            <input type="text" name="history_title" id="history-title"
+                                class="w-full border-2 border-gray-500 px-1  rounded-lg"
+                                value="{{ $settings['history_title'] ?? 'Membangun Generasi Unggul Sejak 1990' }}">
+                        </div>
+                        <div class="mb-2">
+                            <label for="history-desc" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi
+                                Sejarah</label>
+                            <textarea name="history_desc" id="history-desc" rows="4" class="w-full border-2 border-gray-500 px-1  rounded-lg"
+                                placeholder="Masukkan sejarah sekolah ...">{{ $settings['history_desc'] ?? '' }}</textarea>
+                        </div>
+                        <div class="pt-4 border-t border-gray-100 mb-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Gambar untuk section sejarah</label>
+                            <div class="flex items-center space-x-4">
+                                @if (isset($settings['history_image']))
+                                    <img src="{{ asset('storage/' . $settings['history_image']) }}"
+                                        class="h-32 object-contain border border-gray-200 rounded p-1">
+                                @endif
+                                <input type="file" name="history_image"
+                                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 border-t-2 border-gray-500 py-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Visi Sekolah</label>
                             <textarea name="school_visi" rows="4" class="w-full border-2 border-gray-500 px-1  rounded-lg"

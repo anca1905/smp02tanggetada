@@ -71,7 +71,7 @@ class SettingsController extends Controller
 
     public function update_landing(Request $request)
     {
-        $data = $request->except(['_token', '_method', 'hero_bg', 'school_logo']);
+        $data = $request->except(['_token', '_method', 'hero_bg', 'school_logo', 'history_image']);
 
         foreach ($data as $key => $value) {
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);
@@ -110,6 +110,17 @@ class SettingsController extends Controller
 
             $path = $request->file('school_logo')->store('settings', 'public');
             Setting::updateOrCreate(['key' => 'school_logo'], ['value' => $path]);
+        }
+
+        if ($request->hasFile('history_image')) {
+            $request->validate(['history_image' => 'image|mimes:png,jpg,jpeg|max:2048']);
+            $oldHistory = Setting::where('key', 'history_image')->value('value');
+            if ($oldHistory) {
+                Storage::disk('public')->delete($oldHistory);
+            }
+
+            $path = $request->file('history_image')->store('settings', 'public');
+            Setting::updateOrCreate(['key' => 'history_image'], ['value' => $path]);
         }
 
         return back()->with('success', 'Pengaturan website berhasil diperbarui!');

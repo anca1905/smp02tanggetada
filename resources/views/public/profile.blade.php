@@ -31,23 +31,17 @@
                 <div>
                     <div class="inline-block p-2 px-4 rounded-full bg-blue-100 text-blue-800 text-sm font-bold mb-4">Sejarah
                         Singkat</div>
-                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Membangun Generasi Unggul Sejak 1990</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">
+                        {{ $site_settings['history_title'] ?? 'Membangun Generasi Unggul Sejak 1990' }} </h2>
                     <div class="prose text-gray-600 leading-relaxed space-y-4">
                         <p>
-                            Berawal dari semangat untuk mencerdaskan kehidupan bangsa, sekolah ini didirikan dengan
-                            fasilitas sederhana namun tekad yang kuat. Seiring berjalannya waktu, kami terus bertransformasi
-                            mengikuti perkembangan zaman.
-                        </p>
-                        <p>
-                            Kini, dengan penerapan sistem manajemen berbasis digital (SIMS), kami berkomitmen untuk
-                            memberikan pelayanan pendidikan yang transparan, akuntabel, dan modern bagi seluruh siswa dan
-                            orang tua.
+                            {!! nl2br(e($site_settings['history_desc'] ?? 'Menjadi sekolah unggul, berkarakter, dan berwawasan global.')) !!}
                         </p>
                     </div>
                 </div>
                 <div class="relative">
                     <div class="absolute -inset-4 bg-blue-100 rounded-xl transform rotate-3"></div>
-                    <img src="https://sman3batusangkar.sch.id/wp-content/uploads/2017/07/Gedung-Sekolah-3.jpg"
+                    <img src="{{ isset($site_settings['history_image']) ? asset('storage/' . $site_settings['history_image']) : 'https://sman3batusangkar.sch.id/wp-content/uploads/2017/07/Gedung-Sekolah-3.jpg' }}"
                         class="relative rounded-xl shadow-lg w-full" alt="Gedung Sekolah">
                 </div>
             </div>
