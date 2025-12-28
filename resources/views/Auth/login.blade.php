@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>Login-Sistem Informasi Manajemen Sekolah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('assets/css/final.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -14,6 +15,15 @@
     <nav class="bg-white text-primary shadow-lg relative z-10">
         <div class="container mx-auto px-6 py-3 flex items-center justify-between">
             <div class="flex items-center">
+                <a href="{{ route('home') }}"
+                    class="text-brand-gray hover:text-white focus:outline-none p-1 mr-3 rounded-md hover:bg-[#2746b5] transition-colors group"
+                    title="Lihat Halaman Depan">
+                    <svg class="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                </a>
                 <div class="relative mr-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-primary" viewBox="0 0 20 20"
                         fill="currentColor">
@@ -22,17 +32,23 @@
                     </svg>
 
                 </div>
-                <h1 class="text-lg font-bold gradient-text">Sistem Informasi Manajemen Sekolah</h1>
+                <h1 class="text-lg font-bold gradient-text hidden sm:block">Sistem Informasi Manajemen Sekolah</h1>
             </div>
             <div class="flex items-center space-x-4">
                 <a href="{{ route('presensi.index') }}"
-                    class="text-sm font-medium text-primary hover:text-primary-dark transition-colors flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    class="text-xl font-bold text-primary hover:text-primary-dark transition-colors flex gap-2 items-center">
+                    <p>Presensi</p>
+                    <svg class="w-7 h-7 hover:text-primary-dark" viewBox="0 0 120 120" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+
+                        <!-- Frame -->
+                        <rect x="20" y="20" width="80" height="80" rx="16" stroke="#2746b5"
+                            stroke-width="12" />
+
+                        <!-- Inner Check -->
+                        <path d="M42 60L54 72L78 48" stroke="#10B981" stroke-width="12" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
-                    Kembali ke Presensi
                 </a>
             </div>
         </div>
@@ -96,8 +112,8 @@
 
                     <button type="submit" id="btn-login-tu"
                         class="btn-login btn-login-tu text-white py-2.5 px-4 w-full text-sm font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M15 16l3-4m0 0l-3-4m3 4H6m3-4v-1a3 3 0 013-3h6a3 3 0 013 3v10a3 3 0 01-3 3h-6a3 3 0 01-3-3v-1" />
                         </svg>
