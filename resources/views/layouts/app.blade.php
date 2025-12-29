@@ -51,7 +51,7 @@
             $activeRole = 'operator';
             $name = $operator->name ?? 'Admin TU';
             $roleLabel = $operator->role_operator ?? 'Tata Usaha';
-            $photoUrl = $operator->foto_url ?? null;
+            $photoUrl = $operator->photo_url ?? null;
         } elseif (isset($user)) {
             $activeRole = 'teacher';
             $name = $user->name ?? 'Guru';
@@ -60,7 +60,7 @@
             if ($waliKelas && $waliKelas !== '-') {
                 $roleLabel = $waliKelas;
             }
-            $photoUrl = $user->foto_url ?? null;
+            $photoUrl = $user->photo_url ?? null;
         } elseif (Auth::check()) {
             $u = Auth::user();
             if (isset($u->role_operator)) {
@@ -73,7 +73,7 @@
                 $roleLabel = $u->homeroom_class ?? 'Guru';
                 $waliKelas = $u->homeroom_class;
             }
-            $photoUrl = $u->foto_url ?? null;
+            $photoUrl = $u->photo_url ?? null;
         } else {
             $activeRole = 'guru';
             $name = 'Bapak Guru Dummy';

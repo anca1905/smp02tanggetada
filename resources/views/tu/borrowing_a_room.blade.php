@@ -141,7 +141,7 @@
                 </button>
             </div>
 
-            <form id="bookingForm" method="POST" action="{{ route('tu.borrowing.store') }}" class="p-6 space-y-4">
+            <form id="bookingForm" method="POST" data-action="{{ route('tu.borrowing.store') }}" class="p-6 space-y-4">
                 @csrf
                 <input type="hidden" name="_method" id="methodField" value="POST">
 

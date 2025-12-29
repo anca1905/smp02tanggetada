@@ -20,7 +20,7 @@ class DashboardController extends Controller
         $today = Carbon::today();
 
         $stats = [
-            'total_guru'  => Teacher::where('status', 'Active')->count(),
+            'total_guru'  => Teacher::where('status', 'Aktif')->count(),
             'total_siswa' => Student::where('student_status', 'Active')->count(),
             'datang'      => Teacher_absence::whereDate('date', $today)->whereNotNull('arrival_time')->count(),
             'pulang'      => Teacher_absence::whereDate('date', $today)->whereNotNull('return_time')->count(),

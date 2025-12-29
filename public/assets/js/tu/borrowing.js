@@ -9,7 +9,7 @@ function openModal(mode, data = null) {
 
     if (mode === 'edit') {
         modalTitle.innerText = 'Edit Peminjaman';
-        form.action = `/tu/peminjaman/${data.borrowing_id}`;
+        form.action = `/tu/borrowing/${data.borrowing_id}`;
         methodField.value = 'PUT';
         statusContainer.classList.remove('hidden');
 
@@ -26,7 +26,7 @@ function openModal(mode, data = null) {
 
     } else {
         modalTitle.innerText = 'Ajukan Peminjaman';
-        form.action = "{{ route('tu.borrowing.store') }}";
+        form.action = data.action;
         methodField.value = 'POST';
         statusContainer.classList.add('hidden');
         form.reset();
