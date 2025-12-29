@@ -12,6 +12,23 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Ada kesalahan input!</strong>
+                <ul class="mt-2 list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    // Pastikan ID modal sesuai
+                    document.getElementById('bookingModal').classList.remove('hidden');
+                });
+            </script>
+        @endif
+
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-4 p-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <h2 class="text-lg font-semibold text-gray-800">Jadwal & Riwayat Peminjaman</h2>
@@ -21,11 +38,14 @@
                         <select name="status" onchange="this.form.submit()"
                             class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Semua Status</option>
-                            <option value="upcoming" {{ request('status') == 'upcoming' ? 'selected' : '' }}>Akan Datang
+                            <option value="upcoming" {{ request('realtime_status') == 'upcoming' ? 'selected' : '' }}>Akan
+                                Datang
                             </option>
-                            <option value="ongoing" {{ request('status') == 'ongoing' ? 'selected' : '' }}>Berlangsung
+                            <option value="ongoing" {{ request('realtime_status') == 'ongoing' ? 'selected' : '' }}>
+                                Berlangsung
                             </option>
-                            <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Selesai
+                            <option value="completed" {{ request('realtime_status') == 'completed' ? 'selected' : '' }}>
+                                Selesai
                             </option>
                         </select>
 
@@ -86,13 +106,13 @@
                                 <td class="px-6 py-4 text-gray-600">{{ $item->responsible_person }}</td>
                                 <td class="px-6 py-4">
                                     @php
-                                        $statusColor = match ($item->status) {
+                                        $statusColor = match ($item->realtime_status) {
                                             'upcoming' => 'bg-yellow-100 text-yellow-800',
                                             'ongoing' => 'bg-blue-100 text-blue-800',
                                             'completed' => 'bg-green-100 text-green-800',
                                             default => 'bg-gray-100 text-gray-800',
                                         };
-                                        $statusLabel = match ($item->status) {
+                                        $statusLabel = match ($item->realtime_status) {
                                             'upcoming' => 'Akan Datang',
                                             'ongoing' => 'Berlangsung',
                                             'completed' => 'Selesai',

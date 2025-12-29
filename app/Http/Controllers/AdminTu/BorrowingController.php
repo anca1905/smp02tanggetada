@@ -13,8 +13,9 @@ class BorrowingController extends Controller
 {
     public function index(Request $request)
     {
+        // dd(now()->format('H:i:s e')); Debugging zona waktu
         $ruanganList = Room::all();
-        
+
         $query = Borrowing_a_room::query();
 
         if ($request->has('search') && $request->search != '') {
@@ -25,13 +26,27 @@ class BorrowingController extends Controller
             });
         }
 
+        // Logiic untuk filter status Realtime
         if ($request->has('status') && $request->status != '') {
-            $query->where('status', $request->status);
+            $filterStatus = $request->status;
+
+            // TODO: Debugging, hapus aja nanti
+            // dd($request->all());
+
+            if ($filterStatus == 'upcoming') {
+                $query->upcoming();
+            } elseif ($filterStatus == 'ongoing') {
+                $query->ongoing();
+            } elseif ($filterStatus == 'completed') {
+                $query->completed();
+            }
         }
 
         $bookings = $query->orderBy('borrow_date', 'desc')
             ->orderBy('start_time', 'asc')
             ->paginate(10);
+
+        $bookings->appends($request->all());
 
         return view('tu.borrowing_a_room', compact('bookings', 'ruanganList'));
     }
@@ -39,16 +54,16 @@ class BorrowingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'full_name'            => 'required|string|max:100',
-            'nis'                  => 'nullable|string|max:20',
-            'class'                => 'nullable|string|max:10',
-            'phone_number'         => 'nullable|string|max:20',
-            'room_type'            => 'required|string',
-            'borrow_date'          => 'required|date',
-            'start_time'           => 'required',
-            'end_time'             => 'required|after:start_time',
+            'full_name' => 'required|string|max:100',
+            'nis' => 'nullable|string|max:20',
+            'class' => 'nullable|string|max:10',
+            'phone_number' => 'nullable|string|max:20',
+            'room_type' => 'required|string',
+            'borrow_date' => 'required|date',
+            'start_time' => 'required',
+            'end_time' => 'required|after:start_time',
             'activity_description' => 'required|string',
-            'responsible_person'   => 'required|string|max:100',
+            'responsible_person' => 'required|string|max:100',
         ]);
 
         $status = 'upcoming';
@@ -68,12 +83,12 @@ class BorrowingController extends Controller
         $booking = Borrowing_a_room::findOrFail($id);
 
         $request->validate([
-            'full_name'            => 'required|string',
-            'room_type'            => 'required|string',
-            'borrow_date'          => 'required|date',
-            'start_time'           => 'required',
-            'end_time'             => 'required|after:start_time',
-            'status'               => 'required|in:upcoming,ongoing,completed',
+            'full_name' => 'required|string',
+            'room_type' => 'required|string',
+            'borrow_date' => 'required|date',
+            'start_time' => 'required',
+            'end_time' => 'required|after:start_time',
+            'status' => 'required|in:upcoming,ongoing,completed',
         ]);
 
         $booking->update($request->all());

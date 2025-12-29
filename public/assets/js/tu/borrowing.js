@@ -26,7 +26,8 @@ function openModal(mode, data = null) {
 
     } else {
         modalTitle.innerText = 'Ajukan Peminjaman';
-        form.action = "{{ route('tu.borrowing.store') }}";
+        // Ganti dari fungsi {{ route }} jadi hardcode endpoint 
+        form.action = '/tu/borrowing';
         methodField.value = 'POST';
         statusContainer.classList.add('hidden');
         form.reset();

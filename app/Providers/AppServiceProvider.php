@@ -26,17 +26,17 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
 
             $operator = Auth::guard('operator')->user();
-            $teacher  = Auth::guard('teacher')->user();
+            $teacher = Auth::guard('teacher')->user();
 
             $view->with([
                 'operator' => $operator,
-                'user'     => $teacher,
+                'user' => $teacher,
             ]);
         });
 
         config(['app.locale' => 'id']);
         Carbon::setLocale('id');
-        date_default_timezone_set('Asia/Jakarta');
+        date_default_timezone_set(config('app.timezone'));
 
         try {
             $globalSettings = Setting::pluck('value', 'key')->toArray();
