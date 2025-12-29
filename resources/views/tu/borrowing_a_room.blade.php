@@ -38,13 +38,13 @@
                         <select name="status" onchange="this.form.submit()"
                             class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Semua Status</option>
-                            <option value="upcoming" {{ request('realtime_status') == 'upcoming' ? 'selected' : '' }}>Akan
+                            <option value="upcoming" {{ request('status') == 'upcoming' ? 'selected' : '' }}>Akan
                                 Datang
                             </option>
-                            <option value="ongoing" {{ request('realtime_status') == 'ongoing' ? 'selected' : '' }}>
+                            <option value="ongoing" {{ request('status') == 'ongoing' ? 'selected' : '' }}>
                                 Berlangsung
                             </option>
-                            <option value="completed" {{ request('realtime_status') == 'completed' ? 'selected' : '' }}>
+                            <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>
                                 Selesai
                             </option>
                         </select>

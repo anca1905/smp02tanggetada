@@ -8,10 +8,25 @@ class Student extends Model
 {
     protected $table = 'students';
     protected $primaryKey = 'nis';
-    public $incrementing = false; 
+    public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        'nis', 'student_name', 'gender', 'class', 'phone_number', 'student_status'
+        'nis',
+        'student_name',
+        'gender',
+        'class',
+        'phone_number',
+        'student_status'
     ];
+
+    // Accesor untuk mengubah M?F jadi L/P
+    public function getGenderDisplayAttribute()
+    {
+        return match ($this->gender) {
+            'M' => 'L',
+            'F' => 'P',
+            default => '-',
+        };
+    }
 }

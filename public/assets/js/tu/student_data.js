@@ -18,7 +18,7 @@ function openModal(mode, data = null) {
         document.getElementById('hpSiswa').value = data.phone_number || '';
     } else {
         modalTitle.innerText = 'Tambah Siswa Baru';
-        form.action = "{{ route('tu.student.store') }}";
+        form.action = "/tu/student";
         methodField.value = 'POST';
         form.reset();
     }
