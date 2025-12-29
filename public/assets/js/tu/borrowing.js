@@ -9,7 +9,7 @@ function openModal(mode, data = null) {
 
     if (mode === 'edit') {
         modalTitle.innerText = 'Edit Peminjaman';
-        form.action = `/tu/peminjaman/${data.borrowing_id}`;
+        form.action = `/tu/borrowing/${data.borrowing_id}`;
         methodField.value = 'PUT';
         statusContainer.classList.remove('hidden');
 
