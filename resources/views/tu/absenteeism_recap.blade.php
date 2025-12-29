@@ -14,8 +14,8 @@
                             <label class="block text-xs font-medium text-gray-500 mb-1">Kategori</label>
                             <select name="kategori" onchange="this.form.submit()"
                                 class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-40">
-                                <option value="teacher" {{ $kategori == 'teacher' ? 'selected' : '' }}>teacher</option>
-                                <option value="student" {{ $kategori == 'student' ? 'selected' : '' }}>student</option>
+                                <option value="teacher" {{ $kategori == 'teacher' ? 'selected' : '' }}>Guru</option>
+                                <option value="student" {{ $kategori == 'student' ? 'selected' : '' }}>Siswa</option>
                             </select>
                         </div>
 
@@ -118,17 +118,17 @@
                                     <td class="px-6 py-4">{{ $item->student->class }}</td>
                                     <td class="px-6 py-4">
                                         @php
-                                            $color = match (strtolower($item->student_status)) {
-                                                'hadir' => 'bg-green-100 text-green-800',
-                                                'sakit' => 'bg-yellow-100 text-yellow-800',
-                                                'izin' => 'bg-blue-100 text-blue-800',
-                                                'alpa' => 'bg-red-100 text-red-800',
-                                                default => 'bg-gray-100 text-gray-800',
+                                            [$color, $text] = match (strtolower($item->status)) {
+                                                'present' => ['bg-green-100 text-green-800', 'Hadir'],
+                                                'sick' => ['bg-yellow-100 text-yellow-800', 'Sakit'],
+                                                'permission' => ['bg-blue-100 text-blue-800', 'Izin'],
+                                                'absent' => ['bg-red-100 text-red-800', 'Alpha'],
+                                                default => ['bg-gray-100 text-gray-800', 'Tidak Absen'],
                                             };
                                         @endphp
                                         <span
                                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $color }}">
-                                            {{ ucfirst($item->student_status) }}
+                                            {{ $text }}
                                         </span>
                                     </td>
                                 @endif

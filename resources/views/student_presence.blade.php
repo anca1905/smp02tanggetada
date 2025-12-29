@@ -99,8 +99,8 @@
 
                                                 <label class="cursor-pointer flex flex-col items-center group">
                                                     <input type="radio" name="attendance[{{ $student->nis }}][status]"
-                                                        value="permit" class="peer sr-only"
-                                                        {{ $status == 'permit' ? 'checked' : '' }}>
+                                                        value="permission" class="peer sr-only"
+                                                        {{ $status == 'permission' ? 'checked' : '' }}>
                                                     <div
                                                         class="w-10 h-10 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-blue-500 peer-checked:border-blue-600 peer-checked:text-white text-gray-400 transition-all hover:bg-blue-50">
                                                         <span class="font-bold">I</span>
@@ -111,8 +111,8 @@
 
                                                 <label class="cursor-pointer flex flex-col items-center group">
                                                     <input type="radio" name="attendance[{{ $student->nis }}][status]"
-                                                        value="alpha" class="peer sr-only"
-                                                        {{ $status == 'alpha' ? 'checked' : '' }}>
+                                                        value="absent" class="peer sr-only"
+                                                        {{ $status == 'absent' ? 'checked' : '' }}>
                                                     <div
                                                         class="w-10 h-10 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-red-500 peer-checked:border-red-600 peer-checked:text-white text-gray-400 transition-all hover:bg-red-50">
                                                         <span class="font-bold">A</span>

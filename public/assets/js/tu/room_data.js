@@ -15,7 +15,8 @@ function openModal(mode, data = null) {
         document.getElementById('roomDesc').value = data.description || '';
     } else {
         modalTitle.innerText = 'Tambah Ruangan';
-        form.action = "{{ route('tu.room.store') }}";
+        // Ganti dari fungsi {{ route }} jadi hardcode endpoint
+        form.action = '/tu/room';
         methodField.value = 'POST';
         form.reset();
     }
