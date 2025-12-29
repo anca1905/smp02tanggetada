@@ -33,7 +33,7 @@ class RecapController extends Controller
 
             $data = $query->orderBy('date', 'desc')->paginate(10);
         } else {
-            $query = StudentAttendance::with(['siswa', 'attendance'])
+            $query = StudentAttendance::with(['student', 'attendance'])
                 ->whereHas('attendance', function ($q) use ($bulan, $tahun) {
                     $q->whereMonth('date', $bulan)
                         ->whereYear('date', $tahun);
@@ -47,7 +47,7 @@ class RecapController extends Controller
             }
 
             if ($request->has('class') && $request->class != '') {
-                $query->whereHas('siswa', function ($q) use ($request) {
+                $query->whereHas('student', function ($q) use ($request) {
                     $q->where('class', $request->class);
                 });
             }
