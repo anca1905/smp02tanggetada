@@ -174,6 +174,11 @@
                     <i class="fas fa-sliders-h w-5 mr-3 text-center"></i>
                     <span>Pengaturan Web</span>
                 </a>
+                <a href="{{ route('tu.facility.index') }}"
+                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.facility*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                    <i class="fas fa-building w-5 mr-3 text-center"></i>
+                    <span>Fasilitas Sekolah</span>
+                </a>
 
                 {{-- ==================== MENU GURU ==================== --}}
             @elseif($activeRole === 'teacher')

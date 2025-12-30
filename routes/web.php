@@ -20,6 +20,7 @@ use App\Http\Controllers\AdminTu\InboxController;
 use App\Http\Controllers\AdminTu\RecapController;
 use App\Http\Controllers\AdminTu\ScheduleController;
 use App\Http\Controllers\AdminTu\BorrowingController;
+use App\Http\Controllers\AdminTu\FacilityController;
 
 // Teacher Controllers
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
@@ -77,7 +78,7 @@ Route::get('/api/siswa/{kelas}', [StudentPresenceController::class, 'getSiswa'])
 */
 
 Route::middleware(['auth:teacher'])->prefix('teacher')->name('teacher.')->group(function () {
-    
+
     Route::get('/dashboard', [TeacherDashboardController::class, 'index'])->name('dashboard');
     Route::get('/attendance-history', [TeacherDashboardController::class, 'riwayat'])->name('history');
 
@@ -109,7 +110,7 @@ Route::middleware(['auth:teacher'])->prefix('teacher')->name('teacher.')->group(
 */
 
 Route::prefix('tu')->name('tu.')->group(function () {
-    
+
     Route::get('/dashboard', [AdminTuDashboardController::class, 'index'])->name('dashboard');
     Route::get('/absenteeism-recap', [RecapController::class, 'index'])->name('rekap');
 
@@ -117,6 +118,7 @@ Route::prefix('tu')->name('tu.')->group(function () {
     Route::resource('student', AdminTuStudentController::class)->except(['create', 'edit', 'show']);
     Route::resource('room', RoomController::class)->except(['create', 'edit', 'show']);
     Route::resource('borrowing', BorrowingController::class)->except(['create', 'edit', 'show']);
+    Route::resource('facility', FacilityController::class)->except(['create', 'edit', 'show']);
     Route::resource('posts', PostController::class);
     Route::resource('events', EventController::class);
     Route::resource('inbox', InboxController::class)->only(['index', 'destroy']);
@@ -127,8 +129,8 @@ Route::prefix('tu')->name('tu.')->group(function () {
     });
 
     Route::controller(AdminTuSettingsController::class)->prefix('settings')->name('settings.')->group(function () {
-        Route::get('/', 'index')->name('index'); 
-        Route::post('/{id}', 'update')->name('update'); 
+        Route::get('/', 'index')->name('index');
+        Route::post('/{id}', 'update')->name('update');
         Route::get('/landing', 'index_landing')->name('website');
         Route::put('/update', 'update_landing')->name('update.website');
     });
