@@ -111,52 +111,62 @@
                     <p class="text-gray-600 mt-2">Sarana penunjang kegiatan belajar mengajar.</p>
                 </div>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="group relative overflow-hidden rounded-xl shadow-md h-64">
-                    <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=2072&auto=format&fit=crop"
-                        class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
-                        alt="Kelas">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
-                        <h3 class="text-white font-bold text-lg">Ruang Kelas Full AC</h3>
+                @forelse ($facility as $fasilitas)
+                    <div class="group relative overflow-hidden rounded-xl shadow-md h-64">
+                        <img src="{{ asset($fasilitas->image_path) }}"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
+                            alt="Kelas">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                            <h3 class="text-white font-bold text-lg">{{ $fasilitas->title }}</h3>
+                        </div>
                     </div>
-                </div>
+                @empty
+                    <div class="group relative overflow-hidden rounded-xl shadow-md h-64">
+                        <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=2072&auto=format&fit=crop"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
+                            alt="Kelas">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                            <h3 class="text-white font-bold text-lg">Ruang Kelas Full AC</h3>
+                        </div>
+                    </div>
 
-                <div class="group relative overflow-hidden rounded-xl shadow-md h-64">
-                    <img src="https://images.unsplash.com/photo-1564981797816-1043664bf78d?q=80&w=2070&auto=format&fit=crop"
-                        class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
-                        alt="Lab Komputer">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
-                        <h3 class="text-white font-bold text-lg">Laboratorium Komputer</h3>
+                    <div class="group relative overflow-hidden rounded-xl shadow-md h-64">
+                        <img src="https://images.unsplash.com/photo-1564981797816-1043664bf78d?q=80&w=2070&auto=format&fit=crop"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
+                            alt="Lab Komputer">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                            <h3 class="text-white font-bold text-lg">Laboratorium Komputer</h3>
+                        </div>
                     </div>
-                </div>
 
-                <div class="group relative overflow-hidden rounded-xl shadow-md h-64">
-                    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2070&auto=format&fit=crop"
-                        class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
-                        alt="Perpus">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
-                        <h3 class="text-white font-bold text-lg">Perpustakaan Digital</h3>
+                    <div class="group relative overflow-hidden rounded-xl shadow-md h-64">
+                        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2070&auto=format&fit=crop"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
+                            alt="Perpus">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                            <h3 class="text-white font-bold text-lg">Perpustakaan Digital</h3>
+                        </div>
                     </div>
-                </div>
 
-                <div class="group relative overflow-hidden rounded-xl shadow-md h-64">
-                    <img src="https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?q=80&w=2070&auto=format&fit=crop"
-                        class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
-                        alt="Lapangan">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
-                        <h3 class="text-white font-bold text-lg">Lapangan Olahraga</h3>
+                    <div class="group relative overflow-hidden rounded-xl shadow-md h-64">
+                        <img src="https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?q=80&w=2070&auto=format&fit=crop"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
+                            alt="Lapangan">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                            <h3 class="text-white font-bold text-lg">Lapangan Olahraga</h3>
+                        </div>
                     </div>
-                </div>
 
-                <div class="group relative overflow-hidden rounded-xl shadow-md h-64 md:col-span-2">
-                    <img src="https://konten.usu.ac.id/storage/satker/22/statis/aula-serba-guna.jpeg"
-                        class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
-                        alt="Aula">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
-                        <h3 class="text-white font-bold text-lg">Aula Serbaguna</h3>
+                    <div class="group relative overflow-hidden rounded-xl shadow-md h-64 md:col-span-2">
+                        <img src="https://konten.usu.ac.id/storage/satker/22/statis/aula-serba-guna.jpeg"
+                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
+                            alt="Aula">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                            <h3 class="text-white font-bold text-lg">Aula Serbaguna</h3>
+                        </div>
                     </div>
-                </div>
+                @endforelse
             </div>
         </section>
 

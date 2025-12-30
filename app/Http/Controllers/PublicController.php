@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Facility;
 use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\Event;
@@ -22,7 +23,9 @@ class PublicController extends Controller
 
     public function profil()
     {
-        return view('public.profile');
+        $facility = Facility::all();
+
+        return view('public.profile', compact('facility'));
     }
 
     public function berita()
