@@ -68,8 +68,8 @@
                             <tr class="hover:bg-gray-50 transition-colors group">
                                 <td class="px-6 py-4">
                                     @php
-                                        $avatar = $teacher->foto_url
-                                            ? asset($teacher->foto_url)
+                                        $avatar = $teacher->photo_url
+                                            ? asset($teacher->photo_url)
                                             : 'https://ui-avatars.com/api/?background=random&name=' .
                                                 urlencode($teacher->name);
                                     @endphp
@@ -152,8 +152,8 @@
                 </button>
             </div>
 
-            <form id="teacherForm" method="POST" data-action="{{ route('tu.teacher.store') }}" action="{{ route('tu.teacher.store') }}"
-                enctype="multipart/form-data" class="p-6 space-y-4">
+            <form id="teacherForm" method="POST" data-action="{{ route('tu.teacher.store') }}"
+                action="{{ route('tu.teacher.store') }}" enctype="multipart/form-data" class="p-6 space-y-4">
                 @csrf
                 <input type="hidden" name="_method" id="methodField" value="POST">
                 <input type="hidden" id="teacherId" name="id">
@@ -180,9 +180,9 @@
                         <select name="gender" id="teacherGender"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                             required>
-                            <option value="">Pilih</option>
-                            <option value="Laki-laki">Laki-laki</option>
-                            <option value="Perempuan">Perempuan</option>
+                            <option value="" selected>Pilih</option>
+                            <option value="Male">Laki-laki</option>
+                            <option value="Female">Perempuan</option>
                         </select>
                     </div>
                 </div>
@@ -226,8 +226,8 @@
                     <select name="status" id="teacherStatus"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         required>
-                        <option value="Aktif">Aktif</option>
-                        <option value="Tidak Aktif">Tidak Aktif</option>
+                        <option value="Active">Aktif</option>
+                        <option value="Inactive">Tidak Aktif</option>
                     </select>
                 </div>
 

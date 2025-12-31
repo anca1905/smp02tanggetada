@@ -16,10 +16,10 @@ class InitialDataSeeder extends Seeder
     public function run(): void
     {
         DB::table('teachers')->insert([
-            'teacher_name' => 'Budi Santoso, S.Pd',
+            'name' => 'Budi Santoso, S.Pd',
             'gender' => 'Male',
             'ID' => '19870101',
-            'subject' => 'Mathematics',
+            'subject' => 'Matematika',
             'homeroom_class' => 'Wali Kelas 12',
             'status' => 'Active',
             'username' => 'guru',
@@ -33,7 +33,7 @@ class InitialDataSeeder extends Seeder
 
 
         DB::table('operators')->insert([
-            'operator_name' => 'Main Admin',
+            'name' => 'Main Admin',
             'username' => 'admin',
             'password' => Hash::make('password'),
             'role' => 'SMP',
@@ -44,7 +44,7 @@ class InitialDataSeeder extends Seeder
 
         for ($i = 1; $i <= 30; $i++) {
             DB::table('students')->insert([
-                'nis' => '1200' . str_pad($i, 2, '0', STR_PAD_LEFT), 
+                'nis' => '1200' . str_pad($i, 2, '0', STR_PAD_LEFT),
                 'student_name' => 'Student ' . $i,
                 'gender' => $i % 2 == 0 ? 'F' : 'M',
                 'class' => '12',

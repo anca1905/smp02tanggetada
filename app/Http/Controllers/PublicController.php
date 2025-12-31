@@ -16,7 +16,7 @@ class PublicController extends Controller
     public function home()
     {
         $latest_posts = Post::where('is_published', true)->latest()->take(3)->get();
-        $staff = Teacher::where('status', 'Aktif')->count();
+        $staff = Teacher::where('status', 'Active')->count();
         $student = Student::where('student_status', 'Active')->count();
         return view('landing', compact('latest_posts', 'staff', 'student'));
     }

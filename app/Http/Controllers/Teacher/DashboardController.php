@@ -65,14 +65,14 @@ class DashboardController extends Controller
 
         foreach ($recentAtts as $att) {
             if ($att->arrival_time) {
-                $logs->push((object)[
+                $logs->push((object) [
                     'title' => 'Absen Datang',
                     'tipe' => 'datang',
                     'time' => Carbon::parse($att->date . ' ' . $att->arrival_time)
                 ]);
             }
             if ($att->return_time) {
-                $logs->push((object)[
+                $logs->push((object) [
                     'title' => 'Absen Pulang',
                     'tipe' => 'pulang',
                     'time' => Carbon::parse($att->date . ' ' . $att->return_time)
@@ -84,7 +84,7 @@ class DashboardController extends Controller
             ->orderBy('created_at', 'desc')->take(3)->get();
 
         foreach ($recentClassAtts as $classAtt) {
-            $logs->push((object)[
+            $logs->push((object) [
                 'title' => 'Input Presensi Kelas ' . $classAtt->class,
                 'tipe' => 'absensi',
                 'time' => $classAtt->created_at
@@ -130,6 +130,8 @@ class DashboardController extends Controller
             ->whereMonth('date', $bulan)
             ->orderBy('date', 'desc')
             ->paginate(10);
+
+        // dd($history);
 
         return view('teacher.history', compact('user', 'history', 'bulan'));
     }

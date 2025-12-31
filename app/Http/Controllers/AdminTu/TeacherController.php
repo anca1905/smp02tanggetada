@@ -13,7 +13,8 @@ class TeacherController extends Controller
 {
     public function index(Request $request)
     {
-        
+        // dd($request->photo_url);
+
         $query = Teacher::query();
 
         if ($request->has('search') && $request->search != '') {
@@ -32,25 +33,29 @@ class TeacherController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request);
+        // dd($request->photo_url);
         $data = $request->validate([
-            'name'     => 'required|string|max:100',
-            'gender' => 'required|in:Laki-laki,Perempuan',
-            'ID'           => 'required|unique:teachers,ID',
+            'name' => 'required|string|max:100',
+            'gender' => 'required|in:Male,Female',
+            'ID' => 'required|unique:teachers,ID',
             'subject' => 'required|string',
-            'homeroom_class'    => 'nullable|string',
-            'status'        => 'required|in:Aktif,Tidak Aktif',
-            'username'      => 'required|unique:teachers,username',
-            'password'      => 'required|min:6',
-            'photo_url'   => 'nullable|image|max:2048'
+            'homeroom_class' => 'nullable|string',
+            'status' => 'required|in:Active,Inactive',
+            'username' => 'required|unique:teachers,username',
+            'password' => 'required|min:6',
+            'photo_url' => 'nullable|image|max:2048'
         ]);
+
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
 
         // $data = null;
         if ($request->hasFile('photo_url')) {
             $file = $request->file('photo_url');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('img/teacher'), $filename);
-            $data['photo_url'] = 'img/teacher/' . $filename;
+            $file->move(public_path('img/teacher-photo'), $filename);
+            $data['photo_url'] = 'img/teacher-photo/' . $filename;
         }
 
         Teacher::create($data);
@@ -60,24 +65,24 @@ class TeacherController extends Controller
 
     public function update(Request $request, $id)
     {
-        // dd($request);
+        // dd($request->gender);
         $teacher = Teacher::findOrFail($id);
 
         $request->validate([
-            'name'     => 'required|string|max:100',
-            'ID'           => ['required', Rule::unique('teachers', 'ID')->ignore($teacher->ID, 'ID')],
-            'username'      => ['required', Rule::unique('teachers', 'username')->ignore($teacher->username, 'username')],
-            'password'      => 'nullable|min:6',
+            'name' => 'required|string|max:100',
+            'ID' => ['required', Rule::unique('teachers', 'ID')->ignore($teacher->ID, 'ID')],
+            'username' => ['required', Rule::unique('teachers', 'username')->ignore($teacher->username, 'username')],
+            'password' => 'nullable|min:6',
         ]);
 
         $dataToUpdate = [
-            'name'     => $request->name,
+            'name' => $request->name,
             'gender' => $request->gender,
-            'ID'            => $request->ID,
+            'ID' => $request->ID,
             'subject' => $request->subject,
-            'homeroom_class'    => $request->homeroom_class,
-            'status'        => $request->status,
-            'username'      => $request->username,
+            'homeroom_class' => $request->homeroom_class,
+            'status' => $request->status,
+            'username' => $request->username,
         ];
 
         if ($request->filled('password')) {
@@ -91,8 +96,8 @@ class TeacherController extends Controller
 
             $file = $request->file('photo_url');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('img/teacher$teacher'), $filename);
-            $dataToUpdate['photo_url'] = 'img/teacher/' . $filename;
+            $file->move(public_path('img/teacher-photo'), $filename);
+            $dataToUpdate['photo_url'] = 'img/teacher-photo/' . $filename;
         }
 
         $teacher->update($dataToUpdate);

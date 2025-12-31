@@ -20,10 +20,10 @@ class DashboardController extends Controller
         $today = Carbon::today();
 
         $stats = [
-            'total_guru'  => Teacher::where('status', 'Aktif')->count(),
+            'total_guru' => Teacher::where('status', 'Active')->count(),
             'total_siswa' => Student::where('student_status', 'Active')->count(),
-            'datang'      => Teacher_absence::whereDate('date', $today)->whereNotNull('arrival_time')->count(),
-            'pulang'      => Teacher_absence::whereDate('date', $today)->whereNotNull('return_time')->count(),
+            'datang' => Teacher_absence::whereDate('date', $today)->whereNotNull('arrival_time')->count(),
+            'pulang' => Teacher_absence::whereDate('date', $today)->whereNotNull('return_time')->count(),
             'total_ruang' => Borrowing_a_room::whereDate('borrow_date', $today)->count()
         ];
 
@@ -65,7 +65,7 @@ class DashboardController extends Controller
             ->map(function ($item) {
                 return (object) [
                     'judul' => $item->description ?? $item->title ?? 'Aktivitas Baru',
-                    'tipe'  => $item->type ?? 'info',
+                    'tipe' => $item->type ?? 'info',
                     'waktu' => $item->created_at
                 ];
             });
