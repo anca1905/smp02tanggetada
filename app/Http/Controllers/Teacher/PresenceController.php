@@ -55,7 +55,7 @@ class PresenceController extends Controller
         }
 
         $image = $request->image;
-        $image = str_replace('data:image/png;base64,', '', $image);
+        $image = preg_replace('/^data:image\/\w+;base64,/', '', $image);
         $image = str_replace(' ', '+', $image);
         $fileName = 'attendance/' . date('Y-m-d') . '_' . $teacher->teacher_id . '_' . time() . '.png';
 
