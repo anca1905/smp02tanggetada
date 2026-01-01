@@ -134,7 +134,7 @@
                 <button type="button"
                     class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium"
                     onclick="document.getElementById('deleteForm').classList.add('hidden')">Batal</button>
-                <button type="submit" onclick="confirmDelete({{ $fasilitas->id }}"
+                <button type="submit"
                     class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium shadow-md">Ya,
                     Hapus</button>
             </div>
