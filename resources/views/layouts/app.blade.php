@@ -170,7 +170,7 @@
                     <span>Agenda Sekolah</span>
                 </a>
                 <a href="{{ route('tu.settings.website') }}"
-                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.settings*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.settings.website') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
                     <i class="fas fa-sliders-h w-5 mr-3 text-center"></i>
                     <span>Pengaturan Web</span>
                 </a>
@@ -222,7 +222,7 @@
             </div>
 
             <a href="{{ $activeRole === 'operator' ? route('tu.settings.index') : route('teacher.settings') }}"
-                class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('*.settings') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
+                class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('*.settings.index') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                 <i class="fas fa-cog w-5 mr-3 text-center"></i> Settings
             </a>
 
