@@ -77,7 +77,7 @@
                                         src="{{ $avatar }}" alt="Foto">
                                 </td>
                                 <td class="px-6 py-4 font-medium text-gray-900">{{ $teacher->name }}</td>
-                                <td class="px-6 py-4 text-gray-500">{{ $teacher->ID }}</td>
+                                <td class="px-6 py-4 text-gray-500">{{ $teacher->employee_id }}</td>
                                 <td class="px-6 py-4">{{ $teacher->subject ?? '-' }}</td>
                                 <td class="px-6 py-4">
                                     @if ($teacher->homeroom_class && $teacher->homeroom_class != '-')
@@ -103,7 +103,7 @@
                                                 </path>
                                             </svg>
                                         </button>
-                                        <button onclick="confirmDelete({{ $teacher->id_guru }})"
+                                        <button onclick="confirmDelete({{ $teacher->id }})"
                                             class="text-red-600 hover:text-red-800 p-1 bg-red-50 rounded hover:bg-red-100 transition-colors">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -170,10 +170,20 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">NIP / ID <span
                                 class="text-red-500">*</span></label>
-                        <input type="text" name="ID" id="teacherNIP"
+                        <input type="text" name="employee_id" id="teacherNIP"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                             required>
                     </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">No. HP <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" name="phone" id="teacherPhone"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                            required>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin <span
                                 class="text-red-500">*</span></label>
@@ -285,7 +295,7 @@
                 <button type="button"
                     class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium"
                     onclick="document.getElementById('deleteForm').classList.add('hidden')">Batal</button>
-                <button type="submit" onclick="confirmDelete({{ $teacher->teacher_id }})"
+                <button type="submit" 
                     class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium shadow-md">Ya,
                     Hapus</button>
             </div>

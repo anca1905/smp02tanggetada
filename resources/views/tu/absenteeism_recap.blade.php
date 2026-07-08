@@ -37,9 +37,9 @@
                                 <select name="kelas" onchange="this.form.submit()"
                                     class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-32">
                                     <option value="">Semua</option>
-                                    @foreach (['7', '8', '9', '10', '11', '12'] as $k)
-                                        <option value="{{ $k }}" {{ request('kelas') == $k ? 'selected' : '' }}>
-                                            Kelas {{ $k }}</option>
+                                    @foreach ($classrooms as $k)
+                                        <option value="{{ $k->id }}" {{ request('kelas') == $k->id ? 'selected' : '' }}>
+                                            Kelas {{ $k->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -115,7 +115,7 @@
                                         </span>
                                     </td>
                                 @else
-                                    <td class="px-6 py-4">{{ $item->student->class }}</td>
+                                    <td class="px-6 py-4">{{ $item->student->classroom->name ?? '-' }}</td>
                                     <td class="px-6 py-4">
                                         @php
                                             [$color, $text] = match (strtolower($item->status)) {

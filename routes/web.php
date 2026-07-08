@@ -3,30 +3,35 @@
 use Illuminate\Support\Facades\Route;
 
 // Auth & Public Controllers
-use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\PublicController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\GraduationController;
-use App\Http\Controllers\StudentPresenceController;
+use App\Http\Controllers\AdminTu\PostController;
 
 // Admin TU Controllers
-use App\Http\Controllers\AdminTu\DashboardController as AdminTuDashboardController;
-use App\Http\Controllers\AdminTu\TeacherController as AdminTuTeacherController;
-use App\Http\Controllers\AdminTu\StudentController as AdminTuStudentController;
-use App\Http\Controllers\AdminTu\SettingsController as AdminTuSettingsController;
-use App\Http\Controllers\AdminTu\PostController;
 use App\Http\Controllers\AdminTu\RoomController;
 use App\Http\Controllers\AdminTu\EventController;
 use App\Http\Controllers\AdminTu\InboxController;
 use App\Http\Controllers\AdminTu\RecapController;
-use App\Http\Controllers\AdminTu\ScheduleController;
-use App\Http\Controllers\AdminTu\BorrowingController;
+use App\Http\Controllers\AdminTu\SubjectController;
+use App\Http\Controllers\StudentPresenceController;
+use App\Http\Controllers\AdminTu\AcademicController;
 use App\Http\Controllers\AdminTu\FacilityController;
+use App\Http\Controllers\AdminTu\ScheduleController;
+use App\Http\Controllers\Teacher\TeachingController;
+use App\Http\Controllers\AdminTu\BorrowingController;
+use App\Http\Controllers\AdminTu\ClassroomController;
 
 // Teacher Controllers
-use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
-use App\Http\Controllers\Teacher\PresenceController as TeacherPresenceController;
-use App\Http\Controllers\Teacher\SettingController as TeacherSettingsController;
 use App\Http\Controllers\Teacher\PromotionController;
+use App\Http\Controllers\AdminTu\StudentController as AdminTuStudentController;
+use App\Http\Controllers\AdminTu\TeacherController as AdminTuTeacherController;
+use App\Http\Controllers\Teacher\SettingController as TeacherSettingsController;
+use App\Http\Controllers\AdminTu\SettingsController as AdminTuSettingsController;
+use App\Http\Controllers\Teacher\PresenceController as TeacherPresenceController;
+use App\Http\Controllers\AdminTu\DashboardController as AdminTuDashboardController;
+use App\Http\Controllers\Student\LearningController;
+use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +90,7 @@ Route::middleware(['auth:teacher'])->prefix('teacher')->name('teacher.')->group(
     Route::controller(StudentPresenceController::class)->group(function () {
         Route::get('/student-attendance', 'index')->name('student-attendance');
         Route::post('/student-attendance/store', 'store')->name('student-attendance-store');
+        Route::post('/student-attendance/generate-qr', 'generateQr')->name('student-attendance-generate-qr');
     });
 
     Route::controller(GraduationController::class)->group(function () {
@@ -101,6 +107,16 @@ Route::middleware(['auth:teacher'])->prefix('teacher')->name('teacher.')->group(
         Route::get('/settings', 'index')->name('settings');
         Route::post('/settings', 'update')->name('settings.update');
     });
+
+    Route::get('/my-classes', [TeachingController::class, 'index'])->name('lms.index');
+    Route::get('/course/{schedule_id}', [TeachingController::class, 'show'])->name('lms.show');
+    Route::post('/lms/material', [TeachingController::class, 'storeMaterial'])->name('lms.material.store');
+    Route::delete('/lms/material/{id}', [TeachingController::class, 'destroyMaterial'])->name('lms.material.destroy');
+    
+    Route::post('/lms/assignment', [TeachingController::class, 'storeAssignment'])->name('lms.assignment.store');
+    Route::delete('/lms/assignment/{id}', [TeachingController::class, 'destroyAssignment'])->name('lms.assignment.destroy');
+    Route::get('/lms/assignment/{assignment_id}/submissions', [TeachingController::class, 'viewSubmissions'])->name('lms.assignment.submissions');
+    Route::post('/lms/submission/{submission_id}/grade', [TeachingController::class, 'gradeSubmission'])->name('lms.assignment.grade');
 });
 
 /*
@@ -109,7 +125,7 @@ Route::middleware(['auth:teacher'])->prefix('teacher')->name('teacher.')->group(
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('tu')->name('tu.')->group(function () {
+Route::middleware(['auth:operator'])->prefix('tu')->name('tu.')->group(function () {
 
     Route::get('/dashboard', [AdminTuDashboardController::class, 'index'])->name('dashboard');
     Route::get('/absenteeism-recap', [RecapController::class, 'index'])->name('rekap');
@@ -123,17 +139,28 @@ Route::prefix('tu')->name('tu.')->group(function () {
     Route::resource('events', EventController::class);
     Route::resource('inbox', InboxController::class)->only(['index', 'destroy']);
 
-    Route::controller(ScheduleController::class)->group(function () {
-        Route::get('schedules', 'index')->name('schedules.index');
-        Route::put('schedules', 'update')->name('schedules.update');
-    });
-
     Route::controller(AdminTuSettingsController::class)->prefix('settings')->name('settings.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/{id}', 'update')->name('update');
         Route::get('/landing', 'index_landing')->name('website');
         Route::put('/update', 'update_landing')->name('update.website');
     });
+    Route::resource('academic-years', AcademicController::class);
+    Route::resource('classrooms', ClassroomController::class);
+    Route::resource('subjects', SubjectController::class);
+    Route::resource('schedules', ScheduleController::class);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Admin TU Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth:student'])->prefix('student')->name('student.')->group(function () {
+    Route::get('/lms', [LearningController::class, 'index'])->name('lms.index');
+    Route::get('/lms/{schedule_id}', [LearningController::class, 'show'])->name('lms.show');
+    Route::post('/lms/assignment/submit', [LearningController::class, 'submitAssignment'])->name('lms.assignment.submit');
 });
 
 /*

@@ -2,31 +2,41 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable; 
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Student extends Model
+class Student extends Authenticatable 
 {
-    protected $table = 'students';
-    protected $primaryKey = 'nis';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         'nis',
         'student_name',
+        'password',
         'gender',
-        'class',
+        'classroom_id',
         'phone_number',
-        'student_status'
+        'student_status',
+        'parent_name',
+        'parent_phone',
+        'parent_password',
     ];
 
-    // Accesor untuk mengubah M?F jadi L/P
-    public function getGenderDisplayAttribute()
+    protected $hidden = [
+        'password',
+        'parent_password',
+        'remember_token',
+    ];
+
+    public function classroom()
     {
-        return match ($this->gender) {
-            'M' => 'L',
-            'F' => 'P',
-            default => '-',
-        };
+        return $this->belongsTo(Classroom::class);
     }
+
+    // public function submissions()
+    // {
+    //     return $this->hasMany(Submission::class);
+    // }
 }

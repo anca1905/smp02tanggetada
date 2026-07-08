@@ -30,7 +30,7 @@
                             <td class="px-6 py-4 text-gray-600 truncate max-w-xs">{{ Str::limit($msg->message, 50) }}</td>
                             <td class="px-6 py-4 text-xs">{{ $msg->created_at->diffForHumans() }}</td>
                             <td class="px-6 py-4 text-center">
-                                <form onsubmit="return confirm('Hapus pesan ini?');"
+                                <form onsubmit="confirmDelete(event, this);"
                                     action="{{ route('tu.inbox.destroy', $msg->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')

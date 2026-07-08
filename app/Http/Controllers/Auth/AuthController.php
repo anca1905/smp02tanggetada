@@ -15,28 +15,43 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        // dd($request);
         $request->validate([
             'username' => 'required',
             'password' => 'required',
-            'role_type' => 'required|in:operator,teacher',
+            'role_type' => 'required|in:operator,teacher,student', // Tambahkan student
         ]);
 
-        $credentials = $request->only('username', 'password');
+        $guard = $request->role_type; // operator, teacher, atau student
 
-        $guard = ($request->role_type === 'operator') ? 'operator' : 'teacher';
+        // Tentukan kredensial berdasarkan guard
+        if ($guard === 'student') {
+            // Jika siswa, field username di form dianggap sebagai 'nis'
+            $credentials = [
+                'nis' => $request->username,
+                'password' => $request->password
+            ];
+        } else {
+            $credentials = [
+                'username' => $request->username,
+                'password' => $request->password
+            ];
+        }
 
         if (Auth::guard($guard)->attempt($credentials)) {
             $request->session()->regenerate();
 
             if ($guard === 'operator') {
                 return redirect()->route('tu.dashboard');
-            } else {
+            } elseif ($guard === 'teacher') {
                 return redirect()->route('teacher.dashboard');
+            } elseif ($guard === 'student') {
+                return redirect()->route('student.lms.index');
             }
         }
 
         return back()->withErrors([
-            'username' => 'Username atau password salah.',
+            'username' => 'Login gagal. Periksa kembali Username/NIS dan Password Anda.',
         ])->onlyInput('username');
     }
 
@@ -46,6 +61,8 @@ class AuthController extends Controller
             Auth::guard('operator')->logout();
         } elseif (Auth::guard('teacher')->check()) {
             Auth::guard('teacher')->logout();
+        } elseif (Auth::guard('student')->check()) {
+            Auth::guard('student')->logout();
         }
 
         $request->session()->invalidate();

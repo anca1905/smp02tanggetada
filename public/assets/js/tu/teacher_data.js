@@ -12,11 +12,12 @@ function openModal(mode, data = null) {
 
     if (mode === 'edit') {
         modalTitle.innerText = 'Edit Data Guru';
-        form.action = `/tu/teacher/${data.teacher_id}`;
+        form.action = `/tu/teacher/${data.id}`;
         methodField.value = 'PUT';
 
         document.getElementById('teacherName').value = data.name;
-        document.getElementById('teacherNIP').value = data.ID;
+        document.getElementById('teacherNIP').value = data.employee_id;
+        document.getElementById('teacherPhone').value = data.phone;
         document.getElementById('teacherGender').value = data.gender;
         document.getElementById('teacherSubject').value = data.subject;
         document.getElementById('teacherWaliKelas').value = data.homeroom_class || '';

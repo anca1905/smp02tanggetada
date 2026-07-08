@@ -6,10 +6,10 @@
     <div class="space-y-6">
         <div class="flex justify-between items-center">
             <h2 class="text-2xl font-bold text-gray-800">Agenda & Kalender Akademik</h2>
-            <a href="{{ route('tu.events.create') }}"
+            <button onclick="document.getElementById('addModal').classList.remove('hidden')"
                 class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                 <i class="fas fa-plus mr-2"></i> Tambah Agenda
-            </a>
+            </button>
         </div>
 
         @if (session('success'))
@@ -50,7 +50,7 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <form onsubmit="return confirm('Hapus agenda ini?');"
+                                <form onsubmit="confirmDelete(event, this);"
                                     action="{{ route('tu.events.destroy', $event->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -70,6 +70,63 @@
             <div class="p-4">
                 {{ $events->links() }}
             </div>
+        </div>
+    </div>
+
+    {{-- Modal Tambah Agenda --}}
+    <div id="addModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-lg w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-gray-800">Tambah Agenda Baru</h3>
+                <button onclick="document.getElementById('addModal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form action="{{ route('tu.events.store') }}" method="POST" class="space-y-4">
+                @csrf
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Kegiatan</label>
+                    <input type="text" name="title" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Contoh: Ujian Tengah Semester Ganjil">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Mulai</label>
+                        <input type="date" name="start_date" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Selesai</label>
+                        <input type="date" name="end_date"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Kategori Kegiatan</label>
+                    <select name="type"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        <option value="academic">Akademik (Ujian, Rapor, dll)</option>
+                        <option value="holiday">Hari Libur / Tanggal Merah</option>
+                        <option value="event">Kegiatan Sekolah (Lomba, Upacara)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi (Opsional)</label>
+                    <textarea name="description" rows="3"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-4 border-t border-gray-100">
+                    <button type="button" onclick="document.getElementById('addModal').classList.add('hidden')"
+                        class="px-5 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium">Batal</button>
+                    <button type="submit"
+                        class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium shadow-md">Simpan Agenda</button>
+                </div>
+            </form>
         </div>
     </div>
 @endsection

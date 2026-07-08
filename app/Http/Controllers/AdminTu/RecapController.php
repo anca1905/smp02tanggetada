@@ -42,19 +42,22 @@ class RecapController extends Controller
             if ($search) {
                 $query->whereHas('student', function ($q) use ($search) {
                     $q->where('student_name', 'like', "%{$search}%")
-                        ->orWhere('class', 'like', "%{$search}%");
+                        ->orWhereHas('classroom', function ($qc) use ($search) {
+                            $qc->where('name', 'like', "%{$search}%");
+                        });
                 });
             }
 
             if ($request->has('class') && $request->class != '') {
                 $query->whereHas('student', function ($q) use ($request) {
-                    $q->where('class', $request->class);
+                    $q->where('classroom_id', $request->class);
                 });
             }
 
             $data = $query->paginate(10);
         }
 
-        return view('tu.absenteeism_recap', compact('data', 'kategori', 'bulan'));
+        $classrooms = \App\Models\Classroom::all();
+        return view('tu.absenteeism_recap', compact('data', 'kategori', 'bulan', 'classrooms'));
     }
 }

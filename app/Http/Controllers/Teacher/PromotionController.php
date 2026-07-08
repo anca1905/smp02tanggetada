@@ -12,26 +12,30 @@ class PromotionController extends Controller
     public function index()
     {
         $teacher = Auth::user();
-        $kelas = (int) filter_var($teacher->homeroom_class, FILTER_SANITIZE_NUMBER_INT);
+        
+        $kelas = null;
+        $students = collect();
+        
+        if ($teacher->classroom) {
+            $kelas = $teacher->classroom->name;
+            $students = Student::where('classroom_id', $teacher->classroom->id)
+                ->where('student_status', 'Active')
+                ->orderBy('student_name', 'asc')
+                ->get();
+        }
 
-        $students = Student::where('class', $kelas)
-            ->where('student_status', 'Active')
-            ->orderBy('student_name', 'asc')
-            ->get();
+        // Get all classrooms for the next_class dropdown
+        $allClassrooms = \App\Models\Classroom::orderBy('level')->orderBy('name')->get();
 
-        return view('teacher.promotion', compact('students', 'kelas'));
+        return view('teacher.promotion', compact('students', 'kelas', 'allClassrooms'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'action' => 'required|array', 
-            'next_class' => 'required|string',
+            'next_classroom_id' => 'required|integer|exists:classrooms,id',
         ]);
-
-        if (empty($request->next_class)) {
-            return back()->withErrors(['next_class' => 'Nama kelas tujuan wajib diisi!']);
-        }
 
         foreach ($request->action as $nis => $action) {
             $student = Student::where('nis', $nis)->first();
@@ -39,7 +43,7 @@ class PromotionController extends Controller
             if ($student) {
                 if ($action == 'Naik') {
                     $student->update([
-                        'class' => $request->next_class
+                        'classroom_id' => $request->next_classroom_id
                     ]);
                 }
             }

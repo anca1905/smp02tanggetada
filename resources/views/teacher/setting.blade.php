@@ -5,31 +5,7 @@
 @section('content')
     <div class="max-w-4xl mx-auto">
 
-        @if (session('success'))
-            <div class="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg shadow-sm flex items-center">
-                <div class="text-green-500 mr-3"><i class="fas fa-check-circle text-xl"></i></div>
-                <div>
-                    <p class="font-bold text-green-800">Berhasil!</p>
-                    <p class="text-sm text-green-700">{{ session('success') }}</p>
-                </div>
-            </div>
-        @endif
 
-        @if ($errors->any())
-            <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg shadow-sm">
-                <div class="flex items-start">
-                    <div class="text-red-500 mr-3 mt-0.5"><i class="fas fa-exclamation-circle text-xl"></i></div>
-                    <div>
-                        <p class="font-bold text-red-800">Gagal Menyimpan</p>
-                        <ul class="list-disc list-inside text-sm text-red-700 mt-1">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        @endif
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 

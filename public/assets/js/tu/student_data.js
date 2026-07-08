@@ -16,6 +16,8 @@ function openModal(mode, data = null) {
         document.getElementById('jkSiswa').value = data.gender;
         document.getElementById('statusSiswa').value = data.student_status;
         document.getElementById('hpSiswa').value = data.phone_number || '';
+        document.getElementById('namaOrtu').value = data.parent_name || '';
+        document.getElementById('hpOrtu').value = data.parent_phone || '';
     } else {
         modalTitle.innerText = 'Tambah Siswa Baru';
         form.action = "/tu/student";

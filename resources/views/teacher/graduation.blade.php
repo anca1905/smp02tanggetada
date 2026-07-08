@@ -5,12 +5,7 @@
 @section('content')
     <div class="max-w-5xl mx-auto">
 
-        @if (session('success'))
-            <div class="mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-sm">
-                <p class="font-bold">Berhasil!</p>
-                <p>{{ session('success') }}</p>
-            </div>
-        @endif
+
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-blue-50">
@@ -24,7 +19,7 @@
             </div>
 
             @if (count($students) > 0)
-                <form action="{{ route('teacher.graduation.store') }}" method="POST">
+                <form action="{{ route('teacher.graduation.store') }}" method="POST" onsubmit="confirmAction(event, this, 'Proses Kelulusan?', 'Data siswa yang Lulus akan diperbarui.', 'Ya, Proses')">
                     @csrf
 
                     <div class="overflow-x-auto">
@@ -70,7 +65,6 @@
 
                     <div class="p-6 border-t border-gray-100 bg-gray-50 flex justify-end">
                         <button type="submit"
-                            onclick="return confirm('Apakah Anda yakin ingin memproses kelulusan ini? Data siswa yang Lulus akan berubah statusnya.')"
                             class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-6 rounded-lg shadow-md flex items-center transition-transform hover:-translate-y-0.5">
                             <i class="fas fa-save mr-2"></i> Simpan Data Kelulusan
                         </button>

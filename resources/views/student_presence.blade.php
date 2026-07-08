@@ -2,16 +2,15 @@
 
 @section('title', 'Presensi Siswa')
 
+@push('head')
+{{-- qrcodejs untuk generate QR di browser --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+@endpush
+
 @section('content')
     <div class="space-y-6">
 
-        @if (session('success'))
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-sm">
-                <p class="font-bold">Sukses!</p>
-                <p>{{ session('success') }}</p>
-            </div>
-        @endif
-
+        {{-- Filter Kelas & Tanggal --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <form method="GET" action="{{ route('teacher.student-attendance') }}"
                 class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
@@ -21,9 +20,10 @@
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         required onchange="this.form.submit()">
                         <option value="" disabled {{ !$selectedClass ? 'selected' : '' }}>-- Pilih Kelas --</option>
-                        @foreach ($classList as $kls)
-                            <option value="{{ $kls }}" {{ $selectedClass == $kls ? 'selected' : '' }}>Kelas
-                                {{ $kls }}</option>
+                        @foreach ($classList as $id => $name)
+                            <option value="{{ $id }}" {{ request('kelas') == $id ? 'selected' : '' }}>
+                                {{ $name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -33,19 +33,27 @@
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         onchange="this.form.submit()">
                 </div>
-                <div class="md:col-span-2 flex items-center">
+                <div class="md:col-span-2 flex items-center gap-4">
                     @if ($selectedClass)
                         <span class="text-sm {{ $attendanceData ? 'text-green-600' : 'text-gray-500' }}">
                             <i class="fas {{ $attendanceData ? 'fa-check-circle' : 'fa-info-circle' }} mr-1"></i>
                             {{ $attendanceData ? 'Data sudah tersimpan (Mode Edit)' : 'Belum ada data absensi (Mode Input Baru)' }}
                         </span>
+
+                        {{-- Tombol Buka QR --}}
+                        <button type="button" id="btnOpenQr"
+                            onclick="openQrModal()"
+                            class="ml-auto flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-lg transition shadow">
+                            <i class="fas fa-qrcode"></i>
+                            <span>Buka QR Presensi</span>
+                        </button>
                     @endif
                 </div>
             </form>
         </div>
 
         @if ($selectedClass && count($students) > 0)
-            <form action="{{ route('teacher.student-attendance-store') }}" method="POST">
+            <form action="{{ route('teacher.student-attendance-store') }}" method="POST" onsubmit="confirmAction(event, this, 'Simpan Presensi?', 'Data kehadiran siswa akan disimpan.', 'Ya, Simpan')">
                 @csrf
                 <input type="hidden" name="class" value="{{ $selectedClass }}">
                 <input type="hidden" name="date" value="{{ $selectedDate }}">
@@ -83,6 +91,18 @@
                                                     </div>
                                                     <span
                                                         class="text-[10px] mt-1 text-gray-400 peer-checked:text-green-600 font-medium">Hadir</span>
+                                                </label>
+
+                                                <label class="cursor-pointer flex flex-col items-center group">
+                                                    <input type="radio" name="attendance[{{ $student->nis }}][status]"
+                                                        value="late" class="peer sr-only"
+                                                        {{ $status == 'late' ? 'checked' : '' }}>
+                                                    <div
+                                                        class="w-10 h-10 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-amber-500 peer-checked:border-amber-600 peer-checked:text-white text-gray-400 transition-all hover:bg-amber-50">
+                                                        <span class="font-bold">T</span>
+                                                    </div>
+                                                    <span
+                                                        class="text-[10px] mt-1 text-gray-400 peer-checked:text-amber-500 font-medium">Terlambat</span>
                                                 </label>
 
                                                 <label class="cursor-pointer flex flex-col items-center group">
@@ -162,4 +182,223 @@
         @endif
 
     </div>
+
+    {{-- ============================================================
+         MODAL QR PRESENSI
+    ============================================================ --}}
+    <div id="qrModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4"
+         style="background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md relative overflow-hidden">
+
+            {{-- Header --}}
+            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-4 flex items-center justify-between">
+                <div>
+                    <h2 class="text-white font-bold text-lg">QR Presensi</h2>
+                    <p class="text-indigo-100 text-sm" id="qrSubtitle">Kelas — | Tanggal —</p>
+                </div>
+                <button onclick="closeQrModal()" class="text-white hover:text-indigo-200 transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            {{-- Body --}}
+            <div class="p-6 flex flex-col items-center">
+                {{-- Loading state --}}
+                <div id="qrLoading" class="flex flex-col items-center gap-3 py-8">
+                    <div class="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                    <p class="text-gray-500 text-sm">Membuat QR Code...</p>
+                </div>
+
+                {{-- QR Canvas --}}
+                <div id="qrCodeContainer" class="hidden flex flex-col items-center gap-4">
+                    <div id="qrcode" class="p-3 border-4 border-indigo-100 rounded-xl"></div>
+
+                    {{-- Timer --}}
+                    <div class="flex items-center gap-2 bg-indigo-50 rounded-full px-4 py-2">
+                        <i class="fas fa-clock text-indigo-500"></i>
+                        <span class="text-sm font-semibold text-indigo-700">Berlaku: </span>
+                        <span id="qrTimer" class="text-sm font-bold text-indigo-900">05:00</span>
+                    </div>
+
+                    <p class="text-xs text-gray-400 text-center">
+                        Tampilkan QR ini ke siswa.<br>QR otomatis kadaluarsa setelah 5 menit.
+                    </p>
+
+                    {{-- Refresh button --}}
+                    <button onclick="generateQr()" id="btnRefreshQr"
+                        class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-semibold transition text-sm">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh QR (Perpanjang 5 menit)
+                    </button>
+                </div>
+
+                {{-- Expired state --}}
+                <div id="qrExpired" class="hidden flex-col items-center gap-3 py-4">
+                    <div class="p-4 bg-red-50 rounded-full">
+                        <i class="fas fa-times-circle text-red-400 text-4xl"></i>
+                    </div>
+                    <p class="text-red-600 font-semibold">QR Code Kadaluarsa!</p>
+                    <button onclick="generateQr()"
+                        class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-semibold transition text-sm">
+                        <i class="fas fa-sync-alt"></i>
+                        Buat QR Baru
+                    </button>
+                </div>
+            </div>
+
+            {{-- Footer: siapa saja yang sudah scan --}}
+            <div class="border-t border-gray-100 px-6 pb-4 pt-3">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                    <i class="fas fa-users mr-1"></i> Sudah Check-in
+                    <span id="checkinCount" class="ml-1 bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs font-bold">0</span>
+                    dari <span id="totalStudents">{{ count($students) }}</span>
+                </p>
+                <div id="checkinList" class="flex flex-wrap gap-2 max-h-24 overflow-y-auto">
+                    <span class="text-xs text-gray-400 italic">Belum ada yang scan.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @push('js')
+    <script>
+        const GENERATE_QR_URL = "{{ route('teacher.student-attendance-generate-qr') }}";
+        const CSRF_TOKEN      = "{{ csrf_token() }}";
+        const SELECTED_CLASS  = "{{ $selectedClass }}";
+        const SELECTED_DATE   = "{{ $selectedDate }}";
+
+        let qrInstance     = null;
+        let timerInterval  = null;
+        let pollInterval   = null;
+        let expiresAt      = null;
+
+        // Nama kelas untuk ditampilkan (nilai nama bukan ID)
+        const CLASS_NAME = @json($classList->get($selectedClass) ?? $selectedClass);
+
+        function openQrModal() {
+            document.getElementById('qrModal').classList.remove('hidden');
+            generateQr();
+        }
+
+        function closeQrModal() {
+            document.getElementById('qrModal').classList.add('hidden');
+            clearInterval(timerInterval);
+            clearInterval(pollInterval);
+        }
+
+        async function generateQr() {
+            // Reset state
+            clearInterval(timerInterval);
+            clearInterval(pollInterval);
+            showState('loading');
+
+            try {
+                const res = await fetch(GENERATE_QR_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': CSRF_TOKEN,
+                        'Accept'      : 'application/json',
+                    },
+                    body: JSON.stringify({ class: SELECTED_CLASS, date: SELECTED_DATE }),
+                });
+
+                const data = await res.json();
+                if (!data.success) throw new Error(data.message || 'Gagal generate QR');
+
+                expiresAt = new Date(data.expires_at);
+
+                // Render QR code
+                const container = document.getElementById('qrcode');
+                container.innerHTML = '';
+                qrInstance = new QRCode(container, {
+                    text  : data.qr_token,
+                    width : 220,
+                    height: 220,
+                    colorDark  : '#312e81',
+                    colorLight : '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H,
+                });
+
+                document.getElementById('qrSubtitle').textContent =
+                    `Kelas ${CLASS_NAME} | ${SELECTED_DATE}`;
+
+                showState('qr');
+                startTimer();
+                startPoll(data.qr_token);
+
+            } catch (err) {
+                alert('Gagal membuat QR: ' + err.message);
+                closeQrModal();
+            }
+        }
+
+        function startTimer() {
+            updateTimer();
+            timerInterval = setInterval(() => {
+                const now  = new Date();
+                const diff = expiresAt - now;
+                if (diff <= 0) {
+                    clearInterval(timerInterval);
+                    clearInterval(pollInterval);
+                    showState('expired');
+                    return;
+                }
+                updateTimer();
+            }, 1000);
+        }
+
+        function updateTimer() {
+            const diff    = Math.max(0, expiresAt - new Date());
+            const minutes = Math.floor(diff / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            document.getElementById('qrTimer').textContent =
+                String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+        }
+
+        function showState(state) {
+            document.getElementById('qrLoading').classList.add('hidden');
+            document.getElementById('qrCodeContainer').classList.add('hidden');
+            document.getElementById('qrExpired').classList.add('hidden');
+
+            if (state === 'loading')  document.getElementById('qrLoading').classList.remove('hidden');
+            if (state === 'qr')       document.getElementById('qrCodeContainer').classList.remove('hidden');
+            if (state === 'expired')  document.getElementById('qrExpired').classList.remove('hidden');
+        }
+
+        // Poll setiap 5 detik untuk update daftar siswa yang sudah check-in
+        function startPoll(token) {
+            pollCheckin(token);
+            pollInterval = setInterval(() => pollCheckin(token), 5000);
+        }
+
+        async function pollCheckin(token) {
+            try {
+                // Ambil daftar siswa yang sudah check-in (endpoint public, tidak perlu auth)
+                const res = await fetch(
+                    `/api/student/attendance/checkin-list?class=${encodeURIComponent(SELECTED_CLASS)}&date=${SELECTED_DATE}`,
+                    { headers: { 'Accept': 'application/json' } }
+                );
+                if (!res.ok) return;
+                const data = await res.json();
+                if (!data.success) return;
+
+                const list    = data.data ?? [];
+                const countEl = document.getElementById('checkinCount');
+                const listEl  = document.getElementById('checkinList');
+
+                countEl.textContent = list.length;
+                if (list.length === 0) {
+                    listEl.innerHTML = '<span class="text-xs text-gray-400 italic">Belum ada yang scan.</span>';
+                } else {
+                    listEl.innerHTML = list.map(s =>
+                        `<span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-medium">
+                            <i class="fas fa-check mr-1"></i>${s.student_name}
+                        </span>`
+                    ).join('');
+                }
+            } catch (_) {}
+        }
+    </script>
+    @endpush
 @endsection

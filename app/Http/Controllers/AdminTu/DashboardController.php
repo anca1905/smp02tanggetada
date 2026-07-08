@@ -52,9 +52,10 @@ class DashboardController extends Controller
                 ->count();
         }
 
-        $studentGroups = Student::select('class', DB::raw('count(*) as total'))
-            ->groupBy('class')
-            ->pluck('total', 'class');
+        $studentGroups = Student::join('classrooms', 'students.classroom_id', '=', 'classrooms.id')
+            ->select('classrooms.name', DB::raw('count(students.id) as total'))
+            ->groupBy('classrooms.name')
+            ->pluck('total', 'classrooms.name');
 
         $studentChartLabels = $studentGroups->keys()->toArray();
         $studentChartData = $studentGroups->values()->toArray();

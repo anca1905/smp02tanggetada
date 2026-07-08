@@ -5,12 +5,7 @@
 @section('content')
     <div class="max-w-5xl mx-auto">
 
-        @if (session('success'))
-            <div class="mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-sm">
-                <p class="font-bold">Berhasil!</p>
-                <p>{{ session('success') }}</p>
-            </div>
-        @endif
+
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <div class="p-6 border-b border-gray-100 bg-yellow-50">
@@ -23,13 +18,19 @@
             </div>
 
             @if (count($students) > 0)
-                <form action="{{ route('teacher.promotion.store') }}" method="POST">
+                <form action="{{ route('teacher.promotion.store') }}" method="POST" onsubmit="confirmAction(event, this, 'Proses Kenaikan Kelas?', 'Kelas siswa akan diperbarui secara permanen.', 'Ya, Proses Kenaikan')">
                     @csrf
 
                     <div class="p-6 bg-white border-b border-gray-100">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Naik ke Kelas (Tujuan)</label>
-                        <input type="text" name="next_class" placeholder="Contoh: 11 IPA 1" required
-                            class="w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
+                        <select name="next_classroom_id" required class="w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500">
+                            <option value="">Pilih Kelas Tujuan</option>
+                            @if(isset($allClassrooms))
+                                @foreach($allClassrooms as $c)
+                                    <option value="{{ $c->id }}">{{ $c->name }} (Tingkat {{ $c->level }})</option>
+                                @endforeach
+                            @endif
+                        </select>
                         <p class="text-xs text-gray-500 mt-1">Siswa yang dipilih "Naik" akan dipindahkan ke kelas ini.</p>
                     </div>
 
@@ -75,7 +76,6 @@
 
                     <div class="p-6 border-t border-gray-100 bg-gray-50 flex justify-end">
                         <button type="submit"
-                            onclick="return confirm('Yakin ingin memproses kenaikan kelas? Kelas siswa akan diperbarui secara permanen.')"
                             class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2.5 px-6 rounded-lg shadow-md flex items-center transition-transform hover:-translate-y-0.5">
                             <i class="fas fa-level-up-alt mr-2"></i> Proses Kenaikan
                         </button>

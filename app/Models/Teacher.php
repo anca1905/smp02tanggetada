@@ -10,12 +10,12 @@ class Teacher extends Authenticatable
     use Notifiable;
 
     protected $table = 'teachers';
-    protected $primaryKey = 'teacher_id';
 
     protected $fillable = [
         'name',
         'gender',
-        'ID',
+        'employee_id',
+        'phone',
         'subject',
         'homeroom_class',
         'status',
@@ -29,5 +29,15 @@ class Teacher extends Authenticatable
     public function presensiHarian()
     {
         return $this->hasMany(Teacher_absence::class, 'teacher_id');
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
+    public function classroom()
+    {
+        return $this->hasOne(Classroom::class); 
     }
 }

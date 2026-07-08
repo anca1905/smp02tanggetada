@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attendance extends Model
 {
+    use HasFactory;
+
     protected $table = 'attendances';
-    protected $primaryKey = 'attendance_id';
 
     protected $fillable = [
         'teacher_id',
@@ -16,5 +17,21 @@ class Attendance extends Model
         'date',
         'start_time',
         'end_time',
+        'qr_token',
+        'qr_expires_at',
     ];
+
+    protected $casts = [
+        'qr_expires_at' => 'datetime',
+    ];
+
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
+
+    public function studentAttendances()
+    {
+        return $this->hasMany(StudentAttendance::class, 'attendance_id');
+    }
 }

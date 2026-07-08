@@ -22,7 +22,7 @@ class TeacherController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                     ->orWhere('username', 'like', "%{$search}%")
-                    ->orWhere('ID', 'like', "%{$search}%");
+                    ->orWhere('employee_id', 'like', "%{$search}%");
             });
         }
 
@@ -37,8 +37,9 @@ class TeacherController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:100',
             'gender' => 'required|in:Male,Female',
-            'ID' => 'required|unique:teachers,ID',
-            'subject' => 'required|string',
+            'employee_id' => 'required|unique:teachers,employee_id',
+            'phone' => 'required|string|max:20',
+            'subject' => 'nullable|string',
             'homeroom_class' => 'nullable|string',
             'status' => 'required|in:Active,Inactive',
             'username' => 'required|unique:teachers,username',
@@ -70,15 +71,17 @@ class TeacherController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:100',
-            'ID' => ['required', Rule::unique('teachers', 'ID')->ignore($teacher->ID, 'ID')],
-            'username' => ['required', Rule::unique('teachers', 'username')->ignore($teacher->username, 'username')],
+            'employee_id' => ['required', Rule::unique('teachers', 'employee_id')->ignore($teacher->id)],
+            'phone' => 'required|string|max:20',
+            'username' => ['required', Rule::unique('teachers', 'username')->ignore($teacher->id)],
             'password' => 'nullable|min:6',
         ]);
 
         $dataToUpdate = [
             'name' => $request->name,
             'gender' => $request->gender,
-            'ID' => $request->ID,
+            'employee_id' => $request->employee_id,
+            'phone' => $request->phone,
             'subject' => $request->subject,
             'homeroom_class' => $request->homeroom_class,
             'status' => $request->status,

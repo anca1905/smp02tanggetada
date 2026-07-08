@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/final.css') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
@@ -31,13 +32,14 @@
             border-radius: 10px;
         }
     </style>
+    @stack('head')
 </head>
 
 <body class="bg-gray-100 font-poppins text-gray-800 mode-2">
 
     {{-- 
         =========================================================
-        LOGIKA DETEKSI USER
+        LOGIKA DETEKSI USER (OPERATOR / GURU / SISWA)
         =========================================================
     --}}
     @php
@@ -47,44 +49,51 @@
         $photoUrl = null;
         $waliKelas = null;
 
-        if (isset($operator)) {
+        // 1. Cek Login Operator (Admin TU)
+        if (Auth::guard('operator')->check()) {
+            $u = Auth::guard('operator')->user();
             $activeRole = 'operator';
-            $name = $operator->name ?? 'Admin TU';
-            $roleLabel = $operator->role_operator ?? 'Tata Usaha';
-            $photoUrl = $operator->photo_url ?? null;
-        } elseif (isset($user)) {
+            $name = $u->name;
+            $roleLabel = $u->role_operator ?? 'Tata Usaha';
+            $photoUrl = $u->photo_url ?? null;
+        }
+        // 2. Cek Login Guru
+        elseif (Auth::guard('teacher')->check()) {
+            $u = Auth::guard('teacher')->user();
             $activeRole = 'teacher';
-            $name = $user->name ?? 'Guru';
+            $name = $u->name;
             $roleLabel = 'Guru Mata Pelajaran';
-            $waliKelas = $user->homeroom_class ?? null;
-            if ($waliKelas && $waliKelas !== '-') {
-                $roleLabel = $waliKelas;
-            }
-            $photoUrl = $user->photo_url ?? null;
-        } elseif (Auth::check()) {
-            $u = Auth::user();
-            if (isset($u->role_operator)) {
-                $activeRole = 'operator';
-                $name = $u->name;
-                $roleLabel = $u->role_operator;
-            } else {
-                $activeRole = 'teacher';
-                $name = $u->name ?? $u->name;
-                $roleLabel = $u->homeroom_class ?? 'Guru';
-                $waliKelas = $u->homeroom_class;
+
+            // Cek apakah dia wali kelas
+            if ($u->classroom) {
+                $roleLabel = 'Wali Kelas ' . $u->classroom->name;
+                $waliKelas = $u->classroom->name;
             }
             $photoUrl = $u->photo_url ?? null;
-        } else {
-            $activeRole = 'guru';
-            $name = 'Bapak Guru Dummy';
-            $roleLabel = 'Wali Kelas 12';
-            $waliKelas = 'Wali Kelas 12';
-            $photoUrl = null;
+        }
+        // 3. Cek Login Siswa (BARU)
+        elseif (Auth::guard('student')->check()) {
+            $u = Auth::guard('student')->user();
+            $activeRole = 'student';
+            $name = $u->student_name;
+            $roleLabel = 'Siswa Kelas ' . ($u->classroom->name ?? '-');
+            $photoUrl = null; // Bisa tambahkan kolom photo_url di tabel students nanti
+        }
+        // 4. Fallback (Jika variabel dikirim manual dari Controller)
+        elseif (isset($operator)) {
+            $activeRole = 'operator';
+            $name = $operator->name;
+            $roleLabel = $operator->role_operator;
+        } elseif (isset($user)) {
+            $activeRole = 'teacher';
+            $name = $user->name;
+            $roleLabel = $user->homeroom_class ?? 'Guru';
         }
 
+        // Avatar Generator (Jika tidak ada foto)
         $avatar = $photoUrl
-            ? asset($photoUrl)
-            : 'https://ui-avatars.com/api/?background=random&name=' . urlencode($name);
+            ? asset('storage/' . $photoUrl)
+            : 'https://ui-avatars.com/api/?background=random&color=fff&name=' . urlencode($name);
     @endphp
 
     <div id="sidebar-overlay" onclick="toggleSidebar()"
@@ -100,7 +109,7 @@
             </svg>
             <a href="#" class="flex items-center space-x-2">
                 <span class="text-xl font-bold text-white">SIMS <span
-                        class="text-xs font-normal text-blue-300">v1.0</span></span>
+                        class="text-xs font-normal text-blue-300">v2.0</span></span>
             </a>
             <button onclick="toggleSidebar()"
                 class="ml-auto lg:hidden text-gray-400 hover:text-white focus:outline-none">
@@ -112,12 +121,18 @@
 
             {{-- ==================== MENU ADMIN TU ==================== --}}
             @if ($activeRole === 'operator')
-                <p class="px-3 text-xs font-semibold text-blue-400 uppercase tracking-wider mb-2">Menu Admin</p>
+                <p class="px-3 text-xs font-semibold text-blue-400 uppercase tracking-wider mb-2">Menu Utama</p>
 
                 <a href="{{ route('tu.dashboard') }}"
                     class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.dashboard') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                     <i class="fas fa-home w-5 mr-3 text-center"></i> Dashboard
                 </a>
+
+                {{-- Master Data --}}
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Master Data</p>
+                </div>
+
                 <a href="{{ route('tu.teacher.index') }}"
                     class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.teacher.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                     <i class="fas fa-chalkboard-teacher w-5 mr-3 text-center"></i> Data Guru
@@ -130,54 +145,64 @@
                     class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.room.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                     <i class="fas fa-door-open w-5 mr-3 text-center"></i> Data Ruangan
                 </a>
+
+                {{-- Akademik --}}
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Akademik & LMS</p>
+                </div>
+
+                <a href="{{ route('tu.academic-years.index') }}"
+                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.academic-years.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                    <i class="fas fa-calendar-week w-5 mr-3 text-center"></i> <span>Tahun Ajaran</span>
+                </a>
+                <a href="{{ route('tu.classrooms.index') }}"
+                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.classrooms.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                    <i class="fas fa-chalkboard w-5 mr-3 text-center"></i> <span>Data Kelas</span>
+                </a>
+                <a href="{{ route('tu.subjects.index') }}"
+                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.subjects.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                    <i class="fas fa-book w-5 mr-3 text-center"></i> <span>Mata Pelajaran</span>
+                </a>
+                <a href="{{ route('tu.schedules.index') }}"
+                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.schedules.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                    <i class="fas fa-calendar-alt w-5 mr-3 text-center"></i> <span>Jadwal Pelajaran</span>
+                </a>
+
+                {{-- Administrasi & Portal --}}
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Administrasi</p>
+                </div>
                 <a href="{{ route('tu.borrowing.index') }}"
                     class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.borrowing.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
-                    <i class="fas fa-calendar-check w-5 mr-3 text-center"></i> Peminjaman
+                    <i class="fas fa-hand-holding w-5 mr-3 text-center"></i> Peminjaman
                 </a>
                 <a href="{{ route('tu.rekap') }}"
                     class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.rekap') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                     <i class="fas fa-clipboard-list w-5 mr-3 text-center"></i> Rekap Absensi
                 </a>
-                <div class="pt-4 pb-2">
-                    <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                        Akademik
-                    </p>
-                </div>
-                <a href="{{ route('tu.schedules.index') }}"
-                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.schedules*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
-                    <i class="fas fa-book-open w-5 mr-3 text-center"></i>
-                    <span>Jadwal Pelajaran</span>
-                </a>
 
                 <div class="pt-4 pb-2">
-                    <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                        Portal Website
-                    </p>
+                    <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Portal Website</p>
                 </div>
                 <a href="{{ route('tu.inbox.index') }}"
-                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('admin.inbox*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
-                    <i class="fas fa-inbox w-5 mr-3 text-center"></i>
-                    <span>Kotak Masuk</span>
+                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.inbox.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                    <i class="fas fa-inbox w-5 mr-3 text-center"></i> <span>Kotak Masuk</span>
                 </a>
                 <a href="{{ route('tu.posts.index') }}"
-                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.posts*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
-                    <i class="fas fa-newspaper w-5 mr-3 text-center"></i>
-                    <span>Berita & Artikel</span>
+                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.posts.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                    <i class="fas fa-newspaper w-5 mr-3 text-center"></i> <span>Berita & Artikel</span>
                 </a>
                 <a href="{{ route('tu.events.index') }}"
-                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.events*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
-                    <i class="fas fa-calendar-alt w-5 mr-3 text-center"></i>
-                    <span>Agenda Sekolah</span>
+                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.events.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                    <i class="fas fa-calendar-check w-5 mr-3 text-center"></i> <span>Agenda Sekolah</span>
                 </a>
                 <a href="{{ route('tu.settings.website') }}"
                     class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.settings.website') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
-                    <i class="fas fa-sliders-h w-5 mr-3 text-center"></i>
-                    <span>Pengaturan Web</span>
+                    <i class="fas fa-sliders-h w-5 mr-3 text-center"></i> <span>Pengaturan Web</span>
                 </a>
                 <a href="{{ route('tu.facility.index') }}"
-                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.facility*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
-                    <i class="fas fa-building w-5 mr-3 text-center"></i>
-                    <span>Fasilitas Sekolah</span>
+                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.facility.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                    <i class="fas fa-building w-5 mr-3 text-center"></i> <span>Fasilitas Sekolah</span>
                 </a>
 
                 {{-- ==================== MENU GURU ==================== --}}
@@ -197,34 +222,63 @@
                     <i class="fas fa-user-check w-5 mr-3 text-center"></i> Presensi Siswa
                 </a>
 
-                @php
-                    $isWaliKelasAkhir = preg_match('/Kelas\s*(9|12)/i', $waliKelas ?? '');
-                @endphp
+                {{-- MENU LMS GURU --}}
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Kegiatan Belajar</p>
+                </div>
+                <a href="{{ route('teacher.lms.index') }}"
+                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('teacher.lms.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
+                    <i class="fas fa-book-reader w-5 mr-3 text-center"></i> Kelas Saya (LMS)
+                </a>
 
-                @if ($isWaliKelasAkhir)
-                    <a href="{{ route('teacher.graduation') }}"
-                        class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('teacher.graduation') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
-                        <i class="fas fa-graduation-cap w-5 mr-3 text-center"></i> Kelulusan Siswa
-                    </a>
-                @elseif($waliKelas)
-                    <a href="{{ route('teacher.promotion') }}"
-                        class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('teacher.promotion') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
-                        <i class="fas fa-level-up-alt w-5 mr-3 text-center"></i> Kenaikan Kelas
-                    </a>
+                {{-- MENU WALI KELAS --}}
+                @if ($waliKelas)
+                    <div class="pt-4 pb-2">
+                        <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Wali Kelas</p>
+                    </div>
+                    @php $isWaliKelasAkhir = preg_match('/Kelas\s*(9|12)/i', $waliKelas); @endphp
+
+                    @if ($isWaliKelasAkhir)
+                        <a href="{{ route('teacher.graduation') }}"
+                            class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('teacher.graduation') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
+                            <i class="fas fa-graduation-cap w-5 mr-3 text-center"></i> Kelulusan Siswa
+                        </a>
+                    @else
+                        <a href="{{ route('teacher.promotion') }}"
+                            class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('teacher.promotion') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
+                            <i class="fas fa-level-up-alt w-5 mr-3 text-center"></i> Kenaikan Kelas
+                        </a>
+                    @endif
                 @endif
+
+                {{-- ==================== MENU SISWA (BARU) ==================== --}}
+            @elseif($activeRole === 'student')
+                <p class="px-3 text-xs font-semibold text-blue-400 uppercase tracking-wider mb-2">Menu Siswa</p>
+
+                <a href="{{ route('student.lms.index') }}"
+                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('student.lms.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
+                    <i class="fas fa-book-open w-5 mr-3 text-center"></i> Ruang Belajar
+                </a>
+
+                {{-- Bisa tambah menu lain nanti, misal: Riwayat Nilai, Profil, dll --}}
             @endif
 
             {{-- MENU UMUM --}}
             <div class="pt-4 pb-2">
-                <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                    Profil
-                </p>
+                <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Profil</p>
             </div>
 
-            <a href="{{ $activeRole === 'operator' ? route('tu.settings.index') : route('teacher.settings') }}"
-                class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('*.settings.index') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
-                <i class="fas fa-cog w-5 mr-3 text-center"></i> Settings
-            </a>
+            @if ($activeRole === 'operator')
+                <a href="{{ route('tu.settings.index') }}"
+                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('*.settings.index') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
+                    <i class="fas fa-cog w-5 mr-3 text-center"></i> Settings
+                </a>
+            @elseif($activeRole === 'teacher')
+                <a href="{{ route('teacher.settings') }}"
+                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('teacher.settings') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
+                    <i class="fas fa-cog w-5 mr-3 text-center"></i> Settings
+                </a>
+            @endif
 
         </div>
 
@@ -281,6 +335,75 @@
                 sidebar.classList.add('-translate-x-full');
                 overlay.classList.add('hidden');
             }
+        }
+    </script>
+    
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: '{!! session('success') !!}',
+                    confirmButtonColor: '#3b82f6',
+                });
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: '{!! session('error') !!}',
+                    confirmButtonColor: '#ef4444',
+                });
+            });
+        </script>
+    @endif
+
+    @if ($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                let errorHtml = '<ul style="text-align: left; list-style-type: disc; padding-left: 20px;">';
+                @foreach ($errors->all() as $error)
+                    errorHtml += '<li>{{ $error }}</li>';
+                @endforeach
+                errorHtml += '</ul>';
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Terjadi Kesalahan!',
+                    html: errorHtml,
+                    confirmButtonColor: '#ef4444',
+                });
+            });
+        </script>
+    @endif
+
+    <script>
+        function confirmDelete(event, formElement) {
+            confirmAction(event, formElement, 'Hapus data ini?', 'Tindakan ini tidak dapat dibatalkan!', 'Ya, Hapus!', '#ef4444');
+        }
+
+        function confirmAction(event, formElement, title, text, confirmText, confirmColor = '#3b82f6') {
+            event.preventDefault();
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: confirmColor,
+                cancelButtonColor: '#9ca3af',
+                confirmButtonText: confirmText,
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    formElement.submit();
+                }
+            });
         }
     </script>
     @stack('js')
