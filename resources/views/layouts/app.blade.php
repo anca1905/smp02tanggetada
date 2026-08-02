@@ -214,6 +214,19 @@
                     <i class="fas fa-building w-5 mr-3 text-center"></i> <span>Fasilitas Sekolah</span>
                 </a>
 
+                {{-- PPDB --}}
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">PPDB Online</p>
+                </div>
+                <a href="{{ route('tu.ppdb.index') }}"
+                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.ppdb.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                    <i class="fas fa-user-plus w-5 mr-3 text-center"></i> <span>Data Pendaftar</span>
+                </a>
+                <a href="{{ route('public.ppdb') }}" target="_blank"
+                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800">
+                    <i class="fas fa-external-link-alt w-5 mr-3 text-center text-xs"></i> <span>Form Publik PPDB</span>
+                </a>
+
             {{-- ==================== MENU KEPALA SEKOLAH ==================== --}}
             @elseif($activeRole === 'principal')
                 <p class="px-3 text-xs font-semibold text-blue-400 uppercase tracking-wider mb-2">Dashboard</p>

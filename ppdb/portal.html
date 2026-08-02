@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Aplikasi & Layanan - SMK Negeri 1 Skillance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 'school-blue': '#003366', 'school-yellow': '#FFCC00' },
+                    fontFamily: { sans: ['Open Sans', 'sans-serif'] }
+                }
+            } 
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+
+    <header class="bg-white shadow-sm border-t-4 border-school-blue">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Logo_Tut_Wuri_Handayani.svg/1200px-Logo_Tut_Wuri_Handayani.svg.png"
+                    alt="Logo" class="h-10 w-auto">
+                <div class="leading-tight">
+                    <h1 class="text-lg font-bold text-school-blue uppercase">SMK SKILLANCE</h1>
+                    <p class="text-xs text-gray-600 font-semibold tracking-wide">SINGLE SIGN ON & SERVICE PORTAL</p>
+                </div>
+            </a>
+            <a href="index.html" class="text-sm font-bold text-gray-500 hover:text-school-blue">
+                <i class="fas fa-home mr-1"></i> Kembali ke Website Utama
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-12">
+
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-school-blue mb-3">Pusat Layanan Digital</h2>
+            <p class="text-gray-600">Akses seluruh aplikasi akademik dan administrasi sekolah dalam satu pintu.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+
+            <div
+                class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition transform hover:-translate-y-1 border border-gray-100 group">
+                <div
+                    class="w-16 h-16 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-3xl mb-4 group-hover:bg-purple-600 group-hover:text-white transition">
+                    <i class="fas fa-file-signature"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">E-Rapor SMK</h3>
+                <p class="text-sm text-gray-500 mb-6">Aplikasi penilaian hasil belajar siswa dan cetak rapor semester.
+                </p>
+                <a href="#"
+                    class="block text-center w-full bg-purple-600 text-white py-2 rounded font-bold hover:bg-purple-700 transition">
+                    Login Guru & Siswa
+                </a>
+            </div>
+
+            <div
+                class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition transform hover:-translate-y-1 border border-gray-100 group">
+                <div
+                    class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-3xl mb-4 group-hover:bg-blue-600 group-hover:text-white transition">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Info GTK</h3>
+                <p class="text-sm text-gray-500 mb-6">Cek validitas data guru, SKTP, dan tunjangan profesi (Kemdikbud).
+                </p>
+                <a href="https://info.gtk.kemdikbud.go.id" target="_blank"
+                    class="block text-center w-full bg-blue-600 text-white py-2 rounded font-bold hover:bg-blue-700 transition">
+                    Cek Data GTK <i class="fas fa-external-link-alt text-xs ml-1"></i>
+                </a>
+            </div>
+
+            <div
+                class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition transform hover:-translate-y-1 border border-gray-100 group">
+                <div
+                    class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mb-4 group-hover:bg-green-600 group-hover:text-white transition">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">E-Learning</h3>
+                <p class="text-sm text-gray-500 mb-6">Sistem Pembelajaran Jarak Jauh (PJJ), materi, dan ujian online.
+                </p>
+                <a href="#"
+                    class="block text-center w-full bg-green-600 text-white py-2 rounded font-bold hover:bg-green-700 transition">
+                    Masuk Kelas
+                </a>
+            </div>
+
+            <div
+                class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition transform hover:-translate-y-1 border border-gray-100 group">
+                <div
+                    class="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-3xl mb-4 group-hover:bg-orange-600 group-hover:text-white transition">
+                    <i class="fas fa-book-reader"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">E-Library</h3>
+                <p class="text-sm text-gray-500 mb-6">Katalog buku digital, jurnal, dan peminjaman buku online.</p>
+                <a href="#"
+                    class="block text-center w-full bg-orange-600 text-white py-2 rounded font-bold hover:bg-orange-700 transition">
+                    Cari Buku
+                </a>
+            </div>
+
+        </div>
+
+        <div class="max-w-4xl mx-auto mt-12 bg-blue-50 border border-blue-200 rounded-lg p-6 flex gap-4 items-start">
+            <i class="fas fa-info-circle text-school-blue text-2xl mt-1"></i>
+            <div>
+                <h4 class="font-bold text-school-blue text-lg">Catatan Penting:</h4>
+                <ul class="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
+                    <li>Aplikasi <strong>E-Rapor</strong> hanya dapat diakses menggunakan jaringan WiFi Sekolah
+                        (Intranet).</li>
+                    <li>Untuk reset password akun E-Learning atau E-Rapor, silakan hubungi Operator Sekolah di Ruang
+                        Tata Usaha.</li>
+                    <li>Layanan <strong>Info GTK</strong> dikelola langsung oleh Kemdikbud Pusat, jika ada data tidak
+                        sesuai lapor ke Dapodik Sekolah.</li>
+                </ul>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-6 text-center text-sm">
+        <p>&copy; 2026 Tim IT SMK Negeri 1 Skillance.</p>
+    </footer>
+
+</body>
+
+</html>

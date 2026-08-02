@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrator - PPDB SMK Skillance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 'school-blue': '#003366', 'school-yellow': '#FFCC00' },
+                    fontFamily: { sans: ['Open Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+    <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md border-t-4 border-school-blue">
+        <div class="text-center mb-8">
+            <img src="../assets/img/logo.png" alt="Logo" class="h-16 mx-auto mb-4">
+            <h1 class="text-2xl font-bold text-school-blue">Administrator Login</h1>
+            <p class="text-gray-500 text-sm">Masuk untuk mengelola data PPDB</p>
+        </div>
+
+        <form id="form-login">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                    <input type="email" id="email" name="email"
+                        class="w-full pl-10 pr-3 py-2 border rounded focus:outline-none focus:border-school-blue"
+                        placeholder="admin@smkskillance.sch.id" required>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    <input type="password" id="password" name="password"
+                        class="w-full pl-10 pr-3 py-2 border rounded focus:outline-none focus:border-school-blue"
+                        placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <button type="submit" id="btn-login"
+                class="w-full bg-school-blue text-white font-bold py-2 rounded hover:bg-blue-800 transition">
+                MASUK
+            </button>
+        </form>
+
+        <div class="mt-6 text-center">
+            <a href="../index.html" class="text-sm text-gray-500 hover:text-school-blue">&larr; Kembali ke Website
+                Utama</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('form-login').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const btn = document.getElementById('btn-login');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            btn.disabled = true;
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('../api/auth/login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Login Berhasil!',
+                        text: 'Mengalihkan ke dashboard...',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = 'dashboard.html';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Login Gagal',
+                        text: result.message
+                    });
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan sistem.'
+                });
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+
+</html>

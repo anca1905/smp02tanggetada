@@ -9,6 +9,8 @@ use App\Models\Event;
 use App\Models\Message;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Models\Ppdb;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
@@ -79,5 +81,65 @@ class PublicController extends Controller
         Message::create($request->all());
 
         return back()->with('success', 'Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda.');
+    }
+
+    /**
+     * Tampilkan form pendaftaran PPDB publik.
+     */
+    public function ppdb()
+    {
+        $bukaPpdb = Setting::where('key', 'buka_ppdb')->value('value') ?? '1';
+
+        if ($bukaPpdb !== '1') {
+            return view('public.ppdb-closed');
+        }
+
+        return view('public.ppdb');
+    }
+
+    /**
+     * Simpan data pendaftar PPDB.
+     */
+    public function storePpdb(Request $request)
+    {
+        $bukaPpdb = Setting::where('key', 'buka_ppdb')->value('value') ?? '1';
+        if ($bukaPpdb !== '1') {
+            return back()->with('error', 'Pendaftaran PPDB saat ini sedang ditutup.');
+        }
+
+        $request->validate([
+            'nama_lengkap' => 'required|string|max:100',
+            'nisn'         => 'required|string|max:20',
+            'nik'          => 'required|string|max:20',
+            'jenis_kelamin'=> 'required|in:Laki-laki,Perempuan',
+            'jurusan'      => 'required|string|max:20',
+            'no_hp'        => 'required|string|max:20',
+            'asal_sekolah' => 'required|string|max:100',
+        ]);
+
+        // Generate No Registrasi unik: REG-YYYY-XXXX
+        $lastId = Ppdb::max('id') ?? 0;
+        $noReg  = 'REG-' . date('Y') . '-' . str_pad($lastId + 1, 4, '0', STR_PAD_LEFT);
+
+        Ppdb::create([
+            'no_registrasi'     => $noReg,
+            'nama_lengkap'      => strtoupper($request->nama_lengkap),
+            'nisn'              => $request->nisn,
+            'nik'               => $request->nik,
+            'jenis_kelamin'     => $request->jenis_kelamin === 'Laki-laki' ? 'L' : 'P',
+            'tempat_lahir'      => strtoupper($request->tempat_lahir ?? ''),
+            'tanggal_lahir'     => $request->tanggal_lahir ?: null,
+            'alamat'            => strtoupper($request->alamat ?? ''),
+            'asal_sekolah'      => strtoupper($request->asal_sekolah),
+            'tahun_lulus'       => $request->tahun_lulus ?: date('Y'),
+            'nama_ayah'         => strtoupper($request->nama_ayah ?? ''),
+            'nama_ibu'          => strtoupper($request->nama_ibu ?? ''),
+            'no_hp'             => $request->no_hp,
+            'jurusan_pilihan'   => $request->jurusan,
+            'status_pendaftaran'=> 'Pending',
+            'tanggal_daftar'    => now(),
+        ]);
+
+        return back()->with('success', "Pendaftaran berhasil! Nomor Registrasi Anda: {$noReg}. Simpan nomor ini untuk keperluan verifikasi.");
     }
 }

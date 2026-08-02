@@ -112,6 +112,45 @@
             </div>
         </div>
     </div>
+
+    {{-- PPDB Widget --}}
+    @php
+        $ppdbPending  = \App\Models\Ppdb::where('status_pendaftaran', 'Pending')->count();
+        $ppdbTotal    = \App\Models\Ppdb::count();
+        $ppdbAccepted = \App\Models\Ppdb::where('status_pendaftaran', 'Accepted')->count();
+    @endphp
+    <div class="mt-6 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-user-plus text-blue-600"></i>
+                </div>
+                <h3 class="font-bold text-gray-800">PPDB Online — Pendaftar Masuk</h3>
+            </div>
+            <a href="{{ route('tu.ppdb.index') }}" class="text-sm text-blue-600 font-bold hover:underline">
+                Kelola Semua <i class="fas fa-arrow-right ml-1 text-xs"></i>
+            </a>
+        </div>
+        <div class="grid grid-cols-3 divide-x divide-gray-100">
+            <div class="px-6 py-5 text-center">
+                <p class="text-3xl font-bold text-gray-800">{{ $ppdbTotal }}</p>
+                <p class="text-xs text-gray-400 uppercase font-semibold mt-1">Total Pendaftar</p>
+            </div>
+            <div class="px-6 py-5 text-center">
+                <p class="text-3xl font-bold text-yellow-600">{{ $ppdbPending }}</p>
+                <p class="text-xs text-gray-400 uppercase font-semibold mt-1">Menunggu Verifikasi</p>
+                @if ($ppdbPending > 0)
+                    <span class="inline-block mt-2 text-xs bg-yellow-100 text-yellow-700 font-bold px-2 py-0.5 rounded-full animate-pulse">
+                        Perlu Tindakan
+                    </span>
+                @endif
+            </div>
+            <div class="px-6 py-5 text-center">
+                <p class="text-3xl font-bold text-green-600">{{ $ppdbAccepted }}</p>
+                <p class="text-xs text-gray-400 uppercase font-semibold mt-1">Diterima</p>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('js')
     <script>

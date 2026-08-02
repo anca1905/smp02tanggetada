@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Berkas - Admin Skillance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'school-blue': '#003366',
+                        'school-dark': '#0f172a',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <div class="flex h-screen overflow-hidden">
+        <aside id="sidebar"
+            class="bg-school-blue text-white w-64 flex-shrink-0 fixed md:static inset-y-0 left-0 transform -translate-x-full md:translate-x-0 z-50 sidebar-transition flex flex-col h-full shadow-xl">
+
+        </aside>
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"
+            onclick="toggleSidebar()"></div>
+
+        <div class="flex-1 flex flex-col overflow-hidden">
+
+            <header
+                class="h-16 bg-white shadow-sm flex items-center justify-between px-6 border-b border-gray-200 z-10">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()"
+                        class="text-gray-500 focus:outline-none md:hidden mr-4 hover:text-school-blue">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 class="text-lg font-bold text-gray-800">Verifikasi Dokumen Siswa</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm font-semibold hidden sm:block">Administrator</span>
+                    <div
+                        class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold text-xs border border-gray-200">
+                        AD</div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r shadow-sm">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-info-circle text-blue-500"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-blue-700">
+                                Ada <span class="font-bold" id="infoPendingCount">0 Siswa</span> baru yang mengupload
+                                berkas dan menunggu verifikasi. Mohon periksa keaslian scan dokumen.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                    <div
+                        class="p-4 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div class="flex gap-2">
+                            <button onclick="filterTable('Pending')"
+                                class="px-4 py-2 bg-yellow-50 text-yellow-700 border border-yellow-200 rounded text-sm font-bold shadow-sm hover:bg-yellow-100 focus:ring-2 ring-yellow-400 transition">Menunggu</button>
+                            <button onclick="filterTable('Rejected')"
+                                class="px-4 py-2 bg-white text-red-600 border border-gray-200 rounded text-sm hover:bg-gray-50 focus:ring-2 ring-red-400 transition">Ditolak</button>
+                            <button onclick="filterTable('Verified')"
+                                class="px-4 py-2 bg-white text-green-600 border border-gray-200 rounded text-sm hover:bg-gray-50 focus:ring-2 ring-green-400 transition">Selesai</button>
+                            <button onclick="filterTable('all')"
+                                class="px-4 py-2 bg-white text-gray-600 border border-gray-200 rounded text-sm hover:bg-gray-50 transition">Semua</button>
+                        </div>
+                        <div class="relative w-full sm:w-64">
+                            <input type="text" id="searchInput" onkeyup="renderTable()" placeholder="Cari No. Reg..."
+                                class="w-full pl-9 pr-4 py-2 border rounded text-sm focus:outline-none focus:border-school-blue">
+                            <i class="fas fa-search absolute left-3 top-2.5 text-gray-400 text-xs"></i>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead
+                                class="bg-gray-50 text-gray-600 text-xs uppercase font-bold border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-4">Tgl Upload</th>
+                                    <th class="px-6 py-4">Data Siswa</th>
+                                    <th class="px-6 py-4">Jurusan</th>
+                                    <th class="px-6 py-4">Kelengkapan</th>
+                                    <th class="px-6 py-4 text-center">Status</th>
+                                    <th class="px-6 py-4 text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="verifTableBody" class="text-sm text-gray-700 divide-y divide-gray-100">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <div id="verifModal"
+        class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[90vh]">
+
+            <div class="bg-school-blue text-white px-6 py-4 flex justify-between items-center">
+                <div>
+                    <h3 class="font-bold text-lg" id="modalStudentName">Nama Siswa</h3>
+                    <p class="text-xs text-blue-200" id="modalStudentJurusan">Jurusan</p>
+                </div>
+                <button onclick="closeModal()" class="text-white hover:text-yellow-400 text-xl"><i
+                        class="fas fa-times"></i></button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-6 bg-gray-50">
+                <input type="hidden" id="modalRegId">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-gray-700 border-b pb-2">Daftar Dokumen</h4>
+
+                        <div onclick="previewDoc('KK')"
+                            class="bg-white p-3 rounded border hover:border-school-blue cursor-pointer flex justify-between items-center group doc-item transition">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-red-100 text-red-600 p-2 rounded"><i class="fas fa-file-pdf"></i></div>
+                                <div>
+                                    <p class="text-sm font-bold">Kartu Keluarga (KK)</p>
+                                    <p class="text-xs text-gray-500">350 KB - PDF</p>
+                                </div>
+                            </div>
+                            <span class="text-school-blue text-xs font-bold group-hover:underline">Lihat</span>
+                        </div>
+
+                        <div onclick="previewDoc('Ijazah')"
+                            class="bg-white p-3 rounded border hover:border-school-blue cursor-pointer flex justify-between items-center group doc-item transition">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-blue-100 text-blue-600 p-2 rounded"><i class="fas fa-image"></i></div>
+                                <div>
+                                    <p class="text-sm font-bold">Scan Ijazah / SKL</p>
+                                    <p class="text-xs text-gray-500">1.2 MB - JPG</p>
+                                </div>
+                            </div>
+                            <span class="text-school-blue text-xs font-bold group-hover:underline">Lihat</span>
+                        </div>
+
+                        <div onclick="previewDoc('Akta')"
+                            class="bg-white p-3 rounded border hover:border-school-blue cursor-pointer flex justify-between items-center group doc-item transition">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-blue-100 text-blue-600 p-2 rounded"><i class="fas fa-image"></i></div>
+                                <div>
+                                    <p class="text-sm font-bold">Akta Kelahiran</p>
+                                    <p class="text-xs text-gray-500">800 KB - JPG</p>
+                                </div>
+                            </div>
+                            <span class="text-school-blue text-xs font-bold group-hover:underline">Lihat</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-200 rounded border-2 border-dashed border-gray-300 flex items-center justify-center min-h-[300px] relative transition-all"
+                        id="previewArea">
+                        <div class="text-center text-gray-500">
+                            <i class="fas fa-eye text-4xl mb-2 text-school-blue"></i>
+                            <p class="text-sm">Klik dokumen di kiri<br>untuk melihat pratinjau.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bg-white px-6 py-4 border-t flex justify-end gap-3" id="modalActions">
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/assets/js/admin.js"></script>
+    <script src="/assets/js/admin/verifikasi-berkas.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Siswa - Admin Skillance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { colors: { 'school-blue': '#003366', 'school-dark': '#0f172a' }, fontFamily: { sans: ['Inter', 'sans-serif'] } }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <div class="flex h-screen overflow-hidden">
+
+        <aside id="sidebar"
+            class="bg-school-blue text-white w-64 flex-shrink-0 fixed md:static inset-y-0 left-0 transform -translate-x-full md:translate-x-0 z-50 sidebar-transition flex flex-col h-full shadow-xl">
+
+        </aside>
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"
+            onclick="toggleSidebar()"></div>
+
+        <div class="flex-1 flex flex-col overflow-hidden">
+
+            <header
+                class="h-16 bg-white shadow-sm flex items-center justify-between px-6 border-b border-gray-200 z-10">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()"
+                        class="text-gray-500 focus:outline-none md:hidden mr-4 hover:text-school-blue">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 class="text-lg font-bold text-gray-800">Manajemen Data Siswa</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm font-semibold hidden sm:block">Administrator</span>
+                    <div
+                        class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold text-xs border border-gray-200">
+                        AD</div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+
+                <div
+                    class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-6 flex flex-col md:flex-row justify-between gap-4 items-center">
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <select
+                            class="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-school-blue">
+                            <option>Semua Jurusan</option>
+                            <option>TKJ</option>
+                            <option>RPL</option>
+                            <option>TBSM</option>
+                        </select>
+                        <select
+                            class="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-school-blue">
+                            <option>Semua Kelas</option>
+                            <option>X</option>
+                            <option>XI</option>
+                            <option>XII</option>
+                        </select>
+                    </div>
+
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <div class="relative flex-grow md:flex-grow-0">
+                            <input type="text" placeholder="Cari Nama / NISN..."
+                                class="pl-8 pr-4 py-2 border border-gray-300 rounded text-sm w-full focus:outline-none focus:border-school-blue">
+                            <i class="fas fa-search absolute left-3 top-2.5 text-gray-400 text-xs"></i>
+                        </div>
+                        <button
+                            class="bg-green-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-green-700 flex items-center gap-2">
+                            <i class="fas fa-file-excel"></i> Export
+                        </button>
+                        <button
+                            class="bg-school-blue text-white px-4 py-2 rounded text-sm font-bold hover:bg-blue-800 flex items-center gap-2">
+                            <i class="fas fa-plus"></i> Tambah
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead
+                                class="bg-gray-50 text-gray-600 text-xs uppercase font-bold border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-4">Siswa</th>
+                                    <th class="px-6 py-4">NIS / NISN</th>
+                                    <th class="px-6 py-4">Kelas & Jurusan</th>
+                                    <th class="px-6 py-4">Jenis Kelamin</th>
+                                    <th class="px-6 py-4">Status</th>
+                                    <th class="px-6 py-4 text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm text-gray-700 divide-y divide-gray-100">
+                                <tr class="hover:bg-blue-50 transition">
+                                    <td class="px-6 py-4 flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs">
+                                            AZ</div>
+                                        <div>
+                                            <p class="font-bold text-gray-800">Ahmad Zulkarnain</p>
+                                            <p class="text-xs text-gray-500">masuk thn. 2025</p>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-xs">2025001 <br> <span
+                                            class="text-gray-400">0081234567</span></td>
+                                    <td class="px-6 py-4">
+                                        <span class="font-bold">X - TKJ 1</span>
+                                        <p class="text-xs text-gray-500">Wali: Pak Budi</p>
+                                    </td>
+                                    <td class="px-6 py-4">Laki-laki</td>
+                                    <td class="px-6 py-4"><span
+                                            class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-bold">Aktif</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <button class="text-gray-400 hover:text-school-blue mx-1"><i
+                                                class="fas fa-edit"></i></button>
+                                        <button class="text-gray-400 hover:text-red-600 mx-1"><i
+                                                class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-blue-50 transition">
+                                    <td class="px-6 py-4 flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold text-xs">
+                                            SN</div>
+                                        <div>
+                                            <p class="font-bold text-gray-800">Siti Nurhaliza</p>
+                                            <p class="text-xs text-gray-500">masuk thn. 2024</p>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-xs">2024045 <br> <span
+                                            class="text-gray-400">0079876543</span></td>
+                                    <td class="px-6 py-4">
+                                        <span class="font-bold">XI - RPL 2</span>
+                                        <p class="text-xs text-gray-500">Wali: Bu Siti</p>
+                                    </td>
+                                    <td class="px-6 py-4">Perempuan</td>
+                                    <td class="px-6 py-4"><span
+                                            class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-bold">Aktif</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <button class="text-gray-400 hover:text-school-blue mx-1"><i
+                                                class="fas fa-edit"></i></button>
+                                        <button class="text-gray-400 hover:text-red-600 mx-1"><i
+                                                class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="px-6 py-4 border-t border-gray-200 flex justify-between items-center">
+                        <span class="text-xs text-gray-500">Menampilkan 1-10 dari 1,240 Siswa</span>
+                        <div class="flex gap-1">
+                            <button class="px-3 py-1 border rounded text-xs hover:bg-gray-100">Prev</button>
+                            <button class="px-3 py-1 bg-school-blue text-white rounded text-xs">1</button>
+                            <button class="px-3 py-1 border rounded text-xs hover:bg-gray-100">2</button>
+                            <button class="px-3 py-1 border rounded text-xs hover:bg-gray-100">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="/assets/js/admin.js"></script>
+</body>
+
+</html>

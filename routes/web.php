@@ -34,6 +34,7 @@ use App\Http\Controllers\AdminTu\DashboardController as AdminTuDashboardControll
 use App\Http\Controllers\Student\LearningController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 use App\Http\Controllers\Principal\DashboardController as PrincipalDashboardController;
+use App\Http\Controllers\AdminTu\PpdbController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,9 @@ Route::controller(PublicController::class)->group(function () {
     Route::post('/kontak', 'storeContact')->name('public.kontak.store');
     Route::get('/jadwal', 'jadwal')->name('public.jadwal');
     Route::get('/kalender', 'kalender')->name('public.kalender');
+    // PPDB Publik
+    Route::get('/ppdb', 'ppdb')->name('public.ppdb');
+    Route::post('/ppdb', 'storePpdb')->name('public.ppdb.store');
 });
 
 /*
@@ -158,6 +162,14 @@ Route::middleware(['auth:operator'])->prefix('tu')->name('tu.')->group(function 
     Route::resource('classrooms', ClassroomController::class);
     Route::resource('subjects', SubjectController::class);
     Route::resource('schedules', ScheduleController::class);
+
+    // PPDB — Manajemen Pendaftar
+    Route::prefix('ppdb')->name('ppdb.')->group(function () {
+        Route::get('/', [PpdbController::class, 'index'])->name('index');
+        Route::post('/{id}/status', [PpdbController::class, 'updateStatus'])->name('updateStatus');
+        Route::delete('/{id}', [PpdbController::class, 'destroy'])->name('destroy');
+        Route::post('/toggle-status', [PpdbController::class, 'toggleStatus'])->name('toggleStatus');
+    });
 });
 
 /*
