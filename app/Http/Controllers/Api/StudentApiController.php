@@ -45,12 +45,28 @@ class StudentApiController extends Controller
             ->take(5)
             ->get();
 
+        // Get Attendance Percentage
+        $totalSessions = \App\Models\Attendance::where('classroom_id', $student->classroom_id)->count();
+        $studentAttendances = StudentAttendanceDetail::where('student_id', $student->id)
+                                ->whereIn('status', ['Hadir', 'Late'])
+                                ->count();
+        
+        $attendancePercentage = $totalSessions > 0 ? round(($studentAttendances / $totalSessions) * 100) : 100;
+
+        // Get Announcements
+        $announcements = \App\Models\Post::where('is_published', true)
+            ->latest()
+            ->take(3)
+            ->get(['id', 'title', 'category', 'created_at']);
+
         return response()->json([
             'success' => true,
             'data' => [
                 'student' => $student->load('classroom'),
                 'today_schedules' => $schedules,
                 'upcoming_assignments' => $assignments,
+                'attendance_percentage' => $attendancePercentage,
+                'announcements' => $announcements,
             ]
         ]);
     }
@@ -170,9 +186,31 @@ class StudentApiController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+        $average = $grades->count() > 0 ? $grades->avg('score') : 0;
+        $highest = $grades->count() > 0 ? $grades->max('score') : 0;
+        $lowest = $grades->count() > 0 ? $grades->min('score') : 0;
+
+        // Group grades into A, B, C, D (dummy logic based on standard KKM 75)
+        // A >= 90, B >= 80, C >= 75, D < 75
+        $distribution = [
+            'A' => $grades->where('score', '>=', 90)->count(),
+            'B' => $grades->whereBetween('score', [80, 89.9])->count(),
+            'C' => $grades->whereBetween('score', [75, 79.9])->count(),
+            'D' => $grades->where('score', '<', 75)->count(),
+        ];
+
         return response()->json([
             'success' => true,
-            'data' => $grades
+            'data' => [
+                'grades' => $grades,
+                'summary' => [
+                    'average' => round($average, 2),
+                    'highest' => round($highest, 2),
+                    'lowest' => round($lowest, 2),
+                    'total_subjects' => $grades->count(),
+                ],
+                'distribution' => $distribution
+            ]
         ]);
     }
 

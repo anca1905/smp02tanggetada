@@ -3,6 +3,9 @@ import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../theme/app_theme.dart';
 import 'parent_home_screen.dart';
+import 'parent_grades_screen.dart';
+import 'parent_chat_screen.dart';
+import 'parent_payment_screen.dart';
 // Note: We reuse some student screens or create placeholders for bottom nav
 import 'profile_screen.dart'; 
 
@@ -18,9 +21,9 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
 
   final List<Widget> _screens = [
     const ParentHomeScreen(),
-    const Center(child: Text('Nilai Siswa (Segera Hadir)')),
-    const Center(child: Text('Chat Guru (Segera Hadir)')),
-    const Center(child: Text('Pembayaran (Segera Hadir)')),
+    const ParentGradesScreen(),
+    const ParentChatScreen(),
+    const ParentPaymentScreen(),
     const ProfileScreen(), // Reuse profile for now
   ];
 

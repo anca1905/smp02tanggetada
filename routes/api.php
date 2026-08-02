@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Teacher\PresenceController;
+use App\Http\Controllers\Api\StudentAuthController;
+use App\Http\Controllers\Api\AttendanceCheckinController;
+use App\Http\Controllers\Api\BillingApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +39,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // QR Attendance Check-in
     Route::post('student/attendance/checkin', [App\Http\Controllers\Api\AttendanceCheckinController::class, 'checkin']);
     Route::get('student/attendance/session', [App\Http\Controllers\Api\AttendanceCheckinController::class, 'sessionInfo']);
+
+    // Keuangan / Bills
+    Route::get('/student/bills', [BillingApiController::class, 'getStudentBills']);
 });
 
 // Public - untuk polling web guru (tidak perlu auth siswa)

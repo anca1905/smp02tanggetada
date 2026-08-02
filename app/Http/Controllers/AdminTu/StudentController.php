@@ -72,7 +72,14 @@ class StudentController extends Controller
             'parent_phone'    => 'nullable|string|max:20',
         ]);
 
-        $student->update($request->all());
+        $data = $request->all();
+        
+        // Generate password orang tua jika sebelumnya masih kosong (kasus data lama)
+        if (empty($student->parent_password)) {
+            $data['parent_password'] = bcrypt('ortu' . $request->nis);
+        }
+
+        $student->update($data);
 
         return back()->with('success', 'Data Student berhasil diperbarui!');
     }

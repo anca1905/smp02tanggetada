@@ -49,13 +49,18 @@
         $photoUrl = null;
         $waliKelas = null;
 
-        // 1. Cek Login Operator (Admin TU)
+        // 1. Cek Login Operator (Admin TU / Kepala Sekolah)
         if (Auth::guard('operator')->check()) {
             $u = Auth::guard('operator')->user();
-            $activeRole = 'operator';
+            $photoUrl = $u->photo_url ?? null;
             $name = $u->name;
             $roleLabel = $u->role_operator ?? 'Tata Usaha';
-            $photoUrl = $u->photo_url ?? null;
+            // Kepala Sekolah role
+            if (in_array($u->role_operator, ['Kepala Sekolah', 'principal'])) {
+                $activeRole = 'principal';
+            } else {
+                $activeRole = 'operator';
+            }
         }
         // 2. Cek Login Guru
         elseif (Auth::guard('teacher')->check()) {
@@ -180,6 +185,10 @@
                     class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.rekap') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                     <i class="fas fa-clipboard-list w-5 mr-3 text-center"></i> Rekap Absensi
                 </a>
+                <a href="{{ route('tu.billing.index') }}"
+                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.billing.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
+                    <i class="fas fa-money-bill-wave w-5 mr-3 text-center"></i> Keuangan & Tagihan
+                </a>
 
                 <div class="pt-4 pb-2">
                     <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Portal Website</p>
@@ -203,6 +212,39 @@
                 <a href="{{ route('tu.facility.index') }}"
                     class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.facility.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
                     <i class="fas fa-building w-5 mr-3 text-center"></i> <span>Fasilitas Sekolah</span>
+                </a>
+
+            {{-- ==================== MENU KEPALA SEKOLAH ==================== --}}
+            @elseif($activeRole === 'principal')
+                <p class="px-3 text-xs font-semibold text-blue-400 uppercase tracking-wider mb-2">Dashboard</p>
+
+                <a href="{{ route('principal.dashboard') }}"
+                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('principal.dashboard') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
+                    <i class="fas fa-tachometer-alt w-5 mr-3 text-center"></i> Ringkasan Sekolah
+                </a>
+
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Monitoring</p>
+                </div>
+                <a href="{{ route('tu.rekap') }}"
+                    class="flex items-center px-3 py-2.5 rounded-lg text-blue-100 hover:bg-blue-800">
+                    <i class="fas fa-clipboard-list w-5 mr-3 text-center"></i> Rekap Absensi
+                </a>
+                <a href="{{ route('tu.billing.index') }}"
+                    class="flex items-center px-3 py-2.5 rounded-lg text-blue-100 hover:bg-blue-800">
+                    <i class="fas fa-money-bill-wave w-5 mr-3 text-center"></i> Keuangan
+                </a>
+
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Data Sekolah</p>
+                </div>
+                <a href="{{ route('tu.student.index') }}"
+                    class="flex items-center px-3 py-2.5 rounded-lg text-blue-100 hover:bg-blue-800">
+                    <i class="fas fa-user-graduate w-5 mr-3 text-center"></i> Data Siswa
+                </a>
+                <a href="{{ route('tu.teacher.index') }}"
+                    class="flex items-center px-3 py-2.5 rounded-lg text-blue-100 hover:bg-blue-800">
+                    <i class="fas fa-chalkboard-teacher w-5 mr-3 text-center"></i> Data Guru
                 </a>
 
                 {{-- ==================== MENU GURU ==================== --}}

@@ -19,7 +19,7 @@ class AuthController extends Controller
         $request->validate([
             'username' => 'required',
             'password' => 'required',
-            'role_type' => 'required|in:operator,teacher,student', // Tambahkan student
+            'role_type' => 'required|in:operator,teacher',
         ]);
 
         $guard = $request->role_type; // operator, teacher, atau student
@@ -42,11 +42,14 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             if ($guard === 'operator') {
+                $operator = Auth::guard('operator')->user();
+                // Route based on role: Kepala Sekolah → principal dashboard
+                if (in_array($operator->role_operator, ['Kepala Sekolah', 'principal'])) {
+                    return redirect()->route('principal.dashboard');
+                }
                 return redirect()->route('tu.dashboard');
             } elseif ($guard === 'teacher') {
                 return redirect()->route('teacher.dashboard');
-            } elseif ($guard === 'student') {
-                return redirect()->route('student.lms.index');
             }
         }
 

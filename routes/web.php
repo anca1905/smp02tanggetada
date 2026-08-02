@@ -21,6 +21,7 @@ use App\Http\Controllers\AdminTu\ScheduleController;
 use App\Http\Controllers\Teacher\TeachingController;
 use App\Http\Controllers\AdminTu\BorrowingController;
 use App\Http\Controllers\AdminTu\ClassroomController;
+use App\Http\Controllers\AdminTu\BillingController;
 
 // Teacher Controllers
 use App\Http\Controllers\Teacher\PromotionController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\Teacher\PresenceController as TeacherPresenceController
 use App\Http\Controllers\AdminTu\DashboardController as AdminTuDashboardController;
 use App\Http\Controllers\Student\LearningController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
+use App\Http\Controllers\Principal\DashboardController as PrincipalDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -139,6 +141,13 @@ Route::middleware(['auth:operator'])->prefix('tu')->name('tu.')->group(function 
     Route::resource('events', EventController::class);
     Route::resource('inbox', InboxController::class)->only(['index', 'destroy']);
 
+    Route::controller(BillingController::class)->prefix('billing')->name('billing.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/generate', 'generate')->name('generate');
+        Route::post('/{id}/pay', 'markAsPaid')->name('pay');
+        Route::delete('/{id}', 'destroy')->name('destroy');
+    });
+
     Route::controller(AdminTuSettingsController::class)->prefix('settings')->name('settings.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/{id}', 'update')->name('update');
@@ -153,7 +162,17 @@ Route::middleware(['auth:operator'])->prefix('tu')->name('tu.')->group(function 
 
 /*
 |--------------------------------------------------------------------------
-| Admin TU Routes
+| Principal (Kepala Sekolah) Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth:operator'])->prefix('principal')->name('principal.')->group(function () {
+    Route::get('/dashboard', [PrincipalDashboardController::class, 'index'])->name('dashboard');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Admin TU Routes (continued)
 |--------------------------------------------------------------------------
 */
 

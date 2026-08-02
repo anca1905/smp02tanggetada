@@ -31,6 +31,11 @@ class Teacher extends Authenticatable
         return $this->hasMany(Teacher_absence::class, 'teacher_id');
     }
 
+    public function absences()
+    {
+        return $this->hasMany(Teacher_absence::class, 'teacher_id');
+    }
+
     public function schedules()
     {
         return $this->hasMany(Schedule::class);
