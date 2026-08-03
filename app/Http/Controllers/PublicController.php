@@ -84,7 +84,7 @@ class PublicController extends Controller
     }
 
     /**
-     * Tampilkan form pendaftaran PPDB publik.
+     * Tampilkan halaman pembuka PPDB.
      */
     public function ppdb()
     {
@@ -95,6 +95,20 @@ class PublicController extends Controller
         }
 
         return view('public.ppdb');
+    }
+
+    /**
+     * Tampilkan formulir pendaftaran PPDB.
+     */
+    public function ppdbForm()
+    {
+        $bukaPpdb = Setting::where('key', 'buka_ppdb')->value('value') ?? '1';
+
+        if ($bukaPpdb !== '1') {
+            return view('public.ppdb-closed');
+        }
+
+        return view('public.ppdb-form');
     }
 
     /**

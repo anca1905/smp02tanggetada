@@ -53,7 +53,8 @@ Route::controller(PublicController::class)->group(function () {
     Route::get('/kalender', 'kalender')->name('public.kalender');
     // PPDB Publik
     Route::get('/ppdb', 'ppdb')->name('public.ppdb');
-    Route::post('/ppdb', 'storePpdb')->name('public.ppdb.store');
+    Route::get('/ppdb/daftar', 'ppdbForm')->name('public.ppdb.daftar');
+    Route::post('/ppdb/daftar', 'storePpdb')->name('public.ppdb.store');
 });
 
 /*

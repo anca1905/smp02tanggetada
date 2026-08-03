@@ -224,7 +224,7 @@
                 </a>
                 <a href="{{ route('public.ppdb') }}" target="_blank"
                     class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800">
-                    <i class="fas fa-external-link-alt w-5 mr-3 text-center text-xs"></i> <span>Form Publik PPDB</span>
+                    <i class="fas fa-external-link-alt w-5 mr-3 text-center text-xs"></i> <span>Halaman PPDB Publik</span>
                 </a>
 
             {{-- ==================== MENU KEPALA SEKOLAH ==================== --}}
