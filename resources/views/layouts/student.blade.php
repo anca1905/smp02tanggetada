@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>@yield('title', 'Ruang Belajar') - SIMS Siswa</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite('resources/css/app.css')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -62,7 +62,7 @@
                 </div>
                 <span class="text-[10px] font-bold">Ruang Belajar</span>
             </a>
-            
+
             <form action="{{ route('logout') }}" method="POST" class="flex flex-col items-center text-gray-400 hover:text-red-500 transition cursor-pointer" onclick="this.submit()">
                 @csrf
                 <div class="mb-1">
@@ -91,7 +91,7 @@
             });
         </script>
     @endif
-    
+
     @stack('js')
 </body>
 </html>

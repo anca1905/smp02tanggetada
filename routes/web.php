@@ -1,40 +1,37 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-// Auth & Public Controllers
-use App\Http\Controllers\PublicController;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\GraduationController;
-use App\Http\Controllers\AdminTu\PostController;
-
-// Admin TU Controllers
-use App\Http\Controllers\AdminTu\RoomController;
-use App\Http\Controllers\AdminTu\EventController;
-use App\Http\Controllers\AdminTu\InboxController;
-use App\Http\Controllers\AdminTu\RecapController;
-use App\Http\Controllers\AdminTu\SubjectController;
-use App\Http\Controllers\StudentPresenceController;
 use App\Http\Controllers\AdminTu\AcademicController;
-use App\Http\Controllers\AdminTu\FacilityController;
-use App\Http\Controllers\AdminTu\ScheduleController;
-use App\Http\Controllers\Teacher\TeachingController;
+// Auth & Public Controllers
+use App\Http\Controllers\AdminTu\BillingController;
 use App\Http\Controllers\AdminTu\BorrowingController;
 use App\Http\Controllers\AdminTu\ClassroomController;
-use App\Http\Controllers\AdminTu\BillingController;
-
-// Teacher Controllers
-use App\Http\Controllers\Teacher\PromotionController;
-use App\Http\Controllers\AdminTu\StudentController as AdminTuStudentController;
-use App\Http\Controllers\AdminTu\TeacherController as AdminTuTeacherController;
-use App\Http\Controllers\Teacher\SettingController as TeacherSettingsController;
-use App\Http\Controllers\AdminTu\SettingsController as AdminTuSettingsController;
-use App\Http\Controllers\Teacher\PresenceController as TeacherPresenceController;
 use App\Http\Controllers\AdminTu\DashboardController as AdminTuDashboardController;
-use App\Http\Controllers\Student\LearningController;
-use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
+// Admin TU Controllers
+use App\Http\Controllers\AdminTu\EventController;
+use App\Http\Controllers\AdminTu\FacilityController;
+use App\Http\Controllers\AdminTu\InboxController;
+use App\Http\Controllers\AdminTu\PostController;
+use App\Http\Controllers\AdminTu\RecapController;
+use App\Http\Controllers\AdminTu\RoomController;
+use App\Http\Controllers\AdminTu\ScheduleController;
+use App\Http\Controllers\AdminTu\SettingsController as AdminTuSettingsController;
+use App\Http\Controllers\AdminTu\StudentController as AdminTuStudentController;
+use App\Http\Controllers\AdminTu\SubjectController;
+use App\Http\Controllers\AdminTu\TeacherController as AdminTuTeacherController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\GraduationController;
+// Teacher Controllers
 use App\Http\Controllers\Principal\DashboardController as PrincipalDashboardController;
 use App\Http\Controllers\AdminTu\PpdbController;
+use App\Http\Controllers\PublicController;
+use App\Http\Controllers\Student\LearningController;
+use App\Http\Controllers\StudentPresenceController;
+use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
+use App\Http\Controllers\Teacher\PresenceController as TeacherPresenceController;
+use App\Http\Controllers\Teacher\PromotionController;
+use App\Http\Controllers\Teacher\SettingController as TeacherSettingsController;
+use App\Http\Controllers\Teacher\TeachingController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +62,9 @@ Route::controller(PublicController::class)->group(function () {
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
+    Route::get('/login/admin-tu', 'showLoginAdminTu')->name('login.admin-tu');
+    Route::get('/login/pegawai', 'showLoginPegawai')->name('login.pegawai');
+    Route::get('/login/kepala-sekolah', 'showLoginKepsek')->name('login.kepala-sekolah');
     Route::post('/login', 'login')->name('login.post');
     Route::post('/logout', 'logout')->name('logout');
 });
@@ -119,7 +119,7 @@ Route::middleware(['auth:teacher'])->prefix('teacher')->name('teacher.')->group(
     Route::get('/course/{schedule_id}', [TeachingController::class, 'show'])->name('lms.show');
     Route::post('/lms/material', [TeachingController::class, 'storeMaterial'])->name('lms.material.store');
     Route::delete('/lms/material/{id}', [TeachingController::class, 'destroyMaterial'])->name('lms.material.destroy');
-    
+
     Route::post('/lms/assignment', [TeachingController::class, 'storeAssignment'])->name('lms.assignment.store');
     Route::delete('/lms/assignment/{id}', [TeachingController::class, 'destroyAssignment'])->name('lms.assignment.destroy');
     Route::get('/lms/assignment/{assignment_id}/submissions', [TeachingController::class, 'viewSubmissions'])->name('lms.assignment.submissions');

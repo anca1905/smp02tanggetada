@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>@yield('title', $site_settings['app_name'] ?? 'SIMS')</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite('resources/css/app.css')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -64,7 +64,7 @@
                         alt="Logo Sekolah" class="h-10 w-auto">
                     <div class="flex flex-col">
                         <span
-                            class="text-blue-900 font-bold text-lg leading-tight tracking-wide">{{ $site_settings['app_name'] }}</span>
+                            class="text-blue-900 font-bold text-lg leading-tight tracking-wide">{{ $site_settings['app_name'] ?? "SIMS" }}</span>
                         <span class="text-xs text-gray-500 font-medium">Sistem Informasi Manajemen Sekolah</span>
                     </div>
                 </a>

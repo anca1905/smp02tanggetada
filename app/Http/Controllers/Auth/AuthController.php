@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -11,6 +11,21 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         return view('auth.login');
+    }
+
+    public function showLoginAdminTu()
+    {
+        return view('auth.login-admin-tu');
+    }
+
+    public function showLoginPegawai()
+    {
+        return view('auth.login-pegawai');
+    }
+
+    public function showLoginKepsek()
+    {
+        return view('auth.login-kepala-sekolah');
     }
 
     public function login(Request $request)
@@ -29,12 +44,12 @@ class AuthController extends Controller
             // Jika siswa, field username di form dianggap sebagai 'nis'
             $credentials = [
                 'nis' => $request->username,
-                'password' => $request->password
+                'password' => $request->password,
             ];
         } else {
             $credentials = [
                 'username' => $request->username,
-                'password' => $request->password
+                'password' => $request->password,
             ];
         }
 
@@ -47,6 +62,7 @@ class AuthController extends Controller
                 if (in_array($operator->role_operator, ['Kepala Sekolah', 'principal'])) {
                     return redirect()->route('principal.dashboard');
                 }
+
                 return redirect()->route('tu.dashboard');
             } elseif ($guard === 'teacher') {
                 return redirect()->route('teacher.dashboard');

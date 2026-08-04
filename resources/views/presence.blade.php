@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/final.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite('resources/css/app.css')
 
 </head>
 
