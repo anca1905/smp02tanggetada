@@ -2,62 +2,42 @@
 
 namespace App\Http\Controllers\AdminTu;
 
+use App\Actions\Room\CreateRoomAction;
+use App\Actions\Room\DeleteRoomAction;
+use App\Actions\Room\GetRoomsAction;
+use App\Actions\Room\UpdateRoomAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Room\StoreRoomRequest;
+use App\Http\Requests\Room\UpdateRoomRequest;
 use App\Models\Room;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class RoomController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, GetRoomsAction $action)
     {
-        
-        $query = Room::query();
-
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where('room_name', 'like', "%{$search}%")
-                ->orWhere('location', 'like', "%{$search}%");
-        }
-
-        $rooms = $query->orderBy('room_name', 'asc')->paginate(10);
-
-        return view('tu.room_data', compact('rooms'));
+        $rooms = $action->execute($request->search, 10);
+        return view("tu.room_data", compact("rooms"));
     }
 
-    public function store(Request $request)
+    public function store(StoreRoomRequest $request, CreateRoomAction $action)
     {
-        $request->validate([
-            'room_name' => 'required|string|max:100',
-            'location'       => 'required|string|max:100',
-            'description'   => 'nullable|string',
-        ]);
-
-        Room::create($request->all());
-
-        return back()->with('success', 'Room berhasil ditambahkan!');
+        $action->execute($request->validated());
+        return back()->with("success", "Room berhasil ditambahkan!");
     }
 
-    public function update(Request $request, $id)
-    {
-        $room = Room::findOrFail($id);
-
-        $request->validate([
-            'room_name' => 'required|string|max:100',
-            'location'       => 'required|string|max:100',
-            'description'   => 'nullable|string',
-        ]);
-
-        $room->update($request->all());
-
-        return back()->with('success', 'Data Room berhasil diperbarui!');
+    public function update(
+        UpdateRoomRequest $request,
+        Room $room,
+        UpdateRoomAction $action,
+    ) {
+        $action->execute($request->validated(), $room);
+        return back()->with("success", "Data Room berhasil diperbarui!");
     }
 
-    public function destroy($id)
+    public function destroy(Room $room, DeleteRoomAction $action)
     {
-        $room = Room::findOrFail($id);
-        $room->delete();
-
-        return back()->with('success', 'Room berhasil dihapus!');
+        $action->execute($room);
+        return back()->with("success", "Room berhasil dihapus!");
     }
 }

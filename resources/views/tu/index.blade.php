@@ -113,12 +113,6 @@
         </div>
     </div>
 
-    {{-- PPDB Widget --}}
-    @php
-        $ppdbPending  = \App\Models\Ppdb::where('status_pendaftaran', 'Pending')->count();
-        $ppdbTotal    = \App\Models\Ppdb::count();
-        $ppdbAccepted = \App\Models\Ppdb::where('status_pendaftaran', 'Accepted')->count();
-    @endphp
     <div class="mt-6 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
             <div class="flex items-center gap-3">

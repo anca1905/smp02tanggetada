@@ -78,6 +78,8 @@
                         class="{{ request()->routeIs('public.berita') ? 'text-blue-900 font-bold' : 'hover:text-blue-900' }} transition">Berita</a>
                     <a href="{{ route('public.kontak') }}"
                         class="{{ request()->routeIs('public.kontak') ? 'text-blue-900 font-bold' : 'hover:text-blue-900' }} transition">Kontak</a>
+                    <a href="{{ route('public.ppdb') }}"
+                        class="{{ request()->routeIs('public.ppdb') ? 'text-blue-900 font-bold' : 'hover:text-blue-900' }} transition">PPDB</a>
                 </div>
 
                 <div class="flex items-center space-x-4">
