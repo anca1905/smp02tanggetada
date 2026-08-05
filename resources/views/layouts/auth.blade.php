@@ -59,6 +59,7 @@
         </div>
     </footer>
 
+    <script src="{{ asset('assets/js/toggle_password.js') }}"></script>
     @stack('scripts')
 </body>
 

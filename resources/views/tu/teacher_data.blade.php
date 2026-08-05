@@ -5,7 +5,7 @@
 @section('content')
     <div class="h-full flex flex-col">
 
-        @if (session('success'))
+        {{-- @if (session('success'))
             <div class="mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-sm" role="alert">
                 <p class="font-bold">Berhasil!</p>
                 <p>{{ session('success') }}</p>
@@ -21,7 +21,7 @@
                 </ul>
             </div>
         @endif
-
+ --}}
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-4 p-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <h2 class="text-lg font-semibold text-gray-800">Tabel Data Guru</h2>
@@ -89,8 +89,8 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <span
-                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $teacher->status == 'Aktif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                        {{ $teacher->status }}
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $teacher->status == 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ $teacher->status == 'Active' ? 'Aktif' : 'Tidak Aktif' }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
@@ -295,7 +295,7 @@
                 <button type="button"
                     class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium"
                     onclick="document.getElementById('deleteForm').classList.add('hidden')">Batal</button>
-                <button type="submit" 
+                <button type="submit"
                     class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium shadow-md">Ya,
                     Hapus</button>
             </div>
