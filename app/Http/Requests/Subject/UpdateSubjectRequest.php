@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Subject;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Override;
 
 class UpdateSubjectRequest extends FormRequest
 {
@@ -34,6 +35,7 @@ class UpdateSubjectRequest extends FormRequest
      *
      * @return array<string, string>
      */
+    #[Override]
     public function messages(): array
     {
         return [

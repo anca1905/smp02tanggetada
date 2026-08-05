@@ -56,23 +56,23 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Nama Aplikasi / Sekolah</label>
                             <input type="text" name="app_name" value="{{ $settings['app_name'] ?? 'SIMS Terpadu' }}"
-                                class="w-full border-2 border-gray-500 px-2 py-1 rounded-lg">
+                                class="w-full border-2 border-gray-500 px-4 py-2 rounded-lg">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
                             <input type="text" name="school_phone"
                                 value="{{ $settings['school_phone'] ?? '(0741) 123456' }}"
-                                class="w-full border-2 border-gray-500 px-2 py-1 rounded-lg">
+                                class="w-full border-2 border-gray-500 px-4 py-2 rounded-lg">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Alamat Email</label>
                             <input type="email" name="school_email"
                                 value="{{ $settings['school_email'] ?? 'admin@sekolah.sch.id' }}"
-                                class="w-full border-2 border-gray-500 px-2 py-1 rounded-lg">
+                                class="w-full border-2 border-gray-500 px-4 py-2 rounded-lg">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Alamat Lengkap</label>
-                            <textarea name="school_address" rows="3" class="w-full border-2 border-gray-500 px-2 py-1 rounded-lg">{{ $settings['school_address'] ?? 'Jl. Jendral Sudirman...' }}</textarea>
+                            <textarea name="school_address" rows="3" class="w-full border-2 border-gray-500 px-4 py-2 rounded-lg">{{ $settings['school_address'] ?? 'Jl. Jendral Sudirman...' }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -84,11 +84,11 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1">Judul Besar (Hero Title)</label>
                             <input type="text" name="hero_title"
                                 value="{{ $settings['hero_title'] ?? 'Digitalisasi Pendidikan Menuju Sekolah Unggul' }}"
-                                class="w-full border-2 border-gray-500 px-2 py-1 rounded-lg">
+                                class="w-full border-2 border-gray-500 px-4 py-2 rounded-lg">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Singkat</label>
-                            <textarea name="hero_description" rows="3" class="w-full border-2 border-gray-500 px-2 py-1 rounded-lg">{{ $settings['hero_description'] ?? 'Platform terintegrasi...' }}</textarea>
+                            <textarea name="hero_description" rows="3" class="w-full border-2 border-gray-500 px-4 py-2 rounded-lg">{{ $settings['hero_description'] ?? 'Platform terintegrasi...' }}</textarea>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Gambar Background Hero</label>
@@ -96,7 +96,7 @@
                                 <img src="{{ asset('storage/' . $settings['hero_bg']) }}"
                                     class="w-full h-32 object-cover rounded-lg mb-2 border border-gray-200">
                             @endif
-                            <input type="file" name="hero_bg" class="text-sm text-gray-500">
+                            <input type="file" name="hero_bg" class="px-4 py-2 text-sm text-gray-500">
                         </div>
                     </div>
                 </div>
@@ -110,13 +110,13 @@
                             <label for="history-title" class="block text-sm font-medium text-gray-700 mb-1">Judul
                                 Sejarah</label>
                             <input type="text" name="history_title" id="history-title"
-                                class="w-full border-2 border-gray-500 px-2 py-1  rounded-lg"
+                                class="w-full border-2 border-gray-500 px-4 py-2  rounded-lg"
                                 value="{{ $settings['history_title'] ?? 'Membangun Generasi Unggul Sejak 1990' }}">
                         </div>
                         <div class="mb-2">
                             <label for="history-desc" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi
                                 Sejarah</label>
-                            <textarea name="history_desc" id="history-desc" rows="4" class="w-full border-2 border-gray-500 px-2 py-1  rounded-lg"
+                            <textarea name="history_desc" id="history-desc" rows="4" class="w-full border-2 border-gray-500 px-4 py-2  rounded-lg"
                                 placeholder="Masukkan sejarah sekolah ...">{{ $settings['history_desc'] ?? '' }}</textarea>
                         </div>
                         <div class="pt-4 border-t border-gray-100 mb-2">
@@ -134,12 +134,12 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 border-t-2 border-gray-500 py-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Visi Sekolah</label>
-                            <textarea name="school_visi" rows="4" class="w-full border-2 border-gray-500 px-2 py-1  rounded-lg"
+                            <textarea name="school_visi" rows="4" class="w-full border-2 border-gray-500 px-4 py-2  rounded-lg"
                                 placeholder="Masukkan visi misi sekolah ...">{{ $settings['school_visi'] ?? '' }}</textarea>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Misi Sekolah</label>
-                            <textarea name="school_misi" rows="4" class="w-full border-2 border-gray-500 px-2 py-1 rounded-lg"
+                            <textarea name="school_misi" rows="4" class="w-full border-2 border-gray-500 px-4 py-2 rounded-lg"
                                 placeholder="Pisahkan dengan enter...">{{ $settings['school_misi'] ?? '' }}</textarea>
                         </div>
                     </div>

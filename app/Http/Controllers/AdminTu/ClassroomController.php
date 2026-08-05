@@ -2,68 +2,89 @@
 
 namespace App\Http\Controllers\AdminTu;
 
+use App\Actions\Classroom\CreateClassroomAction;
+use App\Actions\Classroom\DeleteClassroomAction;
+use App\Actions\Classroom\GetClassroomsAction;
+use App\Actions\Classroom\UpdateClassroomAction;
 use App\Models\Teacher;
 use App\Models\Classroom;
 use App\Models\AcademicYear;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Classroom\StoreClassroomRequest;
+use App\Http\Requests\Classroom\UpdateClassroomRequest;
 
 class ClassroomController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * Menampilkan daftar kelas
+     *
+     * @param Request $request
+     * @param GetClassroomsAction $action
+     */
+    public function index(Request $request, GetClassroomsAction $action)
     {
         // Ambil tahun ajaran aktif untuk default filter
-        $activeYear = AcademicYear::where('is_active', true)->first();
+        $activeYear = AcademicYear::where("is_active", true)->first();
 
         // Filter berdasarkan request user atau default ke tahun aktif
-        $selectedYearId = $request->input('academic_year_id', $activeYear ? $activeYear->id : null);
+        $selectedYearId = $request->input("academic_year_id", $activeYear?->id);
 
-        $classrooms = Classroom::with(['academicYear', 'teacher', 'students'])
-            ->when($selectedYearId, function ($query) use ($selectedYearId) {
-                return $query->where('academic_year_id', $selectedYearId);
-            })
-            ->orderBy('level')
-            ->orderBy('name')
-            ->get();
+        $classrooms = $action->execute($selectedYearId);
 
-        $years = AcademicYear::orderBy('name', 'desc')->get();
+        $years = AcademicYear::orderBy("name", "desc")->get();
         // Ambil guru yang belum jadi wali kelas (opsional, atau ambil semua guru)
-        $teachers = Teacher::orderBy('name')->get();
+        $teachers = Teacher::orderBy("name")->get();
 
-        return view('tu.classrooms.index', compact('classrooms', 'years', 'teachers', 'selectedYearId'));
+        return view(
+            "tu.classrooms.index",
+            compact("classrooms", "years", "teachers", "selectedYearId"),
+        );
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string',
-            'level' => 'required|string', // 10, 11, 12
-            'academic_year_id' => 'required|exists:academic_years,id',
-            'teacher_id' => 'nullable|exists:teachers,id',
-        ]);
-
-        Classroom::create($request->all());
-
-        return back()->with('success', 'Kelas berhasil dibuat!');
+    /**
+     * Membuat kelas baru
+     *
+     * @param StoreClassroomRequest $request
+     * @param CreateClassroomAction $action
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(
+        StoreClassroomRequest $request,
+        CreateClassroomAction $action,
+    ) {
+        $action->execute($request->validated());
+        return back()->with("success", "Kelas berhasil dibuat!");
     }
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required|string',
-            'level' => 'required|string',
-            'teacher_id' => 'nullable|exists:teachers,id',
-        ]);
+    /**
+     * Update the specified classroom.
+     *
+     * @param UpdateClassroomRequest $request
+     * @param Classroom $classroom
+     * @param UpdateClassroomAction $action
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(
+        UpdateClassroomRequest $request,
+        Classroom $classroom,
+        UpdateClassroomAction $action,
+    ) {
+        $action->execute($request->validated(), $classroom);
 
-        $classroom = Classroom::findOrFail($id);
-        $classroom->update($request->all());
-
-        return back()->with('success', 'Data kelas diperbarui!');
+        return back()->with("success", "Data kelas diperbarui!");
     }
 
-    public function destroy($id)
+    /**
+     * Hapus kelas dari database.
+     *
+     * @param Classroom $classroom
+     * @param DeleteClassroomAction $action
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Classroom $classroom, DeleteClassroomAction $action)
     {
-        Classroom::destroy($id);
-        return back()->with('success', 'Kelas dihapus!');
+        $action->execute($classroom);
+        return back()->with("success", "Kelas dihapus!");
     }
 }

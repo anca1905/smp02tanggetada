@@ -85,12 +85,12 @@
                 @csrf
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tahun (Contoh: 2026/2027)</label>
-                    <input type="text" name="name" class="w-full border-gray-300 rounded-lg" required
+                    <input type="text" name="name" class="w-full border-gray-300 rounded-lg px-4 py-2" required
                         placeholder="YYYY/YYYY">
                 </div>
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Semester</label>
-                    <select name="semester" class="w-full border-gray-300 rounded-lg">
+                    <select name="semester" class="w-full border-gray-300 rounded-lg px-4 py-2">
                         <option value="Ganjil">Ganjil</option>
                         <option value="Genap">Genap</option>
                     </select>

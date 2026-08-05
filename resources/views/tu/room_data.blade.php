@@ -5,12 +5,12 @@
 @section('content')
     <div class="h-full flex flex-col">
 
-        @if (session('success'))
+        {{-- @if (session('success'))
             <div class="mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-sm">
                 <p class="font-bold">Berhasil!</p>
                 <p>{{ session('success') }}</p>
             </div>
-        @endif
+        @endif --}}
 
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-4 p-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
