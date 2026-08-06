@@ -2,59 +2,77 @@
 
 namespace App\Http\Controllers\AdminTu;
 
+use App\Actions\Bill\DeleteBillAction;
+use App\Actions\Bill\GenerateBillsAction;
+use App\Actions\Bill\GetBillsAction;
+use App\Actions\Bill\MarkBillAsPaidAction;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Bill\GenerateBillingRequest;
 use App\Models\Bill;
-use App\Models\Student;
-use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class BillingController extends Controller
 {
-    public function index()
+    /**
+     * Menampilkan daftar seluruh tagihan siswa
+     */
+    public function index(GetBillsAction $action): View
     {
-        $bills = Bill::with('student')->latest()->get();
+        $bills = $action->execute();
+
         return view('tu.billing.index', compact('bills'));
     }
 
-    public function generate(Request $request)
-    {
-        $request->validate([
-            'month' => 'required|string',
-            'amount' => 'required|numeric|min:0',
-            'due_date' => 'required|date',
-        ]);
+    /**
+     * Membuat tagihan SPP bulanan baru secara massal ke seluruh siswa.
+     */
+    public function generate(
+        GenerateBillingRequest $request,
+        GenerateBillsAction $action,
+    ): RedirectResponse {
+        $title = $action->execute($request->validated());
 
-        $students = Student::all();
-        $title = "SPP " . $request->month;
-
-        foreach ($students as $student) {
-            Bill::create([
-                'student_id' => $student->id,
-                'title' => $title,
-                'type' => 'SPP Bulanan',
-                'amount' => $request->amount,
-                'due_date' => $request->due_date,
-                'status' => 'unpaid',
-            ]);
-        }
-
-        return redirect()->route('tu.billing.index')->with('success', 'Berhasil membuat tagihan ' . $title . ' untuk seluruh siswa.');
+        return redirect()
+            ->route('tu.billing.index')
+            ->with(
+                'success',
+                'Berhasil membuat tagihan '.$title.' untuk seluruh siswa.',
+            );
     }
 
-    public function markAsPaid($id)
-    {
-        $bill = Bill::findOrFail($id);
-        $bill->update([
-            'status' => 'paid',
-            'paid_at' => Carbon::now(),
-        ]);
+    /**
+     * Menandai bahwa tagihan sudah Lunas
+     */
+    public function markAsPaid(
+        Bill $bill,
+        MarkBillAsPaidAction $action,
+    ): RedirectResponse {
+        $paidBill = $action->execute($bill);
 
-        return redirect()->route('tu.billing.index')->with('success', 'Tagihan ' . $bill->title . ' atas nama ' . $bill->student->student_name . ' berhasil ditandai Lunas.');
+        return redirect()
+            ->route('tu.billing.index')
+            ->with(
+                'success',
+                'Tagihan '.
+                    $paidBill->title.
+                    ' atas nama '.
+                    ($paidBill->student->student_name ?? 'Siswa').
+                    ' berhasil ditandai Lunas.',
+            );
     }
 
-    public function destroy($id)
-    {
-        Bill::findOrFail($id)->delete();
-        return redirect()->route('tu.billing.index')->with('success', 'Tagihan berhasil dihapus.');
+    /**
+     * Menghapus sebuah tagihan dari basis data
+     */
+    public function destroy(
+        Bill $bill,
+        DeleteBillAction $action,
+    ): RedirectResponse {
+        $action->execute($bill);
+
+        return redirect()
+            ->route('tu.billing.index')
+            ->with('success', 'Tagihan berhasil dihapus.');
     }
 }
