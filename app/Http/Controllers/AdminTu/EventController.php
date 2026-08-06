@@ -2,40 +2,56 @@
 
 namespace App\Http\Controllers\AdminTu;
 
+use App\Actions\Event\CreateEventAction;
+use App\Actions\Event\DeleteEventAction;
+use App\Actions\Event\GetEventsAction;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Event\StoreEventRequest;
 use App\Models\Event;
+use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class EventController extends Controller
 {
-    public function index()
+    /**
+     * Menampilkan daftar agenda.
+     */
+    public function index(GetEventsAction $action): View
     {
-        $events = Event::latest()->paginate(10);
+        $events = $action->execute();
+
         return view('tu.events.index', compact('events'));
     }
 
-    public function create()
+    /**
+     * Menampilkan form tambah agenda.
+     */
+    public function create(): View
     {
         return view('tu.events.create');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|max:255',
-            'start_date' => 'required|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
-            'type' => 'required',
-        ]);
-
-        Event::create($request->all());
+    /**
+     * Menambahkan agenda baru.
+     */
+    public function store(
+        StoreEventRequest $request,
+        CreateEventAction $action
+    ): RedirectResponse {
+        $action->execute($request->validated());
 
         return redirect()->route('tu.events.index')->with('success', 'Agenda berhasil ditambahkan!');
     }
 
-    public function destroy($id)
-    {
-        Event::findOrFail($id)->delete();
+    /**
+     * Menghapus agenda.
+     */
+    public function destroy(
+        Event $event,
+        DeleteEventAction $action
+    ): RedirectResponse {
+        $action->execute($event);
+
         return back()->with('success', 'Agenda berhasil dihapus.');
     }
 }

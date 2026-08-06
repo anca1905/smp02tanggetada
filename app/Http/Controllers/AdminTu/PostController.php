@@ -2,61 +2,49 @@
 
 namespace App\Http\Controllers\AdminTu;
 
+use App\Actions\Post\CreatePostAction;
+use App\Actions\Post\DeletePostAction;
+use App\Actions\Post\GetPostsAction;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Post\StorePostRequest;
 use App\Models\Post;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class PostController extends Controller
 {
-    public function index()
+    /**
+     * Menampilkan daftar berita
+     */
+    public function index(GetPostsAction $action): View
     {
-        $posts = Post::latest()->paginate(10);
+        $posts = $action->execute();
+
         return view('tu.posts.index', compact('posts'));
     }
 
-    public function create()
-    {
-        return view('tu.posts.create');
+    /**
+     * Menerbitkan berita baru
+     */
+    public function store(
+        StorePostRequest $request,
+        CreatePostAction $action,
+    ): RedirectResponse {
+        $action->execute($request->validated(), $request->file('image'));
+
+        return redirect()
+            ->route('tu.posts.index')
+            ->with('success', 'Berita berhasil diterbitkan!');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|max:255',
-            'category' => 'required',
-            'content' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('posts', 'public');
-        }
-
-        Post::create([
-            'title' => $request->title,
-            'slug' => Str::slug($request->title),
-            'category' => $request->category,
-            'content' => $request->content,
-            'image' => $imagePath,
-            'is_published' => true
-        ]);
-
-        return redirect()->route('tu.posts.index')->with('success', 'Berita berhasil diterbitkan!');
-    }
-
-    public function destroy($id)
-    {
-        $post = Post::findOrFail($id);
-
-        if ($post->image) {
-            Storage::disk('public')->delete($post->image);
-        }
-
-        $post->delete();
+    /**
+     * Menghapus berita
+     */
+    public function destroy(
+        Post $post,
+        DeletePostAction $action,
+    ): RedirectResponse {
+        $action->execute($post);
 
         return back()->with('success', 'Berita berhasil dihapus.');
     }

@@ -2,78 +2,66 @@
 
 namespace App\Http\Controllers\AdminTu;
 
-use App\Models\Facility;
-use Illuminate\Http\Request;
+use App\Actions\Facility\CreateFacilityAction;
+use App\Actions\Facility\DeleteFacilityAction;
+use App\Actions\Facility\GetFacilitiesAction;
+use App\Actions\Facility\UpdateFacilityAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Facility\StoreFacilityRequest;
+use App\Http\Requests\Facility\UpdateFacilityRequest;
+use App\Models\Facility;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class FacilityController extends Controller
 {
-    //
-    public function index(Request $request)
+    /**
+     * Menampilkan daftar fasilitas sekolah
+     */
+    public function index(GetFacilitiesAction $action): View
     {
-        $fasilitasList = Facility::all();
+        $fasilitasList = $action->execute();
 
         return view('tu.facilities.index', compact('fasilitasList'));
     }
 
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'title' => 'required|string|max:100',
-            'image_path' => 'nullable|image|max:2048'
-        ]);
-
-        if ($request->hasFile('image_path')) {
-            $file = $request->file('image_path');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('img/facility'), $filename);
-            $data['image_path'] = 'img/facility/' . $filename;
-        }
-        ;
-
-        Facility::create($data);
+    /**
+     * Menyimpan data fasilitas baru
+     */
+    public function store(
+        StoreFacilityRequest $request,
+        CreateFacilityAction $action,
+    ): RedirectResponse {
+        $action->execute($request->validated(), $request->file('image_path'));
 
         return back()->with('success', 'Fasilitas berhasil ditambahkan!');
     }
 
-    public function update(Request $request, $id)
-    {
-        $facility = Facility::findOrFail($id);
-
-        $data = $request->validate([
-            'title' => 'required|string|max:100',
-            'image_path' => 'nullable|image|max:2048'
-        ]);
-
-        // Jika ada file gambar baru yang diupload
-        if ($request->hasFile('image_path')) {
-            // Hapus gambar lama jika ada
-            if ($facility->image_path && file_exists(public_path($facility->image_path))) {
-                unlink(public_path($facility->image_path));
-            }
-
-            // Upload gambar baru
-            $file = $request->file('image_path');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('img/facility'), $filename);
-            $data['image_path'] = 'img/facility/' . $filename;
-        }
-
-        // Update data facility
-        $facility->update($data);
+    /**
+     * Memperbarui data fasilitas yang sudah ada
+     */
+    public function update(
+        UpdateFacilityRequest $request,
+        Facility $facility,
+        UpdateFacilityAction $action,
+    ): RedirectResponse {
+        $action->execute(
+            $request->validated(),
+            $facility,
+            $request->file('image_path'),
+        );
 
         return back()->with('success', 'Fasilitas berhasil diperbarui!');
     }
 
-    public function destroy($id)
-    {
-        $facility = Facility::findOrFail($id);
-
-        if ($facility->image_path && file_exists(public_path($facility->image_path))) {
-            unlink(public_path($facility->image_path));
-        }
-
-        $facility->delete();
+    /**
+     * Menghapus data fasilitas dari database
+     */
+    public function destroy(
+        Facility $facility,
+        DeleteFacilityAction $action,
+    ): RedirectResponse {
+        $action->execute($facility);
 
         return back()->with('success', 'Data fasilitas berhasil dihapus!');
     }
