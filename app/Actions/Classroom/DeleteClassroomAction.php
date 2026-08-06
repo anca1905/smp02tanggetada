@@ -8,9 +8,6 @@ class DeleteClassroomAction
 {
     /**
      * Menghapus kelas dari database.
-     *
-     * @param Classroom $classroom
-     * @return void
      */
     public function execute(Classroom $classroom): void
     {

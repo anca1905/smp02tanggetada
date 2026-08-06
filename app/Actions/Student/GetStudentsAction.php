@@ -15,24 +15,24 @@ class GetStudentsAction
         ?string $filterClass,
         int $paginator = 10,
     ): LengthAwarePaginator {
-        $query = Student::with("classroom");
+        $query = Student::with('classroom');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where("student_name", "like", "%{$search}%")
-                    ->orWhere("nis", "like", "%{$search}%")
-                    ->orWhereHas("classroom", function ($qc) use ($search) {
-                        $qc->where("name", "like", "%{$search}%");
+                $q->where('student_name', 'like', "%{$search}%")
+                    ->orWhere('nis', 'like', "%{$search}%")
+                    ->orWhereHas('classroom', function ($qc) use ($search) {
+                        $qc->where('name', 'like', "%{$search}%");
                     });
             });
         }
 
         if ($filterClass) {
-            $query->where("classroom_id", $filterClass);
+            $query->where('classroom_id', $filterClass);
         }
 
         return $query
-            ->orderBy("student_name", "asc")
+            ->orderBy('student_name', 'asc')
             ->paginate($paginator)
             ->withQueryString();
     }

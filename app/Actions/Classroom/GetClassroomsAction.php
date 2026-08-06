@@ -8,19 +8,10 @@ use Illuminate\Database\Eloquent\Collection;
 class GetClassroomsAction
 {
     /**
-     * Mengambil daftar kelas dengan relasi dan
-     * dan filter tahun ajaran.
-     * @param string|null $selectedYearId
-     * @return Collection
+     * Mengambil daftar semua kelas.
      */
-    public function execute(?string $selectedYearId): Collection
+    public function execute(): Collection
     {
-        return Classroom::with(["academicYear", "teacher", "students"])
-            ->when($selectedYearId, function ($query) use ($selectedYearId) {
-                return $query->where("academic_year_id", $selectedYearId);
-            })
-            ->orderBy("level")
-            ->orderBy("name")
-            ->get();
+        return Classroom::all();
     }
 }

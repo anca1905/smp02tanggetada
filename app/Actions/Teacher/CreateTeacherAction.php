@@ -10,21 +10,17 @@ class CreateTeacherAction
 {
     /**
      * Membuat data guru baru
-     *
-     * @param array $data
-     * @param ?UploadedFile $photoFile
-     * @return Teacher
      */
     public function execute(array $data, ?UploadedFile $photoFile): Teacher
     {
-        if (isset($data["password"])) {
-            $data["password"] = Hash::make($data["password"]);
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
         }
 
         if ($photoFile && $photoFile->isValid()) {
-            $filename = time() . "_" . $photoFile->getClientOriginalName();
-            $photoFile->move(public_path("img/teacher-photo"), $filename);
-            $data["photo_url"] = "img/teacher-photo/" . $filename;
+            $filename = time().'_'.$photoFile->getClientOriginalName();
+            $photoFile->move(public_path('img/teacher-photo'), $filename);
+            $data['photo_url'] = 'img/teacher-photo/'.$filename;
         }
 
         return Teacher::create($data);

@@ -10,9 +10,8 @@ class GetTeachersAction
     /**
      * Mengambil daftar guru dengan pagination dan filter pencarian
      *
-     * @param string|null $search Kata kunci pencarian
-     * @param int $perPage Jumlah item per halaman
-     * @return LengthAwarePaginator
+     * @param  string|null  $search  Kata kunci pencarian
+     * @param  int  $perPage  Jumlah item per halaman
      */
     public function execute(
         ?string $search,
@@ -22,14 +21,14 @@ class GetTeachersAction
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where("name", "like", "%{$search}%")
-                    ->orWhere("username", "like", "%{$search}%")
-                    ->orWhere("employee_id", "like", "%{$search}%");
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('username', 'like', "%{$search}%")
+                    ->orWhere('employee_id', 'like', "%{$search}%");
             });
         }
 
         return $query
-            ->orderBy("name", "asc")
+            ->orderBy('name', 'asc')
             ->paginate($perPage)
             ->withQueryString();
     }

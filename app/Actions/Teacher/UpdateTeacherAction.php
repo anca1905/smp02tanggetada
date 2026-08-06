@@ -17,10 +17,10 @@ class UpdateTeacherAction
         Teacher $teacher,
     ): Teacher {
         // Mengecek apakah password diubah dan di HASH jika ada
-        if (!empty($data["password"])) {
-            $data["password"] = Hash::make($data["password"]);
+        if (! empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
         } else {
-            unset($data["password"]);
+            unset($data['password']);
         }
 
         // Mengecek apakah ada foto yang diunggah dan memindahkan jika ada
@@ -32,12 +32,13 @@ class UpdateTeacherAction
                 unlink(public_path($teacher->photo_url));
             }
 
-            $filename = time() . "_" . $photoFile->getClientOriginalName();
-            $photoFile->move(public_path("img/teacher-photo"), $filename);
-            $data["photo_url"] = "img/teacher-photo/" . $filename;
+            $filename = time().'_'.$photoFile->getClientOriginalName();
+            $photoFile->move(public_path('img/teacher-photo'), $filename);
+            $data['photo_url'] = 'img/teacher-photo/'.$filename;
         }
 
         $teacher->update($data);
+
         return $teacher;
     }
 }

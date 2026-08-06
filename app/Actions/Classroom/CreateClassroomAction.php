@@ -8,9 +8,6 @@ class CreateClassroomAction
 {
     /**
      * Membuat kelas baru
-     *
-     * @param array $data
-     * @return Classroom
      */
     public function execute(array $data): Classroom
     {

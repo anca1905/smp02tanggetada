@@ -8,9 +8,6 @@ class DeleteTeacherAction
 {
     /**
      * Menghapus data guru yang sudah ada
-     *
-     * @param Teacher $teacher
-     * @return void
      */
     public function execute(Teacher $teacher): void
     {

@@ -2,62 +2,41 @@
 
 namespace App\Http\Controllers\AdminTu;
 
+use App\Actions\Classroom\GetClassroomsAction;
+use App\Actions\Recap\GetStudentRecapAction;
+use App\Actions\Recap\GetTeacherRecapAction;
 use App\Http\Controllers\Controller;
-use App\Models\StudentAttendance;
-use App\Models\Teacher_absence;
-use Illuminate\Http\Request;
+use App\Http\Requests\Recap\GetRecapRequest;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class RecapController extends Controller
 {
-    public function index(Request $request)
-    {
-        $kategori = $request->get('kategori', 'teacher');
-        $bulan = $request->get('bulan', Carbon::now()->month);
+    /**
+     * Menampilkan rekap kehadiran guru atau siswa.
+     */
+    public function index(
+        GetRecapRequest $request,
+        GetTeacherRecapAction $teacherAction,
+        GetStudentRecapAction $studentAction,
+        GetClassroomsAction $classroomAction
+    ): View {
+        // Ambil filter, terapkan nilai default jika kosong
+        $kategori = $request->validated('kategori', 'teacher');
+        $bulan = (int) $request->validated('bulan', Carbon::now()->month);
         $tahun = Carbon::now()->year;
-        $search = $request->get('search');
+        $search = $request->validated('search');
+        $classId = $request->validated('class');
 
-        $data = [];
-
-        if ($kategori == 'teacher') {
-            $query = Teacher_absence::with('teacher')
-                ->whereMonth('date', $bulan)
-                ->whereYear('date', $tahun);
-
-            if ($search) {
-                $query->whereHas('teacher', function ($q) use ($search) {
-                    $q->where('name', 'like', "%{$search}%");
-                });
-            }
-
-            $data = $query->orderBy('date', 'desc')->paginate(10);
+        // Arahkan ke action spesifik berdasarkan kategori
+        if ($kategori === 'teacher') {
+            $data = $teacherAction->execute($bulan, $tahun, $search);
         } else {
-            $query = StudentAttendance::with(['student', 'attendance'])
-                ->whereHas('attendance', function ($q) use ($bulan, $tahun) {
-                    $q->whereMonth('date', $bulan)
-                        ->whereYear('date', $tahun);
-                });
-
-            if ($search) {
-                $query->whereHas('student', function ($q) use ($search) {
-                    $q->where('student_name', 'like', "%{$search}%")
-                        ->orWhereHas('classroom', function ($qc) use ($search) {
-                            $qc->where('name', 'like', "%{$search}%");
-                        });
-                });
-            }
-
-            if ($request->has('class') && $request->class != '') {
-                $query->whereHas('student', function ($q) use ($request) {
-                    $q->where('classroom_id', $request->class);
-                });
-            }
-
-            $data = $query->paginate(10);
+            $data = $studentAction->execute($bulan, $tahun, $search, $classId);
         }
 
-        $classrooms = \App\Models\Classroom::all();
+        $classrooms = $classroomAction->execute();
+
         return view('tu.absenteeism_recap', compact('data', 'kategori', 'bulan', 'classrooms'));
     }
 }
