@@ -2,71 +2,48 @@
 
 namespace App\Http\Controllers\AdminTu;
 
-use App\Models\Ppdb;
-use App\Models\Setting;
-use Illuminate\Http\Request;
+use App\Actions\Ppdb\DeletePpdbAction;
+use App\Actions\Ppdb\GetPpdbIndexDataAction;
+use App\Actions\Ppdb\TogglePpdbStatusAction;
+use App\Actions\Ppdb\UpdatePpdbStatusAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Ppdb\UpdatePpdbStatusRequest;
+use App\Models\Ppdb;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class PpdbController extends Controller
 {
     /**
      * Tampilkan halaman manajemen PPDB.
      */
-    public function index(Request $request)
+    public function index(Request $request, GetPpdbIndexDataAction $action): View
     {
-        $query = Ppdb::orderBy('tanggal_daftar', 'desc');
+        $data = $action->execute(
+            $request->input('jurusan'),
+            $request->input('status'),
+            $request->input('search'),
+        );
 
-        // Filter jurusan
-        if ($request->filled('jurusan')) {
-            $query->where('jurusan_pilihan', $request->jurusan);
-        }
-
-        // Filter status
-        if ($request->filled('status')) {
-            $query->where('status_pendaftaran', $request->status);
-        }
-
-        // Pencarian nama / no_registrasi
-        if ($request->filled('search')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('nama_lengkap', 'like', '%' . $request->search . '%')
-                  ->orWhere('no_registrasi', 'like', '%' . $request->search . '%')
-                  ->orWhere('nisn', 'like', '%' . $request->search . '%');
-            });
-        }
-
-        $pendaftars = $query->paginate(15)->withQueryString();
-
-        // Statistik
-        $stats = [
-            'total'    => Ppdb::count(),
-            'pending'  => Ppdb::where('status_pendaftaran', 'Pending')->count(),
-            'accepted' => Ppdb::where('status_pendaftaran', 'Accepted')->count(),
-            'rejected' => Ppdb::where('status_pendaftaran', 'Rejected')->count(),
-        ];
-
-        // Status PPDB (buka/tutup) dari settings
-        $bukaPpdb = Setting::where('key', 'buka_ppdb')->value('value') ?? '1';
-
-        return view('tu.ppdb.index', compact('pendaftars', 'stats', 'bukaPpdb'));
+        return view('tu.ppdb.index', $data);
     }
 
     /**
      * Update status pendaftaran (Accepted / Rejected / Pending).
      */
-    public function updateStatus(Request $request, $id)
-    {
-        $request->validate([
-            'status_pendaftaran' => 'required|in:Pending,Accepted,Rejected',
-        ]);
+    public function updateStatus(
+        UpdatePpdbStatusRequest $request,
+        Ppdb $ppdb,
+        UpdatePpdbStatusAction $action,
+    ): RedirectResponse {
+        $status = $request->validated()['status_pendaftaran'];
+        $action->execute($ppdb, $status);
 
-        $ppdb = Ppdb::findOrFail($id);
-        $ppdb->update(['status_pendaftaran' => $request->status_pendaftaran]);
-
-        $label = match ($request->status_pendaftaran) {
+        $label = match ($status) {
             'Accepted' => 'Diterima',
             'Rejected' => 'Ditolak',
-            default    => 'Pending',
+            default => 'Pending',
         };
 
         return back()->with('success', "Status pendaftar {$ppdb->nama_lengkap} berhasil diubah menjadi {$label}.");
@@ -75,11 +52,9 @@ class PpdbController extends Controller
     /**
      * Hapus data pendaftar.
      */
-    public function destroy($id)
+    public function destroy(Ppdb $ppdb, DeletePpdbAction $action): RedirectResponse
     {
-        $ppdb = Ppdb::findOrFail($id);
-        $nama = $ppdb->nama_lengkap;
-        $ppdb->delete();
+        $nama = $action->execute($ppdb);
 
         return back()->with('success', "Data pendaftar {$nama} berhasil dihapus.");
     }
@@ -87,17 +62,12 @@ class PpdbController extends Controller
     /**
      * Toggle status buka/tutup PPDB.
      */
-    public function toggleStatus(Request $request)
+    public function toggleStatus(TogglePpdbStatusAction $action): RedirectResponse
     {
-        $current = Setting::where('key', 'buka_ppdb')->value('value') ?? '1';
-        $new = $current === '1' ? '0' : '1';
+        $newStatus = $action->execute();
 
-        Setting::updateOrCreate(
-            ['key' => 'buka_ppdb'],
-            ['value' => $new]
-        );
+        $msg = $newStatus === '1' ? 'PPDB sekarang dibuka untuk umum.' : 'PPDB sekarang ditutup.';
 
-        $msg = $new === '1' ? 'PPDB sekarang dibuka untuk umum.' : 'PPDB sekarang ditutup.';
         return back()->with('success', $msg);
     }
 }

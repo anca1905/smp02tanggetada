@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Borrowing_a_room;
+use App\Models\RoomBorrowing;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -30,11 +30,11 @@ class UpdateBorrowingStatus extends Command
         $now = Carbon::now();
 
         // Cari peminjaman yang masih 'upcoming' tapi waktu selesainya sudah lewat
-        $borrowings = Borrowing_a_room::all();
+        $borrowings = RoomBorrowing::all();
 
         foreach ($borrowings as $borrowing) {
-            $start = Carbon::parse($borrowing->borrow_date . ' ' . $borrowing->start_time);
-            $end = Carbon::parse($borrowing->borrow_date . ' ' . $borrowing->end_time);
+            $start = Carbon::parse($borrowing->borrow_date.' '.$borrowing->start_time);
+            $end = Carbon::parse($borrowing->borrow_date.' '.$borrowing->end_time);
 
             $newStatus = $borrowing->status;
 

@@ -257,11 +257,11 @@ Route::middleware(['auth:operator'])
                 Route::get('/', [PpdbController::class, 'index'])->name(
                     'index',
                 );
-                Route::post('/{id}/status', [
+                Route::post('/{ppdb}/status', [
                     PpdbController::class,
                     'updateStatus',
                 ])->name('updateStatus');
-                Route::delete('/{id}', [
+                Route::delete('/{ppdb}', [
                     PpdbController::class,
                     'destroy',
                 ])->name('destroy');
