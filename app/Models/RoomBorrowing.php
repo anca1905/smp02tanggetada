@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RoomBorrowing extends Model
 {
+    use HasFactory;
     protected $table = 'room_borrowings';
 
     protected $primaryKey = 'borrowing_id';
