@@ -2,160 +2,120 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
-use App\Models\Facility;
-use App\Models\Message;
-use App\Models\Post;
-use App\Models\Ppdb;
-use App\Models\Setting;
-use App\Models\Student;
-use App\Models\Teacher;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Actions\Public\CheckPpdbStatusAction;
+use App\Actions\Public\GetCalendarEventsAction;
+use App\Actions\Public\GetLandingPageDataAction;
+use App\Actions\Public\GetNewsDetailAction;
+use App\Actions\Public\GetNewsListAction;
+use App\Actions\Public\GetProfileDataAction;
+use App\Actions\Public\ProcessPpdbRegistrationAction;
+use App\Actions\Public\StoreContactMessageAction;
+use App\Http\Requests\Public\StoreContactMessageRequest;
+use App\Http\Requests\Public\StorePpdbRegistrationRequest;
 
 class PublicController extends Controller
 {
-    public function home()
+    public function home(GetLandingPageDataAction $action)
     {
-        $latest_posts = Post::where('is_published', true)->latest()->take(3)->get();
-        $staff = Teacher::where('status', 'Active')->count();
-        $student = Student::where('student_status', 'Active')->count();
+        $data = $action->execute();
 
-        return view('landing', compact('latest_posts', 'staff', 'student'));
+        return view("landing", $data);
     }
 
-    public function profil()
+    public function profil(GetProfileDataAction $action)
     {
-        $facility = Facility::all();
+        $data = $action->execute();
 
-        return view('public.profile', compact('facility'));
+        return view("public.profile", $data);
     }
 
-    public function berita()
+    public function berita(GetNewsListAction $action)
     {
-        $posts = Post::where('is_published', true)->latest()->paginate(9);
+        $posts = $action->execute();
 
-        return view('public.news.news', compact('posts'));
+        return view("public.news.news", compact("posts"));
     }
 
-    public function showBerita($slug)
+    public function showBerita(string $slug, GetNewsDetailAction $action)
     {
-        $post = Post::where('slug', $slug)->where('is_published', true)->firstOrFail();
-        $recent_posts = Post::where('is_published', true)
-            ->where('id', '!=', $post->id)
-            ->latest()
-            ->take(5)
-            ->get();
+        $data = $action->execute($slug);
 
-        return view('public.news.news-show', compact('post', 'recent_posts'));
+        return view("public.news.news-show", $data);
     }
 
     public function kontak()
     {
-        return view('public.contact');
+        return view("public.contact");
     }
 
     public function jadwal()
     {
-        return view('public.timetable');
+        return view("public.timetable");
     }
 
-    public function kalender()
+    public function kalender(GetCalendarEventsAction $action)
     {
-        $events = Event::orderBy('start_date', 'asc')->get();
+        $eventsByMonth = $action->execute();
 
-        $eventsByMonth = $events->groupBy(function ($date) {
-            return Carbon::parse($date->start_date)->isoFormat('MMMM Y');
-        });
-
-        return view('public.calender', compact('eventsByMonth'));
+        return view("public.calender", compact("eventsByMonth"));
     }
 
-    public function storeContact(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string',
-        ]);
+    public function storeContact(
+        StoreContactMessageRequest $request,
+        StoreContactMessageAction $action,
+    ) {
+        $action->execute($request->validated());
 
-        Message::create($request->all());
-
-        return back()->with('success', 'Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda.');
+        return back()->with(
+            "success",
+            "Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda.",
+        );
     }
 
     /**
      * Tampilkan halaman pembuka PPDB.
      */
-    public function ppdb()
+    public function ppdb(CheckPpdbStatusAction $action)
     {
-        $bukaPpdb = Setting::where('key', 'buka_ppdb')->value('value') ?? '1';
-
-        if ($bukaPpdb !== '1') {
-            return view('public.ppdb-closed');
+        if (!$action->execute()) {
+            return view("public.ppdb-closed");
         }
 
-        return view('public.ppdb');
+        return view("public.ppdb");
     }
 
     /**
      * Tampilkan formulir pendaftaran PPDB.
      */
-    public function ppdbForm()
+    public function ppdbForm(CheckPpdbStatusAction $action)
     {
-        $bukaPpdb = Setting::where('key', 'buka_ppdb')->value('value') ?? '1';
-
-        if ($bukaPpdb !== '1') {
-            return view('public.ppdb-closed');
+        if (!$action->execute()) {
+            return view("public.ppdb-closed");
         }
 
-        return view('public.ppdb-form');
+        return view("public.ppdb-form");
     }
 
     /**
      * Simpan data pendaftar PPDB.
      */
-    public function storePpdb(Request $request)
-    {
-        $bukaPpdb = Setting::where('key', 'buka_ppdb')->value('value') ?? '1';
-        if ($bukaPpdb !== '1') {
-            return back()->with('error', 'Pendaftaran PPDB saat ini sedang ditutup.');
+    public function storePpdb(
+        StorePpdbRegistrationRequest $request,
+        CheckPpdbStatusAction $checkPpdbStatusAction,
+        ProcessPpdbRegistrationAction $action,
+    ) {
+        if (!$checkPpdbStatusAction->execute()) {
+            return back()->with(
+                "error",
+                "Pendaftaran PPDB saat ini sedang ditutup.",
+            );
         }
 
-        $request->validate([
-            'nama_lengkap' => 'required|string|max:100',
-            'nisn' => 'required|string|max:20',
-            'nik' => 'required|string|max:20',
-            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'jurusan' => 'required|string|max:20',
-            'no_hp' => 'required|string|max:20',
-            'asal_sekolah' => 'required|string|max:100',
-        ]);
+        $noReg = $action->execute($request->validated());
 
-        // Generate No Registrasi unik: REG-YYYY-XXXX
-        $lastId = Ppdb::max('id') ?? 0;
-        $noReg = 'REG-'.date('Y').'-'.str_pad($lastId + 1, 4, '0', STR_PAD_LEFT);
-
-        Ppdb::create([
-            'no_registrasi' => $noReg,
-            'nama_lengkap' => strtoupper($request->nama_lengkap),
-            'nisn' => $request->nisn,
-            'nik' => $request->nik,
-            'jenis_kelamin' => $request->jenis_kelamin === 'Laki-laki' ? 'L' : 'P',
-            'tempat_lahir' => strtoupper($request->tempat_lahir ?? ''),
-            'tanggal_lahir' => $request->tanggal_lahir ?: null,
-            'alamat' => strtoupper($request->alamat ?? ''),
-            'asal_sekolah' => strtoupper($request->asal_sekolah),
-            'tahun_lulus' => $request->tahun_lulus ?: date('Y'),
-            'nama_ayah' => strtoupper($request->nama_ayah ?? ''),
-            'nama_ibu' => strtoupper($request->nama_ibu ?? ''),
-            'no_hp' => $request->no_hp,
-            'jurusan_pilihan' => $request->jurusan,
-            'status_pendaftaran' => 'Pending',
-            'tanggal_daftar' => now(),
-        ]);
-
-        return back()->with('success', "Pendaftaran berhasil! Nomor Registrasi Anda: {$noReg}. Simpan nomor ini untuk keperluan verifikasi.");
+        return back()->with(
+            "success",
+            "Pendaftaran berhasil! Nomor Registrasi Anda: {$noReg}. Simpan nomor ini untuk keperluan verifikasi.",
+        );
     }
 }
