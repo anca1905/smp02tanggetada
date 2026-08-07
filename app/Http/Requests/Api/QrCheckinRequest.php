@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Override;
 
-class WebLoginRequest extends FormRequest
+class QrCheckinRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,19 +23,21 @@ class WebLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "username" => "required",
-            "password" => "required",
-            "role_type" => "required|in:operator,teacher",
+            "qr_token" => "required|string",
         ];
     }
 
+    /**
+     * Get the validation error messages.
+     *
+     * @return array<string, string>
+     */
+    #[Override]
     public function messages()
     {
         return [
-            "username.required" => "Username harus diisi.",
-            "password.required" => "Password harus diisi.",
-            "role_type.required" => "Role type harus diisi.",
-            "role_type.in" => "Role type tidak valid.",
+            "qr_token.required" => "QR Code harus diisi.",
+            "qr_token.string" => "QR Code harus berupa string/karakter.",
         ];
     }
 }

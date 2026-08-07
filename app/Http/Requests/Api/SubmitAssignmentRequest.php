@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Override;
 
-class WebLoginRequest extends FormRequest
+class SubmitAssignmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,19 +23,20 @@ class WebLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "username" => "required",
-            "password" => "required",
-            "role_type" => "required|in:operator,teacher",
+            "file" => "required|file|max:10240", // max 10MB
+            "student_note" => "nullable|string",
         ];
     }
 
+    #[Override]
     public function messages()
     {
         return [
-            "username.required" => "Username harus diisi.",
-            "password.required" => "Password harus diisi.",
-            "role_type.required" => "Role type harus diisi.",
-            "role_type.in" => "Role type tidak valid.",
+            "file.required" => "File harus diisi.",
+            "file.file" => "File harus berupa file.",
+            "file.max" => "File tidak boleh lebih dari 10MB.",
+            "student_note.string" =>
+                "Catatan siswa harus berupa string/karakter.",
         ];
     }
 }

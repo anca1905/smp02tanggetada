@@ -2,96 +2,35 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Api\Auth\ApiLogoutAction;
+use App\Actions\Api\Auth\ParentLoginAction;
+use App\Actions\Api\Auth\StudentLoginAction;
 use App\Http\Controllers\Controller;
-use App\Models\Student;
+use App\Http\Requests\Api\StudentLoginRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class StudentAuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(StudentLoginRequest $request, StudentLoginAction $action)
     {
-        $validator = Validator::make($request->all(), [
-            'nis' => 'required|string',
-            'password' => 'required|string',
-        ]);
+        $result = $action->execute($request->nis, $request->password);
+        $status = $result['status_code'] ?? 200;
+        unset($result['status_code']);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation Error',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $student = Student::where('nis', $request->nis)->first();
-
-        if (! $student || ! Hash::check($request->password, $student->password)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'NIS atau Password salah',
-            ], 401);
-        }
-
-        // Create token
-        $token = $student->createToken('student_mobile_token')->plainTextToken;
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Login berhasil',
-            'data' => [
-                'student' => $student,
-                'token' => $token,
-            ],
-        ], 200);
+        return response()->json($result, $status);
     }
 
-    public function parentLogin(Request $request)
+    public function parentLogin(StudentLoginRequest $request, ParentLoginAction $action)
     {
-        $validator = Validator::make($request->all(), [
-            'nis' => 'required|string',
-            'password' => 'required|string',
-        ]);
+        $result = $action->execute($request->nis, $request->password);
+        $status = $result['status_code'] ?? 200;
+        unset($result['status_code']);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation Error',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $student = Student::where('nis', $request->nis)->first();
-
-        if (! $student || ! $student->parent_password || ! Hash::check($request->password, $student->parent_password)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'NIS atau Password Orang Tua salah',
-            ], 401);
-        }
-
-        // Create token
-        $token = $student->createToken('parent_mobile_token')->plainTextToken;
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Login Orang Tua berhasil',
-            'data' => [
-                'student' => $student,
-                'token' => $token,
-                'is_parent' => true,
-            ],
-        ], 200);
+        return response()->json($result, $status);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request, ApiLogoutAction $action)
     {
-        $request->user()->currentAccessToken()->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Logout berhasil',
-        ], 200);
+        return response()->json($action->execute($request), 200);
     }
 }
