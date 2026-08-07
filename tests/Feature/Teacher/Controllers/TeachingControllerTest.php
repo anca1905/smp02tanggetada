@@ -2,13 +2,12 @@
 
 namespace Tests\Feature\Teacher\Controllers;
 
-use Tests\TestCase;
-use App\Models\Teacher;
 use App\Models\Schedule;
-use App\Models\AcademicYear;
+use App\Models\Teacher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class TeachingControllerTest extends TestCase
 {
@@ -24,11 +23,11 @@ class TeachingControllerTest extends TestCase
     {
         $teacher1 = Teacher::factory()->create();
         $teacher2 = Teacher::factory()->create();
-        
+
         $schedule = Schedule::factory()->create(['teacher_id' => $teacher2->id]);
 
         $response = $this->actingAs($teacher1, 'teacher')
-                         ->get(route('teacher.lms.show', $schedule->id));
+            ->get(route('teacher.lms.show', $schedule->id));
 
         $response->assertStatus(403);
     }
@@ -37,17 +36,17 @@ class TeachingControllerTest extends TestCase
     {
         $teacher = Teacher::factory()->create();
         $schedule = Schedule::factory()->create(['teacher_id' => $teacher->id]);
-        
+
         // Buat file PDF palsu sebesar 15MB (limit 10MB)
-        $largeFile = UploadedFile::fake()->create('large.pdf', 15360); 
+        $largeFile = UploadedFile::fake()->create('large.pdf', 15360);
 
         $response = $this->actingAs($teacher, 'teacher')
-                         ->post(route('teacher.lms.material.store'), [
-                             'schedule_id' => $schedule->id,
-                             'title' => 'Materi Besar',
-                             'type' => 'pdf',
-                             'file' => $largeFile
-                         ]);
+            ->post(route('teacher.lms.material.store'), [
+                'schedule_id' => $schedule->id,
+                'title' => 'Materi Besar',
+                'type' => 'pdf',
+                'file' => $largeFile,
+            ]);
 
         $response->assertSessionHasErrors(['file']);
     }

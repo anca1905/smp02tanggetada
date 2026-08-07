@@ -9,10 +9,6 @@ class StoreMaterialAction
 {
     /**
      * Store course material
-     *
-     * @param array $data
-     * @param UploadedFile|null $file
-     * @return Material
      */
     public function execute(array $data, ?UploadedFile $file): Material
     {

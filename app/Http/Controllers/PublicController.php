@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Facility;
-use Carbon\Carbon;
-use App\Models\Post;
 use App\Models\Event;
+use App\Models\Facility;
 use App\Models\Message;
-use App\Models\Student;
-use App\Models\Teacher;
+use App\Models\Post;
 use App\Models\Ppdb;
 use App\Models\Setting;
+use App\Models\Student;
+use App\Models\Teacher;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
@@ -20,6 +20,7 @@ class PublicController extends Controller
         $latest_posts = Post::where('is_published', true)->latest()->take(3)->get();
         $staff = Teacher::where('status', 'Active')->count();
         $student = Student::where('student_status', 'Active')->count();
+
         return view('landing', compact('latest_posts', 'staff', 'student'));
     }
 
@@ -33,6 +34,7 @@ class PublicController extends Controller
     public function berita()
     {
         $posts = Post::where('is_published', true)->latest()->paginate(9);
+
         return view('public.news.news', compact('posts'));
     }
 
@@ -123,35 +125,35 @@ class PublicController extends Controller
 
         $request->validate([
             'nama_lengkap' => 'required|string|max:100',
-            'nisn'         => 'required|string|max:20',
-            'nik'          => 'required|string|max:20',
-            'jenis_kelamin'=> 'required|in:Laki-laki,Perempuan',
-            'jurusan'      => 'required|string|max:20',
-            'no_hp'        => 'required|string|max:20',
+            'nisn' => 'required|string|max:20',
+            'nik' => 'required|string|max:20',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'jurusan' => 'required|string|max:20',
+            'no_hp' => 'required|string|max:20',
             'asal_sekolah' => 'required|string|max:100',
         ]);
 
         // Generate No Registrasi unik: REG-YYYY-XXXX
         $lastId = Ppdb::max('id') ?? 0;
-        $noReg  = 'REG-' . date('Y') . '-' . str_pad($lastId + 1, 4, '0', STR_PAD_LEFT);
+        $noReg = 'REG-'.date('Y').'-'.str_pad($lastId + 1, 4, '0', STR_PAD_LEFT);
 
         Ppdb::create([
-            'no_registrasi'     => $noReg,
-            'nama_lengkap'      => strtoupper($request->nama_lengkap),
-            'nisn'              => $request->nisn,
-            'nik'               => $request->nik,
-            'jenis_kelamin'     => $request->jenis_kelamin === 'Laki-laki' ? 'L' : 'P',
-            'tempat_lahir'      => strtoupper($request->tempat_lahir ?? ''),
-            'tanggal_lahir'     => $request->tanggal_lahir ?: null,
-            'alamat'            => strtoupper($request->alamat ?? ''),
-            'asal_sekolah'      => strtoupper($request->asal_sekolah),
-            'tahun_lulus'       => $request->tahun_lulus ?: date('Y'),
-            'nama_ayah'         => strtoupper($request->nama_ayah ?? ''),
-            'nama_ibu'          => strtoupper($request->nama_ibu ?? ''),
-            'no_hp'             => $request->no_hp,
-            'jurusan_pilihan'   => $request->jurusan,
-            'status_pendaftaran'=> 'Pending',
-            'tanggal_daftar'    => now(),
+            'no_registrasi' => $noReg,
+            'nama_lengkap' => strtoupper($request->nama_lengkap),
+            'nisn' => $request->nisn,
+            'nik' => $request->nik,
+            'jenis_kelamin' => $request->jenis_kelamin === 'Laki-laki' ? 'L' : 'P',
+            'tempat_lahir' => strtoupper($request->tempat_lahir ?? ''),
+            'tanggal_lahir' => $request->tanggal_lahir ?: null,
+            'alamat' => strtoupper($request->alamat ?? ''),
+            'asal_sekolah' => strtoupper($request->asal_sekolah),
+            'tahun_lulus' => $request->tahun_lulus ?: date('Y'),
+            'nama_ayah' => strtoupper($request->nama_ayah ?? ''),
+            'nama_ibu' => strtoupper($request->nama_ibu ?? ''),
+            'no_hp' => $request->no_hp,
+            'jurusan_pilihan' => $request->jurusan,
+            'status_pendaftaran' => 'Pending',
+            'tanggal_daftar' => now(),
         ]);
 
         return back()->with('success', "Pendaftaran berhasil! Nomor Registrasi Anda: {$noReg}. Simpan nomor ini untuk keperluan verifikasi.");

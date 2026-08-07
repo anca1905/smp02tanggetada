@@ -2,12 +2,11 @@
 
 namespace Tests\Unit\Teacher\Actions\Promotion;
 
-use Tests\TestCase;
-use App\Models\Teacher;
+use App\Actions\Teacher\Promotion\ProcessStudentPromotionAction;
 use App\Models\Classroom;
 use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Actions\Teacher\Promotion\ProcessStudentPromotionAction;
+use Tests\TestCase;
 
 class ProcessStudentPromotionActionTest extends TestCase
 {
@@ -17,18 +16,18 @@ class ProcessStudentPromotionActionTest extends TestCase
     {
         $oldClass = Classroom::factory()->create(['name' => '10A']);
         $newClass = Classroom::factory()->create(['name' => '11A']);
-        
+
         $student1 = Student::factory()->create(['nis' => '120001', 'classroom_id' => $oldClass->id]);
         $student2 = Student::factory()->create(['nis' => '120002', 'classroom_id' => $oldClass->id]);
 
-        $action = new ProcessStudentPromotionAction();
-        
+        $action = new ProcessStudentPromotionAction;
+
         $data = [
             'next_classroom_id' => $newClass->id,
             'action' => [
                 '120001' => 'Naik',
-                '120002' => 'Tinggal'
-            ]
+                '120002' => 'Tinggal',
+            ],
         ];
 
         $action->execute($data);

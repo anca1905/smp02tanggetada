@@ -1,6 +1,6 @@
 <?php
-$pageTitle = "Data Mata Pelajaran";
-$pageHeader = "Kurikulum & Mata Pelajaran";
+$pageTitle = 'Data Mata Pelajaran';
+$pageHeader = 'Kurikulum & Mata Pelajaran';
 include 'includes/header.php';
 ?>
 

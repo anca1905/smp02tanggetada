@@ -2,11 +2,10 @@
 
 namespace Tests\Unit\AdminTu\Actions\Borrowing;
 
-use Tests\TestCase;
-use App\Models\RoomBorrowing;
-use App\Models\Room;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Actions\Borrowing\UpdateBorrowingAction;
+use App\Models\RoomBorrowing;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ProcessRoomBorrowingActionTest extends TestCase
 {
@@ -16,10 +15,10 @@ class ProcessRoomBorrowingActionTest extends TestCase
     {
         $borrowing = RoomBorrowing::factory()->create(['status' => 'upcoming']);
 
-        $action = new UpdateBorrowingAction();
-        
+        $action = new UpdateBorrowingAction;
+
         $action->execute([
-            'status' => 'ongoing'
+            'status' => 'ongoing',
         ], $borrowing);
 
         $this->assertEquals('ongoing', $borrowing->fresh()->status);

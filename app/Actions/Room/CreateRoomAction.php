@@ -8,9 +8,6 @@ class CreateRoomAction
 {
     /**
      * Membuat room baru
-     *
-     * @param array $room
-     * @return Room
      */
     public function execute(array $room): Room
     {

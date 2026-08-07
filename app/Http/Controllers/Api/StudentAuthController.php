@@ -21,16 +21,16 @@ class StudentAuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation Error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $student = Student::where('nis', $request->nis)->first();
 
-        if (!$student || !Hash::check($request->password, $student->password)) {
+        if (! $student || ! Hash::check($request->password, $student->password)) {
             return response()->json([
                 'success' => false,
-                'message' => 'NIS atau Password salah'
+                'message' => 'NIS atau Password salah',
             ], 401);
         }
 
@@ -42,8 +42,8 @@ class StudentAuthController extends Controller
             'message' => 'Login berhasil',
             'data' => [
                 'student' => $student,
-                'token' => $token
-            ]
+                'token' => $token,
+            ],
         ], 200);
     }
 
@@ -58,16 +58,16 @@ class StudentAuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation Error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
         $student = Student::where('nis', $request->nis)->first();
 
-        if (!$student || !$student->parent_password || !Hash::check($request->password, $student->parent_password)) {
+        if (! $student || ! $student->parent_password || ! Hash::check($request->password, $student->parent_password)) {
             return response()->json([
                 'success' => false,
-                'message' => 'NIS atau Password Orang Tua salah'
+                'message' => 'NIS atau Password Orang Tua salah',
             ], 401);
         }
 
@@ -80,8 +80,8 @@ class StudentAuthController extends Controller
             'data' => [
                 'student' => $student,
                 'token' => $token,
-                'is_parent' => true
-            ]
+                'is_parent' => true,
+            ],
         ], 200);
     }
 
@@ -91,7 +91,7 @@ class StudentAuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Logout berhasil'
+            'message' => 'Logout berhasil',
         ], 200);
     }
 }

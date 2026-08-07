@@ -3,29 +3,32 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Bill;
+use Illuminate\Http\Request;
 
 class BillingApiController extends Controller
 {
     public function getStudentBills(Request $request)
     {
         $student = $request->user(); // From sanctum
-        
+
         // If not using Sanctum for API currently, and passing student_id via request:
         $studentId = $request->input('student_id');
 
-        if (!$studentId && $student) {
+        if (! $studentId && $student) {
             $studentId = $student->id;
         }
 
-        if (!$studentId) {
-            return response()->json(['success' => false, 'message' => 'Student ID required'], 400);
+        if (! $studentId) {
+            return response()->json(
+                ['success' => false, 'message' => 'Student ID required'],
+                400,
+            );
         }
 
         $bills = Bill::where('student_id', $studentId)
-                    ->orderBy('due_date', 'desc')
-                    ->get();
+            ->orderBy('due_date', 'desc')
+            ->get();
 
         $activeBills = $bills->where('status', 'unpaid')->values();
         $historyBills = $bills->where('status', 'paid')->values();
@@ -35,21 +38,24 @@ class BillingApiController extends Controller
 
         return response()->json([
             'success' => true,
+            'message' => 'Data tagihan berhasil diambil',
             'data' => [
                 'summary' => [
-                    'total_tagihan' => 'Rp' . number_format($sisaTagihan, 0, ',', '.'),
-                    'total_terbayar' => 'Rp' . number_format($totalTerbayar, 0, ',', '.'),
-                    'sisa_tagihan' => 'Rp' . number_format($sisaTagihan, 0, ',', '.'),
+                    'total_tagihan' => 'Rp'.number_format($sisaTagihan, 0, ',', '.'),
+                    'total_terbayar' => 'Rp'.number_format($totalTerbayar, 0, ',', '.'),
+                    'sisa_tagihan' => 'Rp'.number_format($sisaTagihan, 0, ',', '.'),
                     'tagihan_belum_dibayar' => $activeBills->count(),
                     'transaksi_berhasil' => $historyBills->count(),
-                    'status' => $activeBills->isEmpty() ? 'Lancar' : 'Ada Tunggakan'
+                    'status' => $activeBills->isEmpty()
+                        ? 'Lancar'
+                        : 'Ada Tunggakan',
                 ],
                 'active_bills' => $activeBills->map(function ($bill) {
                     return [
                         'id' => $bill->id,
                         'title' => $bill->title,
                         'type' => $bill->type,
-                        'amount' => 'Rp' . number_format($bill->amount, 0, ',', '.'),
+                        'amount' => 'Rp'.number_format($bill->amount, 0, ',', '.'),
                         'raw_amount' => $bill->amount,
                         'due_date' => $bill->due_date->format('d M Y'),
                         'status' => 'Belum Dibayar',
@@ -60,11 +66,13 @@ class BillingApiController extends Controller
                         'id' => $bill->id,
                         'title' => $bill->title,
                         'type' => $bill->type,
-                        'amount' => 'Rp' . number_format($bill->amount, 0, ',', '.'),
-                        'paid_at' => $bill->paid_at ? $bill->paid_at->format('d M Y, H:i') : '-',
+                        'amount' => 'Rp'.number_format($bill->amount, 0, ',', '.'),
+                        'paid_at' => $bill->paid_at
+                            ? $bill->paid_at->format('d M Y, H:i')
+                            : '-',
                     ];
-                })
-            ]
+                }),
+            ],
         ]);
     }
 }

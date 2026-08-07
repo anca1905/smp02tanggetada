@@ -8,9 +8,6 @@ class DeleteAcademicYearAction
 {
     /**
      * Menghapus tahun ajaran
-     *
-     * @param AcademicYear $academicYear
-     * @return void
      */
     public function execute(AcademicYear $academicYear): void
     {

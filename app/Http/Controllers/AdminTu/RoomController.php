@@ -17,13 +17,15 @@ class RoomController extends Controller
     public function index(Request $request, GetRoomsAction $action)
     {
         $rooms = $action->execute($request->search, 10);
-        return view("tu.room_data", compact("rooms"));
+
+        return view('tu.room_data', compact('rooms'));
     }
 
     public function store(StoreRoomRequest $request, CreateRoomAction $action)
     {
         $action->execute($request->validated());
-        return back()->with("success", "Room berhasil ditambahkan!");
+
+        return back()->with('success', 'Room berhasil ditambahkan!');
     }
 
     public function update(
@@ -32,12 +34,14 @@ class RoomController extends Controller
         UpdateRoomAction $action,
     ) {
         $action->execute($request->validated(), $room);
-        return back()->with("success", "Data Room berhasil diperbarui!");
+
+        return back()->with('success', 'Data Room berhasil diperbarui!');
     }
 
     public function destroy(Room $room, DeleteRoomAction $action)
     {
         $action->execute($room);
-        return back()->with("success", "Room berhasil dihapus!");
+
+        return back()->with('success', 'Room berhasil dihapus!');
     }
 }

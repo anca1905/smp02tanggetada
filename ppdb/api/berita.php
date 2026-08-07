@@ -1,4 +1,5 @@
 <?php
+
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
@@ -13,13 +14,12 @@ try {
     // Di sini kita kirim raw data saja, nanti frontend menyesuaikan
     echo json_encode([
         'status' => 'success',
-        'data' => $news
+        'data' => $news,
     ]);
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode([
         'status' => 'error',
-        'message' => 'Gagal mengambil berita: ' . $e->getMessage()
+        'message' => 'Gagal mengambil berita: '.$e->getMessage(),
     ]);
 }
-?>

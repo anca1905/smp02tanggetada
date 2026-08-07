@@ -23,9 +23,9 @@ class UpdateClassroomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["sometimes", "string"],
-            "level" => ["sometimes", "string"],
-            "teacher" => ["sometimes", "exists:teachers,id"],
+            'name' => ['sometimes', 'string'],
+            'level' => ['sometimes', 'string'],
+            'teacher' => ['sometimes', 'exists:teachers,id'],
         ];
     }
 
@@ -38,14 +38,13 @@ class UpdateClassroomRequest extends FormRequest
     public function messages()
     {
         return [
-            "name.string" => "Nama kelas harus berupa string/karakter.",
+            'name.string' => 'Nama kelas harus berupa string/karakter.',
 
-            "level.string" => "Level kelas harus berupa string/karakter.",
+            'level.string' => 'Level kelas harus berupa string/karakter.',
 
-            "academic_year_id.exists" =>
-                "Tahun akademik harus ada dalam daftar.",
+            'academic_year_id.exists' => 'Tahun akademik harus ada dalam daftar.',
 
-            "teacher_id.exists" => "Guru harus ada dalam daftar.",
+            'teacher_id.exists' => 'Guru harus ada dalam daftar.',
         ];
     }
 }

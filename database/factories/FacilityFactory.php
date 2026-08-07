@@ -12,7 +12,7 @@ class FacilityFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Proyektor ' . $this->faker->unique()->numberBetween(1, 100),
+            'name' => 'Proyektor '.$this->faker->unique()->numberBetween(1, 100),
             'quantity' => 10,
             'condition' => 'Good',
         ];

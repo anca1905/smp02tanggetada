@@ -22,11 +22,12 @@ class UpdateSubjectRequest extends FormRequest
      */
     public function rules(): array
     {
-        $subject = $this->route("subject");
+        $subject = $this->route('subject');
         $id = is_object($subject) ? $subject->id : $subject;
+
         return [
-            "code" => ["sometimes", "string", "unique:subjects,code" . $id],
-            "name" => ["sometimes", "string"],
+            'code' => ['sometimes', 'string', 'unique:subjects,code'.$id],
+            'name' => ['sometimes', 'string'],
         ];
     }
 
@@ -39,12 +40,10 @@ class UpdateSubjectRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "code.string" =>
-                "Kode mata pelajaran harus berupa string/karakter.",
-            "code.unique" => "Kode mata pelajaran sudah terdaftar.",
+            'code.string' => 'Kode mata pelajaran harus berupa string/karakter.',
+            'code.unique' => 'Kode mata pelajaran sudah terdaftar.',
 
-            "name.string" =>
-                "Nama mata pelajaran harus berupa string/karakter.",
+            'name.string' => 'Nama mata pelajaran harus berupa string/karakter.',
         ];
     }
 }

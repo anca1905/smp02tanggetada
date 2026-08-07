@@ -18,11 +18,11 @@ class StudentPresenceController extends Controller
         $guru = Auth::user();
 
         $selectedClass = $request->get('kelas');
-        $selectedDate  = $request->get('date', Carbon::today()->format('Y-m-d'));
+        $selectedDate = $request->get('date', Carbon::today()->format('Y-m-d'));
 
         $classList = Classroom::orderBy('name', 'asc')->pluck('name', 'id');
 
-        $students      = [];
+        $students = [];
         $attendanceData = null;
 
         if ($selectedClass) {
@@ -54,8 +54,8 @@ class StudentPresenceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'class'      => 'required',
-            'date'       => 'required|date',
+            'class' => 'required',
+            'date' => 'required|date',
             'attendance' => 'required|array',
         ]);
 
@@ -64,27 +64,29 @@ class StudentPresenceController extends Controller
         $header = Attendance::updateOrCreate(
             [
                 'class' => $request->class,
-                'date'  => $request->date,
+                'date' => $request->date,
             ],
             [
                 'teacher_id' => $guru->id,
                 'start_time' => Carbon::now()->format('H:i:00'),
-                'end_time'   => Carbon::now()->addHour()->format('H:i:00'),
+                'end_time' => Carbon::now()->addHour()->format('H:i:00'),
             ]
         );
 
         foreach ($request->attendance as $nis => $data) {
             // Cari student by NIS
             $student = Student::where('nis', $nis)->first();
-            if (!$student) continue;
+            if (! $student) {
+                continue;
+            }
 
             StudentAttendance::updateOrCreate(
                 [
                     'attendance_id' => $header->id,
-                    'nis'           => $nis,
+                    'nis' => $nis,
                 ],
                 [
-                    'status'     => $data['status'],
+                    'status' => $data['status'],
                     'student_id' => $student->id,
                 ]
             );
@@ -101,7 +103,7 @@ class StudentPresenceController extends Controller
     {
         $request->validate([
             'class' => 'required',
-            'date'  => 'required|date',
+            'date' => 'required|date',
         ]);
 
         $guru = Auth::user();
@@ -110,28 +112,28 @@ class StudentPresenceController extends Controller
         $header = Attendance::updateOrCreate(
             [
                 'class' => $request->class,
-                'date'  => $request->date,
+                'date' => $request->date,
             ],
             [
                 'teacher_id' => $guru->id,
                 'start_time' => Carbon::now()->format('H:i:00'),
-                'end_time'   => Carbon::now()->addHour()->format('H:i:00'),
+                'end_time' => Carbon::now()->addHour()->format('H:i:00'),
             ]
         );
 
         // Generate token baru + set expire 5 menit
         $token = Str::random(32);
         $header->update([
-            'qr_token'      => $token,
+            'qr_token' => $token,
             'qr_expires_at' => Carbon::now()->addMinutes(5),
         ]);
 
         return response()->json([
-            'success'    => true,
-            'qr_token'   => $token,
+            'success' => true,
+            'qr_token' => $token,
             'expires_at' => $header->qr_expires_at->toISOString(),
-            'class'      => $request->class,
-            'date'       => $request->date,
+            'class' => $request->class,
+            'date' => $request->date,
         ]);
     }
 

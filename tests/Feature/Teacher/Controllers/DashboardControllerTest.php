@@ -2,11 +2,9 @@
 
 namespace Tests\Feature\Teacher\Controllers;
 
-use Tests\TestCase;
 use App\Models\Teacher;
-use App\Models\AcademicYear;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Auth;
+use Tests\TestCase;
 
 class DashboardControllerTest extends TestCase
 {
@@ -21,9 +19,9 @@ class DashboardControllerTest extends TestCase
     public function test_teacher_can_access_dashboard()
     {
         $teacher = Teacher::factory()->create();
-        
+
         $response = $this->actingAs($teacher, 'teacher')
-                         ->get(route('teacher.dashboard'));
+            ->get(route('teacher.dashboard'));
 
         $response->assertStatus(200);
         $response->assertViewIs('teacher.index');

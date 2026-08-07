@@ -2,7 +2,6 @@
 
 namespace App\Actions\Teacher\Dashboard;
 
-use Carbon\Carbon;
 use App\Models\Teacher;
 use App\Models\Teacher_absence;
 
@@ -10,10 +9,9 @@ class GetTeacherAbsenceHistoryAction
 {
     /**
      * Get paginated absence history for teacher
-     * 
-     * @param Teacher $teacher
-     * @param int $bulan
-     * @param int $tahun
+     *
+     * @param  int  $bulan
+     * @param  int  $tahun
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function execute(Teacher $teacher, $bulan, $tahun)

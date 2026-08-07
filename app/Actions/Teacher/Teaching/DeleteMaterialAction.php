@@ -9,9 +9,6 @@ class DeleteMaterialAction
 {
     /**
      * Delete course material
-     *
-     * @param int $id
-     * @return void
      */
     public function execute(int $id): void
     {

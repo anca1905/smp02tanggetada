@@ -7,8 +7,8 @@ use App\Models\Assignment;
 use App\Models\Schedule;
 use App\Models\StudentAttendanceDetail;
 use App\Models\StudentGrade;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class StudentApiController extends Controller
 {
@@ -18,7 +18,7 @@ class StudentApiController extends Controller
 
         // Get today's schedules
         $today = Carbon::now()->isoFormat('dddd'); // e.g. "Senin"
-        
+
         // Translating English days to Indonesian since seeder uses "Senin"
         $days = [
             'Monday' => 'Senin',
@@ -48,9 +48,9 @@ class StudentApiController extends Controller
         // Get Attendance Percentage
         $totalSessions = \App\Models\Attendance::where('classroom_id', $student->classroom_id)->count();
         $studentAttendances = StudentAttendanceDetail::where('student_id', $student->id)
-                                ->whereIn('status', ['Hadir', 'Late'])
-                                ->count();
-        
+            ->whereIn('status', ['Hadir', 'Late'])
+            ->count();
+
         $attendancePercentage = $totalSessions > 0 ? round(($studentAttendances / $totalSessions) * 100) : 100;
 
         // Get Announcements
@@ -67,7 +67,7 @@ class StudentApiController extends Controller
                 'upcoming_assignments' => $assignments,
                 'attendance_percentage' => $attendancePercentage,
                 'announcements' => $announcements,
-            ]
+            ],
         ]);
     }
 
@@ -85,7 +85,7 @@ class StudentApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $schedules
+            'data' => $schedules,
         ]);
     }
 
@@ -93,7 +93,7 @@ class StudentApiController extends Controller
     {
         $student = $request->user();
 
-        $assignments = Assignment::with(['subject', 'teacher', 'submissions' => function($query) use ($student) {
+        $assignments = Assignment::with(['subject', 'teacher', 'submissions' => function ($query) use ($student) {
             $query->where('student_id', $student->id);
         }])
             ->where('classroom_id', $student->classroom_id)
@@ -102,17 +102,17 @@ class StudentApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $assignments
+            'data' => $assignments,
         ]);
     }
 
     public function materials(Request $request)
     {
         $student = $request->user();
-        
+
         // Find materials related to student's classroom schedules
         $scheduleIds = Schedule::where('classroom_id', $student->classroom_id)->pluck('id');
-        
+
         $materials = \App\Models\Material::with(['schedule.subject', 'schedule.teacher'])
             ->whereIn('schedule_id', $scheduleIds)
             ->orderBy('created_at', 'desc')
@@ -120,17 +120,17 @@ class StudentApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $materials
+            'data' => $materials,
         ]);
     }
 
     public function submitAssignment(Request $request, $id)
     {
         $student = $request->user();
-        
+
         $request->validate([
             'file' => 'required|file|max:10240', // max 10MB
-            'student_note' => 'nullable|string'
+            'student_note' => 'nullable|string',
         ]);
 
         $assignment = Assignment::findOrFail($id);
@@ -141,12 +141,12 @@ class StudentApiController extends Controller
 
         $submission = \App\Models\AssignmentSubmission::firstOrNew([
             'assignment_id' => $assignment->id,
-            'student_id' => $student->id
+            'student_id' => $student->id,
         ]);
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = time().'_'.$file->getClientOriginalName();
             $path = $file->storeAs('assignments/submissions', $filename, 'public');
             $submission->file_path = $path;
         }
@@ -158,7 +158,7 @@ class StudentApiController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Assignment submitted successfully.',
-            'data' => $submission
+            'data' => $submission,
         ]);
     }
 
@@ -173,7 +173,7 @@ class StudentApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $attendances
+            'data' => $attendances,
         ]);
     }
 
@@ -209,8 +209,8 @@ class StudentApiController extends Controller
                     'lowest' => round($lowest, 2),
                     'total_subjects' => $grades->count(),
                 ],
-                'distribution' => $distribution
-            ]
+                'distribution' => $distribution,
+            ],
         ]);
     }
 
@@ -223,7 +223,7 @@ class StudentApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $announcements
+            'data' => $announcements,
         ]);
     }
 }

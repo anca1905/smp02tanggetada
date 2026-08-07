@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id('activity_id');
-            $table->unsignedBigInteger('teacher_id')->nullable(); 
+            $table->unsignedBigInteger('teacher_id')->nullable();
             $table->string('title', 255);
             $table->enum('type', ['arrival', 'return', 'attendance', 'edit', 'borrowing']);
             $table->dateTime('time');

@@ -7,7 +7,6 @@ use App\Models\Attendance;
 use App\Models\StudentAttendanceDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class AttendanceCheckinController extends Controller
 {
@@ -27,7 +26,7 @@ class AttendanceCheckinController extends Controller
         // Cari sesi presensi berdasarkan token
         $attendance = Attendance::where('qr_token', $request->qr_token)->first();
 
-        if (!$attendance) {
+        if (! $attendance) {
             return response()->json([
                 'success' => false,
                 'message' => 'QR Code tidak valid.',
@@ -58,25 +57,25 @@ class AttendanceCheckinController extends Controller
 
         if ($existing) {
             $statusLabel = [
-                'present'    => 'Hadir',
-                'late'       => 'Terlambat',
-                'sick'       => 'Sakit',
+                'present' => 'Hadir',
+                'late' => 'Terlambat',
+                'sick' => 'Sakit',
                 'permission' => 'Izin',
-                'absent'     => 'Alpa',
+                'absent' => 'Alpa',
             ][$existing->status] ?? $existing->status;
 
             return response()->json([
                 'success' => true,
                 'already_checked' => true,
                 'message' => "Anda sudah tercatat: $statusLabel.",
-                'data'    => $existing,
+                'data' => $existing,
             ]);
         }
 
         // Tentukan status: jika sudah lewat 15 menit dari start_time, tandai "terlambat"
         $status = 'present';
         if ($attendance->start_time) {
-            $startDateTime = Carbon::parse($attendance->date . ' ' . $attendance->start_time);
+            $startDateTime = Carbon::parse($attendance->date.' '.$attendance->start_time);
             if (Carbon::now()->diffInMinutes($startDateTime, false) < -15) {
                 $status = 'late';
             }
@@ -85,8 +84,8 @@ class AttendanceCheckinController extends Controller
         // Simpan kehadiran
         $detail = StudentAttendanceDetail::create([
             'attendance_id' => $attendance->id,
-            'student_id'    => $student->id,
-            'status'        => $status,
+            'student_id' => $student->id,
+            'status' => $status,
         ]);
 
         return response()->json([
@@ -95,7 +94,7 @@ class AttendanceCheckinController extends Controller
             'message' => $status === 'late'
                 ? 'Presensi berhasil dicatat, tapi Anda terlambat.'
                 : 'Presensi berhasil! Selamat belajar 🎉',
-            'data'    => $detail,
+            'data' => $detail,
         ]);
     }
 
@@ -108,14 +107,14 @@ class AttendanceCheckinController extends Controller
     {
         $request->validate([
             'class' => 'required',
-            'date'  => 'required|date',
+            'date' => 'required|date',
         ]);
 
         $attendance = Attendance::where('class', $request->class)
             ->where('date', $request->date)
             ->first();
 
-        if (!$attendance) {
+        if (! $attendance) {
             return response()->json(['success' => true, 'data' => []]);
         }
 
@@ -124,9 +123,9 @@ class AttendanceCheckinController extends Controller
             ->whereIn('status', ['present', 'late'])
             ->get()
             ->map(fn ($d) => [
-                'student_id'   => $d->student_id,
+                'student_id' => $d->student_id,
                 'student_name' => $d->student?->student_name ?? '-',
-                'status'       => $d->status,
+                'status' => $d->status,
             ]);
 
         return response()->json(['success' => true, 'data' => $details]);
@@ -144,7 +143,7 @@ class AttendanceCheckinController extends Controller
 
         $attendance = Attendance::with('teacher')->where('qr_token', $request->qr_token)->first();
 
-        if (!$attendance) {
+        if (! $attendance) {
             return response()->json([
                 'success' => false,
                 'message' => 'QR Code tidak valid.',
@@ -155,13 +154,13 @@ class AttendanceCheckinController extends Controller
 
         return response()->json([
             'success' => true,
-            'data'    => [
-                'class'          => $attendance->class,
-                'date'           => $attendance->date,
-                'start_time'     => $attendance->start_time,
-                'teacher_name'   => $attendance->teacher?->name ?? '-',
-                'is_expired'     => $expired,
-                'expires_at'     => $attendance->qr_expires_at?->toISOString(),
+            'data' => [
+                'class' => $attendance->class,
+                'date' => $attendance->date,
+                'start_time' => $attendance->start_time,
+                'teacher_name' => $attendance->teacher?->name ?? '-',
+                'is_expired' => $expired,
+                'expires_at' => $attendance->qr_expires_at?->toISOString(),
             ],
         ]);
     }

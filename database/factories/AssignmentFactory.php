@@ -6,8 +6,8 @@ use App\Models\Assignment;
 use App\Models\Classroom;
 use App\Models\Subject;
 use App\Models\Teacher;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AssignmentFactory extends Factory
 {

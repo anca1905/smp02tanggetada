@@ -13,14 +13,14 @@ class CreateTeacherAction
      */
     public function execute(array $data, ?UploadedFile $photoFile): Teacher
     {
-        if (isset($data["password"])) {
-            $data["password"] = Hash::make($data["password"]);
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
         }
 
         if ($photoFile instanceof UploadedFile) {
-            $filename = time() . "_" . $photoFile->getClientOriginalName();
-            $photoFile->move(public_path("img/teacher-photo"), $filename);
-            $data["photo_url"] = "img/teacher-photo/" . $filename;
+            $filename = time().'_'.$photoFile->getClientOriginalName();
+            $photoFile->move(public_path('img/teacher-photo'), $filename);
+            $data['photo_url'] = 'img/teacher-photo/'.$filename;
         }
 
         return Teacher::create($data);

@@ -23,10 +23,10 @@ class StoreClassroomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "string"],
-            "level" => ["required", "string"],
-            "academic_year_id" => ["required", "exists:academic_years,id"],
-            "teacher_id" => ["required", "exists:teachers,id"],
+            'name' => ['required', 'string'],
+            'level' => ['required', 'string'],
+            'academic_year_id' => ['required', 'exists:academic_years,id'],
+            'teacher_id' => ['required', 'exists:teachers,id'],
         ];
     }
 
@@ -39,19 +39,18 @@ class StoreClassroomRequest extends FormRequest
     public function messages()
     {
         return [
-            "name.required" => "Nama kelas tidak boleh kosong",
+            'name.required' => 'Nama kelas tidak boleh kosong',
 
-            "name.string" => "Nama kelas harus berupa string/karakter.",
+            'name.string' => 'Nama kelas harus berupa string/karakter.',
 
-            "level.required" => "Level kelas tidak boleh kosong",
-            "level.string" => "Level kelas harus berupa string/karakter.",
+            'level.required' => 'Level kelas tidak boleh kosong',
+            'level.string' => 'Level kelas harus berupa string/karakter.',
 
-            "academic_year_id.required" => "Tahun akademik tidak boleh kosong",
-            "academic_year_id.exists" =>
-                "Tahun akademik harus ada dalam daftar.",
+            'academic_year_id.required' => 'Tahun akademik tidak boleh kosong',
+            'academic_year_id.exists' => 'Tahun akademik harus ada dalam daftar.',
 
-            "teacher_id.required" => "Guru tidak boleh kosong",
-            "teacher_id.exists" => "Guru harus ada dalam daftar.",
+            'teacher_id.required' => 'Guru tidak boleh kosong',
+            'teacher_id.exists' => 'Guru harus ada dalam daftar.',
         ];
     }
 }

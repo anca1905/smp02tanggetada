@@ -1,6 +1,6 @@
 <?php
-$pageTitle = "Pengaturan Website";
-$pageHeader = "Konfigurasi Website";
+$pageTitle = 'Pengaturan Website';
+$pageHeader = 'Konfigurasi Website';
 include 'includes/header.php';
 ?>
 

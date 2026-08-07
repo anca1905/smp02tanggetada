@@ -1,6 +1,6 @@
 <?php
-$pageTitle = "Data Guru & GTK";
-$pageHeader = "Manajemen Guru & Tenaga Kependidikan";
+$pageTitle = 'Data Guru & GTK';
+$pageHeader = 'Manajemen Guru & Tenaga Kependidikan';
 include 'includes/header.php';
 ?>
 

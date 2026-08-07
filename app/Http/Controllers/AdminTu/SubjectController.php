@@ -14,10 +14,10 @@ class SubjectController extends Controller
 {
     public function index()
     {
-        $subjects = Subject::orderBy("code")->get();
+        $subjects = Subject::orderBy('code')->get();
 
         // Pastikan kamu sudah buat view di: resources/views/tu/subjects/index.blade.php
-        return view("tu.subjects.index", compact("subjects"));
+        return view('tu.subjects.index', compact('subjects'));
     }
 
     // Menyimpan Mapel Baru
@@ -26,7 +26,8 @@ class SubjectController extends Controller
         CreateSubjectAction $action,
     ) {
         $action->execute($request->validated());
-        return back()->with("success", "Mata pelajaran berhasil ditambahkan");
+
+        return back()->with('success', 'Mata pelajaran berhasil ditambahkan');
     }
 
     // Update Mapel
@@ -36,7 +37,8 @@ class SubjectController extends Controller
         UpdateSubjectAction $action,
     ) {
         $action->execute($request->validated(), $subject);
-        return back()->with("success", "Data diperbarui");
+
+        return back()->with('success', 'Data diperbarui');
     }
 
     // Hapus Mapel
@@ -44,6 +46,6 @@ class SubjectController extends Controller
     {
         $action->execute($subject);
 
-        return back()->with("success", "Data dihapus");
+        return back()->with('success', 'Data dihapus');
     }
 }

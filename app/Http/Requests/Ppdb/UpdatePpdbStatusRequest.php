@@ -23,7 +23,7 @@ class UpdatePpdbStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "status_pendaftaran" => "required|in:Pending,Accepted,Rejected",
+            'status_pendaftaran' => 'required|in:Pending,Accepted,Rejected',
         ];
     }
 
@@ -36,8 +36,8 @@ class UpdatePpdbStatusRequest extends FormRequest
     public function messages()
     {
         return [
-            "status_pendaftaran.required" => "Status pendaftaran harus diisi.",
-            "status_pendaftaran.in" => "Status pendaftaran tidak valid.",
+            'status_pendaftaran.required' => 'Status pendaftaran harus diisi.',
+            'status_pendaftaran.in' => 'Status pendaftaran tidak valid.',
         ];
     }
 }

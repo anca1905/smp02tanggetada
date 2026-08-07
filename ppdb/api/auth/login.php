@@ -1,7 +1,8 @@
 <?php
+
 session_start();
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *'); 
+header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 
 require_once '../../config/database.php';
@@ -21,7 +22,7 @@ if (empty($input['email']) || empty($input['password'])) {
 }
 
 try {
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?');
     $stmt->execute([$input['email']]);
     $user = $stmt->fetch();
 
@@ -34,7 +35,7 @@ try {
         echo json_encode([
             'status' => 'success',
             'message' => 'Login Berhasil!',
-            'redirect' => 'dashboard.html'
+            'redirect' => 'dashboard.html',
         ]);
     } else {
         http_response_code(401);
@@ -43,6 +44,5 @@ try {
 
 } catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode(['status' => 'error', 'message' => 'Database Error: ' . $e->getMessage()]);
+    echo json_encode(['status' => 'error', 'message' => 'Database Error: '.$e->getMessage()]);
 }
-?>

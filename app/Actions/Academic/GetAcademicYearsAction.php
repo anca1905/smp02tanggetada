@@ -9,11 +9,9 @@ class GetAcademicYearsAction
 {
     /**
      * Mengambil daftar tahun akademik terbaru
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function execute(): Collection
     {
-        return AcademicYear::orderBy("name", "desc")->get();
+        return AcademicYear::orderBy('name', 'desc')->get();
     }
 }

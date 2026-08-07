@@ -10,19 +10,16 @@ class GetRoomsAction
     /**
      * Mengeksekusi query untuk mengambil daftar ruangan dengan
      * pagination dan filter berdasarkan query parameter.
-     *
-     * @param string|null $search
-     * @param int $perPage
-     * @return LengthAwarePaginator
      */
     public function execute(?string $search, int $perPage): LengthAwarePaginator
     {
         $query = Room::query();
         if ($search) {
             $query
-                ->where("room_name", "like", "%{$search}%")
-                ->orWhere("location", "like", "%{$search}%");
+                ->where('room_name', 'like', "%{$search}%")
+                ->orWhere('location', 'like', "%{$search}%");
         }
+
         return $query->paginate($perPage);
     }
 }

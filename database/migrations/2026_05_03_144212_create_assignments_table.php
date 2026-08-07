@@ -17,11 +17,11 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->dateTime('due_date');
             $table->string('file_path')->nullable(); // Optional attachment from teacher
-            
+
             $table->foreignId('classroom_id')->constrained()->onDelete('cascade');
             $table->foreignId('subject_id')->constrained()->onDelete('cascade');
             $table->foreignId('teacher_id')->constrained()->onDelete('cascade');
-            
+
             $table->timestamps();
         });
     }

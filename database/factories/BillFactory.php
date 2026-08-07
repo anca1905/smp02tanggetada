@@ -4,8 +4,8 @@ namespace Database\Factories;
 
 use App\Models\Bill;
 use App\Models\Student;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BillFactory extends Factory
 {

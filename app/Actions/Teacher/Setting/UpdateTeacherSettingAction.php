@@ -3,25 +3,20 @@
 namespace App\Actions\Teacher\Setting;
 
 use App\Models\Teacher;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Hash;
 
 class UpdateTeacherSettingAction
 {
     /**
      * Update teacher profile setting
-     *
-     * @param Teacher $teacher
-     * @param array $data
-     * @param UploadedFile|null $photoFile
-     * @return Teacher
      */
     public function execute(Teacher $teacher, array $data, ?UploadedFile $photoFile): Teacher
     {
         $teacher->name = $data['name'];
         $teacher->username = $data['username'];
 
-        if (!empty($data['new_password'])) {
+        if (! empty($data['new_password'])) {
             $teacher->password = Hash::make($data['new_password']);
         }
 
@@ -30,10 +25,10 @@ class UpdateTeacherSettingAction
                 unlink(public_path($teacher->photo_url));
             }
 
-            $filename = time() . '_' . $photoFile->getClientOriginalName();
+            $filename = time().'_'.$photoFile->getClientOriginalName();
             $photoFile->move(public_path('img/guru'), $filename);
 
-            $teacher->photo_url = 'img/guru/' . $filename;
+            $teacher->photo_url = 'img/guru/'.$filename;
         }
 
         $teacher->save();

@@ -1,8 +1,8 @@
 <?php
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
-$page_path = 'pages/' . $page . '.php';
+$page_path = 'pages/'.$page.'.php';
 
-if (!file_exists($page_path)) {
+if (! file_exists($page_path)) {
     $page_path = 'pages/home.php';
 }
 ?>

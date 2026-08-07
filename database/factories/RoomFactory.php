@@ -12,7 +12,7 @@ class RoomFactory extends Factory
     public function definition(): array
     {
         return [
-            'room_name' => 'Ruang ' . $this->faker->unique()->numberBetween(1, 100),
+            'room_name' => 'Ruang '.$this->faker->unique()->numberBetween(1, 100),
             'location' => 'Lantai 1',
             'description' => 'Ruang Teori',
         ];

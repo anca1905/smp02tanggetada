@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\AdminTu\Actions\Room;
 
-use Tests\TestCase;
-use App\Models\Room;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Actions\Room\CreateRoomAction;
 use App\Actions\Room\DeleteRoomAction;
+use App\Models\Room;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class RoomActionsTest extends TestCase
 {
@@ -14,11 +14,11 @@ class RoomActionsTest extends TestCase
 
     public function test_it_creates_room()
     {
-        $action = new CreateRoomAction();
+        $action = new CreateRoomAction;
         $room = $action->execute([
             'room_name' => 'Lab Komputer',
             'location' => 'Lantai 2',
-            'description' => 'Lab Jaringan'
+            'description' => 'Lab Jaringan',
         ]);
 
         $this->assertEquals('Lab Komputer', $room->room_name);
@@ -29,7 +29,7 @@ class RoomActionsTest extends TestCase
     {
         $room = Room::factory()->create();
 
-        $action = new DeleteRoomAction();
+        $action = new DeleteRoomAction;
         $action->execute($room);
 
         $this->assertDatabaseMissing('rooms', ['room_id' => $room->room_id]);

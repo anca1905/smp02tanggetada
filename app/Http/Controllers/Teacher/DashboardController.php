@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Teacher;
 
+use App\Actions\Teacher\Dashboard\GetTeacherAbsenceHistoryAction;
+use App\Actions\Teacher\Dashboard\GetTeacherDashboardStatsAction;
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Actions\Teacher\Dashboard\GetTeacherDashboardStatsAction;
-use App\Actions\Teacher\Dashboard\GetTeacherAbsenceHistoryAction;
 
 class DashboardController extends Controller
 {
@@ -19,14 +19,14 @@ class DashboardController extends Controller
         GetTeacherDashboardStatsAction $action,
     ) {
         $teacher = Auth::user();
-        $bulan = $request->get("bulan", Carbon::today()->month);
+        $bulan = $request->get('bulan', Carbon::today()->month);
         $tahun = Carbon::today()->year;
 
         $stats = $action->execute($teacher, $bulan, $tahun);
-        $stats["teacher"] = $teacher;
-        $stats["bulan"] = $bulan;
+        $stats['teacher'] = $teacher;
+        $stats['bulan'] = $bulan;
 
-        return view("teacher.index", $stats);
+        return view('teacher.index', $stats);
     }
 
     /**
@@ -37,11 +37,11 @@ class DashboardController extends Controller
         GetTeacherAbsenceHistoryAction $action,
     ) {
         $user = Auth::user();
-        $bulan = $request->get("month", Carbon::now()->month);
+        $bulan = $request->get('month', Carbon::now()->month);
         $tahun = Carbon::now()->year;
 
         $history = $action->execute($user, $bulan, $tahun);
 
-        return view("teacher.history", compact("user", "history", "bulan"));
+        return view('teacher.history', compact('user', 'history', 'bulan'));
     }
 }

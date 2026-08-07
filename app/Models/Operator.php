@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Operator extends Authenticatable
 {
-    use Notifiable, HasFactory;
+    use HasFactory, Notifiable;
 
     protected $table = 'operators';
 
@@ -19,7 +19,7 @@ class Operator extends Authenticatable
         'username',
         'password',
         'role',
-        'photo_url'
+        'photo_url',
     ];
 
     protected $hidden = ['password'];

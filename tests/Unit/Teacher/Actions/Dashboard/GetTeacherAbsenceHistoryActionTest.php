@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Teacher\Actions\Dashboard;
 
-use Tests\TestCase;
+use App\Actions\Teacher\Dashboard\GetTeacherAbsenceHistoryAction;
 use App\Models\Teacher;
 use App\Models\Teacher_absence;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Actions\Teacher\Dashboard\GetTeacherAbsenceHistoryAction;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class GetTeacherAbsenceHistoryActionTest extends TestCase
 {
@@ -17,13 +17,13 @@ class GetTeacherAbsenceHistoryActionTest extends TestCase
     {
         $teacher = Teacher::factory()->create();
         $today = Carbon::today();
-        
+
         Teacher_absence::factory()->count(15)->create([
             'teacher_id' => $teacher->id,
-            'date' => $today->format('Y-m-d')
+            'date' => $today->format('Y-m-d'),
         ]);
 
-        $action = new GetTeacherAbsenceHistoryAction();
+        $action = new GetTeacherAbsenceHistoryAction;
         $result = $action->execute($teacher, $today->month, $today->year);
 
         $this->assertEquals(15, $result->total());

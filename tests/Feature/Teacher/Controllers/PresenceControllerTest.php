@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\Teacher\Controllers;
 
-use Tests\TestCase;
-use App\Models\Teacher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class PresenceControllerTest extends TestCase
 {
@@ -22,13 +21,13 @@ class PresenceControllerTest extends TestCase
         $response = $this->postJson(route('presensi.store'), [
             'identity' => 'UnknownUser',
             'password' => 'wrongpass',
-            'image' => 'data:image/jpeg;base64,dummy'
+            'image' => 'data:image/jpeg;base64,dummy',
         ]);
 
         $response->assertStatus(200); // Because Action returns 200 JSON with error status
         $response->assertJson([
             'status' => 'error',
-            'message' => 'Data guru tidak ditemukan.'
+            'message' => 'Data guru tidak ditemukan.',
         ]);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
@@ -13,7 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $input = json_decode(file_get_contents('php://input'), true);
-if (!$input) $input = $_POST;
+if (! $input) {
+    $input = $_POST;
+}
 
 // Mapping Input Frontend -> Kolom Database
 // Frontend: nama_lengkap, nisn, nik, jenis_kelamin, tempat_lahir, tanggal_lahir, alamat, asal_sekolah, tahun_lulus, nama_ayah, nama_ibu, no_hp, jurusan
@@ -30,10 +33,10 @@ foreach ($requiredFields as $field) {
 
 try {
     // Generate No Registrasi Unik: REG-YYYY-XXXX (Contoh: REG-2026-0001)
-    $stmt = $pdo->query("SELECT MAX(id) as max_id FROM ppdb");
+    $stmt = $pdo->query('SELECT MAX(id) as max_id FROM ppdb');
     $row = $stmt->fetch();
     $nextId = ($row['max_id'] ?? 0) + 1;
-    $noRegistrasi = 'REG-' . date('Y') . '-' . str_pad($nextId, 4, '0', STR_PAD_LEFT);
+    $noRegistrasi = 'REG-'.date('Y').'-'.str_pad($nextId, 4, '0', STR_PAD_LEFT);
 
     $sql = "INSERT INTO ppdb (
         no_registrasi, nama_lengkap, nisn, nik, tempat_lahir, tanggal_lahir, jenis_kelamin, alamat,
@@ -44,10 +47,10 @@ try {
     )";
 
     $stmt = $pdo->prepare($sql);
-    
+
     // Konversi Jenis Kelamin: Frontend 'Laki-laki'/'Perempuan' -> DB 'L'/'P'
     $jk = ($input['jenis_kelamin'] == 'Laki-laki') ? 'L' : 'P';
-    
+
     $stmt->execute([
         $noRegistrasi,
         $input['nama_lengkap'],
@@ -67,7 +70,7 @@ try {
 
     echo json_encode([
         'status' => 'success',
-        'message' => "Pendaftaran berhasil! Nomor Registrasi Anda: $noRegistrasi. Simpan nomor ini."
+        'message' => "Pendaftaran berhasil! Nomor Registrasi Anda: $noRegistrasi. Simpan nomor ini.",
     ]);
 
 } catch (PDOException $e) {
@@ -75,8 +78,7 @@ try {
     if ($e->getCode() == 23000) {
         $msg = 'Data duplikat (NISN/No Registrasi sudah ada).';
     } else {
-        $msg = 'Database Error: ' . $e->getMessage();
+        $msg = 'Database Error: '.$e->getMessage();
     }
     echo json_encode(['status' => 'error', 'message' => $msg]);
 }
-?>

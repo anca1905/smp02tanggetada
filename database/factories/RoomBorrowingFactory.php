@@ -3,10 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\RoomBorrowing;
-use App\Models\Room;
-use App\Models\Teacher;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class RoomBorrowingFactory extends Factory
 {

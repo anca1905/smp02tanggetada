@@ -3,9 +3,9 @@
 namespace App\Http\Requests\Teacher;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UpdateTeacherSettingRequest extends FormRequest
 {
@@ -27,14 +27,14 @@ class UpdateTeacherSettingRequest extends FormRequest
         $teacher = Auth::user();
 
         return [
-            'name'             => 'required|string|max:100',
-            'username'         => ['required', Rule::unique('teachers', 'username')->ignore($teacher->id)],
-            'photo_url'        => 'nullable|image|max:2048',
+            'name' => 'required|string|max:100',
+            'username' => ['required', Rule::unique('teachers', 'username')->ignore($teacher->id)],
+            'photo_url' => 'nullable|image|max:2048',
             'current_password' => 'required_with:new_password,username',
-            'new_password'     => 'nullable|min:6|confirmed',
+            'new_password' => 'nullable|min:6|confirmed',
         ];
     }
-    
+
     /**
      * Handle after validation routines.
      */
@@ -42,7 +42,7 @@ class UpdateTeacherSettingRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             if ($this->filled('current_password')) {
-                if (!Hash::check($this->current_password, Auth::user()->password)) {
+                if (! Hash::check($this->current_password, Auth::user()->password)) {
                     $validator->errors()->add('current_password', 'Password lama salah.');
                 }
             }

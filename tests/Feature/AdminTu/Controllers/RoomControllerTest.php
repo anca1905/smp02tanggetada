@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\AdminTu\Controllers;
 
-use Tests\TestCase;
 use App\Models\Operator;
 use App\Models\Room;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class RoomControllerTest extends TestCase
 {
@@ -17,7 +17,7 @@ class RoomControllerTest extends TestCase
         Room::factory()->count(3)->create();
 
         $response = $this->actingAs($operator, 'operator')
-                         ->get(route('tu.room.index'));
+            ->get(route('tu.room.index'));
 
         $response->assertStatus(200);
         $response->assertViewIs('tu.room_data');
@@ -28,11 +28,11 @@ class RoomControllerTest extends TestCase
         $operator = Operator::factory()->create(['role' => 'SMP']);
 
         $response = $this->actingAs($operator, 'operator')
-                         ->post(route('tu.room.store'), [
-                             'room_name' => 'Lab IPA Baru',
-                             'location' => 'Lantai 3',
-                             'description' => 'Lab Fisika dan Biologi'
-                         ]);
+            ->post(route('tu.room.store'), [
+                'room_name' => 'Lab IPA Baru',
+                'location' => 'Lantai 3',
+                'description' => 'Lab Fisika dan Biologi',
+            ]);
 
         $response->assertRedirect();
         $response->assertSessionHas('success');
@@ -45,7 +45,7 @@ class RoomControllerTest extends TestCase
         $room = Room::factory()->create();
 
         $response = $this->actingAs($operator, 'operator')
-                         ->delete(route('tu.room.destroy', $room->room_id));
+            ->delete(route('tu.room.destroy', $room->room_id));
 
         $response->assertRedirect();
         $this->assertDatabaseMissing('rooms', ['room_id' => $room->room_id]);

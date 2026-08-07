@@ -11,6 +11,6 @@ class Facility extends Model
 
     protected $fillable = [
         'title',
-        'image_path'
+        'image_path',
     ];
 }

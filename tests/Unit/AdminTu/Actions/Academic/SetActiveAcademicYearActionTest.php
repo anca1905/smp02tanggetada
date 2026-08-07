@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\AdminTu\Actions\Academic;
 
-use Tests\TestCase;
+use App\Actions\Academic\SetActiveAcademicYearAction;
 use App\Models\AcademicYear;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Actions\Academic\SetActiveAcademicYearAction;
+use Tests\TestCase;
 
 class SetActiveAcademicYearActionTest extends TestCase
 {
@@ -15,8 +15,8 @@ class SetActiveAcademicYearActionTest extends TestCase
     {
         $year1 = AcademicYear::factory()->create(['is_active' => true]);
         $year2 = AcademicYear::factory()->create(['is_active' => false]);
-        
-        $action = new SetActiveAcademicYearAction();
+
+        $action = new SetActiveAcademicYearAction;
         $action->execute($year2);
 
         $this->assertFalse($year1->fresh()->is_active);

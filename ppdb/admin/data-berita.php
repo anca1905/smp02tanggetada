@@ -1,6 +1,6 @@
 <?php
-$pageTitle = "Berita & Artikel";
-$pageHeader = "Manajemen Berita Sekolah";
+$pageTitle = 'Berita & Artikel';
+$pageHeader = 'Manajemen Berita Sekolah';
 include 'includes/header.php';
 ?>
 

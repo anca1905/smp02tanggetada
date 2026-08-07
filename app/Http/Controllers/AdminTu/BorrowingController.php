@@ -18,45 +18,33 @@ class BorrowingController extends Controller
 {
     /**
      * Menampilkan halaman riwayat peminjaman ruangan
-     *
-     * @param  Request  $request
-     * @param  GetBorrowingIndexDataAction  $action
-     * @return View
      */
     public function index(
         Request $request,
         GetBorrowingIndexDataAction $action,
     ): View {
         $data = $action->execute(
-            $request->input("search"),
-            $request->input("status"),
+            $request->input('search'),
+            $request->input('status'),
         );
 
-        return view("tu.borrowing_a_room", $data);
+        return view('tu.borrowing_a_room', $data);
     }
 
     /**
      * Menerima dan menyimpan pengajuan peminjaman baru
-     *
-     * @param  StoreBorrowingRequest  $request
-     * @param  CreateBorrowingAction  $action
-     * @return RedirectResponse
      */
     public function store(
         StoreBorrowingRequest $request,
         CreateBorrowingAction $action,
     ): RedirectResponse {
         $action->execute($request->validated());
-        return back()->with("success", "Peminjaman berhasil diajukan!");
+
+        return back()->with('success', 'Peminjaman berhasil diajukan!');
     }
 
     /**
      * Memutakhirkan informasi atau status peminjaman
-     *
-     * @param  UpdateBorrowingRequest  $request
-     * @param  RoomBorrowing  $borrowing
-     * @param  UpdateBorrowingAction  $action
-     * @return RedirectResponse
      */
     public function update(
         UpdateBorrowingRequest $request,
@@ -64,15 +52,12 @@ class BorrowingController extends Controller
         UpdateBorrowingAction $action,
     ): RedirectResponse {
         $action->execute($request->validated(), $borrowing);
-        return back()->with("success", "Data peminjaman diperbarui!");
+
+        return back()->with('success', 'Data peminjaman diperbarui!');
     }
 
     /**
      * Menghapus catatan peminjaman ruangan dari basis data
-     *
-     * @param  RoomBorrowing  $borrowing
-     * @param  DeleteBorrowingAction  $action
-     * @return RedirectResponse
      */
     public function destroy(
         RoomBorrowing $borrowing,
@@ -80,6 +65,6 @@ class BorrowingController extends Controller
     ): RedirectResponse {
         $action->execute($borrowing);
 
-        return back()->with("success", "Data peminjaman dihapus!");
+        return back()->with('success', 'Data peminjaman dihapus!');
     }
 }

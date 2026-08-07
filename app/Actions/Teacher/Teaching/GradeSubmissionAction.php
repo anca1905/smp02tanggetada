@@ -8,10 +8,6 @@ class GradeSubmissionAction
 {
     /**
      * Grade submission
-     *
-     * @param int $submission_id
-     * @param array $data
-     * @return void
      */
     public function execute(int $submission_id, array $data): void
     {

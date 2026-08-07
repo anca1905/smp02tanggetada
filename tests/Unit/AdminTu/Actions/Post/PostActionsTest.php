@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\AdminTu\Actions\Post;
 
-use Tests\TestCase;
+use App\Actions\Post\DeletePostAction;
 use App\Models\Post;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
-use App\Actions\Post\DeletePostAction;
+use Tests\TestCase;
 
 class PostActionsTest extends TestCase
 {
@@ -22,14 +22,14 @@ class PostActionsTest extends TestCase
     {
         $filePath = 'posts/dummy.jpg';
         Storage::disk('public')->put($filePath, 'dummy content');
-        
+
         $post = Post::factory()->create([
-            'image' => $filePath
+            'image' => $filePath,
         ]);
 
         Storage::disk('public')->assertExists($filePath);
 
-        $action = new DeletePostAction();
+        $action = new DeletePostAction;
         $action->execute($post);
 
         $this->assertDatabaseMissing('posts', ['id' => $post->id]);

@@ -2,35 +2,33 @@
 
 namespace App\Actions\Teacher\Dashboard;
 
-use Carbon\Carbon;
+use App\Models\Attendance;
 use App\Models\Teacher;
 use App\Models\Teacher_absence;
-use App\Models\Attendance;
+use Carbon\Carbon;
 
 class GetTeacherDashboardStatsAction
 {
     /**
      * Get statistics and charts for teacher dashboard
-     * 
-     * @param Teacher $teacher
-     * @param int $bulan
-     * @param int $tahun
-     * @return array
+     *
+     * @param  int  $bulan
+     * @param  int  $tahun
      */
     public function execute(Teacher $teacher, $bulan, $tahun): array
     {
         $today = Carbon::today();
-        
+
         $todayAtt = Teacher_absence::where('teacher_id', $teacher->id)
             ->whereDate('date', $today)
             ->first();
 
         $status_datang = $todayAtt && $todayAtt->arrival_time
-            ? 'Sudah Absen (' . Carbon::parse($todayAtt->arrival_time)->format('H:i') . ')'
+            ? 'Sudah Absen ('.Carbon::parse($todayAtt->arrival_time)->format('H:i').')'
             : 'Belum Absen';
 
         $status_pulang = $todayAtt && $todayAtt->return_time
-            ? 'Sudah Absen (' . Carbon::parse($todayAtt->return_time)->format('H:i') . ')'
+            ? 'Sudah Absen ('.Carbon::parse($todayAtt->return_time)->format('H:i').')'
             : 'Belum Absen';
 
         $totalHadir = Teacher_absence::where('teacher_id', $teacher->id)
@@ -68,14 +66,14 @@ class GetTeacherDashboardStatsAction
                 $logs->push((object) [
                     'title' => 'Absen Datang',
                     'tipe' => 'datang',
-                    'time' => Carbon::parse($att->date . ' ' . $att->arrival_time)
+                    'time' => Carbon::parse($att->date.' '.$att->arrival_time),
                 ]);
             }
             if ($att->return_time) {
                 $logs->push((object) [
                     'title' => 'Absen Pulang',
                     'tipe' => 'pulang',
-                    'time' => Carbon::parse($att->date . ' ' . $att->return_time)
+                    'time' => Carbon::parse($att->date.' '.$att->return_time),
                 ]);
             }
         }
@@ -85,9 +83,9 @@ class GetTeacherDashboardStatsAction
 
         foreach ($recentClassAtts as $classAtt) {
             $logs->push((object) [
-                'title' => 'Input Presensi Kelas ' . $classAtt->class,
+                'title' => 'Input Presensi Kelas '.$classAtt->class,
                 'tipe' => 'absensi',
-                'time' => $classAtt->created_at
+                'time' => $classAtt->created_at,
             ]);
         }
 
@@ -98,7 +96,7 @@ class GetTeacherDashboardStatsAction
                 'tgl' => Carbon::parse($item->date)->isoFormat('dddd, D MMMM Y'),
                 'datang' => $item->arrival_time ? Carbon::parse($item->arrival_time)->format('H:i') : '-',
                 'pulang' => $item->return_time ? Carbon::parse($item->return_time)->format('H:i') : '-',
-                'status' => 'Hadir'
+                'status' => 'Hadir',
             ];
         });
 

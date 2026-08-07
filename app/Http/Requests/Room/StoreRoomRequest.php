@@ -23,9 +23,9 @@ class StoreRoomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "room_name" => ["required", "string", "max:100"],
-            "location" => ["required", "string", "max:100"],
-            "description" => ["nullable", "string"],
+            'room_name' => ['required', 'string', 'max:100'],
+            'location' => ['required', 'string', 'max:100'],
+            'description' => ['nullable', 'string'],
         ];
     }
 
@@ -38,14 +38,13 @@ class StoreRoomRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "room_name.required" => "Nama ruangan harus diisi.",
-            "room_name.string" => "Nama ruangan harus berupa string/karakter.",
-            "room_name.max" =>
-                "Nama ruangan tidak boleh lebih dari 100 karakter.",
-            "location.required" => "Lokasi harus diisi.",
-            "location.string" => "Lokasi harus berupa string/karakter.",
-            "location.max" => "Lokasi tidak boleh lebih dari 100 karakter.",
-            "description.string" => "Deskripsi harus berupa string.",
+            'room_name.required' => 'Nama ruangan harus diisi.',
+            'room_name.string' => 'Nama ruangan harus berupa string/karakter.',
+            'room_name.max' => 'Nama ruangan tidak boleh lebih dari 100 karakter.',
+            'location.required' => 'Lokasi harus diisi.',
+            'location.string' => 'Lokasi harus berupa string/karakter.',
+            'location.max' => 'Lokasi tidak boleh lebih dari 100 karakter.',
+            'description.string' => 'Deskripsi harus berupa string.',
         ];
     }
 }

@@ -12,7 +12,7 @@ class PpdbFactory extends Factory
     public function definition(): array
     {
         return [
-            'no_registrasi' => 'PPDB-' . $this->faker->unique()->numberBetween(1000, 9999),
+            'no_registrasi' => 'PPDB-'.$this->faker->unique()->numberBetween(1000, 9999),
             'nama_lengkap' => $this->faker->name(),
             'nisn' => $this->faker->numerify('##########'),
             'nik' => $this->faker->numerify('################'),

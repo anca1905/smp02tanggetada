@@ -9,8 +9,7 @@ class DeleteRoomAction
     /**
      * Menghapus data ruangan berdasarkan ID.
      *
-     * @param Room $room ID ruangan yang akan dihapus.
-     * @return void
+     * @param  Room  $room  ID ruangan yang akan dihapus.
      */
     public function execute(Room $room): void
     {

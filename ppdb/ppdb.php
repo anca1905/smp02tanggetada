@@ -30,7 +30,7 @@
     <!-- PHP Header -->
     <?php
     include 'helpers/get_settings.php';
-    if (!isset($settings['buka_ppdb']) || $settings['buka_ppdb'] == 0) {
+    if (! isset($settings['buka_ppdb']) || $settings['buka_ppdb'] == 0) {
         // Redirect to maintenance or custom "Closed" page
         // For now, let's just show an alert and redirect to index, or handle it gracefully
         echo "<script>alert('Pendaftaran PPDB sedang ditutup.'); window.location.href='index.php';</script>";

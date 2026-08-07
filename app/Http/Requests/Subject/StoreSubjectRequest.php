@@ -23,8 +23,8 @@ class StoreSubjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "code" => ["required", "string", "unique:subjects,code"],
-            "name" => ["required", "string"],
+            'code' => ['required', 'string', 'unique:subjects,code'],
+            'name' => ['required', 'string'],
         ];
     }
 
@@ -37,14 +37,12 @@ class StoreSubjectRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "code.required" => "Kode mata pelajaran harus diisi.",
-            "code.string" =>
-                "Kode mata pelajaran harus berupa string/karakter.",
-            "code.unique" => "Kode mata pelajaran sudah terdaftar.",
+            'code.required' => 'Kode mata pelajaran harus diisi.',
+            'code.string' => 'Kode mata pelajaran harus berupa string/karakter.',
+            'code.unique' => 'Kode mata pelajaran sudah terdaftar.',
 
-            "name.required" => "Nama mata pelajaran harus diisi.",
-            "name.string" =>
-                "Nama mata pelajaran harus berupa string/karakter.",
+            'name.required' => 'Nama mata pelajaran harus diisi.',
+            'name.string' => 'Nama mata pelajaran harus berupa string/karakter.',
         ];
     }
 }

@@ -8,14 +8,12 @@ class SetActiveAcademicYearAction
 {
     /**
      * Mengaktifkan tahun ajaran dan menonaktifkan semua tahun ajaran lainnya
-     *
-     * @param AcademicYear $academicYear
-     * @return AcademicYear
      */
     public function execute(AcademicYear $academicYear): AcademicYear
     {
-        AcademicYear::query()->update(["is_active" => false]);
-        $academicYear->update(["is_active" => true]);
+        AcademicYear::query()->update(['is_active' => false]);
+        $academicYear->update(['is_active' => true]);
+
         return $academicYear;
     }
 }

@@ -1,6 +1,6 @@
 <?php
-$pageTitle = "Data Pendaftar PPDB";
-$pageHeader = "Data Pendaftar PPDB Online";
+$pageTitle = 'Data Pendaftar PPDB';
+$pageHeader = 'Data Pendaftar PPDB Online';
 include 'includes/header.php';
 ?>
 

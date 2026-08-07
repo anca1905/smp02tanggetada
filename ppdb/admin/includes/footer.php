@@ -39,7 +39,9 @@
     </script>
     
     <!-- Page Specific Scripts -->
-    <?php if(isset($extraScripts)) echo $extraScripts; ?>
+    <?php if (isset($extraScripts)) {
+        echo $extraScripts;
+    } ?>
 
 </body>
 </html>

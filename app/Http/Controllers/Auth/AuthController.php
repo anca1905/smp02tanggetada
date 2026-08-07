@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Actions\Auth\AttemptWebLoginAction;
+use App\Actions\Auth\WebLogoutAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\WebLoginRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -28,45 +30,16 @@ class AuthController extends Controller
         return view('auth.login-kepala-sekolah');
     }
 
-    public function login(Request $request)
+    public function login(WebLoginRequest $request, AttemptWebLoginAction $action)
     {
-        // dd($request);
-        $request->validate([
-            'username' => 'required',
-            'password' => 'required',
-            'role_type' => 'required|in:operator,teacher',
-        ]);
+        $redirectRoute = $action->execute(
+            $request->username,
+            $request->password,
+            $request->role_type
+        );
 
-        $guard = $request->role_type; // operator, teacher, atau student
-
-        // Tentukan kredensial berdasarkan guard
-        if ($guard === 'student') {
-            // Jika siswa, field username di form dianggap sebagai 'nis'
-            $credentials = [
-                'nis' => $request->username,
-                'password' => $request->password,
-            ];
-        } else {
-            $credentials = [
-                'username' => $request->username,
-                'password' => $request->password,
-            ];
-        }
-
-        if (Auth::guard($guard)->attempt($credentials)) {
-            $request->session()->regenerate();
-
-            if ($guard === 'operator') {
-                $operator = Auth::guard('operator')->user();
-                // Route based on role: Kepala Sekolah → principal dashboard
-                if (in_array($operator->role_operator, ['Kepala Sekolah', 'principal'])) {
-                    return redirect()->route('principal.dashboard');
-                }
-
-                return redirect()->route('tu.dashboard');
-            } elseif ($guard === 'teacher') {
-                return redirect()->route('teacher.dashboard');
-            }
+        if ($redirectRoute) {
+            return redirect()->route($redirectRoute);
         }
 
         return back()->withErrors([
@@ -74,18 +47,9 @@ class AuthController extends Controller
         ])->onlyInput('username');
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request, WebLogoutAction $action)
     {
-        if (Auth::guard('operator')->check()) {
-            Auth::guard('operator')->logout();
-        } elseif (Auth::guard('teacher')->check()) {
-            Auth::guard('teacher')->logout();
-        } elseif (Auth::guard('student')->check()) {
-            Auth::guard('student')->logout();
-        }
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $action->execute();
 
         return redirect()->route('login');
     }

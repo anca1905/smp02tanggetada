@@ -61,7 +61,7 @@ class Ppdb extends Model
         return match ($this->status_pendaftaran) {
             'Accepted' => 'green',
             'Rejected' => 'red',
-            default    => 'yellow',
+            default => 'yellow',
         };
     }
 }

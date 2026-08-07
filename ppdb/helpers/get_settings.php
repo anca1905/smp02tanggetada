@@ -1,4 +1,5 @@
 <?php
+
 // helpers/get_settings.php
 
 $host = 'localhost';
@@ -11,10 +12,10 @@ try {
     $pdo_settings->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo_settings->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-    $stmt = $pdo_settings->query("SELECT * FROM pengaturan LIMIT 1");
+    $stmt = $pdo_settings->query('SELECT * FROM pengaturan LIMIT 1');
     $settings = $stmt->fetch();
 } catch (PDOException $e) {
     // If database connection fails, define default empty settings or handle error
     $settings = [];
-    error_log("Database Error in get_settings.php: " . $e->getMessage());
+    error_log('Database Error in get_settings.php: '.$e->getMessage());
 }

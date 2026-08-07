@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\AdminTu\Controllers;
 
-use Tests\TestCase;
 use App\Models\Operator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class DashboardControllerTest extends TestCase
 {
@@ -21,7 +21,7 @@ class DashboardControllerTest extends TestCase
         $operator = Operator::factory()->create(['role' => 'SMP']);
 
         $response = $this->actingAs($operator, 'operator')
-                         ->get(route('tu.dashboard'));
+            ->get(route('tu.dashboard'));
 
         $response->assertStatus(200);
         $response->assertViewIs('tu.index');

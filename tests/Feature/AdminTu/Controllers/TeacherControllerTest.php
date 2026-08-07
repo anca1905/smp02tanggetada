@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\AdminTu\Controllers;
 
-use Tests\TestCase;
 use App\Models\Operator;
 use App\Models\Teacher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class TeacherControllerTest extends TestCase
 {
@@ -25,7 +25,7 @@ class TeacherControllerTest extends TestCase
         Teacher::factory()->count(3)->create();
 
         $response = $this->actingAs($operator, 'operator')
-                         ->get(route('tu.teacher.index'));
+            ->get(route('tu.teacher.index'));
 
         $response->assertStatus(200);
         $response->assertViewIs('tu.teacher_data');
@@ -37,17 +37,17 @@ class TeacherControllerTest extends TestCase
         $file = UploadedFile::fake()->image('avatar.jpg');
 
         $response = $this->actingAs($operator, 'operator')
-                         ->post(route('tu.teacher.store'), [
-                             'name' => 'Budi Baru',
-                             'gender' => 'Male',
-                             'employee_id' => 'EMP-777',
-                             'phone' => '081234567890',
-                             'subject' => 'IPA',
-                             'status' => 'Active',
-                             'username' => 'budibaru',
-                             'password' => 'password123',
-                             'photo_url' => $file
-                         ]);
+            ->post(route('tu.teacher.store'), [
+                'name' => 'Budi Baru',
+                'gender' => 'Male',
+                'employee_id' => 'EMP-777',
+                'phone' => '081234567890',
+                'subject' => 'IPA',
+                'status' => 'Active',
+                'username' => 'budibaru',
+                'password' => 'password123',
+                'photo_url' => $file,
+            ]);
 
         $response->assertRedirect();
         $response->assertSessionHas('success');
@@ -60,7 +60,7 @@ class TeacherControllerTest extends TestCase
         $teacher = Teacher::factory()->create();
 
         $response = $this->actingAs($operator, 'operator')
-                         ->delete(route('tu.teacher.destroy', $teacher->id));
+            ->delete(route('tu.teacher.destroy', $teacher->id));
 
         $response->assertRedirect();
         $this->assertDatabaseMissing('teachers', ['id' => $teacher->id]);

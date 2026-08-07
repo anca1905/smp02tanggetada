@@ -8,9 +8,6 @@ class ProcessStudentPromotionAction
 {
     /**
      * Process student promotions
-     *
-     * @param array $data
-     * @return void
      */
     public function execute(array $data): void
     {
@@ -20,7 +17,7 @@ class ProcessStudentPromotionAction
             if ($student) {
                 if ($action == 'Naik') {
                     $student->update([
-                        'classroom_id' => $data['next_classroom_id']
+                        'classroom_id' => $data['next_classroom_id'],
                     ]);
                 }
             }

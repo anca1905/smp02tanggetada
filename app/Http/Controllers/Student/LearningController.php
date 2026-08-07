@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Student;
 
-use App\Models\Material;
+use App\Http\Controllers\Controller;
 use App\Models\Assignment;
 use App\Models\AssignmentSubmission;
+use App\Models\Material;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class LearningController extends Controller
@@ -16,8 +16,8 @@ class LearningController extends Controller
     {
         $student = Auth::guard('student')->user();
 
-        if (!$student->classroom_id) {
-            return view('student.lms.no-class'); 
+        if (! $student->classroom_id) {
+            return view('student.lms.no-class');
         }
 
         $myCourses = Schedule::with(['subject', 'teacher'])
@@ -48,9 +48,9 @@ class LearningController extends Controller
             ->latest()
             ->get();
 
-        $assignments = Assignment::with(['submissions' => function($q) use ($student) {
-                $q->where('student_id', $student->id);
-            }])
+        $assignments = Assignment::with(['submissions' => function ($q) use ($student) {
+            $q->where('student_id', $student->id);
+        }])
             ->where('classroom_id', $student->classroom_id)
             ->where('subject_id', $schedule->subject_id)
             ->latest()
@@ -67,7 +67,7 @@ class LearningController extends Controller
         ]);
 
         $studentId = Auth::guard('student')->id();
-        
+
         $filePath = $request->file('file')->store('submissions', 'public');
 
         AssignmentSubmission::updateOrCreate(

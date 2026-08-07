@@ -1,9 +1,7 @@
 <?php
 
-use App\Http\Controllers\Teacher\PresenceController;
-use App\Http\Controllers\Api\StudentAuthController;
-use App\Http\Controllers\Api\AttendanceCheckinController;
 use App\Http\Controllers\Api\BillingApiController;
+use App\Http\Controllers\Teacher\PresenceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

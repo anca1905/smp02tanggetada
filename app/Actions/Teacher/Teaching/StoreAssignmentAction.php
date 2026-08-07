@@ -9,11 +9,6 @@ class StoreAssignmentAction
 {
     /**
      * Store assignment
-     *
-     * @param array $data
-     * @param int $teacher_id
-     * @param UploadedFile|null $file
-     * @return Assignment
      */
     public function execute(array $data, int $teacher_id, ?UploadedFile $file): Assignment
     {

@@ -1,4 +1,5 @@
 <?php
+
 // Config Database
 $host = 'localhost';
 $dbname = 'db_ppdb';
@@ -17,8 +18,7 @@ try {
     http_response_code(500);
     echo json_encode([
         'status' => 'error',
-        'message' => 'Koneksi Database Gagal: ' . $e->getMessage()
+        'message' => 'Koneksi Database Gagal: '.$e->getMessage(),
     ]);
     exit;
 }
-?>

@@ -1,5 +1,5 @@
 <?php
-$appName = "SIMS Sekolah";
+$appName = 'SIMS Sekolah';
 ?>
 <!DOCTYPE html>
 <html lang="id">

@@ -2,8 +2,8 @@
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <?php
-if (!isset($settings)) {
-    include __DIR__ . '/../helpers/get_settings.php';
+if (! isset($settings)) {
+    include __DIR__.'/../helpers/get_settings.php';
 }
 ?>
 <header class="bg-white shadow-md sticky top-0 z-50">
@@ -25,9 +25,9 @@ if (!isset($settings)) {
                 <a href="galeri.php" class="<?php echo $current_page == 'galeri.php' ? 'text-school-blue' : 'hover:text-school-blue'; ?> transition">Galeri</a>
                 <a href="berita.php" class="<?php echo $current_page == 'berita.php' ? 'text-school-blue' : 'hover:text-school-blue'; ?> transition">Berita</a>
 
-                <?php if (isset($settings['buka_ppdb']) && $settings['buka_ppdb'] == 1): ?>
+                <?php if (isset($settings['buka_ppdb']) && $settings['buka_ppdb'] == 1) { ?>
                     <a href="ppdb.php" class="bg-school-blue text-white px-4 py-2 rounded hover:bg-blue-800 transition">PPDB Online</a>
-                <?php endif; ?>
+                <?php } ?>
             </nav>
 
             <button id="mobile-menu-btn" class="md:hidden text-school-blue text-2xl focus:outline-none">
@@ -43,9 +43,9 @@ if (!isset($settings)) {
             <a href="galeri.php" class="block px-2 <?php echo $current_page == 'galeri.php' ? 'text-school-blue' : 'text-gray-700'; ?> font-bold uppercase hover:text-school-blue hover:bg-gray-50">Galeri</a>
             <a href="berita.php" class="block px-2 <?php echo $current_page == 'berita.php' ? 'text-school-blue' : 'text-gray-700'; ?> font-bold uppercase hover:text-school-blue hover:bg-gray-50">Berita</a>
 
-            <?php if (isset($settings['buka_ppdb']) && $settings['buka_ppdb'] == 1): ?>
+            <?php if (isset($settings['buka_ppdb']) && $settings['buka_ppdb'] == 1) { ?>
                 <a href="ppdb.php" class="block px-2 py-2 text-center bg-school-blue text-white rounded font-bold uppercase">PPDB Online</a>
-            <?php endif; ?>
+            <?php } ?>
         </div>
     </div>
 </header>

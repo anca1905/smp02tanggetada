@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\AdminTu\Actions\Student;
 
-use Tests\TestCase;
-use App\Models\Student;
-use App\Models\Classroom;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Actions\Student\CreateStudentAction;
 use App\Actions\Student\DeleteStudentAction;
+use App\Models\Classroom;
+use App\Models\Student;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class StudentActionsTest extends TestCase
 {
@@ -16,8 +16,8 @@ class StudentActionsTest extends TestCase
     public function test_it_creates_student()
     {
         $classroom = Classroom::factory()->create();
-        
-        $action = new CreateStudentAction();
+
+        $action = new CreateStudentAction;
         $student = $action->execute([
             'nis' => '120999',
             'student_name' => 'Ahmad Baru',
@@ -25,7 +25,7 @@ class StudentActionsTest extends TestCase
             'classroom_id' => $classroom->id,
             'student_status' => 'Active',
             'phone_number' => '081234567890',
-            'password' => 'password123'
+            'password' => 'password123',
         ]);
 
         $this->assertEquals('Ahmad Baru', $student->student_name);
@@ -36,7 +36,7 @@ class StudentActionsTest extends TestCase
     {
         $student = Student::factory()->create();
 
-        $action = new DeleteStudentAction();
+        $action = new DeleteStudentAction;
         $action->execute($student);
 
         $this->assertDatabaseMissing('students', ['id' => $student->id]);

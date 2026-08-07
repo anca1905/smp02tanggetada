@@ -23,8 +23,8 @@ class StoreAcademicRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "string"],
-            "semester" => ["required", "in:Ganjil,Genap"],
+            'name' => ['required', 'string'],
+            'semester' => ['required', 'in:Ganjil,Genap'],
         ];
     }
 
@@ -37,11 +37,11 @@ class StoreAcademicRequest extends FormRequest
     public function messages()
     {
         return [
-            "name.required" => "Nama tahun ajaran tidak boleh kosong",
-            "name.string" => "Nama tahun ajaran harus berupa string/karakter",
+            'name.required' => 'Nama tahun ajaran tidak boleh kosong',
+            'name.string' => 'Nama tahun ajaran harus berupa string/karakter',
 
-            "semester.required" => "Semester tidak boleh kosong",
-            "semester.in" => "Semester harus berupa Ganjil atau Genap",
+            'semester.required' => 'Semester tidak boleh kosong',
+            'semester.in' => 'Semester harus berupa Ganjil atau Genap',
         ];
     }
 }

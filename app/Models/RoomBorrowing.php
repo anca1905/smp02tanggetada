@@ -3,19 +3,21 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class RoomBorrowing extends Model
 {
     use HasFactory;
+
     protected $table = 'room_borrowings';
 
     protected $primaryKey = 'borrowing_id';
 
     // Accessor
     protected $appends = ['realtime_status'];
+
     protected $fillable = [
         'full_name',
         'nis',
@@ -27,14 +29,14 @@ class RoomBorrowing extends Model
         'start_time',
         'end_time',
         'responsible_person',
-        'status'
+        'status',
     ];
 
     public function getRealtimeStatusAttribute()
     {
         $now = Carbon::now();
-        $start = Carbon::parse($this->borrow_date . ' ' . $this->start_time);
-        $end = Carbon::parse($this->borrow_date . ' ' . $this->end_time);
+        $start = Carbon::parse($this->borrow_date.' '.$this->start_time);
+        $end = Carbon::parse($this->borrow_date.' '.$this->end_time);
 
         if ($now->lessThan($start)) {
             return 'upcoming';
@@ -49,6 +51,7 @@ class RoomBorrowing extends Model
     public function scopeOngoing(Builder $query)
     {
         $now = Carbon::now();
+
         return $query->whereDate('borrow_date', $now->toDateString())
             ->whereTime('start_time', '<=', $now->toTimeString())
             ->whereTime('end_time', '>=', $now->toTimeString());
@@ -57,6 +60,7 @@ class RoomBorrowing extends Model
     public function scopeUpcoming(Builder $query)
     {
         $now = Carbon::now();
+
         return $query->where(function ($q) use ($now) {
             $q->whereDate('borrow_date', '>', $now->toDateString())
                 ->orWhere(function ($q2) use ($now) {
@@ -69,6 +73,7 @@ class RoomBorrowing extends Model
     public function scopeCompleted(Builder $query)
     {
         $now = now();
+
         return $query->where(function ($q) use ($now) {
             $q->whereDate('borrow_date', '<', $now->toDateString())
                 ->orWhere(function ($q2) use ($now) {

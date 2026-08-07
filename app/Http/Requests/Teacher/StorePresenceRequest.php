@@ -22,9 +22,9 @@ class StorePresenceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "identity" => "required",
-            "password" => "required",
-            "image" => "required",
+            'identity' => 'required',
+            'password' => 'required',
+            'image' => 'required',
         ];
     }
 
@@ -36,9 +36,9 @@ class StorePresenceRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "identity.required" => "Identitas wajib diisi.",
-            "password.required" => "Password wajib diisi.",
-            "image.required" => "Foto wajib diunggah.",
+            'identity.required' => 'Identitas wajib diisi.',
+            'password.required' => 'Password wajib diisi.',
+            'image.required' => 'Foto wajib diunggah.',
         ];
     }
 }

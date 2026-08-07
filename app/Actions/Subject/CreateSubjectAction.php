@@ -8,9 +8,6 @@ class CreateSubjectAction
 {
     /**
      * Membuat subject/mata pelajaran baru
-
-     * @param array $data
-     * @return Subject
      */
     public function execute(array $data): Subject
     {

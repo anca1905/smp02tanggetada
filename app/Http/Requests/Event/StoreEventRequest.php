@@ -23,10 +23,10 @@ class StoreEventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "title" => ["required", "string", "max:255"],
-            "start_date" => ["required", "date"],
-            "end_date" => ["nullable", "date", "after_or_equal:start_date"],
-            "type" => ["required", "string"],
+            'title' => ['required', 'string', 'max:255'],
+            'start_date' => ['required', 'date'],
+            'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
+            'type' => ['required', 'string'],
         ];
     }
 
@@ -34,18 +34,17 @@ class StoreEventRequest extends FormRequest
     public function messages()
     {
         return [
-            "title.required" => "Judul wajib diisi.",
-            "title.string" => "Judul harus berupa string.",
-            "title.max" => "Judul tidak boleh lebih dari 255 karakter.",
+            'title.required' => 'Judul wajib diisi.',
+            'title.string' => 'Judul harus berupa string.',
+            'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
 
-            "start_date.required" => "Tanggal mulai wajib diisi.",
-            "start_date.date" => "Tanggal mulai harus berupa tanggal.",
+            'start_date.required' => 'Tanggal mulai wajib diisi.',
+            'start_date.date' => 'Tanggal mulai harus berupa tanggal.',
 
-            "end_date.after_or_equal" =>
-                "Tanggal akhir harus setelah atau sama dengan tanggal mulai.",
+            'end_date.after_or_equal' => 'Tanggal akhir harus setelah atau sama dengan tanggal mulai.',
 
-            "type.required" => "Jenis wajib diisi.",
-            "type.string" => "Jenis harus berupa string.",
+            'type.required' => 'Jenis wajib diisi.',
+            'type.string' => 'Jenis harus berupa string.',
         ];
     }
 }

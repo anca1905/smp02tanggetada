@@ -17,13 +17,14 @@ return new class extends Migration
 
             $table->string('title');
             $table->text('description')->nullable();
-            $table->string('type'); 
-            $table->string('file_path')->nullable(); 
-            $table->string('file_name')->nullable(); 
+            $table->string('type');
+            $table->string('file_path')->nullable();
+            $table->string('file_name')->nullable();
 
             $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      */

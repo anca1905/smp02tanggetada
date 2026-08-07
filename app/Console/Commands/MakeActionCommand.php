@@ -12,21 +12,21 @@ class MakeActionCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = "make:action";
+    protected $name = 'make:action';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = "Create a new action class in app/Actions";
+    protected $description = 'Create a new action class in app/Actions';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = "Action";
+    protected $type = 'Action';
 
     /**
      * Get the stub file for the generator.
@@ -35,7 +35,7 @@ class MakeActionCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return base_path("stubs/action.stub");
+        return base_path('stubs/action.stub');
     }
 
     /**
@@ -46,22 +46,23 @@ class MakeActionCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . "\Actions";
+        return $rootNamespace."\Actions";
     }
 
     /**
      * Get the console command options.
 
+     *
      * @return array
      */
     protected function getOptions()
     {
         return [
             [
-                "force",
-                "f",
+                'force',
+                'f',
                 InputOption::VALUE_NONE,
-                "Create the class even if the Action already exists",
+                'Create the class even if the Action already exists',
             ],
         ];
     }

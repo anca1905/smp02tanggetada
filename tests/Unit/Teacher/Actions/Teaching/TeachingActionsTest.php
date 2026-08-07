@@ -2,21 +2,20 @@
 
 namespace Tests\Unit\Teacher\Actions\Teaching;
 
-use Tests\TestCase;
-use App\Models\Material;
+use App\Actions\Teacher\Teaching\DeleteAssignmentAction;
+use App\Actions\Teacher\Teaching\DeleteMaterialAction;
+use App\Actions\Teacher\Teaching\StoreAssignmentAction;
+use App\Actions\Teacher\Teaching\StoreMaterialAction;
 use App\Models\Assignment;
-use App\Models\Schedule;
-use App\Models\Teacher;
 use App\Models\Classroom;
+use App\Models\Material;
+use App\Models\Schedule;
 use App\Models\Subject;
-use App\Models\AcademicYear;
+use App\Models\Teacher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use App\Actions\Teacher\Teaching\StoreMaterialAction;
-use App\Actions\Teacher\Teaching\DeleteMaterialAction;
-use App\Actions\Teacher\Teaching\StoreAssignmentAction;
-use App\Actions\Teacher\Teaching\DeleteAssignmentAction;
+use Tests\TestCase;
 
 class TeachingActionsTest extends TestCase
 {
@@ -33,7 +32,7 @@ class TeachingActionsTest extends TestCase
         $schedule = Schedule::factory()->create();
         $file = UploadedFile::fake()->create('document.pdf', 100);
 
-        $action = new StoreMaterialAction();
+        $action = new StoreMaterialAction;
         $material = $action->execute([
             'schedule_id' => $schedule->id,
             'title' => 'Materi Bab 1',
@@ -49,12 +48,12 @@ class TeachingActionsTest extends TestCase
     {
         $schedule = Schedule::factory()->create();
 
-        $action = new StoreMaterialAction();
+        $action = new StoreMaterialAction;
         $material = $action->execute([
             'schedule_id' => $schedule->id,
             'title' => 'Materi Video',
             'type' => 'youtube',
-            'url' => 'https://youtube.com/watch?v=12345'
+            'url' => 'https://youtube.com/watch?v=12345',
         ], null);
 
         $this->assertEquals('youtube', $material->type);
@@ -68,12 +67,12 @@ class TeachingActionsTest extends TestCase
 
         $material = Material::factory()->create([
             'type' => 'pdf',
-            'file_path' => $filePath
+            'file_path' => $filePath,
         ]);
 
         Storage::disk('public')->assertExists($filePath);
 
-        $action = new DeleteMaterialAction();
+        $action = new DeleteMaterialAction;
         $action->execute($material->id);
 
         $this->assertDatabaseMissing('materials', ['id' => $material->id]);
@@ -87,7 +86,7 @@ class TeachingActionsTest extends TestCase
         $subject = Subject::factory()->create();
         $file = UploadedFile::fake()->create('tugas.pdf', 100);
 
-        $action = new StoreAssignmentAction();
+        $action = new StoreAssignmentAction;
         $assignment = $action->execute([
             'title' => 'Tugas 1',
             'due_date' => '2026-10-10',
@@ -105,10 +104,10 @@ class TeachingActionsTest extends TestCase
         $filePath = $file->store('assignments', 'public');
 
         $assignment = Assignment::factory()->create([
-            'file_path' => $filePath
+            'file_path' => $filePath,
         ]);
 
-        $action = new DeleteAssignmentAction();
+        $action = new DeleteAssignmentAction;
         $action->execute($assignment->id);
 
         $this->assertDatabaseMissing('assignments', ['id' => $assignment->id]);

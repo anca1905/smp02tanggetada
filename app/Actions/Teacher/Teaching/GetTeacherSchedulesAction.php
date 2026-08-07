@@ -2,22 +2,19 @@
 
 namespace App\Actions\Teacher\Teaching;
 
-use App\Models\Schedule;
 use App\Models\AcademicYear;
+use App\Models\Schedule;
 
 class GetTeacherSchedulesAction
 {
     /**
      * Get teacher schedules grouped by classroom and subject
-     *
-     * @param int $teacherId
-     * @return array
      */
     public function execute(int $teacherId): array
     {
         $activeYear = AcademicYear::where('is_active', true)->first();
 
-        if (!$activeYear) {
+        if (! $activeYear) {
             return ['error' => 'Tahun ajaran aktif belum diset oleh Admin!'];
         }
 
@@ -28,12 +25,12 @@ class GetTeacherSchedulesAction
             })
             ->get()
             ->groupBy(function ($data) {
-                return $data->classroom->name . ' - ' . $data->subject->name;
+                return $data->classroom->name.' - '.$data->subject->name;
             });
 
         return [
             'myClasses' => $myClasses,
-            'activeYear' => $activeYear
+            'activeYear' => $activeYear,
         ];
     }
 }

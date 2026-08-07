@@ -2,18 +2,14 @@
 
 namespace App\Actions\Teacher\Teaching;
 
-use App\Models\Schedule;
-use App\Models\Material;
 use App\Models\Assignment;
+use App\Models\Material;
+use App\Models\Schedule;
 
 class GetCourseDetailsAction
 {
     /**
      * Get course details (schedule, materials, assignments)
-     *
-     * @param int $schedule_id
-     * @param int $teacher_id
-     * @return array
      */
     public function execute(int $schedule_id, int $teacher_id): array
     {

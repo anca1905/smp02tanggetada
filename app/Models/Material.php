@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Material extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'schedule_id',
         'title',
         'description',
         'type',
         'file_path',
-        'file_name'
+        'file_name',
     ];
 
     public function schedule()

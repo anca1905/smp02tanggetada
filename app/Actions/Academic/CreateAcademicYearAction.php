@@ -8,16 +8,13 @@ class CreateAcademicYearAction
 {
     /**
      * Membuat tahun akademik baru
-     *
-     * @param array $data
-     * @return \App\Models\AcademicYear
      */
     public function execute(array $data): AcademicYear
     {
         return AcademicYear::create([
-            "name" => $data["name"],
-            "semester" => $data["semester"],
-            "is_active" => false,
+            'name' => $data['name'],
+            'semester' => $data['semester'],
+            'is_active' => false,
         ]);
     }
 }

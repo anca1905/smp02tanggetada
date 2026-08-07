@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class AcademicYear extends Model
 {
-    protected $fillable = ["name", "semester", "is_active"];
+    protected $fillable = ['name', 'semester', 'is_active'];
 
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
     use HasFactory;
 }

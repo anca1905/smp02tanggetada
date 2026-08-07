@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Classroom extends Model
 {
     use HasFactory;
+
     protected $fillable = ['name', 'level', 'academic_year_id', 'teacher_id'];
 
     public function academicYear()

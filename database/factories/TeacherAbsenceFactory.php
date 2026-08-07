@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\Teacher_absence;
 use App\Models\Teacher;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Teacher_absence;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TeacherAbsenceFactory extends Factory
 {

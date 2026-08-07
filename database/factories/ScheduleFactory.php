@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Schedule;
 use App\Models\Classroom;
+use App\Models\Schedule;
 use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Database\Eloquent\Factories\Factory;

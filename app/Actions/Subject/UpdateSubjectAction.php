@@ -12,6 +12,7 @@ class UpdateSubjectAction
     public function execute(array $data, Subject $subject): Subject
     {
         $subject->update($data);
+
         return $subject;
     }
 }

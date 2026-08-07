@@ -1,6 +1,6 @@
 <?php
-$pageTitle = "Dashboard Admin";
-$pageHeader = "Dashboard Overview";
+$pageTitle = 'Dashboard Admin';
+$pageHeader = 'Dashboard Overview';
 include 'includes/header.php';
 ?>
 

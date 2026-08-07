@@ -7,7 +7,7 @@ $berita = null;
 
 if ($id) {
     try {
-        $stmt = $pdo->prepare("SELECT * FROM berita WHERE id = ?");
+        $stmt = $pdo->prepare('SELECT * FROM berita WHERE id = ?');
         $stmt->execute([$id]);
         $berita = $stmt->fetch();
 
@@ -18,8 +18,8 @@ if ($id) {
     }
 }
 
-if (!$berita) {
-    header("Location: berita.php");
+if (! $berita) {
+    header('Location: berita.php');
     exit;
 }
 
@@ -75,9 +75,9 @@ $date = date('d F Y', strtotime($berita['tanggal']));
                     <span><i class="far fa-eye mr-1"></i> <?= $berita['dilihat'] ?? 0 ?> Dilihat</span>
                 </div>
 
-                <?php if (!empty($berita['gambar'])): ?>
+                <?php if (! empty($berita['gambar'])) { ?>
                     <img src="<?= $berita['gambar'] ?>" alt="<?= htmlspecialchars($berita['judul']) ?>" class="w-full h-auto rounded mb-6" onerror="this.style.display='none'">
-                <?php endif; ?>
+                <?php } ?>
 
                 <div class="prose max-w-none text-gray-700 leading-relaxed">
                     <!-- Rich Text Content -->
@@ -89,7 +89,7 @@ $date = date('d F Y', strtotime($berita['tanggal']));
                     <div class="flex gap-2">
                         <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]") ?>" target="_blank" class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center hover:opacity-80"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://twitter.com/intent/tweet?text=<?= urlencode($berita['judul']) ?>&url=<?= urlencode("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]") ?>" target="_blank" class="w-8 h-8 bg-blue-400 text-white rounded-full flex items-center justify-center hover:opacity-80"><i class="fab fa-twitter"></i></a>
-                        <a href="whatsapp://send?text=<?= urlencode($berita['judul'] . " " . "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]") ?>" target="_blank" class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:opacity-80"><i class="fab fa-whatsapp"></i></a>
+                        <a href="whatsapp://send?text=<?= urlencode($berita['judul'].' '."http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]") ?>" target="_blank" class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:opacity-80"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
             </div>
@@ -103,8 +103,8 @@ $date = date('d F Y', strtotime($berita['tanggal']));
                         <!-- Loaded by JS via app.js reuse or simple PHP loop here -->
                         <?php
                         $stmts = $pdo->query("SELECT * FROM berita WHERE status = 'Published' AND id != $id ORDER BY tanggal DESC LIMIT 5");
-                        while ($row = $stmts->fetch()):
-                        ?>
+while ($row = $stmts->fetch()) {
+    ?>
                             <div class="flex gap-4 group cursor-pointer mb-4">
                                 <img src="<?= $row['gambar'] ?>" class="w-20 h-16 object-cover rounded" alt="Thumbnail" onerror="this.src='assets/img/news-placeholder.jpg'">
                                 <div>
@@ -114,7 +114,7 @@ $date = date('d F Y', strtotime($berita['tanggal']));
                                     <span class="text-xs text-gray-500"><?= date('d M Y', strtotime($row['tanggal'])) ?></span>
                                 </div>
                             </div>
-                        <?php endwhile; ?>
+                        <?php } ?>
                     </div>
                 </div>
 

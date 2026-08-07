@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Teacher;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Teacher\UpdateTeacherSettingRequest;
 use App\Actions\Teacher\Setting\UpdateTeacherSettingAction;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Teacher\UpdateTeacherSettingRequest;
+use Illuminate\Support\Facades\Auth;
 
 class SettingController extends Controller
 {
     public function index()
     {
         $teacher = Auth::user();
+
         return view('teacher.setting', compact('teacher'));
     }
 

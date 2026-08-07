@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Carbon\Carbon;
 use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;

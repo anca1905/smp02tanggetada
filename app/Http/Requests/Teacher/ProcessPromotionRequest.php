@@ -22,7 +22,7 @@ class ProcessPromotionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'action' => 'required|array', 
+            'action' => 'required|array',
             'next_classroom_id' => 'required|integer|exists:classrooms,id',
         ];
     }

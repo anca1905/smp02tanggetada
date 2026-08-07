@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class Teacher extends Authenticatable
 {
-    use Notifiable, HasFactory;
+    use HasFactory, Notifiable;
 
     protected $table = 'teachers';
 
@@ -22,7 +22,7 @@ class Teacher extends Authenticatable
         'status',
         'username',
         'password',
-        'photo_url'
+        'photo_url',
     ];
 
     protected $hidden = ['password'];
@@ -44,6 +44,6 @@ class Teacher extends Authenticatable
 
     public function classroom()
     {
-        return $this->hasOne(Classroom::class); 
+        return $this->hasOne(Classroom::class);
     }
 }

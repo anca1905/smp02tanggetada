@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('assignment_id')->constrained()->onDelete('cascade');
             $table->foreignId('student_id')->constrained()->onDelete('cascade');
-            
+
             $table->string('file_path'); // The submitted file
             $table->text('student_note')->nullable();
-            
+
             $table->integer('score')->nullable();
             $table->text('teacher_feedback')->nullable();
             $table->dateTime('submitted_at');
-            
+
             $table->timestamps();
         });
     }
