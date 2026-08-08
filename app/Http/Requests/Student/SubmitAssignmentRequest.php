@@ -27,4 +27,15 @@ class SubmitAssignmentRequest extends FormRequest
             'note' => ['nullable', 'string'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'assignment_id.required' => 'Assignment ID harus diisi.',
+            'file.required' => 'File harus diunggah.',
+            'file.file' => 'File yang diunggah harus berupa file.',
+            'file.max' => 'Ukuran file tidak boleh lebih dari 10MB.',
+            'note.string' => 'Catatan harus berupa teks.',
+        ];
+    }
 }

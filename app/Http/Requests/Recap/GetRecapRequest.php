@@ -28,4 +28,16 @@ class GetRecapRequest extends FormRequest
             'class' => 'nullable|exists:classrooms,id',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'kategori.in' => 'Kategori tidak valid.',
+            'bulan.integer' => 'Bulan harus berupa angka.',
+            'bulan.between' => 'Bulan harus antara 1 sampai 12.',
+            'search.string' => 'Pencarian harus berupa string.',
+            'search.max' => 'Pencarian tidak boleh lebih dari 100 karakter.',
+            'class.exists' => 'Kelas tidak ditemukan.',
+        ];
+    }
 }

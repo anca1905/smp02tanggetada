@@ -35,6 +35,22 @@ class UpdateTeacherSettingRequest extends FormRequest
         ];
     }
 
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Nama harus diisi.',
+            'name.string' => 'Nama harus berupa string.',
+            'name.max' => 'Nama tidak boleh lebih dari 100 karakter.',
+            'username.required' => 'Username harus diisi.',
+            'username.unique' => 'Username sudah digunakan.',
+            'photo_url.image' => 'Foto harus berupa gambar.',
+            'photo_url.max' => 'Ukuran foto tidak boleh lebih dari 2MB.',
+            'current_password.required_with' => 'Password saat ini harus diisi jika mengisi password baru atau mengubah username.',
+            'new_password.min' => 'Password baru minimal 6 karakter.',
+            'new_password.confirmed' => 'Konfirmasi password baru tidak cocok.',
+        ];
+    }
+
     /**
      * Handle after validation routines.
      */

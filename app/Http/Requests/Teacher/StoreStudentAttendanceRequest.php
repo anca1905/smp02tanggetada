@@ -28,4 +28,18 @@ class StoreStudentAttendanceRequest extends FormRequest
             'attendance.*.status' => ['required', 'string', 'in:present,sick,permission,absent,late'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'class.required' => 'Kelas harus dipilih.',
+            'date.required' => 'Tanggal harus diisi.',
+            'date.date' => 'Format tanggal tidak valid.',
+            'attendance.required' => 'Data kehadiran harus diisi.',
+            'attendance.array' => 'Format data kehadiran tidak valid.',
+            'attendance.*.status.required' => 'Status kehadiran siswa harus diisi.',
+            'attendance.*.status.string' => 'Format status kehadiran tidak valid.',
+            'attendance.*.status.in' => 'Status kehadiran tidak valid.',
+        ];
+    }
 }

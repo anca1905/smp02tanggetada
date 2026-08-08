@@ -29,4 +29,19 @@ class StoreAssignmentRequest extends FormRequest
             'file' => 'nullable|file|max:10240',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'classroom_id.required' => 'Kelas harus dipilih.',
+            'subject_id.required' => 'Mata pelajaran harus dipilih.',
+            'title.required' => 'Judul tugas harus diisi.',
+            'title.string' => 'Judul harus berupa teks.',
+            'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
+            'due_date.required' => 'Batas waktu harus diisi.',
+            'due_date.date' => 'Batas waktu harus berupa tanggal yang valid.',
+            'file.file' => 'File yang diunggah harus berupa file.',
+            'file.max' => 'Ukuran file tidak boleh lebih dari 10MB.',
+        ];
+    }
 }

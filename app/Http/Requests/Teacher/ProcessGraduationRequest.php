@@ -26,4 +26,15 @@ class ProcessGraduationRequest extends FormRequest
             'status.*' => ['required', 'string', 'in:Lulus,Tidak Lulus'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'status.required' => 'Status kelulusan harus diisi.',
+            'status.array' => 'Format status tidak valid.',
+            'status.*.required' => 'Setiap status siswa harus diisi.',
+            'status.*.string' => 'Format status harus berupa teks.',
+            'status.*.in' => 'Status harus berupa "Lulus" atau "Tidak Lulus".',
+        ];
+    }
 }

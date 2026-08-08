@@ -26,4 +26,15 @@ class ProcessPromotionRequest extends FormRequest
             'next_classroom_id' => 'required|integer|exists:classrooms,id',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'action.required' => 'Aksi kenaikan kelas harus dipilih.',
+            'action.array' => 'Format aksi tidak valid.',
+            'next_classroom_id.required' => 'Kelas tujuan harus dipilih.',
+            'next_classroom_id.integer' => 'ID kelas tujuan tidak valid.',
+            'next_classroom_id.exists' => 'Kelas tujuan tidak ditemukan.',
+        ];
+    }
 }

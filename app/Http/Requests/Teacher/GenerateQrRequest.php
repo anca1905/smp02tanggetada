@@ -26,4 +26,13 @@ class GenerateQrRequest extends FormRequest
             'date' => ['required', 'date'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'class.required' => 'Kelas harus dipilih.',
+            'date.required' => 'Tanggal harus diisi.',
+            'date.date' => 'Format tanggal tidak valid.',
+        ];
+    }
 }
