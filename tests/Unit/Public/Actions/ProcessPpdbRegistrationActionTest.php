@@ -32,7 +32,8 @@ class ProcessPpdbRegistrationActionTest extends TestCase
         $noReg = $action->execute($data);
 
         $year = date('Y');
-        $this->assertEquals("REG-{$year}-0001", $noReg);
+        // Menggunakan regex assertMatchesRegularExpression agar lebih robust jika id database melompat karena auto increment
+        $this->assertMatchesRegularExpression("/^REG-{$year}-\d{4}$/", $noReg);
 
         $this->assertDatabaseHas('ppdb', [
             'no_registrasi' => $noReg,
@@ -49,6 +50,7 @@ class ProcessPpdbRegistrationActionTest extends TestCase
 
         $noReg2 = $action->execute($data2);
 
-        $this->assertEquals("REG-{$year}-0002", $noReg2);
+        $this->assertMatchesRegularExpression("/^REG-{$year}-\d{4}$/", $noReg2);
+        $this->assertNotEquals($noReg, $noReg2);
     }
 }

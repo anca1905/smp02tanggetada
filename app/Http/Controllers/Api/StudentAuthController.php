@@ -11,8 +11,13 @@ use Illuminate\Http\Request;
 
 class StudentAuthController extends Controller
 {
-    public function login(StudentLoginRequest $request, StudentLoginAction $action)
-    {
+    /**
+     * Login a student.
+     */
+    public function login(
+        StudentLoginRequest $request,
+        StudentLoginAction $action,
+    ) {
         $result = $action->execute($request->nis, $request->password);
         $status = $result['status_code'] ?? 200;
         unset($result['status_code']);
@@ -20,8 +25,13 @@ class StudentAuthController extends Controller
         return response()->json($result, $status);
     }
 
-    public function parentLogin(StudentLoginRequest $request, ParentLoginAction $action)
-    {
+    /**
+     * Login a parent.
+     */
+    public function parentLogin(
+        StudentLoginRequest $request,
+        ParentLoginAction $action,
+    ) {
         $result = $action->execute($request->nis, $request->password);
         $status = $result['status_code'] ?? 200;
         unset($result['status_code']);
@@ -29,6 +39,9 @@ class StudentAuthController extends Controller
         return response()->json($result, $status);
     }
 
+    /**
+     * Logout a user.
+     */
     public function logout(Request $request, ApiLogoutAction $action)
     {
         return response()->json($action->execute($request), 200);

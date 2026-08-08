@@ -27,7 +27,7 @@ class GetStudentDashboardActionTest extends TestCase
         StudentAttendanceDetail::factory()->create([
             'attendance_id' => $attendance->id,
             'student_id' => $student->id,
-            'status' => 'present'
+            'status' => 'present',
         ]);
 
         Post::factory()->create(['is_published' => true]);

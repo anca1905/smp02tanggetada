@@ -19,17 +19,17 @@ class GetLandingPageDataActionTest extends TestCase
         Post::query()->delete();
         Teacher::query()->delete();
         Student::query()->delete();
-        
+
         Post::factory()->count(5)->create(['is_published' => true]);
         Post::factory()->count(2)->create(['is_published' => false]);
-        
+
         Teacher::factory()->count(3)->create(['status' => 'Active']);
         Teacher::factory()->count(1)->create(['status' => 'Inactive']);
-        
+
         Student::factory()->count(10)->create(['student_status' => 'Active']);
         Student::factory()->count(2)->create(['student_status' => 'Inactive']);
 
-        $action = new GetLandingPageDataAction();
+        $action = new GetLandingPageDataAction;
         $data = $action->execute();
 
         $this->assertArrayHasKey('latest_posts', $data);

@@ -2,85 +2,44 @@
 
 namespace App\Http\Controllers\Student;
 
+use App\Actions\Student\Learning\GetCourseDetailAction;
+use App\Actions\Student\Learning\GetStudentCoursesAction;
+use App\Actions\Student\Learning\SubmitStudentAssignmentAction;
 use App\Http\Controllers\Controller;
-use App\Models\Assignment;
-use App\Models\AssignmentSubmission;
-use App\Models\Material;
-use App\Models\Schedule;
-use Illuminate\Http\Request;
+use App\Http\Requests\Student\SubmitAssignmentRequest;
 use Illuminate\Support\Facades\Auth;
 
 class LearningController extends Controller
 {
-    public function index()
+    public function index(GetStudentCoursesAction $action)
     {
         $student = Auth::guard('student')->user();
 
         if (! $student->classroom_id) {
-            return view('student.lms.no-class');
+            // Jika view tidak ada, kita redirect aja ke halaman yang valid atau tampilkan teks sederhana.
+            // Sebelumnya error karena no-class view not found.
+            // Bisa redirect ke halaman profile / dashboard jika ada, atau return string.
+            return response('Anda belum terdaftar di kelas apapun.', 200);
         }
 
-        $myCourses = Schedule::with(['subject', 'teacher'])
-            ->where('classroom_id', $student->classroom_id)
-            ->get()
-            ->groupBy(function ($data) {
-                return $data->subject->name;
-            });
+        $data = $action->execute();
 
-        return view('student.lms.index', compact('myCourses', 'student'));
+        return view('student.lms.index', $data);
     }
 
     /**
      * Masuk ke Ruang Kelas Mapel tertentu untuk lihat materi.
      */
-    public function show($schedule_id)
+    public function show($schedule_id, GetCourseDetailAction $action)
     {
-        $student = Auth::guard('student')->user();
+        $data = $action->execute($schedule_id);
 
-        $schedule = Schedule::with(['subject', 'teacher', 'classroom'])
-            ->findOrFail($schedule_id);
-
-        if ($schedule->classroom_id != $student->classroom_id) {
-            abort(403, 'Anda bukan siswa dari kelas ini.');
-        }
-
-        $materials = Material::where('schedule_id', $schedule_id)
-            ->latest()
-            ->get();
-
-        $assignments = Assignment::with(['submissions' => function ($q) use ($student) {
-            $q->where('student_id', $student->id);
-        }])
-            ->where('classroom_id', $student->classroom_id)
-            ->where('subject_id', $schedule->subject_id)
-            ->latest()
-            ->get();
-
-        return view('student.lms.course', compact('schedule', 'materials', 'assignments'));
+        return view('student.lms.course', $data);
     }
 
-    public function submitAssignment(Request $request)
+    public function submitAssignment(SubmitAssignmentRequest $request, SubmitStudentAssignmentAction $action)
     {
-        $request->validate([
-            'assignment_id' => 'required',
-            'file' => 'required|file|max:10240', // Max 10MB
-        ]);
-
-        $studentId = Auth::guard('student')->id();
-
-        $filePath = $request->file('file')->store('submissions', 'public');
-
-        AssignmentSubmission::updateOrCreate(
-            [
-                'assignment_id' => $request->assignment_id,
-                'student_id' => $studentId,
-            ],
-            [
-                'file_path' => $filePath,
-                'student_note' => $request->note,
-                'submitted_at' => now(),
-            ]
-        );
+        $action->execute($request);
 
         return back()->with('success', 'Tugas berhasil dikumpulkan!');
     }

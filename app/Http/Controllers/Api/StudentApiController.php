@@ -16,28 +16,54 @@ use Illuminate\Http\Request;
 
 class StudentApiController extends Controller
 {
-    public function dashboard(Request $request, GetStudentDashboardAction $action)
-    {
+    /**
+     * Get the student's dashboard.
+     */
+    public function dashboard(
+        Request $request,
+        GetStudentDashboardAction $action,
+    ) {
         return response()->json($action->execute($request->user()));
     }
 
-    public function schedules(Request $request, GetStudentSchedulesAction $action)
-    {
+    /**
+     * Get the student's schedules.
+     */
+    public function schedules(
+        Request $request,
+        GetStudentSchedulesAction $action,
+    ) {
         return response()->json($action->execute($request->user()));
     }
 
-    public function assignments(Request $request, GetStudentAssignmentsAction $action)
-    {
+    /**
+     * Get the student's assignments.
+     */
+    public function assignments(
+        Request $request,
+        GetStudentAssignmentsAction $action,
+    ) {
         return response()->json($action->execute($request->user()));
     }
 
-    public function materials(Request $request, GetStudentMaterialsAction $action)
-    {
+    /**
+     * Get the student's materials.
+     */
+    public function materials(
+        Request $request,
+        GetStudentMaterialsAction $action,
+    ) {
         return response()->json($action->execute($request->user()));
     }
 
-    public function submitAssignment(SubmitAssignmentRequest $request, $id, SubmitAssignmentAction $action)
-    {
+    /**
+     * Submit an assignment.
+     */
+    public function submitAssignment(
+        SubmitAssignmentRequest $request,
+        $id,
+        SubmitAssignmentAction $action,
+    ) {
         $result = $action->execute($request, $request->user(), $id);
         $status = $result['status_code'] ?? 200;
         unset($result['status_code']);
@@ -45,16 +71,27 @@ class StudentApiController extends Controller
         return response()->json($result, $status);
     }
 
-    public function attendances(Request $request, GetStudentAttendancesAction $action)
-    {
+    /**
+     * Get the student's attendances.
+     */
+    public function attendances(
+        Request $request,
+        GetStudentAttendancesAction $action,
+    ) {
         return response()->json($action->execute($request->user()));
     }
 
+    /**
+     * Get the student's grades.
+     */
     public function grades(Request $request, GetStudentGradesAction $action)
     {
         return response()->json($action->execute($request->user()));
     }
 
+    /**
+     * Get the student's announcements.
+     */
     public function announcements(GetAnnouncementsAction $action)
     {
         return response()->json($action->execute());

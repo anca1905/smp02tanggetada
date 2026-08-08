@@ -89,13 +89,13 @@ class PublicControllerTest extends TestCase
         Setting::updateOrCreate(['key' => 'buka_ppdb'], ['value' => '0']);
 
         $response = $this->post('/ppdb/daftar', [
-             'nama_lengkap' => 'Jane Doe',
-             'nisn' => '1234567890',
-             'nik' => '3201234567890001',
-             'jenis_kelamin' => 'Perempuan',
-             'jurusan' => 'RPL',
-             'no_hp' => '081234567890',
-             'asal_sekolah' => 'SMPN 1 Jakarta',
+            'nama_lengkap' => 'Jane Doe',
+            'nisn' => '1234567890',
+            'nik' => '3201234567890001',
+            'jenis_kelamin' => 'Perempuan',
+            'jurusan' => 'RPL',
+            'no_hp' => '081234567890',
+            'asal_sekolah' => 'SMPN 1 Jakarta',
         ]);
 
         $response->assertRedirect();

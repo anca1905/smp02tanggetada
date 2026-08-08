@@ -14,7 +14,7 @@ class ProcessPpdbRegistrationAction
     public function execute(array $data): string
     {
         $lastId = Ppdb::max('id') ?? 0;
-        $noReg = 'REG-' . date('Y') . '-' . str_pad($lastId + 1, 4, '0', STR_PAD_LEFT);
+        $noReg = 'REG-'.date('Y').'-'.str_pad($lastId + 1, 4, '0', STR_PAD_LEFT);
 
         Ppdb::create([
             'no_registrasi' => $noReg,

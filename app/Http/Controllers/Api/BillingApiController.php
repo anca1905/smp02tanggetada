@@ -8,9 +8,17 @@ use Illuminate\Http\Request;
 
 class BillingApiController extends Controller
 {
-    public function getStudentBills(Request $request, GetStudentBillsAction $action)
-    {
-        $result = $action->execute($request->user(), $request->input('student_id'));
+    /**
+     * Get a student's bills.
+     */
+    public function getStudentBills(
+        Request $request,
+        GetStudentBillsAction $action,
+    ) {
+        $result = $action->execute(
+            $request->user(),
+            $request->input('student_id'),
+        );
         $status = $result['status_code'] ?? 200;
         unset($result['status_code']);
 

@@ -23,8 +23,8 @@ class StudentLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "nis" => "required|string",
-            "password" => "required|string",
+            'nis' => 'required|string',
+            'password' => 'required|string',
         ];
     }
 
@@ -32,10 +32,10 @@ class StudentLoginRequest extends FormRequest
     public function messages()
     {
         return [
-            "nis.required" => "NIS harus diisi.",
-            "nis.string" => "NIS harus berupa string/karakter.",
-            "password.required" => "Password harus diisi.",
-            "password.string" => "Password harus berupa string/karakter.",
+            'nis.required' => 'NIS harus diisi.',
+            'nis.string' => 'NIS harus berupa string/karakter.',
+            'password.required' => 'Password harus diisi.',
+            'password.string' => 'Password harus berupa string/karakter.',
         ];
     }
 }

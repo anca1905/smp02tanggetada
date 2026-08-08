@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Student;
 use App\Models\Subject;
-use App\Models\AcademicYear;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

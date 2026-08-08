@@ -16,8 +16,10 @@ class AttendanceCheckinController extends Controller
      * POST /api/student/attendance/checkin
      * Body: { qr_token: "xxx" }
      */
-    public function checkin(QrCheckinRequest $request, ProcessQrCheckinAction $action)
-    {
+    public function checkin(
+        QrCheckinRequest $request,
+        ProcessQrCheckinAction $action,
+    ) {
         $result = $action->execute($request->user(), $request->qr_token);
         $status = $result['status_code'] ?? 200;
         unset($result['status_code']);
@@ -37,7 +39,9 @@ class AttendanceCheckinController extends Controller
             'date' => 'required|date',
         ]);
 
-        return response()->json($action->execute($request->class, $request->date));
+        return response()->json(
+            $action->execute($request->class, $request->date),
+        );
     }
 
     /**

@@ -19,45 +19,45 @@ class PublicController extends Controller
     {
         $data = $action->execute();
 
-        return view("landing", $data);
+        return view('landing', $data);
     }
 
     public function profil(GetProfileDataAction $action)
     {
         $data = $action->execute();
 
-        return view("public.profile", $data);
+        return view('public.profile', $data);
     }
 
     public function berita(GetNewsListAction $action)
     {
         $posts = $action->execute();
 
-        return view("public.news.news", compact("posts"));
+        return view('public.news.news', compact('posts'));
     }
 
     public function showBerita(string $slug, GetNewsDetailAction $action)
     {
         $data = $action->execute($slug);
 
-        return view("public.news.news-show", $data);
+        return view('public.news.news-show', $data);
     }
 
     public function kontak()
     {
-        return view("public.contact");
+        return view('public.contact');
     }
 
     public function jadwal()
     {
-        return view("public.timetable");
+        return view('public.timetable');
     }
 
     public function kalender(GetCalendarEventsAction $action)
     {
         $eventsByMonth = $action->execute();
 
-        return view("public.calender", compact("eventsByMonth"));
+        return view('public.calender', compact('eventsByMonth'));
     }
 
     public function storeContact(
@@ -67,8 +67,8 @@ class PublicController extends Controller
         $action->execute($request->validated());
 
         return back()->with(
-            "success",
-            "Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda.",
+            'success',
+            'Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda.',
         );
     }
 
@@ -77,11 +77,11 @@ class PublicController extends Controller
      */
     public function ppdb(CheckPpdbStatusAction $action)
     {
-        if (!$action->execute()) {
-            return view("public.ppdb-closed");
+        if (! $action->execute()) {
+            return view('public.ppdb-closed');
         }
 
-        return view("public.ppdb");
+        return view('public.ppdb');
     }
 
     /**
@@ -89,11 +89,11 @@ class PublicController extends Controller
      */
     public function ppdbForm(CheckPpdbStatusAction $action)
     {
-        if (!$action->execute()) {
-            return view("public.ppdb-closed");
+        if (! $action->execute()) {
+            return view('public.ppdb-closed');
         }
 
-        return view("public.ppdb-form");
+        return view('public.ppdb-form');
     }
 
     /**
@@ -104,17 +104,17 @@ class PublicController extends Controller
         CheckPpdbStatusAction $checkPpdbStatusAction,
         ProcessPpdbRegistrationAction $action,
     ) {
-        if (!$checkPpdbStatusAction->execute()) {
+        if (! $checkPpdbStatusAction->execute()) {
             return back()->with(
-                "error",
-                "Pendaftaran PPDB saat ini sedang ditutup.",
+                'error',
+                'Pendaftaran PPDB saat ini sedang ditutup.',
             );
         }
 
         $noReg = $action->execute($request->validated());
 
         return back()->with(
-            "success",
+            'success',
             "Pendaftaran berhasil! Nomor Registrasi Anda: {$noReg}. Simpan nomor ini untuk keperluan verifikasi.",
         );
     }

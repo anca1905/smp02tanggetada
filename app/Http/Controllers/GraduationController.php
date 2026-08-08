@@ -2,40 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Student;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Actions\Teacher\Graduation\GetGraduationDataAction;
+use App\Actions\Teacher\Graduation\ProcessGraduationAction;
+use App\Http\Requests\Teacher\ProcessGraduationRequest;
 
 class GraduationController extends Controller
 {
-    public function index()
+    public function index(GetGraduationDataAction $action)
     {
-        $teacher = Auth::user();
+        $data = $action->execute();
 
-        $kelas = (int) filter_var($teacher->homeroom_class, FILTER_SANITIZE_NUMBER_INT);
-
-        $students = Student::where('class', $kelas)
-            ->where('student_status', 'Active')
-            ->orderBy('student_name', 'asc')
-            ->get();
-
-        return view('teacher.graduation', compact('students', 'kelas'));
+        return view('teacher.graduation', $data);
     }
 
-    public function store(Request $request)
+    public function store(ProcessGraduationRequest $request, ProcessGraduationAction $action)
     {
-        $request->validate([
-            'status' => 'required|array',
-        ]);
-
-        foreach ($request->status as $nis => $status) {
-            $student = Student::where('nis', $nis)->first();
-            if ($student) {
-                $newStatus = ($status == 'Lulus') ? 'Graduated' : 'Active';
-
-                $student->update(['student_status' => $newStatus]);
-            }
-        }
+        $action->execute($request->validated('status'));
 
         return back()->with('success', 'Data kelulusan berhasil disimpan!');
     }

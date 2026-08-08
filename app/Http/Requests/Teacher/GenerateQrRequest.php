@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Teacher;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Override;
 
-class QrCheckinRequest extends FormRequest
+class GenerateQrRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,21 +22,8 @@ class QrCheckinRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'qr_token' => 'required|string',
-        ];
-    }
-
-    /**
-     * Get the validation error messages.
-     *
-     * @return array<string, string>
-     */
-    #[Override]
-    public function messages()
-    {
-        return [
-            'qr_token.required' => 'QR Code harus diisi.',
-            'qr_token.string' => 'QR Code harus berupa string/karakter.',
+            'class' => ['required'],
+            'date' => ['required', 'date'],
         ];
     }
 }

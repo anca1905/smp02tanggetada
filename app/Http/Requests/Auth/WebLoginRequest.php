@@ -22,19 +22,19 @@ class WebLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "username" => "required",
-            "password" => "required",
-            "role_type" => "required|in:operator,teacher",
+            'username' => 'required',
+            'password' => 'required',
+            'role_type' => 'required|in:operator,teacher',
         ];
     }
 
     public function messages()
     {
         return [
-            "username.required" => "Username harus diisi.",
-            "password.required" => "Password harus diisi.",
-            "role_type.required" => "Role type harus diisi.",
-            "role_type.in" => "Role type tidak valid.",
+            'username.required' => 'Username harus diisi.',
+            'password.required' => 'Password harus diisi.',
+            'role_type.required' => 'Role type harus diisi.',
+            'role_type.in' => 'Role type tidak valid.',
         ];
     }
 }
