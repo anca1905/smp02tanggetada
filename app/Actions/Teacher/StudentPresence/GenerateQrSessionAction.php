@@ -17,7 +17,7 @@ class GenerateQrSessionAction
      */
     public function execute(array $data): array
     {
-        $guru = Auth::user();
+        $guru = Auth::guard('teacher')->user();
 
         $header = Attendance::updateOrCreate(
             [

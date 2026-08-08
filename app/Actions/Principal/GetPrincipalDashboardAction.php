@@ -12,8 +12,9 @@ use App\Models\Student;
 use App\Models\StudentAttendanceDetail;
 use App\Models\Subject;
 use App\Models\Teacher;
-use App\Models\Teacher_absence;
+use App\Models\TeacherAbsence;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class GetPrincipalDashboardAction
 {
@@ -36,8 +37,8 @@ class GetPrincipalDashboardAction
         $totalFasilitas = Facility::count();
 
         // Teacher attendance today
-        $guruHadir = Teacher_absence::whereDate('date', $today)->whereNotNull('arrival_time')->count();
-        $guruTerlambat = Teacher_absence::whereDate('date', $today)
+        $guruHadir = TeacherAbsence::whereDate('date', $today)->whereNotNull('arrival_time')->count();
+        $guruTerlambat = TeacherAbsence::whereDate('date', $today)
             ->whereNotNull('arrival_time')
             ->whereTime('arrival_time', '>', '07:30:00')
             ->count();
@@ -47,22 +48,46 @@ class GetPrincipalDashboardAction
         $hadirToday = StudentAttendanceDetail::whereHas('attendance', fn ($q) => $q->whereDate('created_at', $today))
             ->whereIn('status', ['Hadir', 'Late'])->count();
         $kehadiranSiswaHariIni = $totalSessionsToday > 0
-            ? round(($hadirToday / ($totalSessionsToday * $totalSiswa)) * 100, 2)
+            ? round(($hadirToday / ($totalSessionsToday * max($totalSiswa, 1))) * 100, 2)
             : 0;
 
         // ── Attendance Chart (6 months) ────────────────────────────────
+        $sixMonthsAgo = Carbon::now()->subMonths(5)->startOfMonth();
+
+        // Single query for Attendance headers
+        $attendanceGroups = Attendance::select(
+            DB::raw('YEAR(created_at) as year'),
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('COUNT(*) as total_sessions')
+        )
+            ->where('created_at', '>=', $sixMonthsAgo)
+            ->groupBy('year', 'month')
+            ->get()
+            ->keyBy(fn ($item) => $item->year.'-'.str_pad($item->month, 2, '0', STR_PAD_LEFT));
+
+        // Single query for Attendance details
+        $detailGroups = StudentAttendanceDetail::join('attendances', 'student_attendance_details.attendance_id', '=', 'attendances.id')
+            ->select(
+                DB::raw('YEAR(attendances.created_at) as year'),
+                DB::raw('MONTH(attendances.created_at) as month'),
+                DB::raw('COUNT(*) as total_hadir')
+            )
+            ->where('attendances.created_at', '>=', $sixMonthsAgo)
+            ->whereIn('student_attendance_details.status', ['Hadir', 'Late'])
+            ->groupBy('year', 'month')
+            ->get()
+            ->keyBy(fn ($item) => $item->year.'-'.str_pad($item->month, 2, '0', STR_PAD_LEFT));
+
         $attendanceChart = [];
         $monthLabels = [];
+
         for ($i = 5; $i >= 0; $i--) {
             $month = Carbon::now()->subMonths($i);
+            $monthKey = $month->format('Y-m');
             $monthLabels[] = $month->isoFormat('MMM YYYY');
 
-            $totalInMonth = Attendance::whereYear('created_at', $month->year)
-                ->whereMonth('created_at', $month->month)->count();
-            $hadirInMonth = StudentAttendanceDetail::whereHas('attendance', function ($q) use ($month) {
-                $q->whereYear('created_at', $month->year)
-                    ->whereMonth('created_at', $month->month);
-            })->whereIn('status', ['Hadir', 'Late'])->count();
+            $totalInMonth = $attendanceGroups->has($monthKey) ? $attendanceGroups[$monthKey]->total_sessions : 0;
+            $hadirInMonth = $detailGroups->has($monthKey) ? $detailGroups[$monthKey]->total_hadir : 0;
 
             $denom = $totalInMonth * max($totalSiswa, 1);
             $attendanceChart[] = $denom > 0 ? round(($hadirInMonth / $denom) * 100, 2) : 0;

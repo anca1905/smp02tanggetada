@@ -3,6 +3,7 @@
 namespace App\Actions\Teacher\Graduation;
 
 use App\Models\Student;
+use Illuminate\Support\Facades\DB;
 
 class ProcessGraduationAction
 {
@@ -13,13 +14,15 @@ class ProcessGraduationAction
      */
     public function execute(array $statusArray): void
     {
-        foreach ($statusArray as $nis => $status) {
-            $student = Student::where('nis', $nis)->first();
-            if ($student) {
-                $newStatus = ($status == 'Lulus') ? 'Graduated' : 'Active';
+        DB::transaction(function () use ($statusArray) {
+            foreach ($statusArray as $nis => $status) {
+                $student = Student::where('nis', $nis)->first();
+                if ($student) {
+                    $newStatus = ($status == 'Lulus') ? 'Graduated' : 'Active';
 
-                $student->update(['student_status' => $newStatus]);
+                    $student->update(['student_status' => $newStatus]);
+                }
             }
-        }
+        });
     }
 }

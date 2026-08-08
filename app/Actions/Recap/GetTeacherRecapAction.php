@@ -2,7 +2,7 @@
 
 namespace App\Actions\Recap;
 
-use App\Models\Teacher_absence;
+use App\Models\TeacherAbsence;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class GetTeacherRecapAction
@@ -12,7 +12,7 @@ class GetTeacherRecapAction
      */
     public function execute(int $bulan, int $tahun, ?string $search): LengthAwarePaginator
     {
-        $query = Teacher_absence::with('teacher')
+        $query = TeacherAbsence::with('teacher')
             ->whereMonth('date', $bulan)
             ->whereYear('date', $tahun);
 

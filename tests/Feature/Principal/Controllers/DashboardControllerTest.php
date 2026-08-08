@@ -23,9 +23,7 @@ class DashboardControllerTest extends TestCase
 
         $response = $this->actingAs($operator, 'operator')->get('/principal/dashboard');
 
-        // Based on routes file, there's no actual middleware blocking them except their role maybe checked in views.
-        // Actually looking at route definitions they are not blocked by a middleware, so status is 200.
-        $response->assertStatus(200);
+        $response->assertStatus(403);
     }
 
     public function test_principal_can_access_dashboard()

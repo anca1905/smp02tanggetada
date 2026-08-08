@@ -24,7 +24,7 @@ class GetStudentCoursesActionTest extends TestCase
         $action = new GetStudentCoursesAction;
         $result = $action->execute();
 
-        $this->assertTrue($result['myCourses']->isEmpty());
+        $this->assertEmpty($result);
     }
 
     public function test_it_returns_courses_grouped_by_subject_when_student_has_class()

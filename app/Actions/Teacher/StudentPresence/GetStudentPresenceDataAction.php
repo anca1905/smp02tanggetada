@@ -6,7 +6,6 @@ use App\Models\Attendance;
 use App\Models\Classroom;
 use App\Models\Student;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class GetStudentPresenceDataAction
 {
@@ -14,10 +13,9 @@ class GetStudentPresenceDataAction
      * Mengambil daftar kelas, mengambil siswa + status kehadiran yang sudah tersimpan
      * berdasarkan kelas dan tanggal terpilih.
      */
-    public function execute(Request $request): array
+    public function execute(?string $selectedClass, ?string $selectedDate = null): array
     {
-        $selectedClass = $request->get('kelas');
-        $selectedDate = $request->get('date', Carbon::today()->format('Y-m-d'));
+        $selectedDate = $selectedDate ?? Carbon::today()->format('Y-m-d');
 
         $classList = Classroom::orderBy('name', 'asc')->pluck('name', 'id');
 

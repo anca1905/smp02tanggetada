@@ -15,7 +15,7 @@ class GetStudentCoursesAction
         $student = Auth::guard('student')->user();
 
         if (! $student->classroom_id) {
-            return ['myCourses' => collect(), 'student' => $student];
+            return [];
         }
 
         $myCourses = Schedule::with(['subject', 'teacher'])

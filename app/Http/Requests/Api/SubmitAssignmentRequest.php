@@ -22,6 +22,7 @@ class SubmitAssignmentRequest extends FormRequest
      */
     public function rules(): array
     {
+        // assignment_id usually comes from the URL/route parameter in the API
         return [
             'file' => 'required|file|max:10240', // max 10MB
             'student_note' => 'nullable|string',

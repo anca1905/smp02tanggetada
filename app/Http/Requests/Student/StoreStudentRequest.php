@@ -70,7 +70,6 @@ class StoreStudentRequest extends FormRequest
             'student_status.required' => 'Status siswa wajib diisi.',
             'student_status.in' => 'Status siswa harus berupa Active (Aktif), Graduated (Lulus), atau Inactive (Tidak Aktif).',
 
-            'parent_phone.required' => 'Nomor telepon orang tua wajib diisi.',
             'parent_phone.string' => 'Nomor telepon orang tua harus berupa string/karakter.',
             'parent_phone.max' => 'Nomor telepon orang tua tidak boleh lebih dari 20 karakter.',
             'parent_phone.regex' => 'Nomor telepon orang tua harus dalam format indonesia (08xx-xxxxxx atau +628xx-xxxxxx).',

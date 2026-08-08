@@ -29,12 +29,12 @@ class Teacher extends Authenticatable
 
     public function presensiHarian()
     {
-        return $this->hasMany(Teacher_absence::class, 'teacher_id');
+        return $this->hasMany(TeacherAbsence::class, 'teacher_id');
     }
 
     public function absences()
     {
-        return $this->hasMany(Teacher_absence::class, 'teacher_id');
+        return $this->hasMany(TeacherAbsence::class, 'teacher_id');
     }
 
     public function schedules()

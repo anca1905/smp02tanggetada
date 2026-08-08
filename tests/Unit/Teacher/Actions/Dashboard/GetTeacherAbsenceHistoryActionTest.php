@@ -4,7 +4,7 @@ namespace Tests\Unit\Teacher\Actions\Dashboard;
 
 use App\Actions\Teacher\Dashboard\GetTeacherAbsenceHistoryAction;
 use App\Models\Teacher;
-use App\Models\Teacher_absence;
+use App\Models\TeacherAbsence;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -18,7 +18,7 @@ class GetTeacherAbsenceHistoryActionTest extends TestCase
         $teacher = Teacher::factory()->create();
         $today = Carbon::today();
 
-        Teacher_absence::factory()->count(15)->create([
+        TeacherAbsence::factory()->count(15)->create([
             'teacher_id' => $teacher->id,
             'date' => $today->format('Y-m-d'),
         ]);

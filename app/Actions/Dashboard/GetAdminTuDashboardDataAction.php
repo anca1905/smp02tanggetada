@@ -9,7 +9,7 @@ use App\Actions\Teacher\GetActiveTeacherCountAction;
 use App\Actions\Teacher\GetTeacherAttendanceStatsAction;
 use App\Models\RoomBorrowing;
 use App\Models\Student;
-use App\Models\Teacher_absence;
+use App\Models\TeacherAbsence;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -63,7 +63,7 @@ class GetAdminTuDashboardDataAction
         $teacherChartLabels = $dates->map(fn ($d) => $d->format('D, d M'))->toArray();
         $teacherChartData = [];
         foreach ($dates as $date) {
-            $teacherChartData[] = Teacher_absence::whereDate('date', $date)
+            $teacherChartData[] = TeacherAbsence::whereDate('date', $date)
                 ->whereNotNull('arrival_time')
                 ->count();
         }

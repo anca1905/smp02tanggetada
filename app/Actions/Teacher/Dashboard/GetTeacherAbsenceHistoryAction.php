@@ -3,7 +3,7 @@
 namespace App\Actions\Teacher\Dashboard;
 
 use App\Models\Teacher;
-use App\Models\Teacher_absence;
+use App\Models\TeacherAbsence;
 
 class GetTeacherAbsenceHistoryAction
 {
@@ -16,7 +16,7 @@ class GetTeacherAbsenceHistoryAction
      */
     public function execute(Teacher $teacher, $bulan, $tahun)
     {
-        return Teacher_absence::where('teacher_id', $teacher->id)
+        return TeacherAbsence::where('teacher_id', $teacher->id)
             ->whereYear('date', $tahun)
             ->whereMonth('date', $bulan)
             ->orderBy('date', 'desc')

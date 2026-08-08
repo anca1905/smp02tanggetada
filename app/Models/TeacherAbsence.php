@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Teacher_absence extends Model
+class TeacherAbsence extends Model
 {
     use HasFactory;
 

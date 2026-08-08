@@ -13,7 +13,7 @@ class GetGraduationDataAction
      */
     public function execute(): array
     {
-        $teacher = Auth::user();
+        $teacher = Auth::guard('teacher')->user();
 
         $kelas = (int) filter_var($teacher->homeroom_class, FILTER_SANITIZE_NUMBER_INT);
 

@@ -3,7 +3,7 @@
 namespace App\Actions\Teacher\Presence;
 
 use App\Models\Teacher;
-use App\Models\Teacher_absence;
+use App\Models\TeacherAbsence;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -59,7 +59,7 @@ class StoreTeacherPresenceAction
         $timeNow = $now->format('H:i:s');
         $dateNowFormatted = $now->isoFormat('dddd, D MMMM Y');
 
-        $attendance = Teacher_absence::where('teacher_id', $teacher->id)
+        $attendance = TeacherAbsence::where('teacher_id', $teacher->id)
             ->where('date', $today)
             ->first();
 
@@ -73,7 +73,7 @@ class StoreTeacherPresenceAction
                 ? 'Terlambat'
                 : 'Tepat Waktu';
 
-            Teacher_absence::create([
+            TeacherAbsence::create([
                 'teacher_id' => $teacher->id,
                 'date' => $today,
                 'arrival_time' => $timeNow,

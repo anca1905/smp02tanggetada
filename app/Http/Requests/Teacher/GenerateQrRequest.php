@@ -22,7 +22,7 @@ class GenerateQrRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'class' => ['required'],
+            'class' => ['required', 'exists:classrooms,id'],
             'date' => ['required', 'date'],
         ];
     }
@@ -31,6 +31,7 @@ class GenerateQrRequest extends FormRequest
     {
         return [
             'class.required' => 'Kelas harus dipilih.',
+            'class.exists' => 'Kelas tidak ditemukan.',
             'date.required' => 'Tanggal harus diisi.',
             'date.date' => 'Format tanggal tidak valid.',
         ];

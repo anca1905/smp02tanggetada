@@ -4,7 +4,7 @@ namespace Tests\Unit\AdminTu\Actions\Recap;
 
 use App\Actions\Recap\GetTeacherRecapAction;
 use App\Models\Teacher;
-use App\Models\Teacher_absence;
+use App\Models\TeacherAbsence;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -18,7 +18,7 @@ class GetRecapDataActionTest extends TestCase
         $teacher = Teacher::factory()->create();
         $date = Carbon::create(2026, 8, 10); // Aug 10, 2026
 
-        Teacher_absence::factory()->create([
+        TeacherAbsence::factory()->create([
             'teacher_id' => $teacher->id,
             'date' => $date->format('Y-m-d'),
         ]);

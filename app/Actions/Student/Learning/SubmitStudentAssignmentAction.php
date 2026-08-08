@@ -3,30 +3,28 @@
 namespace App\Actions\Student\Learning;
 
 use App\Models\AssignmentSubmission;
-use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 
 class SubmitStudentAssignmentAction
 {
     /**
      * Upload file ke submissions disk public, updateOrCreate record AssignmentSubmission.
-     *
-     * @param  Request  $request  (Memerlukan object Request untuk handle file upload langsung)
      */
-    public function execute(Request $request): void
+    public function execute(array $data, UploadedFile $file): void
     {
         $studentId = Auth::guard('student')->id();
 
-        $filePath = $request->file('file')->store('submissions', 'public');
+        $filePath = $file->store('submissions', 'public');
 
         AssignmentSubmission::updateOrCreate(
             [
-                'assignment_id' => $request->assignment_id,
+                'assignment_id' => $data['assignment_id'],
                 'student_id' => $studentId,
             ],
             [
                 'file_path' => $filePath,
-                'student_note' => $request->note,
+                'student_note' => $data['note'] ?? null,
                 'submitted_at' => now(),
             ]
         );

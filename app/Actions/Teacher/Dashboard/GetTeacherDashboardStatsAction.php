@@ -4,7 +4,7 @@ namespace App\Actions\Teacher\Dashboard;
 
 use App\Models\Attendance;
 use App\Models\Teacher;
-use App\Models\Teacher_absence;
+use App\Models\TeacherAbsence;
 use Carbon\Carbon;
 
 class GetTeacherDashboardStatsAction
@@ -19,7 +19,7 @@ class GetTeacherDashboardStatsAction
     {
         $today = Carbon::today();
 
-        $todayAtt = Teacher_absence::where('teacher_id', $teacher->id)
+        $todayAtt = TeacherAbsence::where('teacher_id', $teacher->id)
             ->whereDate('date', $today)
             ->first();
 
@@ -31,7 +31,7 @@ class GetTeacherDashboardStatsAction
             ? 'Sudah Absen ('.Carbon::parse($todayAtt->return_time)->format('H:i').')'
             : 'Belum Absen';
 
-        $totalHadir = Teacher_absence::where('teacher_id', $teacher->id)
+        $totalHadir = TeacherAbsence::where('teacher_id', $teacher->id)
             ->whereMonth('date', $bulan)
             ->whereYear('date', $tahun)
             ->whereNotNull('arrival_time')
@@ -43,7 +43,7 @@ class GetTeacherDashboardStatsAction
         $chartDataPulang = [];
         $daysInMonth = Carbon::create($tahun, $bulan)->daysInMonth;
 
-        $monthlyAtt = Teacher_absence::where('teacher_id', $teacher->id)
+        $monthlyAtt = TeacherAbsence::where('teacher_id', $teacher->id)
             ->whereMonth('date', $bulan)
             ->whereYear('date', $tahun)
             ->get()
@@ -58,7 +58,7 @@ class GetTeacherDashboardStatsAction
 
         $logs = collect();
 
-        $recentAtts = Teacher_absence::where('teacher_id', $teacher->id)
+        $recentAtts = TeacherAbsence::where('teacher_id', $teacher->id)
             ->orderBy('date', 'desc')->take(3)->get();
 
         foreach ($recentAtts as $att) {

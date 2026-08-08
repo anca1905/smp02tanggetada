@@ -2,7 +2,7 @@
 
 namespace App\Actions\Teacher;
 
-use App\Models\Teacher_absence;
+use App\Models\TeacherAbsence;
 use Carbon\Carbon;
 
 class GetTeacherAttendanceStatsAction
@@ -15,10 +15,10 @@ class GetTeacherAttendanceStatsAction
         $today = Carbon::today();
 
         return [
-            'datang' => Teacher_absence::whereDate('date', $today)
+            'datang' => TeacherAbsence::whereDate('date', $today)
                 ->whereNotNull('arrival_time')
                 ->count(),
-            'pulang' => Teacher_absence::whereDate('date', $today)
+            'pulang' => TeacherAbsence::whereDate('date', $today)
                 ->whereNotNull('return_time')
                 ->count(),
         ];

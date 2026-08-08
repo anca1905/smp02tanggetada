@@ -4,7 +4,7 @@ namespace Tests\Unit\Teacher\Actions\Dashboard;
 
 use App\Actions\Teacher\Dashboard\GetTeacherDashboardStatsAction;
 use App\Models\Teacher;
-use App\Models\Teacher_absence;
+use App\Models\TeacherAbsence;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -19,7 +19,7 @@ class GetTeacherDashboardStatsActionTest extends TestCase
 
         $today = Carbon::today();
 
-        Teacher_absence::factory()->create([
+        TeacherAbsence::factory()->create([
             'teacher_id' => $teacher->id,
             'date' => $today->format('Y-m-d'),
             'arrival_time' => '07:00:00',

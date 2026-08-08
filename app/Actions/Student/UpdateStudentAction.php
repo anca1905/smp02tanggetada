@@ -16,7 +16,8 @@ class UpdateStudentAction
     public function execute(array $data, Student $student): Student
     {
         if (empty($student->parent_password)) {
-            $data['parent_password'] = bcrypt('ortu'.$data['nis']);
+            $nis = $data['nis'] ?? $student->nis;
+            $data['parent_password'] = bcrypt('ortu'.$nis);
         }
 
         $student->update($data);

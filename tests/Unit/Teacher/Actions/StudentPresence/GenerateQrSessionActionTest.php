@@ -17,7 +17,7 @@ class GenerateQrSessionActionTest extends TestCase
     public function test_it_generates_qr_token_and_sets_expiry()
     {
         $teacher = Teacher::factory()->create();
-        Auth::login($teacher);
+        Auth::guard('teacher')->login($teacher);
 
         $classroom = Classroom::factory()->create();
 

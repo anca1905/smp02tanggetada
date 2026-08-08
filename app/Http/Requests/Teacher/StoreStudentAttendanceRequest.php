@@ -22,7 +22,7 @@ class StoreStudentAttendanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'class' => ['required'],
+            'class' => ['required', 'exists:classrooms,id'],
             'date' => ['required', 'date'],
             'attendance' => ['required', 'array'],
             'attendance.*.status' => ['required', 'string', 'in:present,sick,permission,absent,late'],
@@ -33,6 +33,7 @@ class StoreStudentAttendanceRequest extends FormRequest
     {
         return [
             'class.required' => 'Kelas harus dipilih.',
+            'class.exists' => 'Kelas tidak ditemukan.',
             'date.required' => 'Tanggal harus diisi.',
             'date.date' => 'Format tanggal tidak valid.',
             'attendance.required' => 'Data kehadiran harus diisi.',

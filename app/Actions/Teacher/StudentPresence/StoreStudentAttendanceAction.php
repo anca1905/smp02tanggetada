@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\StudentAttendance;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class StoreStudentAttendanceAction
 {
@@ -17,35 +18,37 @@ class StoreStudentAttendanceAction
      */
     public function execute(array $data): void
     {
-        $guru = Auth::user();
+        $guru = Auth::guard('teacher')->user();
 
-        $header = Attendance::updateOrCreate(
-            [
-                'class' => $data['class'],
-                'date' => $data['date'],
-            ],
-            [
-                'teacher_id' => $guru->id,
-                'start_time' => Carbon::now()->format('H:i:00'),
-                'end_time' => Carbon::now()->addHour()->format('H:i:00'),
-            ]
-        );
-
-        foreach ($data['attendance'] as $nis => $item) {
-            $student = Student::where('nis', $nis)->first();
-            if (! $student) {
-                continue;
-            }
-
-            StudentAttendance::updateOrCreate(
+        DB::transaction(function () use ($data, $guru) {
+            $header = Attendance::updateOrCreate(
                 [
-                    'attendance_id' => $header->id,
-                    'student_id' => $student->id,
+                    'class' => $data['class'],
+                    'date' => $data['date'],
                 ],
                 [
-                    'status' => $item['status'],
+                    'teacher_id' => $guru->id,
+                    'start_time' => Carbon::now()->format('H:i:00'),
+                    'end_time' => Carbon::now()->addHour()->format('H:i:00'),
                 ]
             );
-        }
+
+            foreach ($data['attendance'] as $nis => $item) {
+                $student = Student::where('nis', $nis)->first();
+                if (! $student) {
+                    continue;
+                }
+
+                StudentAttendance::updateOrCreate(
+                    [
+                        'attendance_id' => $header->id,
+                        'student_id' => $student->id,
+                    ],
+                    [
+                        'status' => $item['status'],
+                    ]
+                );
+            }
+        });
     }
 }

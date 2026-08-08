@@ -25,11 +25,11 @@ use App\Http\Controllers\GraduationController;
 use App\Http\Controllers\Principal\DashboardController as PrincipalDashboardController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\Student\LearningController;
-use App\Http\Controllers\StudentPresenceController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 use App\Http\Controllers\Teacher\PresenceController as TeacherPresenceController;
 use App\Http\Controllers\Teacher\PromotionController;
 use App\Http\Controllers\Teacher\SettingController as TeacherSettingsController;
+use App\Http\Controllers\Teacher\StudentPresenceController;
 use App\Http\Controllers\Teacher\TeachingController;
 use Illuminate\Support\Facades\Route;
 

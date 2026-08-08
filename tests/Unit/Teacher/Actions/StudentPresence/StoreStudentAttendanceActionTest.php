@@ -19,7 +19,7 @@ class StoreStudentAttendanceActionTest extends TestCase
     public function test_it_creates_attendance_header_and_details()
     {
         $teacher = Teacher::factory()->create();
-        Auth::login($teacher);
+        Auth::guard('teacher')->login($teacher);
 
         $classroom = Classroom::factory()->create();
         $student = Student::factory()->create([

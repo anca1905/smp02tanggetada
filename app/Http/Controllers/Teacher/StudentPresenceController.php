@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Teacher;
 
 use App\Actions\Teacher\StudentPresence\GenerateQrSessionAction;
 use App\Actions\Teacher\StudentPresence\GetStudentPresenceDataAction;
 use App\Actions\Teacher\StudentPresence\GetStudentsByClassAction;
 use App\Actions\Teacher\StudentPresence\StoreStudentAttendanceAction;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Teacher\GenerateQrRequest;
 use App\Http\Requests\Teacher\StoreStudentAttendanceRequest;
 use Illuminate\Http\Request;
@@ -14,7 +15,9 @@ class StudentPresenceController extends Controller
 {
     public function index(Request $request, GetStudentPresenceDataAction $action)
     {
-        $data = $action->execute($request);
+        $selectedClass = $request->get('kelas');
+        $selectedDate = $request->get('date');
+        $data = $action->execute($selectedClass, $selectedDate);
 
         return view('student_presence', $data);
     }
@@ -40,7 +43,7 @@ class StudentPresenceController extends Controller
     /**
      * Ambil daftar siswa per kelas (AJAX helper untuk halaman presensi).
      */
-    public function getSiswa(Request $request, $kelas, GetStudentsByClassAction $action)
+    public function getSiswa($kelas, GetStudentsByClassAction $action)
     {
         $students = $action->execute($kelas);
 

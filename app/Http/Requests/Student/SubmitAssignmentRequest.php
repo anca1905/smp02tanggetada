@@ -22,7 +22,7 @@ class SubmitAssignmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'assignment_id' => ['required'],
+            'assignment_id' => ['required', 'exists:assignments,id'],
             'file' => ['required', 'file', 'max:10240'], // Max 10MB
             'note' => ['nullable', 'string'],
         ];
@@ -32,6 +32,7 @@ class SubmitAssignmentRequest extends FormRequest
     {
         return [
             'assignment_id.required' => 'Assignment ID harus diisi.',
+            'assignment_id.exists' => 'Assignment tidak ditemukan.',
             'file.required' => 'File harus diunggah.',
             'file.file' => 'File yang diunggah harus berupa file.',
             'file.max' => 'Ukuran file tidak boleh lebih dari 10MB.',

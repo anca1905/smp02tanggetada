@@ -17,7 +17,7 @@
                 <p class="text-blue-200 text-sm font-medium">Selamat Datang,</p>
                 <h1 class="text-2xl font-bold mt-1">{{ Auth::guard('operator')->user()->name }}</h1>
                 <div class="flex items-center gap-3 mt-2">
-                    <span class="bg-white bg-opacity-20 text-xs font-semibold px-3 py-1 rounded-full">{{ Auth::guard('operator')->user()->role_operator }}</span>
+                    <span class="bg-white text-black bg-opacity-20 text-xs font-semibold px-3 py-1 rounded-full">{{ Auth::guard('operator')->user()->role_operator }}</span>
                     <span class="text-blue-200 text-sm"><i class="fas fa-calendar mr-1"></i>{{ $today->isoFormat('dddd, D MMMM YYYY') }}</span>
                 </div>
             </div>

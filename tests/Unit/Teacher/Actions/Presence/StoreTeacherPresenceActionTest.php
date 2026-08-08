@@ -4,7 +4,7 @@ namespace Tests\Unit\Teacher\Actions\Presence;
 
 use App\Actions\Teacher\Presence\StoreTeacherPresenceAction;
 use App\Models\Teacher;
-use App\Models\Teacher_absence;
+use App\Models\TeacherAbsence;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -68,7 +68,7 @@ class StoreTeacherPresenceActionTest extends TestCase
         ]);
 
         // Assert absence returned doesn't have return_time
-        $absence = Teacher_absence::where('teacher_id', $teacher->id)->first();
+        $absence = TeacherAbsence::where('teacher_id', $teacher->id)->first();
         $this->assertNotNull($absence->arrival_time);
         $this->assertNull($absence->return_time);
     }
