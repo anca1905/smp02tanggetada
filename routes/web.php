@@ -41,17 +41,38 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(PublicController::class)->group(function () {
     Route::get('/', 'home')->name('home');
+
+    // Profil — sub-menu
     Route::get('/profil', 'profil')->name('public.profil');
+    Route::get('/profil/sejarah', 'profilSejarah')->name('public.profil.sejarah');
+    Route::get('/profil/visi-misi', 'profilVisiMisi')->name('public.profil.visimisi');
+    Route::get('/profil/struktur-organisasi', 'profilStruktur')->name('public.profil.struktur');
+    Route::get('/profil/gtk', 'profilGtk')->name('public.profil.gtk');
+    Route::get('/profil/sarana-prasarana', 'profilSarana')->name('public.profil.sarana');
+
+    // Berita — sub-menu
     Route::get('/berita', 'berita')->name('public.berita');
+    Route::get('/berita/kegiatan-sekolah', 'beritaKegiatan')->name('public.berita.kegiatan');
+    Route::get('/berita/galeri', 'galeri')->name('public.galeri');
+    Route::get('/berita/info-penting', 'infoNews')->name('public.info');
     Route::get('/berita/{slug}', 'showBerita')->name('public.berita.show');
+
+    // E-Learning
+    Route::get('/elearning/e-dokumen', 'eDokumen')->name('public.edokumen');
+    Route::get('/elearning/web-guru', 'webGuru')->name('public.webguru');
+
+    // Halaman lain
+    Route::get('/perpustakaan', 'perpustakaan')->name('public.perpustakaan');
     Route::get('/kontak', 'kontak')->name('public.kontak');
     Route::post('/kontak', 'storeContact')->name('public.kontak.store');
     Route::get('/jadwal', 'jadwal')->name('public.jadwal');
     Route::get('/kalender', 'kalender')->name('public.kalender');
-    // PPDB Publik
+
+    // PPDB / SPMB Publik
     Route::get('/ppdb', 'ppdb')->name('public.ppdb');
     Route::get('/ppdb/daftar', 'ppdbForm')->name('public.ppdb.daftar');
     Route::post('/ppdb/daftar', 'storePpdb')->name('public.ppdb.store');
+    Route::get('/spmb', 'ppdb')->name('public.spmb'); // alias ke ppdb
 });
 
 /*
