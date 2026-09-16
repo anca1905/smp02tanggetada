@@ -11,26 +11,34 @@ class ScanBarcodeRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'nis' => trim((string) ($this->nis ?? $this->barcode ?? '')),
+            'date' => $this->date ?? now()->toDateString(),
+        ]);
+    }
+
     public function rules(): array
     {
         return [
-            'nis'          => ['required', 'string'],
+            'nis' => ['required', 'string'],
             'session_type' => ['required', 'string', 'in:apel,kelas,pulang'],
-            'class'        => ['required', 'exists:classrooms,id'],
-            'date'         => ['required', 'date'],
+            'class' => ['required', 'exists:classrooms,id'],
+            'date' => ['required', 'date'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'nis.required'          => 'NIS siswa harus diisi.',
+            'nis.required' => 'NIS siswa harus diisi.',
             'session_type.required' => 'Jenis sesi harus dipilih.',
-            'session_type.in'       => 'Jenis sesi tidak valid.',
-            'class.required'        => 'Kelas harus dipilih.',
-            'class.exists'          => 'Kelas tidak ditemukan.',
-            'date.required'         => 'Tanggal harus diisi.',
-            'date.date'             => 'Format tanggal tidak valid.',
+            'session_type.in' => 'Jenis sesi tidak valid.',
+            'class.required' => 'Kelas harus dipilih.',
+            'class.exists' => 'Kelas tidak ditemukan.',
+            'date.required' => 'Tanggal harus diisi.',
+            'date.date' => 'Format tanggal tidak valid.',
         ];
     }
 }

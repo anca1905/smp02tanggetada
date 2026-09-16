@@ -13,14 +13,15 @@ class ScanBarcodeAction
     /**
      * Proses scan barcode (NIS) siswa untuk satu sesi absensi.
      *
-     * @param  string  $nis
      * @param  string  $sessionType  apel|kelas|pulang
-     * @param  string  $classId      ID kelas (classroom_id)
-     * @param  string  $date         Y-m-d
-     * @return array   ['success', 'message', 'student_name', 'already_checked']
+     * @param  string  $classId  ID kelas (classroom_id)
+     * @param  string  $date  Y-m-d
+     * @return array ['success', 'message', 'student_name', 'already_checked']
      */
     public function execute(string $nis, string $sessionType, string $classId, string $date): array
     {
+        $nis = trim($nis);
+
         // Cari siswa berdasarkan NIS
         $student = Student::where('nis', $nis)->first();
 
@@ -85,6 +86,7 @@ class ScanBarcodeAction
                 'student_name' => $student->student_name,
                 'already_checked' => false,
                 'scan_time' => Carbon::now()->format('H:i:s'),
+                'total_present' => StudentAttendance::where('attendance_id', $header->id)->where('status', 'present')->count(),
             ];
         });
     }

@@ -276,9 +276,11 @@
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             body: JSON.stringify({
+                nis: decodedText,
                 barcode: decodedText,
                 class: currentClassId,
-                session_type: currentSession
+                session_type: currentSession,
+                date: new Date().toISOString().slice(0, 10)
             })
         })
         .then(res => res.json())
@@ -309,7 +311,8 @@
     function fetchScanList() {
         if (!currentClassId || !currentSession) return;
         
-        fetch(`{{ route('presensi.scan-list') }}?class=${currentClassId}&session_type=${currentSession}`)
+        const today = new Date().toISOString().slice(0, 10);
+        fetch(`{{ route('presensi.scan-list') }}?class=${currentClassId}&session_type=${currentSession}&date=${today}`)
             .then(res => res.json())
             .then(data => {
                 if(data.success) {

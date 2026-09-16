@@ -8,13 +8,17 @@ class StudentAttendance extends Model
 {
     protected $table = 'student_attendance_details';
 
-    protected $primaryKey = 'student_attendance_detail_id';
+    protected $primaryKey = 'id';
 
-    protected $guarded = ['student_attendance_detail_id'];
+    protected $fillable = [
+        'attendance_id',
+        'student_id',
+        'status',
+    ];
 
     public function student()
     {
-        return $this->belongsTo(Student::class, 'nis', 'nis');
+        return $this->belongsTo(Student::class, 'student_id');
     }
 
     public function attendance()

@@ -61,7 +61,7 @@ Buat test di `tests/Feature/Teacher/StudentIdCardAttendanceTest.php`:
 ---
 
 ## 4. Exit Criteria (Definisi Selesai)
-- [ ] Model `StudentAttendance` sinkron dengan tabel `student_attendance_details` (primary key `id` dan foreign key `student_id`).
-- [ ] Barcode pada kartu pelajar terbaca dengan scanner dan berhasil memicu absensi `present`.
-- [ ] Endpoint `/presensi/scan` mengembalikan data JSON nama siswa yang benar (bukan null/error).
-- [ ] Test otomatis `php artisan test --filter=StudentIdCardAttendanceTest` lulus 100%.
+- [x] Model `StudentAttendance` sinkron dengan tabel `student_attendance_details` (primary key `id` dan foreign key `student_id`).
+- [x] Barcode pada kartu pelajar terbaca dengan scanner dan berhasil memicu absensi `present`.
+- [x] Endpoint `/presensi/scan` mengembalikan data JSON nama siswa yang benar (bukan null/error).
+- [x] Test otomatis `php artisan test --filter=StudentIdCardAttendanceTest` lulus 100%.

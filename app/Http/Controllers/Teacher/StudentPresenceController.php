@@ -99,6 +99,10 @@ class StudentPresenceController extends Controller
      */
     public function scanList(Request $request)
     {
+        if (! $request->filled('date')) {
+            $request->merge(['date' => now()->toDateString()]);
+        }
+
         $request->validate([
             'class' => 'required',
             'session_type' => 'required|in:apel,kelas,pulang',
