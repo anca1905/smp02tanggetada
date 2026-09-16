@@ -11,7 +11,7 @@ Dokumen ini adalah ringkasan induk dan peta jalan pelaksanaan 13 kebutuhan dari 
 | [x] | **Fase 1** | `01-auth-session-protection.md` | #10 | **Kritis / Auth**: Proteksi multi-guard session, redirect `/login*`, update tombol navbar Landing Page. |
 | [x] | **Fase 1** | `02-ppdb-pdf-access.md` | #8 | **Kritis / Data**: Fix error akses berkas privat PDF peserta PPDB di panel Admin TU. |
 | [x] | **Fase 2** | `03-student-attendance-subject-link.md` | #13 | **Core DB**: Hubungkan sesi absensi guru dengan mata pelajaran (`subject_id`). |
-| [ ] | **Fase 2** | `04-ppdb-integration-testing.md` | #1 | **Core Flow**: Pengujian integrasi end-to-end form PPDB publik ke database & dashboard. |
+| [x] | **Fase 2** | `04-ppdb-integration-testing.md` | #1 | **Core Flow**: Pengujian integrasi end-to-end form PPDB publik ke database & dashboard. |
 | [ ] | **Fase 2** | `05-student-id-card-attendance.md` | #2 | **Core Feature**: Validasi scan ID card/barcode siswa pada sistem presensi & kiosk. |
 | [ ] | **Fase 3** | `06-tu-student-photo-upload.md` | #7 | **CRUD**: Tambah fungsionalitas upload/update foto siswa di panel Admin TU. |
 | [ ] | **Fase 3** | `07-disable-menus-kiosk.md` | #3, #4, #9 | **UI Cleanup**: Nonaktifkan menu fasilitas, sarana prasarana, dan tombol kiosk di landing page. |

@@ -64,7 +64,7 @@ Jalankan test dan perbaiki bila ditemukan mismatch field atau unhandled null val
 ---
 
 ## 5. Exit Criteria (Definisi Selesai)
-- [ ] Formulir `/ppdb/daftar` berhasil disubmit dengan data dummy dan file upload valid.
-- [ ] Record masuk ke tabel `ppdb` dengan nomor registrasi unik.
-- [ ] Data pendaftar tampil lengkap di `/tu/ppdb` dan status verifikasi dapat diubah oleh Admin TU.
-- [ ] Test otomatis `php artisan test --filter=Ppdb` lulus 100% tanpa error.
+- [x] Formulir `/ppdb/daftar` berhasil disubmit dengan data dummy dan file upload valid.
+- [x] Record masuk ke tabel `ppdb` dengan nomor registrasi unik.
+- [x] Data pendaftar tampil lengkap di `/tu/ppdb` dan status verifikasi dapat diubah oleh Admin TU.
+- [x] Test otomatis `php artisan test --filter=Ppdb` lulus 100% tanpa error.

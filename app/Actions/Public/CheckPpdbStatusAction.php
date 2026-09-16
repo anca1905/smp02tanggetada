@@ -11,8 +11,16 @@ class CheckPpdbStatusAction
      */
     public function execute(): bool
     {
-        $bukaPpdb = Setting::where('key', 'buka_ppdb')->value('value') ?? '1';
+        $ppdbOpen = Setting::where('key', 'ppdb_open')->value('value');
+        if ($ppdbOpen !== null && in_array(strtolower((string) $ppdbOpen), ['0', 'false', 'off', 'no'], true)) {
+            return false;
+        }
 
-        return $bukaPpdb === '1';
+        $bukaPpdb = Setting::where('key', 'buka_ppdb')->value('value');
+        if ($bukaPpdb !== null && in_array(strtolower((string) $bukaPpdb), ['0', 'false', 'off', 'no'], true)) {
+            return false;
+        }
+
+        return true;
     }
 }

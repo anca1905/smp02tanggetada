@@ -22,7 +22,7 @@ class ProcessPpdbRegistrationAction
             'nisn' => $data['nisn'] ?? '',
             'nik' => $data['nik'] ?? '',
             'no_kk' => $data['no_kk'] ?? '',
-            'jenis_kelamin' => ($data['jenis_kelamin'] ?? '') === 'Laki-laki' ? 'L' : 'P',
+            'jenis_kelamin' => in_array($data['jenis_kelamin'] ?? '', ['L', 'Laki-laki'], true) ? 'L' : 'P',
             'agama' => $data['agama'] ?? '',
             'tempat_tinggal' => $data['tempat_tinggal'] ?? '',
             'moda_transportasi' => $data['moda_transportasi'] ?? '',
@@ -42,7 +42,7 @@ class ProcessPpdbRegistrationAction
             'no_hp' => $data['no_hp'] ?? '',
             'status_pendaftaran' => 'Pending',
             'tanggal_daftar' => now(),
-            
+
             // Simpan Dokumen
             'doc_pas_photo' => isset($data['doc_pas_photo']) ? $data['doc_pas_photo']->store('ppdb_documents', 'public') : null,
             'doc_ijazah' => isset($data['doc_ijazah']) ? $data['doc_ijazah']->store('ppdb_documents', 'public') : null,
