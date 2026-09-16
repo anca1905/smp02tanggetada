@@ -16,7 +16,7 @@ Dokumen ini adalah ringkasan induk dan peta jalan pelaksanaan 13 kebutuhan dari 
 | [x] | **Fase 3** | `06-tu-student-photo-upload.md` | #7 | **CRUD**: Tambah fungsionalitas upload/update foto siswa di panel Admin TU. |
 | [x] | **Fase 3** | `07-disable-menus-kiosk.md` | #3, #4, #9 | **UI Cleanup**: Nonaktifkan menu fasilitas, sarana prasarana, dan tombol kiosk di landing page. |
 | [ ] | **Fase 4** | `08-export-pdf.md` | #6 | **Reporting**: Migrasi dari `window.print` ke export PDF berbasis server. *(Perlu konfirmasi library)* |
-| [ ] | **Fase 4** | `09-mobile-layout-improvements.md` | #11 | **Mobile**: Perbaikan layout, overflow, dan konsistensi UI pada Flutter client. |
+| [x] | **Fase 4** | `09-mobile-layout-improvements.md` | #11 | **UI/UX Web Dashboard**: Perbaikan responsivitas layout mobile (Admin TU, Guru, Kepala Sekolah). |
 | [ ] | **Fase 4** | `10-replace-emoji-icons.md` | #5, #12 | **Polish Visual**: Ganti emoji status & badge absensi menjadi icon SVG/FontAwesome. |
 
 ---

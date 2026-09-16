@@ -6,7 +6,7 @@
 <div class="space-y-6">
 
     {{-- ── Greeting Banner ───────────────────────────────────────────────── --}}
-    <div class="relative bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-800 rounded-2xl p-6 text-white shadow-lg overflow-hidden">
+    <div class="relative bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-800 rounded-2xl p-4 sm:p-6 text-white shadow-lg overflow-hidden">
         <div class="absolute top-0 right-0 w-64 h-full opacity-10">
             <svg viewBox="0 0 200 200" class="w-full h-full" fill="white">
                 <circle cx="150" cy="50" r="80"/><circle cx="50" cy="150" r="60"/>
@@ -14,11 +14,11 @@
         </div>
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <p class="text-blue-200 text-sm font-medium">Selamat Datang,</p>
-                <h1 class="text-2xl font-bold mt-1">{{ Auth::guard('operator')->user()->name }}</h1>
-                <div class="flex items-center gap-3 mt-2">
-                    <span class="bg-white text-black bg-opacity-20 text-xs font-semibold px-3 py-1 rounded-full">{{ Auth::guard('operator')->user()->role_operator }}</span>
-                    <span class="text-blue-200 text-sm"><i class="fas fa-calendar mr-1"></i>{{ $today->isoFormat('dddd, D MMMM YYYY') }}</span>
+                <p class="text-blue-200 text-xs sm:text-sm font-medium">Selamat Datang,</p>
+                <h1 class="text-xl sm:text-2xl font-bold mt-1">{{ Auth::guard('operator')->user()->name }}</h1>
+                <div class="flex flex-wrap items-center gap-2 sm:gap-3 mt-2">
+                    <span class="bg-white/20 text-white text-xs font-semibold px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full">{{ Auth::guard('operator')->user()->role_operator }}</span>
+                    <span class="text-blue-200 text-xs sm:text-sm"><i class="fas fa-calendar mr-1"></i>{{ $today->isoFormat('dddd, D MMMM YYYY') }}</span>
                 </div>
             </div>
             <div class="text-right hidden md:block">
@@ -29,68 +29,68 @@
     </div>
 
     {{-- ── KPI Cards Row ──────────────────────────────────────────────────── --}}
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
 
         {{-- Total Guru --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex items-center gap-4 hover:shadow-md transition-shadow">
-            <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-chalkboard-teacher text-blue-600 text-xl"></i>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 flex items-center gap-2.5 sm:gap-4 hover:shadow-md transition-shadow">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-chalkboard-teacher text-blue-600 text-lg sm:text-xl"></i>
             </div>
-            <div>
-                <p class="text-xs text-gray-500 font-medium">Jumlah Guru</p>
-                <p class="text-2xl font-bold text-gray-800">{{ $totalGuru }}</p>
-                <p class="text-xs text-blue-500 font-medium">Aktif</p>
+            <div class="min-w-0">
+                <p class="text-[11px] sm:text-xs text-gray-500 font-medium truncate">Jumlah Guru</p>
+                <p class="text-xl sm:text-2xl font-bold text-gray-800">{{ $totalGuru }}</p>
+                <p class="text-[11px] sm:text-xs text-blue-500 font-medium">Aktif</p>
             </div>
         </div>
 
         {{-- Total Siswa --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex items-center gap-4 hover:shadow-md transition-shadow">
-            <div class="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-user-graduate text-green-600 text-xl"></i>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 flex items-center gap-2.5 sm:gap-4 hover:shadow-md transition-shadow">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-user-graduate text-green-600 text-lg sm:text-xl"></i>
             </div>
-            <div>
-                <p class="text-xs text-gray-500 font-medium">Jumlah Siswa</p>
-                <p class="text-2xl font-bold text-gray-800">{{ $totalSiswa }}</p>
-                <p class="text-xs text-green-500 font-medium">Aktif</p>
+            <div class="min-w-0">
+                <p class="text-[11px] sm:text-xs text-gray-500 font-medium truncate">Jumlah Siswa</p>
+                <p class="text-xl sm:text-2xl font-bold text-gray-800">{{ $totalSiswa }}</p>
+                <p class="text-[11px] sm:text-xs text-green-500 font-medium">Aktif</p>
             </div>
         </div>
 
         {{-- Total Kelas --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex items-center gap-4 hover:shadow-md transition-shadow">
-            <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-chalkboard text-orange-500 text-xl"></i>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 flex items-center gap-2.5 sm:gap-4 hover:shadow-md transition-shadow">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-chalkboard text-orange-500 text-lg sm:text-xl"></i>
             </div>
-            <div>
-                <p class="text-xs text-gray-500 font-medium">Jumlah Kelas</p>
-                <p class="text-2xl font-bold text-gray-800">{{ $totalKelas }}</p>
-                <p class="text-xs text-orange-500 font-medium">Rombel</p>
+            <div class="min-w-0">
+                <p class="text-[11px] sm:text-xs text-gray-500 font-medium truncate">Jumlah Kelas</p>
+                <p class="text-xl sm:text-2xl font-bold text-gray-800">{{ $totalKelas }}</p>
+                <p class="text-[11px] sm:text-xs text-orange-500 font-medium">Rombel</p>
             </div>
         </div>
 
         {{-- Kehadiran Siswa Hari Ini --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex items-center gap-4 hover:shadow-md transition-shadow">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 {{ $kehadiranSiswaHariIni >= 80 ? 'bg-teal-50' : 'bg-red-50' }}">
-                <i class="fas fa-user-check text-xl {{ $kehadiranSiswaHariIni >= 80 ? 'text-teal-600' : 'text-red-500' }}"></i>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 flex items-center gap-2.5 sm:gap-4 hover:shadow-md transition-shadow">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0 {{ $kehadiranSiswaHariIni >= 80 ? 'bg-teal-50' : 'bg-red-50' }}">
+                <i class="fas fa-user-check text-lg sm:text-xl {{ $kehadiranSiswaHariIni >= 80 ? 'text-teal-600' : 'text-red-500' }}"></i>
             </div>
-            <div>
-                <p class="text-xs text-gray-500 font-medium">Kehadiran Siswa</p>
-                <p class="text-2xl font-bold {{ $kehadiranSiswaHariIni >= 80 ? 'text-teal-600' : 'text-red-500' }}">{{ $kehadiranSiswaHariIni }}%</p>
-                <p class="text-xs text-gray-400">Hari ini</p>
+            <div class="min-w-0">
+                <p class="text-[11px] sm:text-xs text-gray-500 font-medium truncate">Kehadiran Siswa</p>
+                <p class="text-xl sm:text-2xl font-bold {{ $kehadiranSiswaHariIni >= 80 ? 'text-teal-600' : 'text-red-500' }}">{{ $kehadiranSiswaHariIni }}%</p>
+                <p class="text-[11px] sm:text-xs text-gray-400">Hari ini</p>
             </div>
         </div>
 
         {{-- Guru Hadir Hari Ini --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex items-center gap-4 hover:shadow-md transition-shadow">
-            <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-clock text-indigo-600 text-xl"></i>
+        <div class="col-span-2 sm:col-span-1 bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 flex items-center gap-2.5 sm:gap-4 hover:shadow-md transition-shadow">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-indigo-50 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-clock text-indigo-600 text-lg sm:text-xl"></i>
             </div>
-            <div>
-                <p class="text-xs text-gray-500 font-medium">Guru Hadir</p>
-                <p class="text-2xl font-bold text-gray-800">{{ $guruHadir }}<span class="text-sm text-gray-400 font-normal">/{{ $totalGuru }}</span></p>
+            <div class="min-w-0">
+                <p class="text-[11px] sm:text-xs text-gray-500 font-medium truncate">Guru Hadir</p>
+                <p class="text-xl sm:text-2xl font-bold text-gray-800">{{ $guruHadir }}<span class="text-xs sm:text-sm text-gray-400 font-normal">/{{ $totalGuru }}</span></p>
                 @if($guruTerlambat > 0)
-                    <p class="text-xs text-red-500 font-medium"><i class="fas fa-arrow-down mr-1"></i>{{ $guruTerlambat }} Terlambat</p>
+                    <p class="text-[11px] sm:text-xs text-red-500 font-medium"><i class="fas fa-arrow-down mr-1"></i>{{ $guruTerlambat }} Terlambat</p>
                 @else
-                    <p class="text-xs text-green-500 font-medium">Hari ini</p>
+                    <p class="text-[11px] sm:text-xs text-green-500 font-medium">Hari ini</p>
                 @endif
             </div>
         </div>
@@ -98,10 +98,10 @@
     </div>
 
     {{-- ── Row 2: Attendance Chart + Top Teachers ─────────────────────────── --}}
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
 
         {{-- Attendance Line Chart --}}
-        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <h3 class="text-base font-bold text-gray-800">Persentase Kehadiran Siswa</h3>
@@ -113,7 +113,7 @@
         </div>
 
         {{-- Top 5 Active Teachers --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
             <div class="flex items-center justify-between mb-5">
                 <h3 class="text-base font-bold text-gray-800">Top Guru Paling Aktif</h3>
                 <a href="{{ route('tu.teacher.index') }}" class="text-xs text-blue-600 font-medium hover:underline">Lihat Semua</a>
@@ -148,12 +148,12 @@
     </div>
 
     {{-- ── Row 3: Guru Hari Ini + Announcements + Events ──────────────────── --}}
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
 
         {{-- Teacher Attendance Donut --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
             <h3 class="text-base font-bold text-gray-800 mb-5">Kehadiran Guru Hari Ini</h3>
-            <div class="flex items-center justify-center gap-6">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
                 <div class="relative">
                     <canvas id="guruDonut" width="120" height="120"></canvas>
                     <div class="absolute inset-0 flex flex-col items-center justify-center">
@@ -198,7 +198,7 @@
         </div>
 
         {{-- Latest Announcements --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
             <div class="flex items-center justify-between mb-5">
                 <h3 class="text-base font-bold text-gray-800">Pengumuman Terbaru</h3>
                 <a href="{{ route('tu.posts.index') }}" class="text-xs text-blue-600 font-medium hover:underline">Lihat Semua</a>
@@ -224,7 +224,7 @@
         </div>
 
         {{-- Upcoming Events / Agenda --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
             <div class="flex items-center justify-between mb-5">
                 <h3 class="text-base font-bold text-gray-800">Agenda Sekolah</h3>
                 <a href="{{ route('tu.events.index') }}" class="text-xs text-blue-600 font-medium hover:underline">Lihat Semua</a>
@@ -254,10 +254,10 @@
     </div>
 
     {{-- ── Row 4: Student Per Class Bar Chart + Financial Summary ─────────── --}}
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
 
         {{-- Student per Class Chart --}}
-        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <h3 class="text-base font-bold text-gray-800">Distribusi Siswa per Kelas</h3>
@@ -268,7 +268,7 @@
         </div>
 
         {{-- Quick Stats --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
             <h3 class="text-base font-bold text-gray-800 mb-5">Statistik Ringkasan</h3>
             <div class="grid grid-cols-2 gap-3">
                 <div class="bg-blue-50 rounded-xl p-3 text-center">

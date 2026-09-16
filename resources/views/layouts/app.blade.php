@@ -102,7 +102,7 @@
     @endphp
 
     <div id="sidebar-overlay" onclick="toggleSidebar()"
-        class="fixed inset-0 z-20 bg-black bg-opacity-50 hidden lg:hidden transition-opacity"></div>
+        class="fixed inset-0 z-20 bg-black/50 backdrop-blur-xs hidden lg:hidden transition-opacity"></div>
 
     <aside id="sidebar"
         class="fixed inset-y-0 left-0 z-30 w-64 bg-blue-900 text-white transition-transform duration-300 -translate-x-full lg:translate-x-0 flex flex-col shadow-xl">
@@ -332,18 +332,19 @@
         </div>
     </aside>
 
-    <div id="main-content" class="lg:ml-64 transition-all duration-300 min-h-screen flex flex-col">
+    <div id="main-content" class="lg:ml-64 transition-all duration-300 min-h-screen flex flex-col min-w-0 w-full overflow-x-hidden">
         <header
-            class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10 h-16 flex items-center justify-between px-6">
-            <div class="flex items-center">
+            class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10 h-16 flex items-center justify-between px-4 sm:px-6">
+            <div class="flex items-center min-w-0 mr-3">
                 <button onclick="toggleSidebar()"
-                    class="lg:hidden p-2 rounded-md text-gray-500 hover:bg-gray-100 mr-2 focus:outline-none">
-                    <i class="fas fa-bars text-xl"></i>
+                    class="lg:hidden p-2 rounded-md text-gray-500 hover:bg-gray-100 mr-2 focus:outline-none flex-shrink-0"
+                    aria-label="Buka Menu">
+                    <i class="fas fa-bars text-lg sm:text-xl"></i>
                 </button>
-                <h1 class="text-xl font-bold text-gray-800">@yield('title')</h1>
+                <h1 class="text-base sm:text-xl font-bold text-gray-800 truncate">@yield('title')</h1>
             </div>
 
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-3 flex-shrink-0">
                 <div class="text-right hidden md:block leading-tight">
                     <p class="text-sm font-semibold text-gray-800">{{ $name }}</p>
                     <p class="text-xs text-gray-500">{{ $roleLabel }}</p>
@@ -353,11 +354,11 @@
             </div>
         </header>
 
-        <main class="flex-1 p-6">
+        <main class="flex-1 p-4 sm:p-6 min-w-0">
             @yield('content')
         </main>
 
-        <footer class="bg-white border-t py-4 text-center text-xs text-gray-500">
+        <footer class="bg-white border-t py-4 px-4 text-center text-xs text-gray-500">
             &copy; {{ date('Y') }} Sistem Informasi Manajemen Sekolah. All rights reserved.
         </footer>
     </div>

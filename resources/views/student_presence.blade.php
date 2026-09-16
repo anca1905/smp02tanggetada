@@ -11,13 +11,13 @@
     <div class="space-y-6">
 
         {{-- Filter Kelas & Tanggal --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
             <form method="GET" action="{{ route('teacher.student-attendance') }}"
                 class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
                 <div class="md:col-span-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kelas</label>
                     <select name="kelas"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"
                         required onchange="this.form.submit()">
                         <option value="" disabled {{ !$selectedClass ? 'selected' : '' }}>-- Pilih Kelas --</option>
                         @foreach ($classList as $id => $name)
@@ -30,7 +30,7 @@
                 <div class="md:col-span-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Sesi</label>
                     <select name="sesi" id="sesiFilter"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"
                         onchange="this.form.submit()">
                         <option value="apel"   {{ $selectedSession == 'apel'   ? 'selected' : '' }}>🌅 Apel Pagi</option>
                         <option value="kelas"  {{ $selectedSession == 'kelas'  ? 'selected' : '' }}>🏫 Di Kelas</option>
@@ -42,7 +42,7 @@
                 <div class="md:col-span-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Mata Pelajaran</label>
                     <select name="subject_id"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"
                         onchange="this.form.submit()" required>
                         <option value="" disabled {{ !$selectedSubject ? 'selected' : '' }}>-- Pilih Mapel --</option>
                         @foreach ($subjects ?? [] as $subject)
@@ -57,15 +57,15 @@
                 <div class="md:col-span-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
                     <input type="date" name="date" value="{{ $selectedDate }}"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"
                         onchange="this.form.submit()">
                 </div>
-                <div class="md:col-span-{{ $selectedSession === 'kelas' ? '5' : '2' }} flex items-center gap-4 mt-2">
+                <div class="md:col-span-{{ $selectedSession === 'kelas' ? '5' : '2' }} flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-2">
                     @if ($selectedClass)
                         @php
                             $sessionLabels = ['apel'=>'Apel Pagi','kelas'=>'Di Kelas','pulang'=>'Pulang'];
                         @endphp
-                        <span class="text-sm {{ $attendanceData ? 'text-green-600' : 'text-gray-500' }}">
+                        <span class="text-xs sm:text-sm {{ $attendanceData ? 'text-green-600' : 'text-gray-500' }}">
                             <i class="fas {{ $attendanceData ? 'fa-check-circle' : 'fa-info-circle' }} mr-1"></i>
                             Sesi <strong>{{ $sessionLabels[$selectedSession] ?? $selectedSession }}</strong>:
                             {{ $attendanceData ? 'Data sudah tersimpan (Mode Edit)' : 'Belum ada data (Mode Input Baru)' }}
@@ -74,7 +74,7 @@
                         {{-- Tombol Buka QR --}}
                         <button type="button" id="btnOpenQr"
                             onclick="openQrModal()"
-                            class="ml-auto flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-lg transition shadow">
+                            class="w-full sm:w-auto flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-lg transition shadow">
                             <i class="fas fa-qrcode"></i>
                             <span>Buka QR Presensi</span>
                         </button>
@@ -95,12 +95,12 @@
 
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b">
+                        <table class="w-full text-xs sm:text-sm text-left text-gray-500">
+                            <thead class="text-[11px] sm:text-xs text-gray-700 uppercase bg-gray-50 border-b">
                                 <tr>
-                                    <th class="px-6 py-3 w-10">No</th>
-                                    <th class="px-6 py-3">Nama Siswa</th>
-                                    <th class="px-6 py-3 text-center">Status Kehadiran</th>
+                                    <th class="px-3 sm:px-6 py-3 w-10 text-center">No</th>
+                                    <th class="px-3 sm:px-6 py-3">Nama Siswa</th>
+                                    <th class="px-3 sm:px-6 py-3 text-center">Status Kehadiran</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
@@ -109,20 +109,20 @@
                                         $status = $student->saved_status ?? 'present';
                                     @endphp
                                     <tr class="bg-white hover:bg-gray-50 transition-colors">
-                                        <td class="px-6 py-4 text-center">{{ $index + 1 }}</td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-3 sm:px-6 py-3 sm:py-4 text-center">{{ $index + 1 }}</td>
+                                        <td class="px-3 sm:px-6 py-3 sm:py-4">
                                             <p class="font-medium text-gray-900">{{ $student->student_name }}</p>
-                                            <p class="text-xs text-gray-400">{{ $student->nis }}</p>
+                                            <p class="text-[11px] sm:text-xs text-gray-400">{{ $student->nis }}</p>
                                         </td>
-                                        <td class="px-6 py-4">
-                                            <div class="flex justify-center space-x-4">
+                                        <td class="px-3 sm:px-6 py-3 sm:py-4">
+                                            <div class="flex justify-center space-x-2 sm:space-x-4">
                                                 <label class="cursor-pointer flex flex-col items-center group">
                                                     <input type="radio" name="attendance[{{ $student->nis }}][status]"
                                                         value="present" class="peer sr-only"
                                                         {{ $status == 'present' ? 'checked' : '' }}>
                                                     <div
-                                                        class="w-10 h-10 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-green-500 peer-checked:border-green-600 peer-checked:text-white text-gray-400 transition-all hover:bg-green-50">
-                                                        <span class="font-bold">H</span>
+                                                        class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-green-500 peer-checked:border-green-600 peer-checked:text-white text-gray-400 transition-all hover:bg-green-50">
+                                                        <span class="font-bold text-xs sm:text-sm">H</span>
                                                     </div>
                                                     <span
                                                         class="text-[10px] mt-1 text-gray-400 peer-checked:text-green-600 font-medium">Hadir</span>
@@ -133,8 +133,8 @@
                                                         value="late" class="peer sr-only"
                                                         {{ $status == 'late' ? 'checked' : '' }}>
                                                     <div
-                                                        class="w-10 h-10 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-amber-500 peer-checked:border-amber-600 peer-checked:text-white text-gray-400 transition-all hover:bg-amber-50">
-                                                        <span class="font-bold">T</span>
+                                                        class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-amber-500 peer-checked:border-amber-600 peer-checked:text-white text-gray-400 transition-all hover:bg-amber-50">
+                                                        <span class="font-bold text-xs sm:text-sm">T</span>
                                                     </div>
                                                     <span
                                                         class="text-[10px] mt-1 text-gray-400 peer-checked:text-amber-500 font-medium">Terlambat</span>
@@ -145,8 +145,8 @@
                                                         value="sick" class="peer sr-only"
                                                         {{ $status == 'sick' ? 'checked' : '' }}>
                                                     <div
-                                                        class="w-10 h-10 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-yellow-400 peer-checked:border-yellow-500 peer-checked:text-white text-gray-400 transition-all hover:bg-yellow-50">
-                                                        <span class="font-bold">S</span>
+                                                        class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-yellow-400 peer-checked:border-yellow-500 peer-checked:text-white text-gray-400 transition-all hover:bg-yellow-50">
+                                                        <span class="font-bold text-xs sm:text-sm">S</span>
                                                     </div>
                                                     <span
                                                         class="text-[10px] mt-1 text-gray-400 peer-checked:text-yellow-500 font-medium">Sakit</span>
@@ -157,8 +157,8 @@
                                                         value="permission" class="peer sr-only"
                                                         {{ $status == 'permission' ? 'checked' : '' }}>
                                                     <div
-                                                        class="w-10 h-10 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-blue-500 peer-checked:border-blue-600 peer-checked:text-white text-gray-400 transition-all hover:bg-blue-50">
-                                                        <span class="font-bold">I</span>
+                                                        class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-blue-500 peer-checked:border-blue-600 peer-checked:text-white text-gray-400 transition-all hover:bg-blue-50">
+                                                        <span class="font-bold text-xs sm:text-sm">I</span>
                                                     </div>
                                                     <span
                                                         class="text-[10px] mt-1 text-gray-400 peer-checked:text-blue-600 font-medium">Izin</span>
@@ -169,8 +169,8 @@
                                                         value="absent" class="peer sr-only"
                                                         {{ $status == 'absent' ? 'checked' : '' }}>
                                                     <div
-                                                        class="w-10 h-10 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-red-500 peer-checked:border-red-600 peer-checked:text-white text-gray-400 transition-all hover:bg-red-50">
-                                                        <span class="font-bold">A</span>
+                                                        class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-red-500 peer-checked:border-red-600 peer-checked:text-white text-gray-400 transition-all hover:bg-red-50">
+                                                        <span class="font-bold text-xs sm:text-sm">A</span>
                                                     </div>
                                                     <span
                                                         class="text-[10px] mt-1 text-gray-400 peer-checked:text-red-600 font-medium">Alpha</span>
@@ -183,9 +183,9 @@
                         </table>
                     </div>
 
-                    <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-end sticky bottom-0 z-10">
+                    <div class="bg-gray-50 px-4 sm:px-6 py-3.5 sm:py-4 border-t border-gray-200 flex justify-end sticky bottom-0 z-10">
                         <button type="submit"
-                            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-8 rounded-lg shadow-lg flex items-center transform transition hover:-translate-y-0.5">
+                            class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-6 sm:px-8 rounded-lg shadow-lg flex items-center justify-center transform transition hover:-translate-y-0.5 text-sm sm:text-base">
                             <i class="fas fa-save mr-2"></i> Simpan Presensi
                         </button>
                     </div>
