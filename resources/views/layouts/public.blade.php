@@ -171,7 +171,7 @@
                         alt="Logo Sekolah" class="h-10 w-auto">
                     <div class="flex flex-col">
                         <span
-                            class="text-blue-900 font-bold text-lg leading-tight tracking-wide">{{ $site_settings['app_name'] }}</span>
+                            class="text-blue-900 font-bold text-lg leading-tight tracking-wide">{{ $site_settings['app_name'] ?? 'SIMS' }}</span>
                         <span class="text-xs text-gray-500 font-medium">Sistem Informasi Manajemen Sekolah</span>
                     </div>
                 </a>

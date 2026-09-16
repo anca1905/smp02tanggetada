@@ -30,6 +30,14 @@ class PpdbController extends Controller
     }
 
     /**
+     * Tampilkan detail pendaftar beserta berkas.
+     */
+    public function show(Ppdb $ppdb): View
+    {
+        return view('tu.ppdb.show', compact('ppdb'));
+    }
+
+    /**
      * Update status pendaftaran (Accepted / Rejected / Pending).
      */
     public function updateStatus(

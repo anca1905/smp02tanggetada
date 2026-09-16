@@ -26,7 +26,6 @@ use App\Http\Controllers\Principal\DashboardController as PrincipalDashboardCont
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\Student\LearningController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
-use App\Http\Controllers\Teacher\PresenceController as TeacherPresenceController;
 use App\Http\Controllers\Teacher\PromotionController;
 use App\Http\Controllers\Teacher\SettingController as TeacherSettingsController;
 use App\Http\Controllers\Teacher\StudentPresenceController;
@@ -94,17 +93,19 @@ Route::controller(AuthController::class)->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Kiosk / Presence Machine Routes
+| Kiosk Absensi Siswa — Scan Barcode Kartu Siswa
+| (Halaman publik — tidak perlu login, dioperasikan oleh guru di terminal)
 |--------------------------------------------------------------------------
 */
 
-Route::controller(TeacherPresenceController::class)
+Route::controller(StudentPresenceController::class)
     ->prefix('presensi')
     ->name('presensi.')
     ->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/search', 'search')->name('search');
+        Route::get('/', 'kiosk')->name('index');
+        Route::post('/scan', 'scan')->name('scan');
+        Route::get('/scan-list', 'scanList')->name('scan-list');
+        Route::post('/close', 'closeSession')->name('close');
     });
 
 Route::get('/api/siswa/{kelas}', [
@@ -126,10 +127,6 @@ Route::middleware(['auth:teacher'])
             TeacherDashboardController::class,
             'index',
         ])->name('dashboard');
-        Route::get('/attendance-history', [
-            TeacherDashboardController::class,
-            'riwayat',
-        ])->name('history');
 
         Route::controller(StudentPresenceController::class)->group(function () {
             Route::get('/student-attendance', 'index')->name(
@@ -211,6 +208,7 @@ Route::middleware(['auth:operator'])
             'index',
         ])->name('rekap');
 
+        Route::get('student/{student}/card', [AdminTuStudentController::class, 'printCard'])->name('student.card');
         Route::resource('teacher', AdminTuTeacherController::class)->except([
             'create',
             'edit',
@@ -261,6 +259,8 @@ Route::middleware(['auth:operator'])
                 Route::post('/{id}', 'update')->name('update');
                 Route::get('/landing', 'index_landing')->name('website');
                 Route::put('/update', 'update_landing')->name('update.website');
+                Route::get('/card', 'index_card')->name('card');
+                Route::put('/card', 'update_card')->name('update.card');
             });
         Route::post('academic-years/{academic_year}/set-active', [
             AcademicController::class,
@@ -275,13 +275,9 @@ Route::middleware(['auth:operator'])
         Route::prefix('ppdb')
             ->name('ppdb.')
             ->group(function () {
-                Route::get('/', [PpdbController::class, 'index'])->name(
-                    'index',
-                );
-                Route::post('/{ppdb}/status', [
-                    PpdbController::class,
-                    'updateStatus',
-                ])->name('updateStatus');
+                Route::get('/', [PpdbController::class, 'index'])->name('index');
+                Route::get('/{ppdb}', [PpdbController::class, 'show'])->name('show');
+                Route::post('/{ppdb}/status', [PpdbController::class, 'updateStatus'])->name('updateStatus');
                 Route::delete('/{ppdb}', [
                     PpdbController::class,
                     'destroy',
@@ -311,7 +307,7 @@ Route::middleware(['auth:operator'])
 
 /*
 |--------------------------------------------------------------------------
-| Admin TU Routes (continued)
+| Student Routes
 |--------------------------------------------------------------------------
 */
 

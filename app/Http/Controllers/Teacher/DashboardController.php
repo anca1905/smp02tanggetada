@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Teacher;
 
-use App\Actions\Teacher\Dashboard\GetTeacherAbsenceHistoryAction;
 use App\Actions\Teacher\Dashboard\GetTeacherDashboardStatsAction;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -12,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     /**
-     * Menampilkan dashboard teacher.
+     * Menampilkan dashboard guru.
      */
     public function index(
         Request $request,
@@ -24,24 +23,8 @@ class DashboardController extends Controller
 
         $stats = $action->execute($teacher, $bulan, $tahun);
         $stats['teacher'] = $teacher;
-        $stats['bulan'] = $bulan;
+        $stats['bulan']   = $bulan;
 
         return view('teacher.index', $stats);
-    }
-
-    /**
-     * Menampilkan riwayat absensi teacher.
-     */
-    public function riwayat(
-        Request $request,
-        GetTeacherAbsenceHistoryAction $action,
-    ) {
-        $user = Auth::user();
-        $bulan = $request->get('month', Carbon::now()->month);
-        $tahun = Carbon::now()->year;
-
-        $history = $action->execute($user, $bulan, $tahun);
-
-        return view('teacher.history', compact('user', 'history', 'bulan'));
     }
 }

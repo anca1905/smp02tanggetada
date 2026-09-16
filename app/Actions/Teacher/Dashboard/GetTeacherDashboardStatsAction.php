@@ -3,100 +3,72 @@
 namespace App\Actions\Teacher\Dashboard;
 
 use App\Models\Attendance;
+use App\Models\StudentAttendance;
 use App\Models\Teacher;
-use App\Models\TeacherAbsence;
 use Carbon\Carbon;
 
 class GetTeacherDashboardStatsAction
 {
     /**
-     * Get statistics and charts for teacher dashboard
-     *
-     * @param  int  $bulan
-     * @param  int  $tahun
+     * Statistik dashboard guru — difokuskan ke aktivitas mengajar & absensi siswa.
      */
     public function execute(Teacher $teacher, $bulan, $tahun): array
     {
         $today = Carbon::today();
 
-        $todayAtt = TeacherAbsence::where('teacher_id', $teacher->id)
+        // Ambil sesi absensi siswa yang sudah guru ini buat hari ini
+        $todaySessions = Attendance::where('teacher_id', $teacher->id)
             ->whereDate('date', $today)
-            ->first();
+            ->get();
 
-        $status_datang = $todayAtt && $todayAtt->arrival_time
-            ? 'Sudah Absen ('.Carbon::parse($todayAtt->arrival_time)->format('H:i').')'
-            : 'Belum Absen';
+        $sessionsDone = $todaySessions->pluck('session_type')->unique()->values()->toArray();
 
-        $status_pulang = $todayAtt && $todayAtt->return_time
-            ? 'Sudah Absen ('.Carbon::parse($todayAtt->return_time)->format('H:i').')'
-            : 'Belum Absen';
+        $sessionLabels = [
+            'apel'   => 'Apel Pagi',
+            'kelas'  => 'Di Kelas',
+            'pulang' => 'Pulang',
+        ];
 
-        $totalHadir = TeacherAbsence::where('teacher_id', $teacher->id)
+        $sessionStatus = [];
+        foreach (['apel', 'kelas', 'pulang'] as $s) {
+            $sessionStatus[$s] = [
+                'label' => $sessionLabels[$s],
+                'done'  => in_array($s, $sessionsDone),
+            ];
+        }
+
+        // Total sesi kelas yang sudah dibuat bulan ini
+        $totalSesiKelas = Attendance::where('teacher_id', $teacher->id)
             ->whereMonth('date', $bulan)
             ->whereYear('date', $tahun)
-            ->whereNotNull('arrival_time')
             ->count();
 
-        $totalHariKerja = 25;
+        // Aktivitas terbaru dari absensi yang pernah diisi guru
+        $recentAtts = Attendance::where('teacher_id', $teacher->id)
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
 
-        $chartDataDatang = [];
-        $chartDataPulang = [];
-        $daysInMonth = Carbon::create($tahun, $bulan)->daysInMonth;
+        $aktivitas = $recentAtts->map(function ($att) use ($sessionLabels) {
+            return (object) [
+                'title' => 'Input Absensi Sesi ' . ($sessionLabels[$att->session_type] ?? $att->session_type),
+                'tipe'  => 'absensi',
+                'time'  => $att->created_at,
+            ];
+        });
 
-        $monthlyAtt = TeacherAbsence::where('teacher_id', $teacher->id)
-            ->whereMonth('date', $bulan)
-            ->whereYear('date', $tahun)
-            ->get()
-            ->keyBy('date');
+        // Riwayat 5 sesi terakhir
+        $riwayat = $recentAtts->map(function ($att) use ($sessionLabels) {
+            $scanned = StudentAttendance::where('attendance_id', $att->id)
+                ->where('status', 'present')
+                ->count();
+            $total = StudentAttendance::where('attendance_id', $att->id)->count();
 
-        for ($i = 1; $i <= $daysInMonth; $i++) {
-            $dateKey = Carbon::create($tahun, $bulan, $i)->format('Y-m-d');
-
-            $chartDataDatang[] = isset($monthlyAtt[$dateKey]) && $monthlyAtt[$dateKey]->arrival_time ? 1 : 0;
-            $chartDataPulang[] = isset($monthlyAtt[$dateKey]) && $monthlyAtt[$dateKey]->return_time ? 1 : 0;
-        }
-
-        $logs = collect();
-
-        $recentAtts = TeacherAbsence::where('teacher_id', $teacher->id)
-            ->orderBy('date', 'desc')->take(3)->get();
-
-        foreach ($recentAtts as $att) {
-            if ($att->arrival_time) {
-                $logs->push((object) [
-                    'title' => 'Absen Datang',
-                    'tipe' => 'datang',
-                    'time' => Carbon::parse($att->date.' '.$att->arrival_time),
-                ]);
-            }
-            if ($att->return_time) {
-                $logs->push((object) [
-                    'title' => 'Absen Pulang',
-                    'tipe' => 'pulang',
-                    'time' => Carbon::parse($att->date.' '.$att->return_time),
-                ]);
-            }
-        }
-
-        $recentClassAtts = Attendance::where('teacher_id', $teacher->id)
-            ->orderBy('created_at', 'desc')->take(3)->get();
-
-        foreach ($recentClassAtts as $classAtt) {
-            $logs->push((object) [
-                'title' => 'Input Presensi Kelas '.$classAtt->class,
-                'tipe' => 'absensi',
-                'time' => $classAtt->created_at,
-            ]);
-        }
-
-        $aktivitas = $logs->sortByDesc('time')->take(5);
-
-        $riwayat = $recentAtts->map(function ($item) {
             return [
-                'tgl' => Carbon::parse($item->date)->isoFormat('dddd, D MMMM Y'),
-                'datang' => $item->arrival_time ? Carbon::parse($item->arrival_time)->format('H:i') : '-',
-                'pulang' => $item->return_time ? Carbon::parse($item->return_time)->format('H:i') : '-',
-                'status' => 'Hadir',
+                'tgl'       => Carbon::parse($att->date)->isoFormat('dddd, D MMMM Y'),
+                'sesi'      => $sessionLabels[$att->session_type] ?? $att->session_type,
+                'hadir'     => $scanned,
+                'total'     => $total,
             ];
         });
 
@@ -104,14 +76,11 @@ class GetTeacherDashboardStatsAction
 
         return compact(
             'todayFormatted',
-            'status_datang',
-            'status_pulang',
-            'totalHadir',
-            'totalHariKerja',
-            'chartDataDatang',
-            'chartDataPulang',
+            'sessionStatus',
+            'totalSesiKelas',
             'aktivitas',
-            'riwayat'
+            'riwayat',
+            'bulan',
         );
     }
 }

@@ -72,4 +72,13 @@ class StudentController extends Controller
 
         return back()->with('success', 'Data Student berhasil dihapus!');
     }
+    /**
+     * Halaman cetak kartu pelajar siswa
+     *
+     * @return \Illuminate\View\View
+     */
+    public function printCard(Student $student)
+    {
+        return view('tu.student_card', compact('student'));
+    }
 }

@@ -8,16 +8,21 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class GetStudentRecapAction
 {
     /**
-     * Mengambil data rekap kehadiran siswa berdasarkan filter
+     * Mengambil data rekap kehadiran siswa berdasarkan filter.
      *
      * @param  string|int|null  $classId
+     * @param  string|null      $sesi     apel|kelas|pulang|null (semua)
      */
-    public function execute(int $bulan, int $tahun, ?string $search, $classId): LengthAwarePaginator
+    public function execute(int $bulan, int $tahun, ?string $search, $classId, ?string $sesi = null): LengthAwarePaginator
     {
-        $query = StudentAttendance::with(['student', 'attendance'])
-            ->whereHas('attendance', function ($q) use ($bulan, $tahun) {
+        $query = StudentAttendance::with(['student', 'student.classroom', 'attendance'])
+            ->whereHas('attendance', function ($q) use ($bulan, $tahun, $sesi) {
                 $q->whereMonth('date', $bulan)
                     ->whereYear('date', $tahun);
+
+                if ($sesi) {
+                    $q->where('session_type', $sesi);
+                }
             });
 
         if ($search) {
@@ -35,6 +40,6 @@ class GetStudentRecapAction
             });
         }
 
-        return $query->paginate(10);
+        return $query->orderByDesc('id')->paginate(15);
     }
 }

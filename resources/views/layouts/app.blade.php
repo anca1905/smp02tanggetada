@@ -146,10 +146,6 @@
                     class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.student.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                     <i class="fas fa-user-graduate w-5 mr-3 text-center"></i> Data Siswa
                 </a>
-                <a href="{{ route('tu.room.index') }}"
-                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.room.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
-                    <i class="fas fa-door-open w-5 mr-3 text-center"></i> Data Ruangan
-                </a>
 
                 {{-- Akademik --}}
                 <div class="pt-4 pb-2">
@@ -177,17 +173,9 @@
                 <div class="pt-4 pb-2">
                     <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Administrasi</p>
                 </div>
-                <a href="{{ route('tu.borrowing.index') }}"
-                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.borrowing.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
-                    <i class="fas fa-hand-holding w-5 mr-3 text-center"></i> Peminjaman
-                </a>
                 <a href="{{ route('tu.rekap') }}"
                     class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.rekap') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                     <i class="fas fa-clipboard-list w-5 mr-3 text-center"></i> Rekap Absensi
-                </a>
-                <a href="{{ route('tu.billing.index') }}"
-                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.billing.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
-                    <i class="fas fa-money-bill-wave w-5 mr-3 text-center"></i> Keuangan & Tagihan
                 </a>
 
                 <div class="pt-4 pb-2">
@@ -208,6 +196,10 @@
                 <a href="{{ route('tu.settings.website') }}"
                     class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.settings.website') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
                     <i class="fas fa-sliders-h w-5 mr-3 text-center"></i> <span>Pengaturan Web</span>
+                </a>
+                <a href="{{ route('tu.settings.card') }}"
+                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.settings.card') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                    <i class="fas fa-id-card w-5 mr-3 text-center"></i> <span>Desain ID Card</span>
                 </a>
                 <a href="{{ route('tu.facility.index') }}"
                     class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.facility.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
@@ -243,10 +235,6 @@
                     class="flex items-center px-3 py-2.5 rounded-lg text-blue-100 hover:bg-blue-800">
                     <i class="fas fa-clipboard-list w-5 mr-3 text-center"></i> Rekap Absensi
                 </a>
-                <a href="{{ route('tu.billing.index') }}"
-                    class="flex items-center px-3 py-2.5 rounded-lg text-blue-100 hover:bg-blue-800">
-                    <i class="fas fa-money-bill-wave w-5 mr-3 text-center"></i> Keuangan
-                </a>
 
                 <div class="pt-4 pb-2">
                     <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Data Sekolah</p>
@@ -267,10 +255,6 @@
                 <a href="{{ route('teacher.dashboard') }}"
                     class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('teacher.dashboard') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                     <i class="fas fa-home w-5 mr-3 text-center"></i> Dashboard
-                </a>
-                <a href="{{ route('teacher.history') }}"
-                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('teacher.history') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
-                    <i class="fas fa-history w-5 mr-3 text-center"></i> Riwayat Presensi
                 </a>
                 <a href="{{ route('teacher.student-attendance') }}"
                     class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('teacher.student-attendance') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">

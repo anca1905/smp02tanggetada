@@ -13,7 +13,7 @@
         {{-- Filter Kelas & Tanggal --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <form method="GET" action="{{ route('teacher.student-attendance') }}"
-                class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
                 <div class="md:col-span-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kelas</label>
                     <select name="kelas"
@@ -28,6 +28,16 @@
                     </select>
                 </div>
                 <div class="md:col-span-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Sesi</label>
+                    <select name="sesi"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        onchange="this.form.submit()">
+                        <option value="apel"   {{ $selectedSession == 'apel'   ? 'selected' : '' }}>🌅 Apel Pagi</option>
+                        <option value="kelas"  {{ $selectedSession == 'kelas'  ? 'selected' : '' }}>🏫 Di Kelas</option>
+                        <option value="pulang" {{ $selectedSession == 'pulang' ? 'selected' : '' }}>🏠 Pulang</option>
+                    </select>
+                </div>
+                <div class="md:col-span-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
                     <input type="date" name="date" value="{{ $selectedDate }}"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
@@ -35,9 +45,13 @@
                 </div>
                 <div class="md:col-span-2 flex items-center gap-4">
                     @if ($selectedClass)
+                        @php
+                            $sessionLabels = ['apel'=>'Apel Pagi','kelas'=>'Di Kelas','pulang'=>'Pulang'];
+                        @endphp
                         <span class="text-sm {{ $attendanceData ? 'text-green-600' : 'text-gray-500' }}">
                             <i class="fas {{ $attendanceData ? 'fa-check-circle' : 'fa-info-circle' }} mr-1"></i>
-                            {{ $attendanceData ? 'Data sudah tersimpan (Mode Edit)' : 'Belum ada data absensi (Mode Input Baru)' }}
+                            Sesi <strong>{{ $sessionLabels[$selectedSession] ?? $selectedSession }}</strong>:
+                            {{ $attendanceData ? 'Data sudah tersimpan (Mode Edit)' : 'Belum ada data (Mode Input Baru)' }}
                         </span>
 
                         {{-- Tombol Buka QR --}}
@@ -56,6 +70,7 @@
             <form action="{{ route('teacher.student-attendance-store') }}" method="POST" onsubmit="confirmAction(event, this, 'Simpan Presensi?', 'Data kehadiran siswa akan disimpan.', 'Ya, Simpan')">
                 @csrf
                 <input type="hidden" name="class" value="{{ $selectedClass }}">
+                <input type="hidden" name="session_type" value="{{ $selectedSession }}">
                 <input type="hidden" name="date" value="{{ $selectedDate }}">
 
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">

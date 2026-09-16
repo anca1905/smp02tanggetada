@@ -11,19 +11,21 @@ class GetStudentPresenceDataAction
 {
     /**
      * Mengambil daftar kelas, mengambil siswa + status kehadiran yang sudah tersimpan
-     * berdasarkan kelas dan tanggal terpilih.
+     * berdasarkan kelas, sesi, dan tanggal terpilih.
      */
-    public function execute(?string $selectedClass, ?string $selectedDate = null): array
+    public function execute(?string $selectedClass, ?string $selectedDate = null, ?string $selectedSession = null): array
     {
-        $selectedDate = $selectedDate ?? Carbon::today()->format('Y-m-d');
+        $selectedDate    = $selectedDate ?? Carbon::today()->format('Y-m-d');
+        $selectedSession = $selectedSession ?? 'kelas';
 
         $classList = Classroom::orderBy('name', 'asc')->pluck('name', 'id');
 
-        $students = [];
+        $students       = [];
         $attendanceData = null;
 
         if ($selectedClass) {
             $attendanceHeader = Attendance::where('class', $selectedClass)
+                ->where('session_type', $selectedSession)
                 ->where('date', $selectedDate)
                 ->first();
 
@@ -45,6 +47,6 @@ class GetStudentPresenceDataAction
             }
         }
 
-        return compact('classList', 'students', 'selectedClass', 'selectedDate', 'attendanceData');
+        return compact('classList', 'students', 'selectedClass', 'selectedDate', 'selectedSession', 'attendanceData');
     }
 }

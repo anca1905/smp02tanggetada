@@ -289,7 +289,6 @@ class DummyContentSeeder extends Seeder
                 'nama_ayah' => $faker->name('male'),
                 'nama_ibu' => $faker->name('female'),
                 'no_hp' => '08'.rand(1111111111, 9999999999),
-                'jurusan_pilihan' => $jurusans[array_rand($jurusans)],
                 'status_pendaftaran' => $ppdbStatuses[array_rand($ppdbStatuses)],
                 'status_berkas' => $berkasStatuses[array_rand($berkasStatuses)],
                 'doc_kk' => 'ppdb/kk_sample.pdf',

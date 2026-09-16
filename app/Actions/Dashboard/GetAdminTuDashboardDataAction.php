@@ -6,10 +6,8 @@ use App\Actions\Activity\GetRecentActivitiesAction;
 use App\Actions\Ppdb\GetPpdbStatsAction;
 use App\Actions\Student\GetActiveStudentCountAction;
 use App\Actions\Teacher\GetActiveTeacherCountAction;
-use App\Actions\Teacher\GetTeacherAttendanceStatsAction;
 use App\Models\RoomBorrowing;
 use App\Models\Student;
-use App\Models\TeacherAbsence;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +16,6 @@ class GetAdminTuDashboardDataAction
     public function __construct(
         protected GetActiveStudentCountAction $activeStudentAction,
         protected GetActiveTeacherCountAction $activeTeacherAction,
-        protected GetTeacherAttendanceStatsAction $teacherAttendanceAction,
         protected GetRecentActivitiesAction $recentActivitiesAction,
         protected GetPpdbStatsAction $ppdbStatsAction
     ) {}
@@ -31,14 +28,13 @@ class GetAdminTuDashboardDataAction
         $today = Carbon::today();
 
         // 1. Ambil dari Reusable Actions
-        $attendanceStats = $this->teacherAttendanceAction->execute();
         $ppdbStats = $this->ppdbStatsAction->execute();
 
         $stats = [
             'total_guru' => $this->activeTeacherAction->execute(),
             'total_siswa' => $this->activeStudentAction->execute(),
-            'datang' => $attendanceStats['datang'],
-            'pulang' => $attendanceStats['pulang'],
+            'datang' => 0, // Fitur presensi guru sudah dihapus
+            'pulang' => 0, // Fitur presensi guru sudah dihapus
             'total_ruang' => RoomBorrowing::whereDate('borrow_date', $today)->count(),
         ];
 
@@ -63,9 +59,7 @@ class GetAdminTuDashboardDataAction
         $teacherChartLabels = $dates->map(fn ($d) => $d->format('D, d M'))->toArray();
         $teacherChartData = [];
         foreach ($dates as $date) {
-            $teacherChartData[] = TeacherAbsence::whereDate('date', $date)
-                ->whereNotNull('arrival_time')
-                ->count();
+            $teacherChartData[] = 0; // Fitur dihapus
         }
 
         // 4. Student Chart (Spesifik Dashboard)

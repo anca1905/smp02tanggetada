@@ -12,7 +12,6 @@ use App\Models\Student;
 use App\Models\StudentAttendanceDetail;
 use App\Models\Subject;
 use App\Models\Teacher;
-use App\Models\TeacherAbsence;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -36,12 +35,9 @@ class GetPrincipalDashboardAction
         $totalMapel = Subject::count();
         $totalFasilitas = Facility::count();
 
-        // Teacher attendance today
-        $guruHadir = TeacherAbsence::whereDate('date', $today)->whereNotNull('arrival_time')->count();
-        $guruTerlambat = TeacherAbsence::whereDate('date', $today)
-            ->whereNotNull('arrival_time')
-            ->whereTime('arrival_time', '>', '07:30:00')
-            ->count();
+        // Teacher attendance today (fitur presensi guru sudah dihapus)
+        $guruHadir = 0;
+        $guruTerlambat = 0;
 
         // Student attendance % today
         $totalSessionsToday = Attendance::whereDate('created_at', $today)->count();
@@ -93,11 +89,9 @@ class GetPrincipalDashboardAction
             $attendanceChart[] = $denom > 0 ? round(($hadirInMonth / $denom) * 100, 2) : 0;
         }
 
-        // ── Top 5 Active Teachers ──────────────────────────────────────
-        $topTeachers = Teacher::withCount(['absences as hadir_count' => function ($q) {
-            $q->whereNotNull('arrival_time');
-        }])
-            ->orderByDesc('hadir_count')
+        // ── Top 5 Active Teachers (Berdasarkan jumlah absensi yang dibuat) ─────────
+        $topTeachers = Teacher::withCount('schedules')
+            ->orderByDesc('schedules_count')
             ->take(5)->get();
 
         // ── Latest Announcements ───────────────────────────────────────

@@ -76,4 +76,47 @@ class SettingsController extends Controller
 
         return back()->with('success', 'Pengaturan website berhasil diperbarui!');
     }
+
+    /**
+     * Menampilkan halaman pengaturan Desain ID Card.
+     */
+    public function index_card(GetLandingSettingsAction $action): View
+    {
+        $settings = $action->execute();
+        return view('tu.settings_card', compact('settings'));
+    }
+
+    /**
+     * Memperbarui pengaturan Desain ID Card.
+     */
+    public function update_card(
+        \Illuminate\Http\Request $request,
+        UpdateLandingSettingsAction $action
+    ): RedirectResponse {
+        $request->validate([
+            'id_card_school_name' => 'nullable|string',
+            'id_card_school_address' => 'nullable|string',
+            'id_card_principal_name' => 'nullable|string',
+            'id_card_bg_color_1' => 'nullable|string',
+            'id_card_bg_color_2' => 'nullable|string',
+            'id_card_bg_color_3' => 'nullable|string',
+            'id_card_font_color' => 'nullable|string',
+            'id_card_rules' => 'nullable|string',
+        ]);
+
+        $textData = $request->only([
+            'id_card_school_name',
+            'id_card_school_address',
+            'id_card_principal_name',
+            'id_card_bg_color_1',
+            'id_card_bg_color_2',
+            'id_card_bg_color_3',
+            'id_card_font_color',
+            'id_card_rules',
+        ]);
+
+        $action->execute($textData, []);
+
+        return back()->with('success', 'Desain Kartu Pelajar berhasil diperbarui!');
+    }
 }

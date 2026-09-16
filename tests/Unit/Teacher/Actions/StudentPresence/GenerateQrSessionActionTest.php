@@ -24,6 +24,7 @@ class GenerateQrSessionActionTest extends TestCase
         $action = new GenerateQrSessionAction;
         $result = $action->execute([
             'class' => $classroom->id,
+            'session_type' => 'kelas',
             'date' => Carbon::today()->format('Y-m-d'),
         ]);
 

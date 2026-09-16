@@ -5,101 +5,74 @@
 @section('content')
     <div class="mb-6">
         <h2 class="text-2xl font-bold text-gray-800">
-            Welcome Back, {{ explode(' ', $teacher->name)[0] }} 👋
+            Selamat Datang, {{ explode(' ', $teacher->name)[0] }} 👋
         </h2>
         <p class="text-gray-500 text-sm">Hari ini tanggal {{ $todayFormatted }}</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-16 h-16 bg-blue-50 rounded-bl-full -mr-2 -mt-2"></div>
-            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 relative z-10">Status Datang</h3>
-            <div class="flex items-center relative z-10">
-                <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
-                    <i class="fas fa-sign-in-alt text-lg"></i>
-                </div>
-                <p class="text-base font-bold text-gray-800">{{ $status_datang }}</p>
-            </div>
-        </div>
+    {{-- Status 3 Sesi Absensi Hari Ini --}}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        @php
+            $sesiBadge = [
+                'apel'   => ['icon' => 'fa-sun',        'color_bg' => 'bg-yellow-100', 'color_text' => 'text-yellow-600', 'label' => 'Apel Pagi'],
+                'kelas'  => ['icon' => 'fa-chalkboard', 'color_bg' => 'bg-blue-100',   'color_text' => 'text-blue-600',   'label' => 'Di Kelas'],
+                'pulang' => ['icon' => 'fa-home',       'color_bg' => 'bg-green-100',  'color_text' => 'text-green-600',  'label' => 'Pulang'],
+            ];
+        @endphp
 
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-16 h-16 bg-green-50 rounded-bl-full -mr-2 -mt-2"></div>
-            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 relative z-10">Status Pulang</h3>
-            <div class="flex items-center relative z-10">
-                <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3">
-                    <i class="fas fa-sign-out-alt text-lg"></i>
+        @foreach ($sessionStatus as $key => $sesi)
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-16 h-16 {{ $sesiBadge[$key]['color_bg'] }} rounded-bl-full -mr-2 -mt-2"></div>
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 relative z-10">
+                    Sesi {{ $sesi['label'] }}
+                </h3>
+                <div class="flex items-center relative z-10">
+                    <div class="w-10 h-10 rounded-full {{ $sesiBadge[$key]['color_bg'] }} {{ $sesiBadge[$key]['color_text'] }} flex items-center justify-center mr-3">
+                        <i class="fas {{ $sesiBadge[$key]['icon'] }} text-lg"></i>
+                    </div>
+                    @if ($sesi['done'])
+                        <span class="text-sm font-bold text-green-600">
+                            <i class="fas fa-check-circle mr-1"></i> Sudah Dilakukan
+                        </span>
+                    @else
+                        <span class="text-sm font-medium text-gray-400">Belum ada data</span>
+                    @endif
                 </div>
-                <p class="text-base font-bold text-gray-800">{{ $status_pulang }}</p>
             </div>
-        </div>
-
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-16 h-16 bg-yellow-50 rounded-bl-full -mr-2 -mt-2"></div>
-            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 relative z-10">Kehadiran Bulan Ini</h3>
-            <div class="flex items-center relative z-10">
-                <div class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center mr-3">
-                    <i class="fas fa-calendar-check text-lg"></i>
-                </div>
-                <p class="text-2xl font-bold text-gray-800">
-                    {{ $totalHadir }}
-                    <span class="text-xs text-gray-400 font-normal">/ {{ $totalHariKerja }} hari</span>
-                </p>
-            </div>
-        </div>
+        @endforeach
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
 
-        <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-lg font-bold text-gray-700">Persentase Kehadiran</h3>
-                <select onchange="window.location.href='?bulan='+this.value"
-                    class="text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    @foreach (range(1, 12) as $m)
-                        <option value="{{ $m }}" {{ $bulan == $m ? 'selected' : '' }}>
-                            {{ \Carbon\Carbon::create()->month($m)->isoFormat('MMMM') }}
-                        </option>
-                    @endforeach
-                </select>
+        {{-- Statistik Sesi Kelas Bulan Ini --}}
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <h3 class="text-lg font-bold text-gray-700 mb-4">Sesi Absensi Bulan Ini</h3>
+            <div class="flex items-center">
+                <div class="w-14 h-14 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-4">
+                    <i class="fas fa-clipboard-check text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-4xl font-bold text-gray-800">{{ $totalSesiKelas }}</p>
+                    <p class="text-sm text-gray-400">Total sesi dilakukan</p>
+                </div>
             </div>
 
-            <div class="flex space-x-2 mb-4">
-                <button id="tab-datang"
-                    class="px-4 py-1.5 text-xs font-bold rounded-full bg-blue-600 text-white transition-colors"
-                    onclick="switchTab('datang')">Absen Datang</button>
-                <button id="tab-pulang"
-                    class="px-4 py-1.5 text-xs font-bold rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
-                    onclick="switchTab('pulang')">Absen Pulang</button>
-            </div>
-
-            <div class="relative h-64 w-full">
-                <canvas id="chart-attendance"></canvas>
+            <div class="mt-4 pt-4 border-t border-gray-100">
+                <a href="{{ route('teacher.student-attendance') }}"
+                    class="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm py-2.5 rounded-lg transition">
+                    <i class="fas fa-user-check"></i> Input Absensi Siswa
+                </a>
             </div>
         </div>
 
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-            <h3 class="text-lg font-bold text-gray-700 mb-4">Aktivitas Terbaru</h3>
-            <div class="space-y-4">
+        {{-- Aktivitas Terbaru --}}
+        <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <h3 class="text-lg font-bold text-gray-700 mb-4">Aktivitas Absensi Terbaru</h3>
+            <div class="space-y-3">
                 @forelse ($aktivitas as $log)
-                    @php
-                        $bgIcon = 'bg-gray-100 text-gray-500';
-                        $icon = 'fa-info';
-
-                        if ($log->tipe == 'datang') {
-                            $bgIcon = 'bg-blue-100 text-blue-600';
-                            $icon = 'fa-sign-in-alt';
-                        } elseif ($log->tipe == 'pulang') {
-                            $bgIcon = 'bg-green-100 text-green-600';
-                            $icon = 'fa-sign-out-alt';
-                        } elseif ($log->tipe == 'absensi') {
-                            $bgIcon = 'bg-purple-100 text-purple-600';
-                            $icon = 'fa-clipboard-check';
-                        }
-                    @endphp
                     <div class="flex items-start pb-3 border-b border-gray-50 last:border-0">
-                        <div
-                            class="flex-shrink-0 w-8 h-8 rounded-full {{ $bgIcon }} flex items-center justify-center mt-1">
-                            <i class="fas {{ $icon }} text-xs"></i>
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mt-1">
+                            <i class="fas fa-clipboard-check text-xs"></i>
                         </div>
                         <div class="ml-3">
                             <p class="text-sm font-medium text-gray-800">{{ $log->title }}</p>
@@ -107,37 +80,46 @@
                         </div>
                     </div>
                 @empty
-                    <p class="text-sm text-gray-400 text-center py-4">Belum ada aktivitas hari ini.</p>
+                    <p class="text-sm text-gray-400 text-center py-4">Belum ada aktivitas absensi.</p>
                 @endforelse
             </div>
         </div>
     </div>
 
+    {{-- Riwayat Sesi Terakhir --}}
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100">
-            <h3 class="text-lg font-bold text-gray-700">Riwayat Presensi Terakhir</h3>
+            <h3 class="text-lg font-bold text-gray-700">Riwayat Sesi Absensi Terakhir</h3>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-left text-sm text-gray-600">
                 <thead class="bg-gray-50 text-xs uppercase font-semibold text-gray-500">
                     <tr>
                         <th class="px-6 py-3">Tanggal</th>
-                        <th class="px-6 py-3">Jam Datang</th>
-                        <th class="px-6 py-3">Jam Pulang</th>
-                        <th class="px-6 py-3">Status</th>
+                        <th class="px-6 py-3">Sesi</th>
+                        <th class="px-6 py-3 text-center">Hadir</th>
+                        <th class="px-6 py-3 text-center">Total</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     @forelse ($riwayat as $row)
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 font-medium text-gray-900">{{ $row['tgl'] }}</td>
-                            <td class="px-6 py-4 text-blue-600">{{ $row['datang'] }}</td>
-                            <td class="px-6 py-4 text-green-600">{{ $row['pulang'] }}</td>
                             <td class="px-6 py-4">
-                                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    {{ $row['status'] }}
+                                @php
+                                    $sesiColor = match($row['sesi']) {
+                                        'Apel Pagi' => 'bg-yellow-100 text-yellow-700',
+                                        'Di Kelas'  => 'bg-blue-100 text-blue-700',
+                                        'Pulang'    => 'bg-green-100 text-green-700',
+                                        default     => 'bg-gray-100 text-gray-700',
+                                    };
+                                @endphp
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium {{ $sesiColor }}">
+                                    {{ $row['sesi'] }}
                                 </span>
                             </td>
+                            <td class="px-6 py-4 text-center text-green-600 font-bold">{{ $row['hadir'] }}</td>
+                            <td class="px-6 py-4 text-center text-gray-500">{{ $row['total'] }}</td>
                         </tr>
                     @empty
                         <tr>
@@ -148,96 +130,4 @@
             </table>
         </div>
     </div>
-
-    @push('js')
-        <script>
-            const datangData = @json($chartDataDatang);
-            const pulangData = @json($chartDataPulang);
-
-            const daysInMonth = datangData.length;
-            const labels = Array.from({
-                length: daysInMonth
-            }, (_, i) => i + 1);
-
-            const ctx = document.getElementById('chart-attendance').getContext('2d');
-
-            let myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Absen Datang',
-                        data: datangData,
-                        borderColor: '#3b82f6', 
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.4,
-                        fill: true,
-                        pointRadius: 2,
-                        pointHoverRadius: 5
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 1.5, 
-                            ticks: {
-                                display: false
-                            }, 
-                            grid: {
-                                borderDash: [2, 4]
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.raw === 1 ? 'Hadir' : 'Tidak Hadir';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            function switchTab(type) {
-                const btnDatang = document.getElementById('tab-datang');
-                const btnPulang = document.getElementById('tab-pulang');
-
-                if (type === 'datang') {
-                    btnDatang.className = "px-4 py-1.5 text-xs font-bold rounded-full bg-blue-600 text-white transition-colors";
-                    btnPulang.className =
-                        "px-4 py-1.5 text-xs font-bold rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors";
-
-                    myChart.data.datasets[0].label = 'Absen Datang';
-                    myChart.data.datasets[0].data = datangData;
-                    myChart.data.datasets[0].borderColor = '#3b82f6';
-                    myChart.data.datasets[0].backgroundColor = 'rgba(59, 130, 246, 0.1)';
-                } else {
-                    btnPulang.className =
-                    "px-4 py-1.5 text-xs font-bold rounded-full bg-green-600 text-white transition-colors";
-                    btnDatang.className =
-                        "px-4 py-1.5 text-xs font-bold rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors";
-
-                    myChart.data.datasets[0].label = 'Absen Pulang';
-                    myChart.data.datasets[0].data = pulangData;
-                    myChart.data.datasets[0].borderColor = '#10b981'; 
-                    myChart.data.datasets[0].backgroundColor = 'rgba(16, 185, 129, 0.1)';
-                }
-                myChart.update();
-            }
-        </script>
-    @endpush
 @endsection

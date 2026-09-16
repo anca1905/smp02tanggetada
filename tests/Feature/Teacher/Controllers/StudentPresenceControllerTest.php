@@ -34,6 +34,7 @@ class StudentPresenceControllerTest extends TestCase
 
         $response = $this->actingAs($teacher, 'teacher')->post('/teacher/student-attendance/store', [
             'class' => $classroom->id,
+            'session_type' => 'kelas',
             'date' => Carbon::today()->format('Y-m-d'),
             'attendance' => [
                 '12345' => ['status' => 'present'],
@@ -51,6 +52,7 @@ class StudentPresenceControllerTest extends TestCase
 
         $response = $this->actingAs($teacher, 'teacher')->postJson('/teacher/student-attendance/generate-qr', [
             'class' => $classroom->id,
+            'session_type' => 'kelas',
             'date' => Carbon::today()->format('Y-m-d'),
         ]);
 

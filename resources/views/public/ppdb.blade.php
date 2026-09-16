@@ -84,7 +84,7 @@
                     </h1>
 
                     <p class="fade-up-3 text-blue-100 text-lg leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">
-                        Bergabunglah bersama kami dan wujudkan impianmu menjadi tenaga profesional yang kompeten, berkarakter, dan siap kerja di industri global.
+                        Bergabunglah bersama kami dan wujudkan impianmu menjadi generasi yang berkarakter, cerdas, dan berakhlak mulia.
                     </p>
 
                     <div class="fade-up-3 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -103,11 +103,6 @@
 
                     {{-- Quick Stats --}}
                     <div class="fade-up-3 mt-12 flex flex-wrap justify-center lg:justify-start gap-8">
-                        <div class="text-center">
-                            <p class="text-3xl font-bold text-yellow-400">4</p>
-                            <p class="text-xs text-blue-200 uppercase tracking-wide mt-1">Jurusan</p>
-                        </div>
-                        <div class="w-px bg-white/20 hidden sm:block"></div>
                         <div class="text-center">
                             <p class="text-3xl font-bold text-yellow-400">Gratis</p>
                             <p class="text-xs text-blue-200 uppercase tracking-wide mt-1">Pendaftaran</p>
@@ -129,10 +124,10 @@
                             </h3>
                             <div class="space-y-4">
                                 @foreach ([
-                                    ['Pendaftaran Online', '1 – 30 Juni ' . date('Y'), 'fa-pencil-alt', 'bg-blue-400'],
-                                    ['Verifikasi Berkas', '1 – 5 Juli ' . date('Y'), 'fa-folder-open', 'bg-yellow-400'],
-                                    ['Pengumuman Kelulusan', '7 Juli ' . date('Y'), 'fa-bullhorn', 'bg-purple-400'],
-                                    ['Daftar Ulang', '8 – 10 Juli ' . date('Y'), 'fa-check-double', 'bg-green-400'],
+                                    ['Pembuatan Akun & Verifikasi', '8 Mei – 5 Juni ' . date('Y'), 'fa-user-check', 'bg-yellow-400'],
+                                    ['Pendaftaran', '3 Juni – 5 Juni ' . date('Y'), 'fa-pencil-alt', 'bg-blue-400'],
+                                    ['Pengumuman', '10 Juni ' . date('Y'), 'fa-bullhorn', 'bg-purple-400'],
+                                    ['Daftar Ulang', '10 – 12 Juni ' . date('Y'), 'fa-check-double', 'bg-green-400'],
                                 ] as [$label, $tanggal, $icon, $color])
                                 <div class="flex items-center gap-4">
                                     <div class="w-10 h-10 {{ $color }} rounded-xl flex items-center justify-center flex-shrink-0 shadow">
@@ -162,7 +157,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-white text-center">
                 @foreach ([
-                    ['fa-briefcase', 'Alumni Terserap Kerja', 'Kerjasama dengan 50+ DUDI (Dunia Usaha Dunia Industri) di seluruh Indonesia.'],
+                    ['fa-school', 'Fasilitas Lengkap', 'Ruang kelas nyaman dan fasilitas olahraga yang mendukung bakat siswa.'],
                     ['fa-chalkboard-teacher', 'Guru Bersertifikat', 'Pengajar profesional dengan sertifikasi kompetensi di bidangnya masing-masing.'],
                     ['fa-mosque', 'Unggul Imtq & Iptek', 'Mengutamakan karakter mulia, akhlak Islami, dan teknologi terkini.'],
                 ] as [$icon, $title, $desc])
@@ -172,46 +167,6 @@
                     </div>
                     <h3 class="font-bold text-lg">{{ $title }}</h3>
                     <p class="text-blue-200 text-sm leading-relaxed">{{ $desc }}</p>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    {{-- ===== PROGRAM KEAHLIAN ===== --}}
-    <section class="bg-gray-50 py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <span class="text-yellow-500 font-semibold text-sm uppercase tracking-widest">Program Studi</span>
-                <h2 class="text-3xl font-extrabold text-gray-900 mt-2">Pilih Kompetensi Keahlianmu</h2>
-                <p class="text-gray-500 mt-3 max-w-xl mx-auto">Empat program unggulan yang dirancang sesuai kebutuhan industri dan dunia kerja modern.</p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                @foreach ([
-                    ['TKJ', 'Teknik Komputer & Jaringan', 'Jaringan, server, mikrotik, dan infrastruktur IT perusahaan.', 'fa-network-wired', 'from-blue-600 to-blue-800', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=600&auto=format&fit=crop'],
-                    ['RPL', 'Rekayasa Perangkat Lunak', 'Pemrograman, web development, dan pembuatan aplikasi mobile.', 'fa-code', 'from-purple-600 to-purple-800', 'https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?q=80&w=600&auto=format&fit=crop'],
-                    ['TBSM', 'Teknik & Bisnis Sepeda Motor', 'Mesin, kelistrikan, dan bisnis otomotif sepeda motor.', 'fa-motorcycle', 'from-orange-500 to-orange-700', 'https://images.unsplash.com/photo-1552656967-7a0990a02302?q=80&w=600&auto=format&fit=crop'],
-                    ['AKL', 'Akuntansi Keuangan Lembaga', 'Siklus akuntansi, laporan keuangan, dan perpajakan.', 'fa-calculator', 'from-green-600 to-green-800', 'https://images.unsplash.com/photo-1554224155-984067586967?q=80&w=600&auto=format&fit=crop'],
-                ] as [$kode, $nama, $deskripsi, $icon, $gradient, $img])
-                <div class="jurusan-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer">
-                    <div class="relative h-40 bg-gradient-to-br {{ $gradient }}">
-                        <img src="{{ $img }}" alt="{{ $nama }}" class="absolute inset-0 w-full h-full object-cover opacity-30">
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
-                            <div class="w-14 h-14 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center mb-2">
-                                <i class="fas {{ $icon }} text-2xl"></i>
-                            </div>
-                            <span class="text-3xl font-black tracking-wider">{{ $kode }}</span>
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-gray-800 mb-2 text-sm leading-snug">{{ $nama }}</h3>
-                        <p class="text-xs text-gray-500 leading-relaxed">{{ $deskripsi }}</p>
-                        <a href="{{ route('public.ppdb.daftar') }}"
-                            class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-blue-700 hover:text-blue-900">
-                            Daftar Jurusan Ini <i class="fas fa-arrow-right text-xs"></i>
-                        </a>
-                    </div>
                 </div>
                 @endforeach
             </div>
@@ -228,11 +183,13 @@
                     <h2 class="text-3xl font-extrabold text-gray-900 mt-2 mb-6">Syarat & Ketentuan Pendaftaran</h2>
                     <div class="space-y-4">
                         @foreach ([
-                            ['fa-id-card', 'Kartu Keluarga (KK)', 'Scan atau foto KK yang masih berlaku.'],
-                            ['fa-graduation-cap', 'Ijazah / SKL', 'Scan Ijazah atau Surat Keterangan Lulus.'],
-                            ['fa-file-alt', 'Akta Kelahiran', 'Scan akta kelahiran calon siswa.'],
-                            ['fa-image', 'Pas Foto 3×4', '2 lembar, latar polos.'],
-                            ['fa-mobile-alt', 'No. WhatsApp Aktif', 'Untuk konfirmasi dan notifikasi kelulusan.'],
+                            ['fa-user-check', 'Persyaratan Umum', 'Usia maks 15 tahun (1 Juli) dan Lulus SD/sederajat.'],
+                            ['fa-image', 'Pas Photo 3x4', 'File pas foto ukuran 3x4 (JPG/PNG).'],
+                            ['fa-graduation-cap', 'Ijazah / SKL', 'Scan Ijazah SD atau Surat Keterangan Lulus (PDF).'],
+                            ['fa-file-alt', 'Transkrip & Sertifikat TKA', 'Scan Transkrip Nilai dan Sertifikat TKA (PDF).'],
+                            ['fa-id-card', 'Akta Kelahiran & KK', 'Scan Akta Kelahiran dan Kartu Keluarga (PDF).'],
+                            ['fa-id-badge', 'KTP Orang Tua', 'Scan KTP Ayah dan Ibu kandung (PDF).'],
+                            ['fa-print', 'Bukti Pendaftaran', 'Calon murid mencetak formulir bukti pendaftaran online.'],
                         ] as [$icon, $judul, $keterangan])
                         <div class="flex items-start gap-4 p-4 rounded-xl bg-gray-50 border border-gray-100">
                             <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">

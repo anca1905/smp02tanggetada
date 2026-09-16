@@ -53,7 +53,7 @@
 
             {{-- === FORM UTAMA === --}}
             <div class="lg:w-2/3">
-                <form id="form-ppdb" action="{{ route('public.ppdb.store') }}" method="POST"
+                <form id="form-ppdb" action="{{ route('public.ppdb.store') }}" method="POST" enctype="multipart/form-data"
                     class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
                     @csrf
 
@@ -68,32 +68,10 @@
 
                     <div class="p-8 space-y-8">
 
-                        {{-- Seksi 1: Pilihan Jurusan --}}
+                        {{-- Seksi 1: Data Pribadi --}}
                         <div>
                             <h3 class="text-base font-bold text-blue-900 border-b-2 border-blue-100 pb-3 mb-5 flex items-center gap-2">
                                 <div class="w-7 h-7 bg-blue-900 text-white rounded-full flex items-center justify-center text-xs font-bold">1</div>
-                                Pilihan Kompetensi Keahlian
-                            </h3>
-                            <div class="bg-blue-50 border border-blue-100 rounded-xl p-5">
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Pilih Jurusan Utama <span class="text-red-500">*</span>
-                                </label>
-                                <select name="jurusan" required
-                                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-900 bg-white text-sm @error('jurusan') border-red-500 @enderror">
-                                    <option value="" disabled selected>-- Pilih Jurusan --</option>
-                                    <option value="TKJ" {{ old('jurusan') === 'TKJ' ? 'selected' : '' }}>Teknik Komputer &amp; Jaringan (TKJ)</option>
-                                    <option value="RPL" {{ old('jurusan') === 'RPL' ? 'selected' : '' }}>Rekayasa Perangkat Lunak (RPL)</option>
-                                    <option value="TBSM" {{ old('jurusan') === 'TBSM' ? 'selected' : '' }}>Teknik &amp; Bisnis Sepeda Motor (TBSM)</option>
-                                    <option value="AKL" {{ old('jurusan') === 'AKL' ? 'selected' : '' }}>Akuntansi Keuangan Lembaga (AKL)</option>
-                                </select>
-                                <p class="text-xs text-gray-500 mt-2">*Pastikan pilihan sesuai minat dan bakat siswa.</p>
-                            </div>
-                        </div>
-
-                        {{-- Seksi 2: Data Pribadi --}}
-                        <div>
-                            <h3 class="text-base font-bold text-blue-900 border-b-2 border-blue-100 pb-3 mb-5 flex items-center gap-2">
-                                <div class="w-7 h-7 bg-blue-900 text-white rounded-full flex items-center justify-center text-xs font-bold">2</div>
                                 Data Pribadi Calon Siswa
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -116,6 +94,12 @@
                                         placeholder="16 Digit NIK" maxlength="16">
                                 </div>
                                 <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nomor Kartu Keluarga (KK)</label>
+                                    <input type="text" name="no_kk" value="{{ old('no_kk') }}"
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 @error('no_kk') border-red-500 @enderror"
+                                        placeholder="16 Digit No KK" maxlength="20">
+                                </div>
+                                <div>
                                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">Jenis Kelamin <span class="text-red-500">*</span></label>
                                     <select name="jenis_kelamin" required
                                         class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 bg-white @error('jenis_kelamin') border-red-500 @enderror">
@@ -135,27 +119,53 @@
                                     <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}"
                                         class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900">
                                 </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Agama & Kepercayaan</label>
+                                    <select name="agama"
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 bg-white">
+                                        <option value="">-- Pilih Agama --</option>
+                                        <option value="Islam" {{ old('agama') === 'Islam' ? 'selected' : '' }}>Islam</option>
+                                        <option value="Kristen/Protestan" {{ old('agama') === 'Kristen/Protestan' ? 'selected' : '' }}>Kristen/Protestan</option>
+                                        <option value="Katholik" {{ old('agama') === 'Katholik' ? 'selected' : '' }}>Katholik</option>
+                                        <option value="Hindu" {{ old('agama') === 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                                        <option value="Budha" {{ old('agama') === 'Budha' ? 'selected' : '' }}>Budha</option>
+                                        <option value="Khonghucu" {{ old('agama') === 'Khonghucu' ? 'selected' : '' }}>Khonghucu</option>
+                                        <option value="Kepercayaan" {{ old('agama') === 'Kepercayaan' ? 'selected' : '' }}>Kepercayaan Kepada Tuhan YME</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Tempat Tinggal</label>
+                                    <select name="tempat_tinggal"
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 bg-white">
+                                        <option value="">-- Pilih --</option>
+                                        <option value="Bersama orang tua" {{ old('tempat_tinggal') === 'Bersama orang tua' ? 'selected' : '' }}>Bersama orang tua</option>
+                                        <option value="Wali" {{ old('tempat_tinggal') === 'Wali' ? 'selected' : '' }}>Wali</option>
+                                        <option value="Kos" {{ old('tempat_tinggal') === 'Kos' ? 'selected' : '' }}>Kos</option>
+                                        <option value="Asrama" {{ old('tempat_tinggal') === 'Asrama' ? 'selected' : '' }}>Asrama</option>
+                                        <option value="Panti Asuhan" {{ old('tempat_tinggal') === 'Panti Asuhan' ? 'selected' : '' }}>Panti Asuhan</option>
+                                    </select>
+                                </div>
                                 <div class="md:col-span-2">
-                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Alamat Lengkap (Sesuai KK)</label>
-                                    <textarea name="alamat" rows="3"
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Alamat Jalan (Sesuai KK)</label>
+                                    <textarea name="alamat" rows="2"
                                         class="w-full border border-gray-300 rounded-lg px-4 py-2.5 uppercase text-sm focus:outline-none focus:ring-2 focus:ring-blue-900"
-                                        placeholder="Nama Jalan, RT/RW, Desa/Kelurahan, Kecamatan">{{ old('alamat') }}</textarea>
+                                        placeholder="Nama Jalan, Gg, Blok, No. Rumah">{{ old('alamat') }}</textarea>
                                 </div>
                             </div>
                         </div>
 
-                        {{-- Seksi 3: Sekolah Asal --}}
+                        {{-- Seksi 2: Sekolah Asal --}}
                         <div>
                             <h3 class="text-base font-bold text-blue-900 border-b-2 border-blue-100 pb-3 mb-5 flex items-center gap-2">
-                                <div class="w-7 h-7 bg-blue-900 text-white rounded-full flex items-center justify-center text-xs font-bold">3</div>
+                                <div class="w-7 h-7 bg-blue-900 text-white rounded-full flex items-center justify-center text-xs font-bold">2</div>
                                 Data Sekolah Asal
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nama SMP/MTS Asal <span class="text-red-500">*</span></label>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nama SD/MI Asal <span class="text-red-500">*</span></label>
                                     <input type="text" name="asal_sekolah" value="{{ old('asal_sekolah') }}" required
                                         class="w-full border border-gray-300 rounded-lg px-4 py-2.5 uppercase text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 @error('asal_sekolah') border-red-500 @enderror"
-                                        placeholder="SMP NEGERI ...">
+                                        placeholder="SD NEGERI ...">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">Tahun Lulus</label>
@@ -166,24 +176,98 @@
                             </div>
                         </div>
 
-                        {{-- Seksi 4: Data Orang Tua --}}
+                        {{-- Seksi 3: Data Orang Tua --}}
                         <div>
                             <h3 class="text-base font-bold text-blue-900 border-b-2 border-blue-100 pb-3 mb-5 flex items-center gap-2">
-                                <div class="w-7 h-7 bg-blue-900 text-white rounded-full flex items-center justify-center text-xs font-bold">4</div>
+                                <div class="w-7 h-7 bg-blue-900 text-white rounded-full flex items-center justify-center text-xs font-bold">3</div>
                                 Data Orang Tua / Wali
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                {{-- Ayah --}}
+                                <div class="md:col-span-2 border-b border-gray-100 pb-2">
+                                    <h4 class="font-bold text-gray-800 text-sm">Data Ayah Kandung</h4>
+                                </div>
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nama Ayah Kandung</label>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nama Ayah</label>
                                     <input type="text" name="nama_ayah" value="{{ old('nama_ayah') }}"
                                         class="w-full border border-gray-300 rounded-lg px-4 py-2.5 uppercase text-sm focus:outline-none focus:ring-2 focus:ring-blue-900"
                                         placeholder="Nama lengkap ayah">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nama Ibu Kandung</label>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Pekerjaan Ayah</label>
+                                    <select name="pekerjaan_ayah" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 bg-white">
+                                        <option value="">-- Pilih Pekerjaan --</option>
+                                        <option value="Tidak bekerja">Tidak bekerja</option>
+                                        <option value="Nelayan">Nelayan</option>
+                                        <option value="Petani">Petani</option>
+                                        <option value="Peternak">Peternak</option>
+                                        <option value="PNS/TNI/POLRI">PNS/TNI/POLRI</option>
+                                        <option value="Karyawan Swasta">Karyawan Swasta</option>
+                                        <option value="Pedagang Kecil">Pedagang Kecil</option>
+                                        <option value="Pedagang Besar">Pedagang Besar</option>
+                                        <option value="Wiraswasta">Wiraswasta</option>
+                                        <option value="Wirausaha">Wirausaha</option>
+                                        <option value="Buruh">Buruh</option>
+                                        <option value="Pensiunan">Pensiunan</option>
+                                    </select>
+                                </div>
+                                <div class="md:col-span-2 mb-4">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Penghasilan Ayah</label>
+                                    <select name="penghasilan_ayah" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 bg-white">
+                                        <option value="">-- Pilih Penghasilan --</option>
+                                        <option value="Kurang dari Rp 500.000">Kurang dari Rp 500.000</option>
+                                        <option value="Rp 500.000 - Rp 999.999">Rp 500.000 - Rp 999.999</option>
+                                        <option value="Rp 1.000.000 - Rp 1.999.999">Rp 1.000.000 - Rp 1.999.999</option>
+                                        <option value="Rp 2.000.000 - Rp 4.999.999">Rp 2.000.000 - Rp 4.999.999</option>
+                                        <option value="Rp 5.000.000 - Rp 20.000.000">Rp 5.000.000 - Rp 20.000.000</option>
+                                        <option value="Lebih dari Rp 20.000.000">Lebih dari Rp 20.000.000</option>
+                                    </select>
+                                </div>
+
+                                {{-- Ibu --}}
+                                <div class="md:col-span-2 border-b border-gray-100 pb-2">
+                                    <h4 class="font-bold text-gray-800 text-sm">Data Ibu Kandung</h4>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nama Ibu</label>
                                     <input type="text" name="nama_ibu" value="{{ old('nama_ibu') }}"
                                         class="w-full border border-gray-300 rounded-lg px-4 py-2.5 uppercase text-sm focus:outline-none focus:ring-2 focus:ring-blue-900"
                                         placeholder="Nama lengkap ibu">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Pekerjaan Ibu</label>
+                                    <select name="pekerjaan_ibu" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 bg-white">
+                                        <option value="">-- Pilih Pekerjaan --</option>
+                                        <option value="Tidak bekerja">Tidak bekerja</option>
+                                        <option value="Nelayan">Nelayan</option>
+                                        <option value="Petani">Petani</option>
+                                        <option value="Peternak">Peternak</option>
+                                        <option value="PNS/TNI/POLRI">PNS/TNI/POLRI</option>
+                                        <option value="Karyawan Swasta">Karyawan Swasta</option>
+                                        <option value="Pedagang Kecil">Pedagang Kecil</option>
+                                        <option value="Pedagang Besar">Pedagang Besar</option>
+                                        <option value="Wiraswasta">Wiraswasta</option>
+                                        <option value="Wirausaha">Wirausaha</option>
+                                        <option value="Buruh">Buruh</option>
+                                        <option value="Pensiunan">Pensiunan</option>
+                                    </select>
+                                </div>
+                                <div class="md:col-span-2 mb-4">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Penghasilan Ibu</label>
+                                    <select name="penghasilan_ibu" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 bg-white">
+                                        <option value="">-- Pilih Penghasilan --</option>
+                                        <option value="Kurang dari Rp 500.000">Kurang dari Rp 500.000</option>
+                                        <option value="Rp 500.000 - Rp 999.999">Rp 500.000 - Rp 999.999</option>
+                                        <option value="Rp 1.000.000 - Rp 1.999.999">Rp 1.000.000 - Rp 1.999.999</option>
+                                        <option value="Rp 2.000.000 - Rp 4.999.999">Rp 2.000.000 - Rp 4.999.999</option>
+                                        <option value="Rp 5.000.000 - Rp 20.000.000">Rp 5.000.000 - Rp 20.000.000</option>
+                                        <option value="Lebih dari Rp 20.000.000">Lebih dari Rp 20.000.000</option>
+                                    </select>
+                                </div>
+
+                                {{-- Kontak --}}
+                                <div class="md:col-span-2 border-b border-gray-100 pb-2">
+                                    <h4 class="font-bold text-gray-800 text-sm">Kontak (Wajib)</h4>
                                 </div>
                                 <div class="md:col-span-2">
                                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nomor WA / Telepon Aktif <span class="text-red-500">*</span></label>
@@ -191,6 +275,71 @@
                                         class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 @error('no_hp') border-red-500 @enderror"
                                         placeholder="Contoh: 0812xxxx">
                                     <p class="text-xs text-gray-500 mt-1.5"><i class="fas fa-info-circle mr-1 text-blue-400"></i> Nomor ini akan digunakan untuk informasi kelulusan.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Seksi 4: Upload Berkas Persyaratan --}}
+                        <div>
+                            <h3 class="text-base font-bold text-blue-900 border-b-2 border-blue-100 pb-3 mb-5 flex items-center gap-2">
+                                <div class="w-7 h-7 bg-blue-900 text-white rounded-full flex items-center justify-center text-xs font-bold">4</div>
+                                Upload Berkas Persyaratan (Wajib)
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div class="md:col-span-2">
+                                    <div class="bg-yellow-50 border border-yellow-200 p-3 rounded-lg flex gap-3 text-sm text-yellow-800 mb-2">
+                                        <i class="fas fa-exclamation-triangle mt-0.5"></i>
+                                        <p>Pastikan format file sesuai (JPG/PNG untuk foto, PDF untuk lainnya) dan ukuran masing-masing file maksimal <strong>2MB</strong>.</p>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Pas Photo 3x4 <span class="text-red-500">*</span></label>
+                                    <input type="file" name="doc_pas_photo" required accept=".jpg,.jpeg,.png"
+                                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 @error('doc_pas_photo') border-red-500 @enderror">
+                                    <p class="text-xs text-gray-500 mt-1">Format: JPG, JPEG, PNG</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Scan Ijazah / SKL <span class="text-red-500">*</span></label>
+                                    <input type="file" name="doc_ijazah" required accept=".pdf"
+                                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 @error('doc_ijazah') border-red-500 @enderror">
+                                    <p class="text-xs text-gray-500 mt-1">Format: PDF</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Scan Transkrip Nilai <span class="text-red-500">*</span></label>
+                                    <input type="file" name="doc_transkrip" required accept=".pdf"
+                                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 @error('doc_transkrip') border-red-500 @enderror">
+                                    <p class="text-xs text-gray-500 mt-1">Format: PDF</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Sertifikat TKA <span class="text-red-500">*</span></label>
+                                    <input type="file" name="doc_tka" required accept=".pdf"
+                                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 @error('doc_tka') border-red-500 @enderror">
+                                    <p class="text-xs text-gray-500 mt-1">Format: PDF</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Scan Akta Kelahiran <span class="text-red-500">*</span></label>
+                                    <input type="file" name="doc_akta" required accept=".pdf"
+                                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 @error('doc_akta') border-red-500 @enderror">
+                                    <p class="text-xs text-gray-500 mt-1">Format: PDF</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Scan Kartu Keluarga (KK) <span class="text-red-500">*</span></label>
+                                    <input type="file" name="doc_kk" required accept=".pdf"
+                                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 @error('doc_kk') border-red-500 @enderror">
+                                    <p class="text-xs text-gray-500 mt-1">Format: PDF</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Scan KTP Ayah <span class="text-red-500">*</span></label>
+                                    <input type="file" name="doc_ktp_ayah" required accept=".pdf"
+                                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 @error('doc_ktp_ayah') border-red-500 @enderror">
+                                    <p class="text-xs text-gray-500 mt-1">Format: PDF</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Scan KTP Ibu <span class="text-red-500">*</span></label>
+                                    <input type="file" name="doc_ktp_ibu" required accept=".pdf"
+                                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 @error('doc_ktp_ibu') border-red-500 @enderror">
+                                    <p class="text-xs text-gray-500 mt-1">Format: PDF</p>
                                 </div>
                             </div>
                         </div>

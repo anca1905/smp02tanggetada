@@ -30,6 +30,7 @@ class StoreStudentAttendanceActionTest extends TestCase
         $action = new StoreStudentAttendanceAction;
         $action->execute([
             'class' => $classroom->id,
+            'session_type' => 'kelas',
             'date' => Carbon::today()->format('Y-m-d'),
             'attendance' => [
                 '12345' => ['status' => 'present'],

@@ -13,7 +13,7 @@ class GenerateQrSessionAction
      * Membuat atau update sesi presensi, lalu generate random token QR.
      * Expired 5 menit dari sekarang.
      *
-     * @param  array  $data  Validated data (class, date)
+     * @param  array  $data  Validated data (class, session_type, date)
      */
     public function execute(array $data): array
     {
@@ -21,28 +21,30 @@ class GenerateQrSessionAction
 
         $header = Attendance::updateOrCreate(
             [
-                'class' => $data['class'],
-                'date' => $data['date'],
+                'class'        => $data['class'],
+                'session_type' => $data['session_type'] ?? 'kelas',
+                'date'         => $data['date'],
             ],
             [
-                'teacher_id' => $guru->id,
+                'teacher_id' => $guru?->id,
                 'start_time' => Carbon::now()->format('H:i:00'),
-                'end_time' => Carbon::now()->addHour()->format('H:i:00'),
+                'end_time'   => Carbon::now()->addHour()->format('H:i:00'),
             ]
         );
 
         $token = Str::random(32);
         $header->update([
-            'qr_token' => $token,
+            'qr_token'      => $token,
             'qr_expires_at' => Carbon::now()->addMinutes(5),
         ]);
 
         return [
-            'success' => true,
-            'qr_token' => $token,
-            'expires_at' => $header->qr_expires_at->toISOString(),
-            'class' => $data['class'],
-            'date' => $data['date'],
+            'success'      => true,
+            'qr_token'     => $token,
+            'expires_at'   => $header->qr_expires_at->toISOString(),
+            'class'        => $data['class'],
+            'session_type' => $data['session_type'] ?? 'kelas',
+            'date'         => $data['date'],
         ];
     }
 }

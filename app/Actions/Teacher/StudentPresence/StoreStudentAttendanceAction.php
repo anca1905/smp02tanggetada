@@ -14,7 +14,7 @@ class StoreStudentAttendanceAction
     /**
      * Menyimpan/update header Attendance dan detail StudentAttendance.
      *
-     * @param  array  $data  Validated data (class, date, attendance array)
+     * @param  array  $data  Validated data (class, session_type, date, attendance array)
      */
     public function execute(array $data): void
     {
@@ -23,13 +23,14 @@ class StoreStudentAttendanceAction
         DB::transaction(function () use ($data, $guru) {
             $header = Attendance::updateOrCreate(
                 [
-                    'class' => $data['class'],
-                    'date' => $data['date'],
+                    'class'        => $data['class'],
+                    'session_type' => $data['session_type'],
+                    'date'         => $data['date'],
                 ],
                 [
-                    'teacher_id' => $guru->id,
+                    'teacher_id' => $guru?->id,
                     'start_time' => Carbon::now()->format('H:i:00'),
-                    'end_time' => Carbon::now()->addHour()->format('H:i:00'),
+                    'end_time'   => Carbon::now()->addHour()->format('H:i:00'),
                 ]
             );
 
@@ -42,7 +43,7 @@ class StoreStudentAttendanceAction
                 StudentAttendance::updateOrCreate(
                     [
                         'attendance_id' => $header->id,
-                        'student_id' => $student->id,
+                        'student_id'    => $student->id,
                     ],
                     [
                         'status' => $item['status'],

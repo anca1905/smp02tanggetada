@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Rekap Absensi')
+@section('title', 'Rekap Absensi Siswa')
 
 @section('content')
     <div class="h-full flex flex-col">
@@ -10,12 +10,15 @@
                 <div class="flex flex-col md:flex-row gap-4 justify-between items-end md:items-center">
 
                     <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto">
+
                         <div>
-                            <label class="block text-xs font-medium text-gray-500 mb-1">Kategori</label>
-                            <select name="kategori" onchange="this.form.submit()"
+                            <label class="block text-xs font-medium text-gray-500 mb-1">Sesi</label>
+                            <select name="sesi" onchange="this.form.submit()"
                                 class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-40">
-                                <option value="teacher" {{ $kategori == 'teacher' ? 'selected' : '' }}>Guru</option>
-                                <option value="student" {{ $kategori == 'student' ? 'selected' : '' }}>Siswa</option>
+                                <option value="" {{ !$sesi ? 'selected' : '' }}>Semua Sesi</option>
+                                <option value="apel"   {{ $sesi == 'apel'   ? 'selected' : '' }}>🌅 Apel Pagi</option>
+                                <option value="kelas"  {{ $sesi == 'kelas'  ? 'selected' : '' }}>🏫 Di Kelas</option>
+                                <option value="pulang" {{ $sesi == 'pulang' ? 'selected' : '' }}>🏠 Pulang</option>
                             </select>
                         </div>
 
@@ -31,19 +34,17 @@
                             </select>
                         </div>
 
-                        @if ($kategori == 'student')
-                            <div>
-                                <label class="block text-xs font-medium text-gray-500 mb-1">Kelas</label>
-                                <select name="kelas" onchange="this.form.submit()"
-                                    class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-32">
-                                    <option value="">Semua</option>
-                                    @foreach ($classrooms as $k)
-                                        <option value="{{ $k->id }}" {{ request('kelas') == $k->id ? 'selected' : '' }}>
-                                            Kelas {{ $k->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endif
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 mb-1">Kelas</label>
+                            <select name="kelas" onchange="this.form.submit()"
+                                class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-32">
+                                <option value="">Semua</option>
+                                @foreach ($classrooms as $k)
+                                    <option value="{{ $k->id }}" {{ request('kelas') == $k->id ? 'selected' : '' }}>
+                                        Kelas {{ $k->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
                     <div class="flex gap-2 w-full md:w-auto">
@@ -68,8 +69,12 @@
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col">
             <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
                 <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wide">
-                    Data Absensi {{ ucfirst($kategori) }} - Bulan
-                    {{ \Carbon\Carbon::create()->month($bulan)->format('F') }}
+                    Rekap Absensi Siswa
+                    @if($sesi)
+                        @php $sesiMap = ['apel'=>'Apel Pagi','kelas'=>'Di Kelas','pulang'=>'Pulang']; @endphp
+                        — Sesi {{ $sesiMap[$sesi] ?? $sesi }}
+                    @endif
+                    — Bulan {{ \Carbon\Carbon::create()->month($bulan)->format('F') }}
                 </h3>
             </div>
 
@@ -78,60 +83,54 @@
                     <thead class="bg-white text-gray-600 font-medium border-b border-gray-200 uppercase text-xs">
                         <tr>
                             <th class="px-6 py-3">Tanggal</th>
+                            <th class="px-6 py-3">Sesi</th>
                             <th class="px-6 py-3">Nama Lengkap</th>
-
-                            @if ($kategori == 'teacher')
-                                <th class="px-6 py-3">Jam Datang</th>
-                                <th class="px-6 py-3">Jam Pulang</th>
-                                <th class="px-6 py-3">Status</th>
-                            @else
-                                <th class="px-6 py-3">Kelas</th>
-                                <th class="px-6 py-3">Status Kehadiran</th>
-                            @endif
+                            <th class="px-6 py-3">Kelas</th>
+                            <th class="px-6 py-3">Status Kehadiran</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @forelse($data as $item)
                             <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ \Carbon\Carbon::parse($kategori == 'teacher' ? $item->date : $item->attendance->date)->isoFormat('dddd, D MMM Y') }}
+                                    {{ \Carbon\Carbon::parse($item->attendance->date)->isoFormat('dddd, D MMM Y') }}
+                                </td>
+
+                                <td class="px-6 py-4">
+                                    @php
+                                        $sesiLabel = match($item->attendance->session_type ?? '') {
+                                            'apel'   => ['🌅 Apel Pagi', 'bg-yellow-100 text-yellow-800'],
+                                            'kelas'  => ['🏫 Di Kelas',  'bg-blue-100 text-blue-800'],
+                                            'pulang' => ['🏠 Pulang',    'bg-green-100 text-green-800'],
+                                            default  => ['—',            'bg-gray-100 text-gray-800'],
+                                        };
+                                    @endphp
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $sesiLabel[1] }}">
+                                        {{ $sesiLabel[0] }}
+                                    </span>
                                 </td>
 
                                 <td class="px-6 py-4 font-medium text-gray-900">
-                                    {{ $kategori == 'teacher' ? $item->teacher->name : $item->student->student_name }}
+                                    {{ optional($item->student)->student_name ?? 'Data Siswa Dihapus' }}
                                 </td>
 
-                                @if ($kategori == 'teacher')
-                                    <td class="px-6 py-4 text-blue-600 font-mono">
-                                        {{ $item->arrival_time ? \Carbon\Carbon::parse($item->arrival_time)->format('H:i') : '-' }}
-                                    </td>
-                                    <td class="px-6 py-4 text-green-600 font-mono">
-                                        {{ $item->return_time ? \Carbon\Carbon::parse($item->return_time)->format('H:i') : '-' }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                            Hadir
-                                        </span>
-                                    </td>
-                                @else
-                                    <td class="px-6 py-4">{{ $item->student->classroom->name ?? '-' }}</td>
-                                    <td class="px-6 py-4">
-                                        @php
-                                            [$color, $text] = match (strtolower($item->status)) {
-                                                'present' => ['bg-green-100 text-green-800', 'Hadir'],
-                                                'sick' => ['bg-yellow-100 text-yellow-800', 'Sakit'],
-                                                'permission' => ['bg-blue-100 text-blue-800', 'Izin'],
-                                                'absent' => ['bg-red-100 text-red-800', 'Alpha'],
-                                                default => ['bg-gray-100 text-gray-800', 'Tidak Absen'],
-                                            };
-                                        @endphp
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $color }}">
-                                            {{ $text }}
-                                        </span>
-                                    </td>
-                                @endif
+                                <td class="px-6 py-4">{{ optional(optional($item->student)->classroom)->name ?? '-' }}</td>
+
+                                <td class="px-6 py-4">
+                                    @php
+                                        [$color, $text] = match (strtolower($item->status)) {
+                                            'present'    => ['bg-green-100 text-green-800', 'Hadir'],
+                                            'sick'       => ['bg-yellow-100 text-yellow-800', 'Sakit'],
+                                            'permission' => ['bg-blue-100 text-blue-800', 'Izin'],
+                                            'absent'     => ['bg-red-100 text-red-800', 'Alpha'],
+                                            'late'       => ['bg-orange-100 text-orange-800', 'Terlambat'],
+                                            default      => ['bg-gray-100 text-gray-800', 'Tidak Absen'],
+                                        };
+                                    @endphp
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $color }}">
+                                        {{ $text }}
+                                    </span>
+                                </td>
                             </tr>
                         @empty
                             <tr>

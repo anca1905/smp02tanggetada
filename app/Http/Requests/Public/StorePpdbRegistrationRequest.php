@@ -25,8 +25,11 @@ class StorePpdbRegistrationRequest extends FormRequest
             'nama_lengkap' => ['required', 'string', 'max:100'],
             'nisn' => ['required', 'string', 'max:20'],
             'nik' => ['required', 'string', 'max:20'],
+            'no_kk' => ['nullable', 'string', 'max:20'],
             'jenis_kelamin' => ['required', 'in:Laki-laki,Perempuan'],
-            'jurusan' => ['required', 'string', 'max:20'],
+            'agama' => ['nullable', 'string', 'max:30'],
+            'tempat_tinggal' => ['nullable', 'string', 'max:50'],
+            'moda_transportasi' => ['nullable', 'string', 'max:50'],
             'no_hp' => [
                 'required',
                 'string',
@@ -37,9 +40,27 @@ class StorePpdbRegistrationRequest extends FormRequest
             'tempat_lahir' => ['nullable', 'string', 'max:100'],
             'tanggal_lahir' => ['nullable', 'date'],
             'alamat' => ['nullable', 'string'],
-            'tahun_lulus' => ['nullable', 'numeric', 'max:4'],
+            
+            // Ortu & Wali
             'nama_ayah' => ['nullable', 'string', 'max:100'],
+            'pekerjaan_ayah' => ['nullable', 'string', 'max:50'],
+            'penghasilan_ayah' => ['nullable', 'string', 'max:50'],
             'nama_ibu' => ['nullable', 'string', 'max:100'],
+            'pekerjaan_ibu' => ['nullable', 'string', 'max:50'],
+            'penghasilan_ibu' => ['nullable', 'string', 'max:50'],
+            'nama_wali' => ['nullable', 'string', 'max:100'],
+            'pekerjaan_wali' => ['nullable', 'string', 'max:50'],
+            'penghasilan_wali' => ['nullable', 'string', 'max:50'],
+
+            // Dokumen Persyaratan
+            'doc_pas_photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'doc_ijazah' => ['nullable', 'mimes:pdf', 'max:2048'],
+            'doc_transkrip' => ['nullable', 'mimes:pdf', 'max:2048'],
+            'doc_tka' => ['nullable', 'mimes:pdf', 'max:2048'],
+            'doc_akta' => ['nullable', 'mimes:pdf', 'max:2048'],
+            'doc_kk' => ['nullable', 'mimes:pdf', 'max:2048'],
+            'doc_ktp_ayah' => ['nullable', 'mimes:pdf', 'max:2048'],
+            'doc_ktp_ibu' => ['nullable', 'mimes:pdf', 'max:2048'],
         ];
     }
 
@@ -47,49 +68,29 @@ class StorePpdbRegistrationRequest extends FormRequest
     {
         return [
             'nama_lengkap.required' => 'Nama lengkap harus diisi.',
-            'nama_lengkap.string' => 'Nama lengkap harus berupa string/karakter.',
-            'nama_lengkap.max' => 'Nama lengkap tidak boleh lebih dari 100 karakter.',
-
             'nisn.required' => 'NISN harus diisi.',
-            'nisn.string' => 'NISN harus berupa string/karakter.',
-            'nisn.max' => 'NISN tidak boleh lebih dari 20 karakter.',
-
             'nik.required' => 'NIK harus diisi.',
-            'nik.string' => 'NIK harus berupa string/karakter.',
-            'nik.max' => 'NIK tidak boleh lebih dari 20 karakter.',
-
             'jenis_kelamin.required' => 'Jenis kelamin harus diisi.',
-            'jenis_kelamin.in' => 'Jenis kelamin harus berupa Laki-laki atau Perempuan.',
-
-            'jurusan.required' => 'Jurusan harus diisi.',
-            'jurusan.string' => 'Jurusan harus berupa string/karakter.',
-            'jurusan.max' => 'Jurusan tidak boleh lebih dari 20 karakter.',
-
-            'no_hp.required' => 'Nomor HP harus diisi.',
-            'no_hp.string' => 'Nomor HP harus berupa string/karakter.',
-            'no_hp.max' => 'Nomor HP tidak boleh lebih dari 20 karakter.',
-            'no_hp.regex' => 'Nomor HP harus dalam format Indonesia (08xxxxxxxx atau +628xxxxxx).',
-
+            'no_hp.required' => 'Nomor WhatsApp/Telepon harus diisi.',
+            'no_hp.regex' => 'Nomor HP harus dalam format Indonesia yang valid.',
             'asal_sekolah.required' => 'Asal sekolah harus diisi.',
-            'asal_sekolah.string' => 'Asal sekolah harus berupa string/karakter.',
-            'asal_sekolah.max' => 'Asal sekolah tidak boleh lebih dari 100 karakter.',
-
-            'tempat_lahir.string' => 'Tempat lahir harus berupa string/karakter.',
-            'tempat_lahir.max' => 'Tempat lahir tidak boleh lebih dari 100 karakter.',
-
-            'tanggal_lahir.date' => 'Tanggal lahir harus berupa tanggal.',
-
-            'alamat.string' => 'Alamat harus berupa string/karakter.',
-
-            'tahun_lulus.numeric' => 'Tahun lulus harus berupa angka.',
-
-            'nama_ayah.required' => 'Nama ayah harus diisi.',
-            'nama_ayah.string' => 'Nama ayah harus berupa string/karakter.',
-            'nama_ayah.max' => 'Nama ayah tidak boleh lebih dari 100 karakter.',
-
-            'nama_ibu.required' => 'Nama ibu harus diisi.',
-            'nama_ibu.string' => 'Nama ibu harus berupa string/karakter.',
-            'nama_ibu.max' => 'Nama ibu tidak boleh lebih dari 100 karakter.',
+            'doc_pas_photo.image' => 'Pas Photo harus berupa gambar.',
+            'doc_pas_photo.mimes' => 'Pas Photo harus berformat JPG, JPEG, atau PNG.',
+            'doc_pas_photo.max' => 'Ukuran Pas Photo maksimal 2MB.',
+            'doc_ijazah.mimes' => 'Ijazah harus berformat PDF.',
+            'doc_ijazah.max' => 'Ukuran Ijazah maksimal 2MB.',
+            'doc_transkrip.mimes' => 'Transkrip Nilai harus berformat PDF.',
+            'doc_transkrip.max' => 'Ukuran Transkrip Nilai maksimal 2MB.',
+            'doc_tka.mimes' => 'Sertifikat TKA harus berformat PDF.',
+            'doc_tka.max' => 'Ukuran Sertifikat TKA maksimal 2MB.',
+            'doc_akta.mimes' => 'Akta Kelahiran harus berformat PDF.',
+            'doc_akta.max' => 'Ukuran Akta Kelahiran maksimal 2MB.',
+            'doc_kk.mimes' => 'Kartu Keluarga (KK) harus berformat PDF.',
+            'doc_kk.max' => 'Ukuran Kartu Keluarga maksimal 2MB.',
+            'doc_ktp_ayah.mimes' => 'KTP Ayah harus berformat PDF.',
+            'doc_ktp_ayah.max' => 'Ukuran KTP Ayah maksimal 2MB.',
+            'doc_ktp_ibu.mimes' => 'KTP Ibu harus berformat PDF.',
+            'doc_ktp_ibu.max' => 'Ukuran KTP Ibu maksimal 2MB.',
         ];
     }
 }

@@ -179,6 +179,12 @@
                             </td>
                             <td class="px-5 py-3">
                                 <div class="flex items-center justify-center gap-2">
+                                    {{-- Detail --}}
+                                    <a href="{{ route('tu.ppdb.show', $p->id) }}"
+                                        class="w-8 h-8 flex items-center justify-center rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-600 hover:text-white transition"
+                                        title="Lihat Detail & Berkas">
+                                        <i class="fas fa-eye text-xs"></i>
+                                    </a>
                                     {{-- Terima --}}
                                     @if ($p->status_pendaftaran !== 'Accepted')
                                         <form action="{{ route('tu.ppdb.updateStatus', $p->id) }}" method="POST">
