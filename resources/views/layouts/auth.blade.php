@@ -33,7 +33,7 @@
                 </div>
                 <h1 class="text-lg font-bold gradient-text hidden sm:block">Sistem Informasi Manajemen Sekolah</h1>
             </div>
-            <div class="flex items-center space-x-4">
+            {{-- <div class="flex items-center space-x-4">
                 <a href="{{ route('presensi.index') }}"
                     class="text-xl font-bold text-primary hover:text-primary-dark transition-colors flex gap-2 items-center">
                     <p>Presensi</p>
@@ -45,7 +45,7 @@
                             stroke-linejoin="round" />
                     </svg>
                 </a>
-            </div>
+            </div> --}}
         </div>
     </nav>
 

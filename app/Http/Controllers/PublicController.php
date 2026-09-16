@@ -12,7 +12,6 @@ use App\Actions\Public\ProcessPpdbRegistrationAction;
 use App\Actions\Public\StoreContactMessageAction;
 use App\Http\Requests\Public\StoreContactMessageRequest;
 use App\Http\Requests\Public\StorePpdbRegistrationRequest;
-use App\Models\Facility;
 use App\Models\Post;
 use App\Models\Setting;
 use App\Models\Teacher;
@@ -53,13 +52,13 @@ class PublicController extends Controller
     public function profilGtk()
     {
         $teachers = Teacher::where('status', 'Active')->get();
+
         return view('public.profil.gtk', compact('teachers'));
     }
 
-    public function profilSarana()
+    public function profilSarana(): \Illuminate\Http\RedirectResponse
     {
-        $facility = Facility::all();
-        return view('public.profil.sarana', compact('facility'));
+        return redirect()->route('public.profil');
     }
 
     // ─── Sub-menu BERITA ───────────────────────────────────────────────────────
@@ -81,6 +80,7 @@ class PublicController extends Controller
         if ($posts->isEmpty()) {
             $posts = Post::where('is_published', true)->latest()->paginate(9);
         }
+
         return view('public.berita.kegiatan', compact('posts'));
     }
 
@@ -90,6 +90,7 @@ class PublicController extends Controller
             ->whereNotNull('image')
             ->latest()
             ->paginate(18);
+
         return view('public.berita.galeri', compact('posts'));
     }
 
@@ -102,6 +103,7 @@ class PublicController extends Controller
         if ($posts->isEmpty()) {
             $posts = Post::where('is_published', true)->latest()->paginate(9);
         }
+
         return view('public.berita.info-penting', compact('posts'));
     }
 
@@ -121,6 +123,7 @@ class PublicController extends Controller
         if ($url) {
             return redirect($url);
         }
+
         return view('public.elearning.web-guru');
     }
 

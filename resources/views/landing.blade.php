@@ -36,10 +36,10 @@
                     class="px-8 py-4 bg-yellow-500 text-blue-900 font-bold rounded hover:bg-yellow-400 transition shadow-lg flex items-center justify-center">
                     Akses Dashboard <i class="fas fa-arrow-right ml-2"></i>
                 </a>
-                <a href="{{ route('presensi.index') }}"
+                {{-- <a href="{{ route('presensi.index') }}"
                     class="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/30 text-white font-bold rounded hover:bg-white/20 transition shadow-lg flex items-center justify-center">
                     <i class="fas fa-camera mr-2"></i> Kiosk Presensi
-                </a>
+                </a> --}}
             </div>
         </div>
 
@@ -84,7 +84,7 @@
                     akademika dalam mengelola kegiatan belajar mengajar.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 <div class="bg-gray-50 p-8 rounded-lg border border-gray-100 hover:shadow-lg transition duration-300">
                     <div class="w-12 h-12 bg-blue-100 text-blue-900 rounded-lg flex items-center justify-center mb-6">
                         <i class="fas fa-id-card-alt text-xl"></i>
@@ -107,7 +107,7 @@
                     </p>
                 </div>
 
-                <div class="bg-gray-50 p-8 rounded-lg border border-gray-100 hover:shadow-lg transition duration-300">
+                {{-- <div class="bg-gray-50 p-8 rounded-lg border border-gray-100 hover:shadow-lg transition duration-300">
                     <div class="w-12 h-12 bg-blue-100 text-blue-900 rounded-lg flex items-center justify-center mb-6">
                         <i class="fas fa-school text-xl"></i>
                     </div>
@@ -116,7 +116,7 @@
                         Manajemen inventaris sekolah dan peminjaman fasilitas ruangan yang terintegrasi untuk mendukung
                         kegiatan sekolah.
                     </p>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

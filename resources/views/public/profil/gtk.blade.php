@@ -59,9 +59,9 @@
             <a href="{{ route('public.profil.struktur') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-800 rounded-lg text-sm font-medium hover:bg-blue-100 transition">
                 <i class="fas fa-sitemap"></i> Struktur Organisasi
             </a>
-            <a href="{{ route('public.profil.sarana') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-800 rounded-lg text-sm font-medium hover:bg-blue-100 transition">
+            {{-- <a href="{{ route('public.profil.sarana') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-800 rounded-lg text-sm font-medium hover:bg-blue-100 transition">
                 <i class="fas fa-school"></i> Sarana &amp; Prasarana
-            </a>
+            </a> --}}
         </div>
     </div>
 </div>

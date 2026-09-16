@@ -195,7 +195,7 @@
                             <a href="{{ route('public.profil.visimisi') }}"><i class="fas fa-bullseye w-4 text-blue-500"></i> Visi &amp; Misi</a>
                             <a href="{{ route('public.profil.struktur') }}"><i class="fas fa-sitemap w-4 text-blue-500"></i> Struktur Organisasi</a>
                             <a href="{{ route('public.profil.gtk') }}"><i class="fas fa-chalkboard-teacher w-4 text-blue-500"></i> GTK</a>
-                            <a href="{{ route('public.profil.sarana') }}"><i class="fas fa-school w-4 text-blue-500"></i> Sarana &amp; Prasarana</a>
+                            {{-- <a href="{{ route('public.profil.sarana') }}"><i class="fas fa-school w-4 text-blue-500"></i> Sarana &amp; Prasarana</a> --}}
                         </div>
                     </div>
 
@@ -335,9 +335,9 @@
                         <a href="{{ route('public.profil.gtk') }}" class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-600 hover:bg-blue-50 hover:text-blue-900 transition">
                             <i class="fas fa-chalkboard-teacher text-xs text-blue-400"></i> GTK
                         </a>
-                        <a href="{{ route('public.profil.sarana') }}" class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-600 hover:bg-blue-50 hover:text-blue-900 transition">
+                        {{-- <a href="{{ route('public.profil.sarana') }}" class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-600 hover:bg-blue-50 hover:text-blue-900 transition">
                             <i class="fas fa-school text-xs text-blue-400"></i> Sarana &amp; Prasarana
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
 

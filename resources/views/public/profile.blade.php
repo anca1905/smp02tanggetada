@@ -18,8 +18,8 @@
                 <a href="#struktur"
                     class="py-4 text-sm font-medium text-gray-600 hover:text-blue-900 border-b-2 border-transparent hover:border-blue-900 transition">Struktur
                     Organisasi</a>
-                <a href="#fasilitas"
-                    class="py-4 text-sm font-medium text-gray-600 hover:text-blue-900 border-b-2 border-transparent hover:border-blue-900 transition">Fasilitas</a>
+                {{-- <a href="#fasilitas"
+                    class="py-4 text-sm font-medium text-gray-600 hover:text-blue-900 border-b-2 border-transparent hover:border-blue-900 transition">Fasilitas</a> --}}
             </div>
         </div>
     </div>
@@ -104,7 +104,7 @@
             </div>
         </section>
 
-        <section id="fasilitas" class="scroll-mt-32">
+        {{-- <section id="fasilitas" class="scroll-mt-32">
             <div class="flex justify-between items-end mb-10">
                 <div>
                     <h2 class="text-3xl font-bold text-gray-900">Fasilitas Sekolah</h2>
@@ -168,7 +168,7 @@
                     </div>
                 @endforelse
             </div>
-        </section>
+        </section> --}}
 
     </div>
 @endsection

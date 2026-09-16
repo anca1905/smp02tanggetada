@@ -46,7 +46,7 @@ Di `resources/views/layouts/auth.blade.php`:
 ---
 
 ## 4. Exit Criteria (Definisi Selesai)
-- [ ] Tautan "Fasilitas Sekolah" tidak lagi tampil di navigasi admin TU.
-- [ ] Tautan "Sarana & Prasarana" tidak lagi muncul di menu navbar maupun footer publik.
-- [ ] Tombol "Kiosk Presensi" tidak terlihat di Landing Page publik.
-- [ ] Tidak ada error layout atau link rusak (broken links) akibat penghapusan elemen.
+- [x] Tautan "Fasilitas Sekolah" tidak lagi tampil di navigasi admin TU.
+- [x] Tautan "Sarana & Prasarana" tidak lagi muncul di menu navbar maupun footer publik.
+- [x] Tombol "Kiosk Presensi" tidak terlihat di Landing Page publik.
+- [x] Tidak ada error layout atau link rusak (broken links) akibat penghapusan elemen.
