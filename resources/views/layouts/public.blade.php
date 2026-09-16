@@ -239,23 +239,48 @@
                         class="{{ request()->routeIs('public.kontak') ? 'text-blue-900 font-bold' : 'hover:text-blue-900' }} transition">Kontak</a>
                 </div>
 
-                {{-- Right: Login + Hamburger --}}
-                <div class="flex items-center space-x-3">
-                    @auth
-                    <a href="{{ route('dashboard') }}"
-                        class="bg-blue-900 text-white hover:bg-blue-800 font-medium px-4 py-2 rounded shadow transition flex items-center text-xs md:text-sm">
-                        <i class="fas fa-tachometer-alt mr-2"></i> <span class="hidden md:inline">Dashboard</span>
-                    </a>
+                @php
+                    $activeUser = Auth::guard('operator')->user()
+                        ?? Auth::guard('teacher')->user()
+                        ?? Auth::guard('student')->user();
+
+                    $activeDashboardRoute = null;
+                    if (Auth::guard('operator')->check()) {
+                        $activeDashboardRoute = in_array(Auth::guard('operator')->user()->role_operator, ['Kepala Sekolah', 'principal'])
+                            ? route('principal.dashboard')
+                            : route('tu.dashboard');
+                    } elseif (Auth::guard('teacher')->check()) {
+                        $activeDashboardRoute = route('teacher.dashboard');
+                    } elseif (Auth::guard('student')->check()) {
+                        $activeDashboardRoute = route('student.dashboard');
+                    }
+                @endphp
+
+                {{-- Right: Login / Dashboard + Logout + Hamburger --}}
+                <div class="flex items-center space-x-2">
+                    @if ($activeUser && $activeDashboardRoute)
+                        <a href="{{ $activeDashboardRoute }}"
+                            class="bg-blue-900 text-white hover:bg-blue-800 font-medium px-4 py-2 rounded shadow transition flex items-center text-xs md:text-sm">
+                            <i class="fas fa-tachometer-alt mr-2"></i> <span class="hidden md:inline">Dashboard</span>
+                        </a>
+                        <form action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit"
+                                class="bg-red-600 text-white hover:bg-red-700 font-medium px-3 py-2 rounded shadow transition flex items-center text-xs md:text-sm"
+                                title="Keluar">
+                                <i class="fas fa-sign-out-alt md:mr-1"></i> <span class="hidden md:inline">Logout</span>
+                            </button>
+                        </form>
                     @else
-                    <a href="{{ route('login') }}"
-                        class="bg-blue-900 text-white hover:bg-blue-800 font-medium px-4 py-2 rounded shadow transition flex items-center text-xs md:text-sm">
-                        <i class="fas fa-sign-in-alt mr-2"></i> <span class="hidden md:inline">Login Portal</span><span class="md:hidden">Login</span>
-                    </a>
-                    @endauth
+                        <a href="{{ route('login') }}"
+                            class="bg-blue-900 text-white hover:bg-blue-800 font-medium px-4 py-2 rounded shadow transition flex items-center text-xs md:text-sm">
+                            <i class="fas fa-sign-in-alt mr-2"></i> <span class="hidden md:inline">Login Portal</span><span class="md:hidden">Login</span>
+                        </a>
+                    @endif
 
                     {{-- Hamburger (mobile) --}}
                     <button id="hamburger-btn" type="button"
-                        class="md:hidden text-gray-600 hover:text-blue-900 focus:outline-none">
+                        class="md:hidden text-gray-600 hover:text-blue-900 focus:outline-none ml-1">
                         <i class="fas fa-bars text-2xl"></i>
                     </button>
                 </div>
@@ -375,19 +400,26 @@
                     <i class="fas fa-envelope w-4 text-blue-600"></i> KONTAK
                 </a>
 
-                {{-- Divider & Login --}}
-                <div class="border-t border-gray-200 pt-3 mt-3">
-                    @auth
-                    <a href="{{ route('dashboard') }}"
-                        class="flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-900 text-white font-semibold hover:bg-blue-800 transition">
-                        <i class="fas fa-tachometer-alt w-4"></i> Dashboard
-                    </a>
+                {{-- Divider & Login / Dashboard + Logout --}}
+                <div class="border-t border-gray-200 pt-3 mt-3 space-y-2">
+                    @if ($activeUser && $activeDashboardRoute)
+                        <a href="{{ $activeDashboardRoute }}"
+                            class="flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-900 text-white font-semibold hover:bg-blue-800 transition">
+                            <i class="fas fa-tachometer-alt w-4"></i> Dashboard
+                        </a>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit"
+                                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 transition text-left">
+                                <i class="fas fa-sign-out-alt w-4"></i> Logout
+                            </button>
+                        </form>
                     @else
-                    <a href="{{ route('login') }}"
-                        class="flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-900 text-white font-semibold hover:bg-blue-800 transition">
-                        <i class="fas fa-sign-in-alt w-4"></i> Login Portal
-                    </a>
-                    @endauth
+                        <a href="{{ route('login') }}"
+                            class="flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-900 text-white font-semibold hover:bg-blue-800 transition">
+                            <i class="fas fa-sign-in-alt w-4"></i> Login Portal
+                        </a>
+                    @endif
                 </div>
             </nav>
         </div>

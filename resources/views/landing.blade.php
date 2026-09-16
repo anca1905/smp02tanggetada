@@ -18,8 +18,21 @@
                                                                 Transparan, Akuntabel, dan Real-time.' }}
             </p>
 
+            @php
+                $heroDashboardUrl = route('login');
+                if (Auth::guard('operator')->check()) {
+                    $heroDashboardUrl = in_array(Auth::guard('operator')->user()->role_operator, ['Kepala Sekolah', 'principal'])
+                        ? route('principal.dashboard')
+                        : route('tu.dashboard');
+                } elseif (Auth::guard('teacher')->check()) {
+                    $heroDashboardUrl = route('teacher.dashboard');
+                } elseif (Auth::guard('student')->check()) {
+                    $heroDashboardUrl = route('student.dashboard');
+                }
+            @endphp
+
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="{{ route('login') }}"
+                <a href="{{ $heroDashboardUrl }}"
                     class="px-8 py-4 bg-yellow-500 text-blue-900 font-bold rounded hover:bg-yellow-400 transition shadow-lg flex items-center justify-center">
                     Akses Dashboard <i class="fas fa-arrow-right ml-2"></i>
                 </a>

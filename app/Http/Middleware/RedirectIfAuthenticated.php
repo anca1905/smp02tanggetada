@@ -17,10 +17,26 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
-        $guards = empty($guards) ? [null] : $guards;
+        $guards = empty($guards) ? ['operator', 'teacher', 'student', 'web'] : $guards;
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+                $user = Auth::guard($guard)->user();
+                if ($guard === 'operator') {
+                    return in_array($user->role_operator, ['Kepala Sekolah', 'principal'])
+                        ? redirect()->route('principal.dashboard')
+                        : redirect()->route('tu.dashboard');
+                }
+                if ($guard === 'teacher') {
+                    return redirect()->route('teacher.dashboard');
+                }
+                if ($guard === 'student') {
+                    return redirect()->route('student.dashboard');
+                }
+                if ($guard === 'web') {
+                    return redirect()->route('home');
+                }
+
                 return redirect(RouteServiceProvider::HOME);
             }
         }

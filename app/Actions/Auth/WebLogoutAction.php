@@ -11,12 +11,10 @@ class WebLogoutAction
      */
     public function execute(): void
     {
-        if (Auth::guard('operator')->check()) {
-            Auth::guard('operator')->logout();
-        } elseif (Auth::guard('teacher')->check()) {
-            Auth::guard('teacher')->logout();
-        } elseif (Auth::guard('student')->check()) {
-            Auth::guard('student')->logout();
+        foreach (['operator', 'teacher', 'student', 'web'] as $guard) {
+            if (Auth::guard($guard)->check()) {
+                Auth::guard($guard)->logout();
+            }
         }
 
         session()->invalidate();

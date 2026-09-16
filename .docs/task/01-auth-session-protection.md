@@ -70,7 +70,7 @@ Di `resources/views/layouts/public.blade.php` dan `resources/views/landing.blade
 ---
 
 ## 4. Exit Criteria (Definisi Selesai)
-- [ ] User yang telah login dengan guard apapun dilarang melihat halaman login dan langsung dialihkan ke dashboard yang valid.
-- [ ] Navbar publik menampilkan tombol ke Dashboard dan Logout jika user memiliki session aktif.
-- [ ] Tidak ada konflik guard saat logout.
-- [ ] Test otomatis `php artisan test --filter=Login` lulus 100%.
+- [x] User yang telah login dengan guard apapun dilarang melihat halaman login dan langsung dialihkan ke dashboard yang valid.
+- [x] Navbar publik menampilkan tombol ke Dashboard dan Logout jika user memiliki session aktif.
+- [x] Tidak ada konflik guard saat logout.
+- [x] Test otomatis `php artisan test --filter=Login` lulus 100%.

@@ -80,7 +80,7 @@ Route::controller(PublicController::class)->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::controller(AuthController::class)->group(function () {
+Route::middleware('guest:operator,teacher,student')->controller(AuthController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
     Route::get('/login/admin-tu', 'showLoginAdminTu')->name('login.admin-tu');
     Route::get('/login/pegawai', 'showLoginPegawai')->name('login.pegawai');
@@ -88,8 +88,27 @@ Route::controller(AuthController::class)->group(function () {
         'login.kepala-sekolah',
     );
     Route::post('/login', 'login')->name('login.post');
-    Route::post('/logout', 'logout')->name('logout');
 });
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/dashboard', function () {
+    if (auth()->guard('operator')->check()) {
+        $user = auth()->guard('operator')->user();
+
+        return in_array($user->role_operator, ['Kepala Sekolah', 'principal'])
+            ? redirect()->route('principal.dashboard')
+            : redirect()->route('tu.dashboard');
+    }
+    if (auth()->guard('teacher')->check()) {
+        return redirect()->route('teacher.dashboard');
+    }
+    if (auth()->guard('student')->check()) {
+        return redirect()->route('student.dashboard');
+    }
+
+    return redirect()->route('login');
+})->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------
@@ -315,6 +334,7 @@ Route::middleware(['auth:student'])
     ->prefix('student')
     ->name('student.')
     ->group(function () {
+        Route::get('/dashboard', [LearningController::class, 'index'])->name('dashboard');
         Route::get('/lms', [LearningController::class, 'index'])->name(
             'lms.index',
         );
