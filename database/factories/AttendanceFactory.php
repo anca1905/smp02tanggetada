@@ -22,6 +22,7 @@ class AttendanceFactory extends Factory
             'date' => $this->faker->date(),
             'start_time' => $this->faker->time(),
             'class' => Classroom::factory(),
+            'subject_id' => null,
             'teacher_id' => Teacher::factory(),
             'qr_token' => $this->faker->uuid(),
             'qr_expires_at' => now()->addMinutes(30),

@@ -6,6 +6,7 @@ use App\Actions\Teacher\StudentPresence\StoreStudentAttendanceAction;
 use App\Models\Attendance;
 use App\Models\Classroom;
 use App\Models\Student;
+use App\Models\Subject;
 use App\Models\Teacher;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,6 +23,7 @@ class StoreStudentAttendanceActionTest extends TestCase
         Auth::guard('teacher')->login($teacher);
 
         $classroom = Classroom::factory()->create();
+        $subject = Subject::factory()->create();
         $student = Student::factory()->create([
             'classroom_id' => $classroom->id,
             'nis' => '12345',
@@ -31,6 +33,7 @@ class StoreStudentAttendanceActionTest extends TestCase
         $action->execute([
             'class' => $classroom->id,
             'session_type' => 'kelas',
+            'subject_id' => $subject->id,
             'date' => Carbon::today()->format('Y-m-d'),
             'attendance' => [
                 '12345' => ['status' => 'present'],
@@ -41,6 +44,7 @@ class StoreStudentAttendanceActionTest extends TestCase
             'class' => $classroom->id,
             'date' => Carbon::today()->format('Y-m-d'),
             'teacher_id' => $teacher->id,
+            'subject_id' => $subject->id,
         ]);
 
         $header = Attendance::first();

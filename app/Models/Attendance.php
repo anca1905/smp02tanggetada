@@ -14,6 +14,7 @@ class Attendance extends Model
     protected $fillable = [
         'teacher_id',
         'class',
+        'subject_id',
         'session_type',
         'date',
         'start_time',
@@ -29,6 +30,11 @@ class Attendance extends Model
     public function teacher()
     {
         return $this->belongsTo(Teacher::class);
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject_id');
     }
 
     public function studentAttendances()

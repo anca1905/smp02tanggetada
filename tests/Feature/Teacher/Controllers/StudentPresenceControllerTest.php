@@ -4,6 +4,7 @@ namespace Tests\Feature\Teacher\Controllers;
 
 use App\Models\Classroom;
 use App\Models\Student;
+use App\Models\Subject;
 use App\Models\Teacher;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -27,6 +28,7 @@ class StudentPresenceControllerTest extends TestCase
     {
         $teacher = Teacher::factory()->create();
         $classroom = Classroom::factory()->create();
+        $subject = Subject::factory()->create();
         $student = Student::factory()->create([
             'classroom_id' => $classroom->id,
             'nis' => '12345',
@@ -35,6 +37,7 @@ class StudentPresenceControllerTest extends TestCase
         $response = $this->actingAs($teacher, 'teacher')->post('/teacher/student-attendance/store', [
             'class' => $classroom->id,
             'session_type' => 'kelas',
+            'subject_id' => $subject->id,
             'date' => Carbon::today()->format('Y-m-d'),
             'attendance' => [
                 '12345' => ['status' => 'present'],
@@ -49,10 +52,12 @@ class StudentPresenceControllerTest extends TestCase
     {
         $teacher = Teacher::factory()->create();
         $classroom = Classroom::factory()->create();
+        $subject = Subject::factory()->create();
 
         $response = $this->actingAs($teacher, 'teacher')->postJson('/teacher/student-attendance/generate-qr', [
             'class' => $classroom->id,
             'session_type' => 'kelas',
+            'subject_id' => $subject->id,
             'date' => Carbon::today()->format('Y-m-d'),
         ]);
 

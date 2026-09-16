@@ -23,6 +23,8 @@ class GenerateQrRequest extends FormRequest
     {
         return [
             'class' => ['required', 'exists:classrooms,id'],
+            'session_type' => ['nullable', 'string', 'in:apel,kelas,pulang'],
+            'subject_id' => ['nullable', 'required_if:session_type,kelas', 'exists:subjects,id'],
             'date' => ['required', 'date'],
         ];
     }
@@ -32,6 +34,8 @@ class GenerateQrRequest extends FormRequest
         return [
             'class.required' => 'Kelas harus dipilih.',
             'class.exists' => 'Kelas tidak ditemukan.',
+            'subject_id.required_if' => 'Mata pelajaran harus dipilih untuk sesi kelas.',
+            'subject_id.exists' => 'Mata pelajaran tidak ditemukan.',
             'date.required' => 'Tanggal harus diisi.',
             'date.date' => 'Format tanggal tidak valid.',
         ];

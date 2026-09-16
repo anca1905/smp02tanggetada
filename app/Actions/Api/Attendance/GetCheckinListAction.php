@@ -10,11 +10,20 @@ class GetCheckinListAction
     /**
      * Get list of checked-in students for a session.
      */
-    public function execute(string $class, string $date): array
+    public function execute(string $class, string $date, ?string $sessionType = null, ?int $subjectId = null): array
     {
-        $attendance = Attendance::where('class', $class)
-            ->where('date', $date)
-            ->first();
+        $query = Attendance::where('class', $class)
+            ->where('date', $date);
+
+        if ($sessionType) {
+            $query->where('session_type', $sessionType);
+        }
+
+        if ($sessionType === 'kelas' && $subjectId) {
+            $query->where('subject_id', $subjectId);
+        }
+
+        $attendance = $query->first();
 
         if (! $attendance) {
             return ['success' => true, 'data' => []];

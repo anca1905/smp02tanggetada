@@ -89,8 +89,8 @@ public function subject(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 ---
 
 ## 5. Exit Criteria (Definisi Selesai)
-- [ ] Kolom `subject_id` tersimpan di tabel `attendances` saat guru membuat sesi presensi kelas.
-- [ ] Sesi apel/pulang tetap berjalan normal dengan `subject_id = null`.
-- [ ] Guru dapat memilih mata pelajaran di form presensi dashboard guru.
-- [ ] Data presensi di API siswa (`/api/student/attendances`) menyertakan informasi nama mata pelajaran.
-- [ ] Test otomatis `php artisan test --filter=StudentPresence` lulus 100%.
+- [x] Kolom `subject_id` tersimpan di tabel `attendances` saat guru membuat sesi presensi kelas.
+- [x] Sesi apel/pulang tetap berjalan normal dengan `subject_id = null`.
+- [x] Guru dapat memilih mata pelajaran di form presensi dashboard guru.
+- [x] Data presensi di API siswa (`/api/student/attendances`) menyertakan informasi nama mata pelajaran.
+- [x] Test otomatis `php artisan test --filter=StudentPresence` lulus 100%.

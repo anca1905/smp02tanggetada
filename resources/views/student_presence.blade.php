@@ -29,7 +29,7 @@
                 </div>
                 <div class="md:col-span-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Sesi</label>
-                    <select name="sesi"
+                    <select name="sesi" id="sesiFilter"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         onchange="this.form.submit()">
                         <option value="apel"   {{ $selectedSession == 'apel'   ? 'selected' : '' }}>🌅 Apel Pagi</option>
@@ -37,13 +37,30 @@
                         <option value="pulang" {{ $selectedSession == 'pulang' ? 'selected' : '' }}>🏠 Pulang</option>
                     </select>
                 </div>
+                
+                @if($selectedSession === 'kelas')
+                <div class="md:col-span-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Mata Pelajaran</label>
+                    <select name="subject_id"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        onchange="this.form.submit()" required>
+                        <option value="" disabled {{ !$selectedSubject ? 'selected' : '' }}>-- Pilih Mapel --</option>
+                        @foreach ($subjects ?? [] as $subject)
+                            <option value="{{ $subject->id }}" {{ $selectedSubject == $subject->id ? 'selected' : '' }}>
+                                {{ $subject->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                @endif
+                
                 <div class="md:col-span-1">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
                     <input type="date" name="date" value="{{ $selectedDate }}"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         onchange="this.form.submit()">
                 </div>
-                <div class="md:col-span-2 flex items-center gap-4">
+                <div class="md:col-span-{{ $selectedSession === 'kelas' ? '5' : '2' }} flex items-center gap-4 mt-2">
                     @if ($selectedClass)
                         @php
                             $sessionLabels = ['apel'=>'Apel Pagi','kelas'=>'Di Kelas','pulang'=>'Pulang'];
@@ -71,6 +88,9 @@
                 @csrf
                 <input type="hidden" name="class" value="{{ $selectedClass }}">
                 <input type="hidden" name="session_type" value="{{ $selectedSession }}">
+                @if($selectedSession === 'kelas')
+                <input type="hidden" name="subject_id" value="{{ $selectedSubject }}">
+                @endif
                 <input type="hidden" name="date" value="{{ $selectedDate }}">
 
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -280,6 +300,8 @@
         const GENERATE_QR_URL = "{{ route('teacher.student-attendance-generate-qr') }}";
         const CSRF_TOKEN      = "{{ csrf_token() }}";
         const SELECTED_CLASS  = "{{ $selectedClass }}";
+        const SELECTED_SESSION = "{{ $selectedSession }}";
+        const SELECTED_SUBJECT = "{{ $selectedSubject }}";
         const SELECTED_DATE   = "{{ $selectedDate }}";
 
         let qrInstance     = null;
@@ -289,6 +311,7 @@
 
         // Nama kelas untuk ditampilkan (nilai nama bukan ID)
         const CLASS_NAME = @json($classList->get($selectedClass) ?? $selectedClass);
+        const SUBJECT_NAME = @json(collect($subjects ?? [])->firstWhere('id', $selectedSubject)?->name ?? '');
 
         function openQrModal() {
             document.getElementById('qrModal').classList.remove('hidden');
@@ -308,6 +331,11 @@
             showState('loading');
 
             try {
+                const payload = { class: SELECTED_CLASS, session_type: SELECTED_SESSION, date: SELECTED_DATE };
+                if (SELECTED_SESSION === 'kelas') {
+                    payload.subject_id = SELECTED_SUBJECT;
+                }
+
                 const res = await fetch(GENERATE_QR_URL, {
                     method: 'POST',
                     headers: {
@@ -315,7 +343,7 @@
                         'X-CSRF-TOKEN': CSRF_TOKEN,
                         'Accept'      : 'application/json',
                     },
-                    body: JSON.stringify({ class: SELECTED_CLASS, date: SELECTED_DATE }),
+                    body: JSON.stringify(payload),
                 });
 
                 const data = await res.json();
@@ -335,8 +363,12 @@
                     correctLevel: QRCode.CorrectLevel.H,
                 });
 
-                document.getElementById('qrSubtitle').textContent =
-                    `Kelas ${CLASS_NAME} | ${SELECTED_DATE}`;
+                let subtitle = `Kelas ${CLASS_NAME} | ${SELECTED_DATE}`;
+                if (SELECTED_SESSION === 'kelas' && SUBJECT_NAME) {
+                    subtitle += ` | Mapel: ${SUBJECT_NAME}`;
+                }
+                
+                document.getElementById('qrSubtitle').textContent = subtitle;
 
                 showState('qr');
                 startTimer();
@@ -390,10 +422,12 @@
         async function pollCheckin(token) {
             try {
                 // Ambil daftar siswa yang sudah check-in (endpoint public, tidak perlu auth)
-                const res = await fetch(
-                    `/api/student/attendance/checkin-list?class=${encodeURIComponent(SELECTED_CLASS)}&date=${SELECTED_DATE}`,
-                    { headers: { 'Accept': 'application/json' } }
-                );
+                let pollUrl = `/api/student/attendance/checkin-list?class=${encodeURIComponent(SELECTED_CLASS)}&session_type=${encodeURIComponent(SELECTED_SESSION)}&date=${SELECTED_DATE}`;
+                if (SELECTED_SESSION === 'kelas') {
+                    pollUrl += `&subject_id=${SELECTED_SUBJECT}`;
+                }
+
+                const res = await fetch(pollUrl, { headers: { 'Accept': 'application/json' } });
                 if (!res.ok) return;
                 const data = await res.json();
                 if (!data.success) return;

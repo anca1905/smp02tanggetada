@@ -4,8 +4,11 @@ namespace App\Actions\Teacher\StudentPresence;
 
 use App\Models\Attendance;
 use App\Models\Classroom;
+use App\Models\Schedule;
 use App\Models\Student;
+use App\Models\Subject;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class GetStudentPresenceDataAction
 {
@@ -13,21 +16,51 @@ class GetStudentPresenceDataAction
      * Mengambil daftar kelas, mengambil siswa + status kehadiran yang sudah tersimpan
      * berdasarkan kelas, sesi, dan tanggal terpilih.
      */
-    public function execute(?string $selectedClass, ?string $selectedDate = null, ?string $selectedSession = null): array
+    public function execute(?string $selectedClass, ?string $selectedDate = null, ?string $selectedSession = null, ?int $selectedSubject = null): array
     {
-        $selectedDate    = $selectedDate ?? Carbon::today()->format('Y-m-d');
+        $selectedDate = $selectedDate ?? Carbon::today()->format('Y-m-d');
         $selectedSession = $selectedSession ?? 'kelas';
 
         $classList = Classroom::orderBy('name', 'asc')->pluck('name', 'id');
 
-        $students       = [];
+        $teacher = Auth::guard('teacher')->user();
+        $subjects = collect();
+
+        if ($teacher) {
+            $subjects = Schedule::where('teacher_id', $teacher->id)
+                ->with('subject')
+                ->get()
+                ->pluck('subject')
+                ->filter()
+                ->unique('id')
+                ->values();
+        }
+
+        if ($subjects->isEmpty()) {
+            $subjects = Subject::orderBy('name', 'asc')->get();
+        }
+
+        if ($selectedSession === 'kelas' && ! $selectedSubject) {
+            $selectedSubject = $subjects->first()?->id;
+        } elseif ($selectedSession !== 'kelas') {
+            $selectedSubject = null;
+        }
+
+        $students = [];
         $attendanceData = null;
 
         if ($selectedClass) {
-            $attendanceHeader = Attendance::where('class', $selectedClass)
+            $query = Attendance::where('class', $selectedClass)
                 ->where('session_type', $selectedSession)
-                ->where('date', $selectedDate)
-                ->first();
+                ->where('date', $selectedDate);
+
+            if ($selectedSession === 'kelas' && $selectedSubject) {
+                $query->where('subject_id', $selectedSubject);
+            } elseif ($selectedSession !== 'kelas') {
+                $query->whereNull('subject_id');
+            }
+
+            $attendanceHeader = $query->first();
 
             if ($attendanceHeader) {
                 $attendanceData = $attendanceHeader;
@@ -47,6 +80,6 @@ class GetStudentPresenceDataAction
             }
         }
 
-        return compact('classList', 'students', 'selectedClass', 'selectedDate', 'selectedSession', 'attendanceData');
+        return compact('classList', 'students', 'selectedClass', 'selectedDate', 'selectedSession', 'selectedSubject', 'attendanceData', 'subjects');
     }
 }

@@ -12,7 +12,7 @@ class GetSessionInfoAction
      */
     public function execute(string $qrToken): array
     {
-        $attendance = Attendance::with('teacher')->where('qr_token', $qrToken)->first();
+        $attendance = Attendance::with(['teacher', 'subject'])->where('qr_token', $qrToken)->first();
 
         if (! $attendance) {
             return [
@@ -31,6 +31,7 @@ class GetSessionInfoAction
                 'date' => $attendance->date,
                 'start_time' => $attendance->start_time,
                 'teacher_name' => $attendance->teacher?->name ?? '-',
+                'subject_name' => $attendance->subject?->name ?? null,
                 'is_expired' => $expired,
                 'expires_at' => $attendance->qr_expires_at?->toISOString(),
             ],

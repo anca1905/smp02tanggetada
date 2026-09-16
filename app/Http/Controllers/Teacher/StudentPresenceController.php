@@ -23,10 +23,11 @@ class StudentPresenceController extends Controller
      */
     public function index(Request $request, GetStudentPresenceDataAction $action)
     {
-        $selectedClass   = $request->get('kelas');
-        $selectedDate    = $request->get('date');
+        $selectedClass = $request->get('kelas');
+        $selectedDate = $request->get('date');
         $selectedSession = $request->get('sesi', 'kelas');
-        $data = $action->execute($selectedClass, $selectedDate, $selectedSession);
+        $selectedSubject = $request->get('subject_id');
+        $data = $action->execute($selectedClass, $selectedDate, $selectedSession, $selectedSubject);
 
         return view('student_presence', $data);
     }
@@ -99,15 +100,21 @@ class StudentPresenceController extends Controller
     public function scanList(Request $request)
     {
         $request->validate([
-            'class'        => 'required',
+            'class' => 'required',
             'session_type' => 'required|in:apel,kelas,pulang',
-            'date'         => 'required|date',
+            'date' => 'required|date',
+            'subject_id' => 'nullable|exists:subjects,id',
         ]);
 
-        $header = \App\Models\Attendance::where('class', $request->class)
+        $query = \App\Models\Attendance::where('class', $request->class)
             ->where('session_type', $request->session_type)
-            ->where('date', $request->date)
-            ->first();
+            ->where('date', $request->date);
+
+        if ($request->session_type === 'kelas' && $request->filled('subject_id')) {
+            $query->where('subject_id', $request->subject_id);
+        }
+
+        $header = $query->first();
 
         if (! $header) {
             return response()->json(['success' => true, 'data' => []]);
@@ -117,9 +124,9 @@ class StudentPresenceController extends Controller
             ->where('status', 'present')
             ->with('student')
             ->get()
-            ->map(fn($a) => [
+            ->map(fn ($a) => [
                 'student_name' => $a->student->student_name ?? '-',
-                'scan_time'    => $a->updated_at->format('H:i:s'),
+                'scan_time' => $a->updated_at->format('H:i:s'),
             ]);
 
         return response()->json(['success' => true, 'data' => $list]);
@@ -136,6 +143,7 @@ class StudentPresenceController extends Controller
             $validated['class'],
             $validated['session_type'],
             $validated['date'],
+            $validated['subject_id'] ?? null,
         );
 
         return response()->json($result);

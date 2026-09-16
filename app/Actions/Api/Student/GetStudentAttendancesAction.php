@@ -12,7 +12,7 @@ class GetStudentAttendancesAction
      */
     public function execute(Student $student): array
     {
-        $attendances = StudentAttendanceDetail::with(['attendance.teacher'])
+        $attendances = StudentAttendanceDetail::with(['attendance.teacher', 'attendance.subject'])
             ->where('student_id', $student->id)
             ->orderBy('created_at', 'desc')
             ->get();

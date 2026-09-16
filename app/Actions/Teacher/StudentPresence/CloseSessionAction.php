@@ -15,25 +15,31 @@ class CloseSessionAction
      * - Set end_time di header Attendance
      * - Siswa yang belum scan otomatis dicatat sebagai 'absent' (Alpha)
      *
-     * @param  string  $classId
      * @param  string  $sessionType  apel|kelas|pulang
-     * @param  string  $date         Y-m-d
-     * @return array   ['success', 'absent_count', 'message']
+     * @param  string  $date  Y-m-d
+     * @return array ['success', 'absent_count', 'message']
      */
-    public function execute(string $classId, string $sessionType, string $date): array
+    public function execute(string $classId, string $sessionType, string $date, ?int $subjectId = null): array
     {
-        return DB::transaction(function () use ($classId, $sessionType, $date) {
-            // Ambil header sesi
-            $header = Attendance::where('class', $classId)
+        return DB::transaction(function () use ($classId, $sessionType, $date, $subjectId) {
+            $query = Attendance::where('class', $classId)
                 ->where('session_type', $sessionType)
-                ->where('date', $date)
-                ->first();
+                ->where('date', $date);
+
+            if ($sessionType === 'kelas' && $subjectId) {
+                $query->where('subject_id', $subjectId);
+            } elseif ($sessionType !== 'kelas') {
+                $query->whereNull('subject_id');
+            }
+
+            $header = $query->first();
 
             // Jika belum ada sesi sama sekali, buat header kosong dulu
             if (! $header) {
                 $header = Attendance::create([
                     'class' => $classId,
                     'session_type' => $sessionType,
+                    'subject_id' => $sessionType === 'kelas' ? $subjectId : null,
                     'date' => $date,
                     'teacher_id' => null,
                     'start_time' => Carbon::now()->format('H:i:00'),

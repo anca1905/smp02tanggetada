@@ -15,8 +15,9 @@ class CloseSessionRequest extends FormRequest
     {
         return [
             'session_type' => ['required', 'string', 'in:apel,kelas,pulang'],
-            'class'        => ['required', 'exists:classrooms,id'],
-            'date'         => ['required', 'date'],
+            'class' => ['required', 'exists:classrooms,id'],
+            'date' => ['required', 'date'],
+            'subject_id' => ['nullable', 'exists:subjects,id'],
         ];
     }
 }

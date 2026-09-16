@@ -37,10 +37,12 @@ class AttendanceCheckinController extends Controller
         $request->validate([
             'class' => 'required',
             'date' => 'required|date',
+            'session_type' => 'nullable|string',
+            'subject_id' => 'nullable|exists:subjects,id',
         ]);
 
         return response()->json(
-            $action->execute($request->class, $request->date),
+            $action->execute($request->class, $request->date, $request->session_type, $request->subject_id),
         );
     }
 
