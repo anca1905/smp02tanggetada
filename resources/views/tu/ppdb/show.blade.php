@@ -12,7 +12,10 @@
         <p class="text-sm text-gray-500">No. Registrasi: {{ $ppdb->no_registrasi }}</p>
     </div>
     
-    <div class="flex gap-2">
+    <div class="flex items-center gap-2">
+        <a href="{{ route('tu.ppdb.pdf', $ppdb->id) }}" class="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition shadow-sm inline-flex items-center">
+            <i class="fas fa-file-pdf mr-1.5"></i> Download Bukti (PDF)
+        </a>
         @if ($ppdb->status_pendaftaran !== 'Accepted')
             <form action="{{ route('tu.ppdb.updateStatus', $ppdb->id) }}" method="POST">
                 @csrf

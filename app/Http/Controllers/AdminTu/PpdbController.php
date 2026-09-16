@@ -9,6 +9,9 @@ use App\Actions\Ppdb\UpdatePpdbStatusAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Ppdb\UpdatePpdbStatusRequest;
 use App\Models\Ppdb;
+use App\Models\Setting;
+use App\Services\BarcodeService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -37,6 +40,20 @@ class PpdbController extends Controller
     public function show(Ppdb $ppdb): View
     {
         return view('tu.ppdb.show', compact('ppdb'));
+    }
+
+    /**
+     * Export bukti pendaftaran PPDB ke format PDF.
+     */
+    public function exportPdf(Ppdb $ppdb): \Illuminate\Http\Response
+    {
+        $site_settings = Setting::pluck('value', 'key')->toArray();
+        $barcodeSvg = BarcodeService::generateBase64Svg($ppdb->no_registrasi, 1, 35);
+
+        $pdf = Pdf::loadView('pdf.ppdb_receipt', compact('ppdb', 'site_settings', 'barcodeSvg'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download("bukti-pendaftaran-{$ppdb->no_registrasi}.pdf");
     }
 
     /**

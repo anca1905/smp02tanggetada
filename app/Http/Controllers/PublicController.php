@@ -13,8 +13,12 @@ use App\Actions\Public\StoreContactMessageAction;
 use App\Http\Requests\Public\StoreContactMessageRequest;
 use App\Http\Requests\Public\StorePpdbRegistrationRequest;
 use App\Models\Post;
+use App\Models\Ppdb;
 use App\Models\Setting;
 use App\Models\Teacher;
+use App\Services\BarcodeService;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Response;
 
 class PublicController extends Controller
 {
@@ -211,9 +215,23 @@ class PublicController extends Controller
 
         $noReg = $action->execute($request->validated());
 
-        return back()->with(
-            'success',
-            "Pendaftaran berhasil! Nomor Registrasi Anda: {$noReg}. Simpan nomor ini untuk keperluan verifikasi.",
-        );
+        return back()
+            ->with('success', "Pendaftaran berhasil! Nomor Registrasi Anda: {$noReg}. Simpan nomor ini untuk keperluan verifikasi.")
+            ->with('no_registrasi', $noReg);
+    }
+
+    /**
+     * Download bukti pendaftaran PPDB untuk pendaftar (publik).
+     */
+    public function downloadPpdbReceipt(string $no_registrasi): Response
+    {
+        $ppdb = Ppdb::where('no_registrasi', $no_registrasi)->firstOrFail();
+        $site_settings = Setting::pluck('value', 'key')->toArray();
+        $barcodeSvg = BarcodeService::generateBase64Svg($ppdb->no_registrasi, 1, 35);
+
+        $pdf = Pdf::loadView('pdf.ppdb_receipt', compact('ppdb', 'site_settings', 'barcodeSvg'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download("bukti-pendaftaran-{$ppdb->no_registrasi}.pdf");
     }
 }

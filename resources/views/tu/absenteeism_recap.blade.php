@@ -57,10 +57,10 @@
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
-                        <button type="button" onclick="window.print()"
-                            class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-colors">
-                            <i class="fas fa-print mr-2"></i> Print
-                        </button>
+                        <a href="{{ route('tu.rekap.pdf', request()->query()) }}"
+                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-colors shadow-sm whitespace-nowrap">
+                            <i class="fas fa-file-pdf mr-2"></i> Export PDF
+                        </a>
                     </div>
                 </div>
             </form>

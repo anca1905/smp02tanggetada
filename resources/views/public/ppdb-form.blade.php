@@ -22,12 +22,19 @@
                 <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
                     <i class="fas fa-check-circle text-green-600 text-xl"></i>
                 </div>
-                <div>
+                <div class="flex-1">
                     <p class="font-bold text-green-800 mb-1">Pendaftaran Berhasil!</p>
                     <p class="text-green-700 text-sm">{{ session('success') }}</p>
-                    <a href="{{ route('public.ppdb') }}" class="inline-block mt-3 text-sm font-bold text-blue-700 hover:underline">
-                        ← Kembali ke Halaman PPDB
-                    </a>
+                    <div class="mt-4 flex flex-wrap items-center gap-4">
+                        @if (session('no_registrasi'))
+                            <a href="{{ route('public.ppdb.receipt', session('no_registrasi')) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-xl shadow-md transition">
+                                <i class="fas fa-file-pdf"></i> Download Bukti Pendaftaran (PDF)
+                            </a>
+                        @endif
+                        <a href="{{ route('public.ppdb') }}" class="text-sm font-bold text-blue-700 hover:underline">
+                            ← Kembali ke Halaman PPDB
+                        </a>
+                    </div>
                 </div>
             </div>
         @endif

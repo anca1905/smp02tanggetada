@@ -71,6 +71,7 @@ Route::controller(PublicController::class)->group(function () {
     Route::get('/ppdb', 'ppdb')->name('public.ppdb');
     Route::get('/ppdb/daftar', 'ppdbForm')->name('public.ppdb.daftar');
     Route::post('/ppdb/daftar', 'storePpdb')->name('public.ppdb.store');
+    Route::get('/ppdb/bukti/{no_registrasi}', 'downloadPpdbReceipt')->name('public.ppdb.receipt');
     Route::get('/spmb', 'ppdb')->name('public.spmb'); // alias ke ppdb
 });
 
@@ -226,8 +227,13 @@ Route::middleware(['auth:operator'])
             RecapController::class,
             'index',
         ])->name('rekap');
+        Route::get('/absenteeism-recap/pdf', [
+            RecapController::class,
+            'exportPdf',
+        ])->name('rekap.pdf');
 
         Route::get('student/{student}/card', [AdminTuStudentController::class, 'printCard'])->name('student.card');
+        Route::get('student/{student}/card/pdf', [AdminTuStudentController::class, 'exportCardPdf'])->name('student.card.pdf');
         Route::resource('teacher', AdminTuTeacherController::class)->except([
             'create',
             'edit',
@@ -296,6 +302,7 @@ Route::middleware(['auth:operator'])
             ->group(function () {
                 Route::get('/', [PpdbController::class, 'index'])->name('index');
                 Route::get('/{ppdb}', [PpdbController::class, 'show'])->name('show');
+                Route::get('/{ppdb}/pdf', [PpdbController::class, 'exportPdf'])->name('pdf');
                 Route::get('/{ppdb}/document/{field}', [PpdbController::class, 'showDocument'])->name('document');
                 Route::post('/{ppdb}/status', [PpdbController::class, 'updateStatus'])->name('updateStatus');
                 Route::delete('/{ppdb}', [

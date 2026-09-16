@@ -3,17 +3,18 @@
 namespace App\Actions\Recap;
 
 use App\Models\StudentAttendance;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class GetStudentRecapAction
 {
     /**
-     * Mengambil data rekap kehadiran siswa berdasarkan filter.
+     * Membangun query data rekap kehadiran siswa.
      *
      * @param  string|int|null  $classId
-     * @param  string|null      $sesi     apel|kelas|pulang|null (semua)
      */
-    public function execute(int $bulan, int $tahun, ?string $search, $classId, ?string $sesi = null): LengthAwarePaginator
+    protected function buildQuery(int $bulan, int $tahun, ?string $search, $classId, ?string $sesi = null): Builder
     {
         $query = StudentAttendance::with(['student', 'student.classroom', 'attendance'])
             ->whereHas('attendance', function ($q) use ($bulan, $tahun, $sesi) {
@@ -40,6 +41,31 @@ class GetStudentRecapAction
             });
         }
 
-        return $query->orderByDesc('id')->paginate(15);
+        return $query;
+    }
+
+    /**
+     * Mengambil data rekap kehadiran siswa terpaginasi berdasarkan filter.
+     *
+     * @param  string|int|null  $classId
+     * @param  string|null  $sesi  apel|kelas|pulang|null (semua)
+     */
+    public function execute(int $bulan, int $tahun, ?string $search, $classId, ?string $sesi = null): LengthAwarePaginator
+    {
+        return $this->buildQuery($bulan, $tahun, $search, $classId, $sesi)
+            ->orderByDesc('id')
+            ->paginate(15);
+    }
+
+    /**
+     * Mengambil seluruh data rekap kehadiran siswa untuk ekspor laporan.
+     *
+     * @param  string|int|null  $classId
+     */
+    public function executeAll(int $bulan, int $tahun, ?string $search, $classId, ?string $sesi = null): Collection
+    {
+        return $this->buildQuery($bulan, $tahun, $search, $classId, $sesi)
+            ->orderByDesc('id')
+            ->get();
     }
 }

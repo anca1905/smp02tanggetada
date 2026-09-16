@@ -71,7 +71,7 @@ public function exportCardPdf(Student $student)
 ---
 
 ## 5. Exit Criteria (Definisi Selesai)
-- [ ] Tombol pada modul terkait memicu pengunduhan file `.pdf` yang valid (bukan dialog print browser).
-- [ ] Berkas PDF yang diunduh memiliki tata letak yang rapi dan proporsional (ukuran ID Card / A4 sesuai dokumen).
-- [ ] Header HTTP mengembalikan `Content-Type: application/pdf`.
-- [ ] Test HTTP download response menghasilkan status 200 OK.
+- [x] Tombol pada modul terkait memicu pengunduhan file `.pdf` yang valid (bukan dialog print browser).
+- [x] Berkas PDF yang diunduh memiliki tata letak yang rapi dan proporsional (ukuran ID Card / A4 sesuai dokumen).
+- [x] Header HTTP mengembalikan `Content-Type: application/pdf`.
+- [x] Test HTTP download response menghasilkan status 200 OK.

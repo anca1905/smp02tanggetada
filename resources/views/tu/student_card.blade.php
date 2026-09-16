@@ -294,8 +294,11 @@
     <div class="no-print mb-6 text-center space-y-3">
         <h1 class="text-2xl font-bold text-gray-800">Preview Kartu Pelajar (Depan & Belakang)</h1>
         <div class="flex justify-center gap-3">
+            <a href="{{ route('tu.student.card.pdf', $student) }}" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium shadow-md transition inline-flex items-center">
+                <i class="fas fa-file-pdf mr-2"></i> Export PDF
+            </a>
             <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium shadow-md transition">
-                <i class="fas fa-print mr-2"></i> Cetak Kartu
+                <i class="fas fa-print mr-2"></i> Cetak Browser
             </button>
             <button onclick="window.close()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-lg font-medium transition">
                 Tutup
