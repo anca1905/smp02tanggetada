@@ -184,7 +184,7 @@
                             <span class="text-sm font-semibold text-gray-700">{{ $doc['label'] }}</span>
                         </div>
                         @if($ppdb->{$doc['field']})
-                            <a href="{{ Storage::url($ppdb->{$doc['field']}) }}" target="_blank" class="px-3 py-1.5 bg-blue-50 text-blue-600 rounded text-xs font-bold hover:bg-blue-100 transition">
+                            <a href="{{ route('tu.ppdb.document', [$ppdb->id, $doc['field']]) }}" target="_blank" class="px-3 py-1.5 bg-blue-50 text-blue-600 rounded text-xs font-bold hover:bg-blue-100 transition">
                                 <i class="fas fa-external-link-alt mr-1"></i> Buka
                             </a>
                         @else

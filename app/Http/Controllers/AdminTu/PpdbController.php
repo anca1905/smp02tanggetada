@@ -11,7 +11,9 @@ use App\Http\Requests\Ppdb\UpdatePpdbStatusRequest;
 use App\Models\Ppdb;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\Response;
 
 class PpdbController extends Controller
 {
@@ -35,6 +37,36 @@ class PpdbController extends Controller
     public function show(Ppdb $ppdb): View
     {
         return view('tu.ppdb.show', compact('ppdb'));
+    }
+
+    /**
+     * Tampilkan berkas dokumen PPDB secara inline.
+     */
+    public function showDocument(Ppdb $ppdb, string $field): Response
+    {
+        $allowedFields = [
+            'doc_ijazah',
+            'doc_transkrip',
+            'doc_tka',
+            'doc_akta',
+            'doc_kk',
+            'doc_ktp_ayah',
+            'doc_ktp_ibu',
+            'doc_pas_photo',
+        ];
+
+        abort_unless(in_array($field, $allowedFields, true), 404);
+
+        $filePath = $ppdb->{$field};
+        abort_if(empty($filePath), 404);
+
+        $disk = Storage::disk('public')->exists($filePath)
+            ? 'public'
+            : (Storage::disk('local')->exists($filePath) ? 'local' : null);
+
+        abort_unless($disk, 404, 'Berkas tidak ditemukan pada server.');
+
+        return Storage::disk($disk)->response($filePath);
     }
 
     /**

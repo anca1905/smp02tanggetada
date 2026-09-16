@@ -296,6 +296,7 @@ Route::middleware(['auth:operator'])
             ->group(function () {
                 Route::get('/', [PpdbController::class, 'index'])->name('index');
                 Route::get('/{ppdb}', [PpdbController::class, 'show'])->name('show');
+                Route::get('/{ppdb}/document/{field}', [PpdbController::class, 'showDocument'])->name('document');
                 Route::post('/{ppdb}/status', [PpdbController::class, 'updateStatus'])->name('updateStatus');
                 Route::delete('/{ppdb}', [
                     PpdbController::class,

@@ -25,7 +25,6 @@ class PpdbFactory extends Factory
             'nama_ayah' => $this->faker->name(),
             'nama_ibu' => $this->faker->name(),
             'no_hp' => $this->faker->phoneNumber(),
-            'jurusan_pilihan' => 'RPL',
             'status_pendaftaran' => 'Pending',
             'tanggal_daftar' => now(),
         ];

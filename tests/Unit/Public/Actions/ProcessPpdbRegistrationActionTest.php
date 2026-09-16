@@ -42,7 +42,6 @@ class ProcessPpdbRegistrationActionTest extends TestCase
             'nik' => '3201234567890001',
             'jenis_kelamin' => 'L',
             'asal_sekolah' => 'SMPN 1 JAKARTA',
-            'jurusan_pilihan' => 'RPL',
         ]);
 
         $data2 = $data;

@@ -80,6 +80,6 @@ Menjadi:
 ---
 
 ## 5. Exit Criteria (Definisi Selesai)
-- [ ] Admin TU berhasil membuka dan melihat file PDF (Ijazah, KK, KTP, dsb.) langsung di browser tab baru tanpa error 404.
-- [ ] Akses URL dokumen diblokir jika diakses oleh user non-operator/guest.
-- [ ] Test `php artisan test --filter=PpdbDocumentAccessTest` lulus 100%.
+- [x] Admin TU berhasil membuka dan melihat file PDF (Ijazah, KK, KTP, dsb.) langsung di browser tab baru tanpa error 404.
+- [x] Akses URL dokumen diblokir jika diakses oleh user non-operator/guest.
+- [x] Test `php artisan test --filter=PpdbDocumentAccessTest` lulus 100%.
