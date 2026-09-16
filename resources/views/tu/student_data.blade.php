@@ -77,7 +77,18 @@
                     <tbody class="divide-y divide-gray-100">
                         @forelse($students as $siswa)
                             <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-6 py-4 font-medium text-gray-900">{{ $siswa->student_name }}</td>
+                                <td class="px-6 py-4 font-medium text-gray-900">
+                                    <div class="flex items-center gap-3">
+                                        @php
+                                            $avatar = $siswa->photo_url
+                                                ? asset('storage/' . $siswa->photo_url)
+                                                : 'https://ui-avatars.com/api/?background=random&name=' . urlencode($siswa->student_name);
+                                        @endphp
+                                        <img class="h-9 w-9 rounded-full object-cover border border-gray-200 shrink-0"
+                                            src="{{ $avatar }}" alt="Foto Siswa">
+                                        <span>{{ $siswa->student_name }}</span>
+                                    </div>
+                                </td>
                                 <td class="px-6 py-4 text-gray-500">{{ $siswa->nis }}</td>
                                 <td class="px-6 py-4">{{ $siswa->gender_display }}</td>
                                 <td class="px-6 py-4">
@@ -154,7 +165,7 @@
                 </button>
             </div>
 
-            <form id="studentForm" method="POST" action="{{ route('tu.student.store') }}" class="p-6 space-y-4">
+            <form id="studentForm" method="POST" action="{{ route('tu.student.store') }}" enctype="multipart/form-data" class="p-6 space-y-4">
                 @csrf
                 <input type="hidden" name="_method" id="methodField" value="POST">
 
@@ -163,6 +174,20 @@
                     <input type="text" name="student_name" id="namaSiswa"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Foto Profil Siswa (Opsional)</label>
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-full overflow-hidden border border-gray-200 bg-gray-100 shrink-0 flex items-center justify-center">
+                            <img id="photoPreview" src="https://ui-avatars.com/api/?name=Siswa&background=E5E7EB&color=6B7280" alt="Preview Foto" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1">
+                            <input type="file" name="photo_url" id="fotoSiswa" accept="image/jpeg,image/png,image/jpg"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                            <p class="text-xs text-gray-500 mt-1">Format: JPG, JPEG, PNG. Maksimal 2MB.</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">

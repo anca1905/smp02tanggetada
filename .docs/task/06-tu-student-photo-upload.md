@@ -77,8 +77,8 @@ Buat test di `tests/Feature/AdminTu/StudentPhotoUploadTest.php`:
 ---
 
 ## 5. Exit Criteria (Definisi Selesai)
-- [ ] Kolom `photo_url` terdaftar di database `students`.
-- [ ] Admin TU sukses mengunggah foto siswa baru dan memperbarui foto siswa lama.
-- [ ] Foto siswa tampil di tabel Data Siswa TU dan kartu pelajar yang dicetak.
-- [ ] File foto lama otomatis terhapus saat diperbarui untuk menghemat kapasitas storage.
-- [ ] Test otomatis `php artisan test --filter=StudentPhotoUploadTest` lulus 100%.
+- [x] Kolom `photo_url` terdaftar di database `students`.
+- [x] Admin TU sukses mengunggah foto siswa baru dan memperbarui foto siswa lama.
+- [x] Foto siswa tampil di tabel Data Siswa TU dan kartu pelajar yang dicetak.
+- [x] File foto lama otomatis terhapus saat diperbarui untuk menghemat kapasitas storage.
+- [x] Test otomatis `php artisan test --filter=StudentPhotoUploadTest` lulus 100%.

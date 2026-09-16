@@ -20,6 +20,7 @@ class Student extends Authenticatable
         'classroom_id',
         'phone_number',
         'student_status',
+        'photo_url',
         'parent_name',
         'parent_phone',
         'parent_password',
@@ -36,6 +37,11 @@ class Student extends Authenticatable
     public function getRouteKeyName()
     {
         return 'nis';
+    }
+
+    public function getGenderDisplayAttribute(): string
+    {
+        return $this->gender === 'M' ? 'Laki-laki' : ($this->gender === 'F' ? 'Perempuan' : '-');
     }
 
     // public function submissions()

@@ -2,9 +2,15 @@ const modal = document.getElementById("studentModal");
 const form = document.getElementById("studentForm");
 const modalTitle = document.getElementById("modalTitle");
 const methodField = document.getElementById("methodField");
+const fotoInput = document.getElementById("fotoSiswa");
+const photoPreview = document.getElementById("photoPreview");
 
 function openModal(mode, data = null) {
     modal.classList.remove("hidden");
+    if (fotoInput) {
+        fotoInput.value = "";
+    }
+
     if (mode === "edit") {
         modalTitle.innerText = "Edit Data Siswa";
         form.action = `/tu/student/${data.nis}`;
@@ -18,12 +24,35 @@ function openModal(mode, data = null) {
         document.getElementById("hpSiswa").value = data.phone_number || "";
         document.getElementById("namaOrtu").value = data.parent_name || "";
         document.getElementById("hpOrtu").value = data.parent_phone || "";
+
+        if (photoPreview) {
+            photoPreview.src = data.photo_url
+                ? `/storage/${data.photo_url}`
+                : `https://ui-avatars.com/api/?name=${encodeURIComponent(data.student_name)}&background=random`;
+        }
     } else {
         modalTitle.innerText = "Tambah Siswa Baru";
         form.action = "/tu/student";
         methodField.value = "POST";
         form.reset();
+
+        if (photoPreview) {
+            photoPreview.src = "https://ui-avatars.com/api/?name=Siswa&background=E5E7EB&color=6B7280";
+        }
     }
+}
+
+if (fotoInput && photoPreview) {
+    fotoInput.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                photoPreview.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 }
 
 function closeModal() {

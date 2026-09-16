@@ -328,7 +328,7 @@
                 <!-- Body -->
                 <div class="body-content">
                     <div class="photo-container">
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode($student->student_name) }}&background=random&size=150" alt="Foto Siswa" class="student-photo">
+                        <img src="{{ $student->photo_url ? asset('storage/' . $student->photo_url) : 'https://ui-avatars.com/api/?name='.urlencode($student->student_name).'&background=random&size=150' }}" alt="Foto Siswa" class="student-photo">
                     </div>
                     
                     <div class="data-container">

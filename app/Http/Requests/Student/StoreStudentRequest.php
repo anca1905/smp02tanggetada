@@ -34,6 +34,7 @@ class StoreStudentRequest extends FormRequest
                 'regex:/^(0|62|\+62)8[1-9][0-9]{6,11}$/',
             ],
             'student_status' => ['required', 'in:Active,Graduated,Inactive'],
+            'photo_url' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'parent_name' => ['nullable', 'string', 'max:100'],
             'parent_phone' => [
                 'nullable',
@@ -73,6 +74,10 @@ class StoreStudentRequest extends FormRequest
             'parent_phone.string' => 'Nomor telepon orang tua harus berupa string/karakter.',
             'parent_phone.max' => 'Nomor telepon orang tua tidak boleh lebih dari 20 karakter.',
             'parent_phone.regex' => 'Nomor telepon orang tua harus dalam format indonesia (08xx-xxxxxx atau +628xx-xxxxxx).',
+
+            'photo_url.image' => 'File harus berupa gambar.',
+            'photo_url.mimes' => 'Format gambar harus jpeg, png, atau jpg.',
+            'photo_url.max' => 'Ukuran gambar maksimal 2MB.',
         ];
     }
 }
