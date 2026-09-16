@@ -8,7 +8,10 @@
         <div
             class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-5 text-white shadow-lg flex justify-between items-center relative overflow-hidden">
             <div class="relative z-10">
-                <h2 class="text-xl font-bold mb-1">Halo, {{ $student->student_name }}! 👋</h2>
+                <h2 class="text-xl font-bold mb-1 flex items-center gap-2">
+                    Halo, {{ $student->student_name }}!
+                    <svg class="w-6 h-6 inline-block text-amber-300 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12.5 2c-.8 0-1.5.7-1.5 1.5v6.5h-1V4.5C10 3.7 9.3 3 8.5 3S7 3.7 7 4.5v6.5h-1V6.5C6 5.7 5.3 5 4.5 5S3 5.7 3 6.5v8C3 18.6 6.4 22 10.5 22h3c4.1 0 7.5-3.4 7.5-7.5V11c0-.8-.7-1.5-1.5-1.5s-1.5.7-1.5 1.5v1h-1V8.5c0-.8-.7-1.5-1.5-1.5s-1.5.7-1.5 1.5V10h-1V3.5c0-.8-.7-1.5-1.5-1.5z"/></svg>
+                </h2>
                 <p class="text-indigo-100 mt-2">Selamat datang di kelas <span
                         class="font-bold bg-white/20 px-2 py-0.5 rounded">{{ $student->classroom->name ?? 'Belum Ada Kelas' }}</span>.
                 </p>

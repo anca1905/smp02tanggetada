@@ -32,9 +32,9 @@
                     <select name="sesi" id="sesiFilter"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"
                         onchange="this.form.submit()">
-                        <option value="apel"   {{ $selectedSession == 'apel'   ? 'selected' : '' }}>🌅 Apel Pagi</option>
-                        <option value="kelas"  {{ $selectedSession == 'kelas'  ? 'selected' : '' }}>🏫 Di Kelas</option>
-                        <option value="pulang" {{ $selectedSession == 'pulang' ? 'selected' : '' }}>🏠 Pulang</option>
+                        <option value="apel"   {{ $selectedSession == 'apel'   ? 'selected' : '' }}>Apel Pagi</option>
+                        <option value="kelas"  {{ $selectedSession == 'kelas'  ? 'selected' : '' }}>Di Kelas</option>
+                        <option value="pulang" {{ $selectedSession == 'pulang' ? 'selected' : '' }}>Pulang</option>
                     </select>
                 </div>
                 

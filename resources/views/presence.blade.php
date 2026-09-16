@@ -86,9 +86,9 @@
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Jenis Sesi</label>
                     <select id="select-sesi-overlay" class="w-full bg-white border border-gray-300 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm">
                         <option value="" disabled selected>-- Pilih Sesi --</option>
-                        <option value="apel">🌅 Apel Pagi</option>
-                        <option value="kelas">🏫 Di Kelas</option>
-                        <option value="pulang">🏠 Pulang</option>
+                        <option value="apel">Apel Pagi</option>
+                        <option value="kelas">Di Kelas</option>
+                        <option value="pulang">Pulang</option>
                     </select>
                 </div>
                 

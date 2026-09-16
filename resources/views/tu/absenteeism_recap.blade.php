@@ -16,9 +16,9 @@
                             <select name="sesi" onchange="this.form.submit()"
                                 class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-40">
                                 <option value="" {{ !$sesi ? 'selected' : '' }}>Semua Sesi</option>
-                                <option value="apel"   {{ $sesi == 'apel'   ? 'selected' : '' }}>🌅 Apel Pagi</option>
-                                <option value="kelas"  {{ $sesi == 'kelas'  ? 'selected' : '' }}>🏫 Di Kelas</option>
-                                <option value="pulang" {{ $sesi == 'pulang' ? 'selected' : '' }}>🏠 Pulang</option>
+                                <option value="apel"   {{ $sesi == 'apel'   ? 'selected' : '' }}>Apel Pagi</option>
+                                <option value="kelas"  {{ $sesi == 'kelas'  ? 'selected' : '' }}>Di Kelas</option>
+                                <option value="pulang" {{ $sesi == 'pulang' ? 'selected' : '' }}>Pulang</option>
                             </select>
                         </div>
 
@@ -98,16 +98,23 @@
 
                                 <td class="px-6 py-4">
                                     @php
-                                        $sesiLabel = match($item->attendance->session_type ?? '') {
-                                            'apel'   => ['🌅 Apel Pagi', 'bg-yellow-100 text-yellow-800'],
-                                            'kelas'  => ['🏫 Di Kelas',  'bg-blue-100 text-blue-800'],
-                                            'pulang' => ['🏠 Pulang',    'bg-green-100 text-green-800'],
-                                            default  => ['—',            'bg-gray-100 text-gray-800'],
-                                        };
+                                        $sesiMap = [
+                                            'apel'   => ['icon' => 'fa-sun', 'label' => 'Apel Pagi', 'class' => 'bg-amber-50 text-amber-800 border-amber-200'],
+                                            'kelas'  => ['icon' => 'fa-chalkboard-user', 'label' => 'Di Kelas', 'class' => 'bg-blue-50 text-blue-800 border-blue-200'],
+                                            'pulang' => ['icon' => 'fa-house-user', 'label' => 'Pulang', 'class' => 'bg-emerald-50 text-emerald-800 border-emerald-200'],
+                                        ];
+                                        $currentSesi = $sesiMap[$item->attendance->session_type ?? ''] ?? null;
                                     @endphp
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $sesiLabel[1] }}">
-                                        {{ $sesiLabel[0] }}
-                                    </span>
+                                    @if ($currentSesi)
+                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $currentSesi['class'] }}">
+                                            <i class="fas {{ $currentSesi['icon'] }} text-[10px]"></i>
+                                            {{ $currentSesi['label'] }}
+                                        </span>
+                                    @else
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                            —
+                                        </span>
+                                    @endif
                                 </td>
 
                                 <td class="px-6 py-4 font-medium text-gray-900">

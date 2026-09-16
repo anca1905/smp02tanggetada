@@ -58,6 +58,6 @@ Pastikan seluruh icon ter-render dengan rapi dan tidak ada kotak broken font pad
 ---
 
 ## 5. Exit Criteria (Definisi Selesai)
-- [ ] Seluruh badge sesi di Rekap Absensi menggunakan icon FontAwesome / SVG yang proporsional.
-- [ ] Tidak ada lagi karakter emoji pada teks badge dan dropdown form presensi.
-- [ ] Tampilan konsisten di seluruh browser dan sistem operasi.
+- [x] Seluruh badge sesi di Rekap Absensi menggunakan icon FontAwesome / SVG yang proporsional.
+- [x] Tidak ada lagi karakter emoji pada teks badge dan dropdown form presensi.
+- [x] Tampilan konsisten di seluruh browser dan sistem operasi.
