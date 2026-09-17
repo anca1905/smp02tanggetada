@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="overflow-x-hidden">
 
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,6 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>@yield('title', 'Dashboard') - Sistem Informasi Manajemen Sekolah</title>
 
-    <link rel="stylesheet" href="{{ asset('assets/css/final.css') }}">
     @vite('resources/css/app.css')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -15,6 +14,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
     <style>
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
         }
@@ -31,11 +35,111 @@
             background-color: #3b82f6;
             border-radius: 10px;
         }
+
+        /* Mobile Collapsible Sidebar Styles */
+        #sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 40;
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s;
+        }
+
+        #sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        @media (max-width: 1023.98px) {
+            #sidebar {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 50;
+                width: 16rem;
+                max-width: calc(100vw - 3rem);
+                transform: translateX(-100%);
+                visibility: hidden;
+                pointer-events: none;
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            }
+
+            #sidebar.sidebar-open {
+                transform: translateX(0);
+                visibility: visible;
+                pointer-events: auto;
+            }
+
+            #main-content {
+                margin-left: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            #sidebar {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 30;
+                width: 16rem;
+                transform: none !important;
+                visibility: visible !important;
+                pointer-events: auto !important;
+            }
+
+            #sidebar-overlay {
+                display: none !important;
+            }
+
+            #main-content {
+                margin-left: 16rem !important;
+                width: calc(100% - 16rem) !important;
+                max-width: calc(100% - 16rem) !important;
+                min-width: 0 !important;
+            }
+        }
+
+        /* Isolated Table Horizontal Scroll */
+        .overflow-x-auto {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+            max-width: 100%;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 9999px;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
     </style>
     @stack('head')
 </head>
 
-<body class="bg-gray-100 font-poppins text-gray-800 mode-2">
+<body class="bg-gray-100 font-poppins text-gray-800 mode-2 overflow-x-hidden">
 
     {{--
         =========================================================
@@ -101,14 +205,15 @@
             : 'https://ui-avatars.com/api/?background=random&color=fff&name=' . urlencode($name);
     @endphp
 
-    <div id="sidebar-overlay" onclick="toggleSidebar()"
-        class="fixed inset-0 z-20 bg-black/50 backdrop-blur-xs hidden lg:hidden transition-opacity"></div>
+    <div id="sidebar-overlay" onclick="toggleSidebar(false)"
+        class="fixed inset-0 z-40 lg:hidden" aria-hidden="true"></div>
 
     <aside id="sidebar"
-        class="fixed inset-y-0 left-0 z-30 w-64 bg-blue-900 text-white transition-transform duration-300 -translate-x-full lg:translate-x-0 flex flex-col shadow-xl">
+        class="fixed inset-y-0 left-0 z-50 w-64 bg-blue-900 text-white flex flex-col shadow-xl"
+        aria-label="Sidebar Navigasi">
 
-        <div class="flex items-center h-16 px-4 border-b border-blue-800 bg-blue-950">
-            <svg class="w-8 h-8 text-white mr-2" fill="currentColor" viewBox="0 0 20 20">
+        <div class="flex items-center h-16 px-4 border-b border-blue-800 bg-blue-950 flex-shrink-0">
+            <svg class="w-8 h-8 text-white mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path
                     d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
             </svg>
@@ -116,8 +221,9 @@
                 <span class="text-xl font-bold text-white">SIMS <span
                         class="text-xs font-normal text-blue-300">v2.0</span></span>
             </a>
-            <button onclick="toggleSidebar()"
-                class="ml-auto lg:hidden text-gray-400 hover:text-white focus:outline-none">
+            <button onclick="toggleSidebar(false)"
+                class="ml-auto lg:hidden text-blue-200 hover:text-white p-2 rounded-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors"
+                aria-label="Tutup Menu">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
@@ -332,13 +438,13 @@
         </div>
     </aside>
 
-    <div id="main-content" class="lg:ml-64 transition-all duration-300 min-h-screen flex flex-col min-w-0 w-full overflow-x-hidden">
+    <div id="main-content" class="lg:ml-64 transition-all duration-300 min-h-screen flex flex-col min-w-0 max-w-full overflow-x-hidden">
         <header
-            class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10 h-16 flex items-center justify-between px-4 sm:px-6">
+            class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-20 h-16 flex items-center justify-between px-4 sm:px-6">
             <div class="flex items-center min-w-0 mr-3">
-                <button onclick="toggleSidebar()"
-                    class="lg:hidden p-2 rounded-md text-gray-500 hover:bg-gray-100 mr-2 focus:outline-none flex-shrink-0"
-                    aria-label="Buka Menu">
+                <button id="sidebar-toggle-btn" onclick="toggleSidebar()"
+                    class="lg:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500 flex-shrink-0 transition-colors"
+                    aria-label="Buka Menu" aria-expanded="false" aria-controls="sidebar">
                     <i class="fas fa-bars text-lg sm:text-xl"></i>
                 </button>
                 <h1 class="text-base sm:text-xl font-bold text-gray-800 truncate">@yield('title')</h1>
@@ -354,7 +460,7 @@
             </div>
         </header>
 
-        <main class="flex-1 p-4 sm:p-6 min-w-0">
+        <main class="flex-1 p-4 sm:p-6 min-w-0 max-w-full overflow-x-hidden">
             @yield('content')
         </main>
 
@@ -364,18 +470,58 @@
     </div>
 
     <script>
-        function toggleSidebar() {
+        function toggleSidebar(forceState) {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
+            const toggleBtn = document.getElementById('sidebar-toggle-btn');
+            if (!sidebar || !overlay) return;
 
-            if (sidebar.classList.contains('-translate-x-full')) {
-                sidebar.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
+            const isOpen = sidebar.classList.contains('sidebar-open');
+            const shouldOpen = typeof forceState === 'boolean' ? forceState : !isOpen;
+
+            if (shouldOpen) {
+                sidebar.classList.add('sidebar-open');
+                overlay.classList.add('active');
+                document.body.classList.add('overflow-hidden');
+                if (toggleBtn) {
+                    toggleBtn.setAttribute('aria-expanded', 'true');
+                    toggleBtn.setAttribute('aria-label', 'Tutup Menu');
+                }
             } else {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('hidden');
+                sidebar.classList.remove('sidebar-open');
+                overlay.classList.remove('active');
+                document.body.classList.remove('overflow-hidden');
+                if (toggleBtn) {
+                    toggleBtn.setAttribute('aria-expanded', 'false');
+                    toggleBtn.setAttribute('aria-label', 'Buka Menu');
+                }
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.querySelectorAll('a').forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        if (window.innerWidth < 1024) {
+                            toggleSidebar(false);
+                        }
+                    });
+                });
+            }
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && window.innerWidth < 1024) {
+                    toggleSidebar(false);
+                }
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 1024) {
+                    toggleSidebar(false);
+                }
+            });
+        });
     </script>
 
     @if (session('success'))

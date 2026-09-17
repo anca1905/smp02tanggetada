@@ -37,7 +37,7 @@
                 <i class="fas fa-chalkboard-teacher text-blue-600 text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0">
-                <p class="text-[11px] sm:text-xs text-gray-500 font-medium truncate">Jumlah Guru</p>
+                <p class="text-[11px] sm:text-xs text-gray-500 font-medium leading-tight">Jumlah Guru</p>
                 <p class="text-xl sm:text-2xl font-bold text-gray-800">{{ $totalGuru }}</p>
                 <p class="text-[11px] sm:text-xs text-blue-500 font-medium">Aktif</p>
             </div>
@@ -49,7 +49,7 @@
                 <i class="fas fa-user-graduate text-green-600 text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0">
-                <p class="text-[11px] sm:text-xs text-gray-500 font-medium truncate">Jumlah Siswa</p>
+                <p class="text-[11px] sm:text-xs text-gray-500 font-medium leading-tight">Jumlah Siswa</p>
                 <p class="text-xl sm:text-2xl font-bold text-gray-800">{{ $totalSiswa }}</p>
                 <p class="text-[11px] sm:text-xs text-green-500 font-medium">Aktif</p>
             </div>
@@ -61,7 +61,7 @@
                 <i class="fas fa-chalkboard text-orange-500 text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0">
-                <p class="text-[11px] sm:text-xs text-gray-500 font-medium truncate">Jumlah Kelas</p>
+                <p class="text-[11px] sm:text-xs text-gray-500 font-medium leading-tight">Jumlah Kelas</p>
                 <p class="text-xl sm:text-2xl font-bold text-gray-800">{{ $totalKelas }}</p>
                 <p class="text-[11px] sm:text-xs text-orange-500 font-medium">Rombel</p>
             </div>
@@ -73,7 +73,7 @@
                 <i class="fas fa-user-check text-lg sm:text-xl {{ $kehadiranSiswaHariIni >= 80 ? 'text-teal-600' : 'text-red-500' }}"></i>
             </div>
             <div class="min-w-0">
-                <p class="text-[11px] sm:text-xs text-gray-500 font-medium truncate">Kehadiran Siswa</p>
+                <p class="text-[11px] sm:text-xs text-gray-500 font-medium leading-tight">Kehadiran Siswa</p>
                 <p class="text-xl sm:text-2xl font-bold {{ $kehadiranSiswaHariIni >= 80 ? 'text-teal-600' : 'text-red-500' }}">{{ $kehadiranSiswaHariIni }}%</p>
                 <p class="text-[11px] sm:text-xs text-gray-400">Hari ini</p>
             </div>
@@ -85,7 +85,7 @@
                 <i class="fas fa-clock text-indigo-600 text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0">
-                <p class="text-[11px] sm:text-xs text-gray-500 font-medium truncate">Guru Hadir</p>
+                <p class="text-[11px] sm:text-xs text-gray-500 font-medium leading-tight">Guru Hadir</p>
                 <p class="text-xl sm:text-2xl font-bold text-gray-800">{{ $guruHadir }}<span class="text-xs sm:text-sm text-gray-400 font-normal">/{{ $totalGuru }}</span></p>
                 @if($guruTerlambat > 0)
                     <p class="text-[11px] sm:text-xs text-red-500 font-medium"><i class="fas fa-arrow-down mr-1"></i>{{ $guruTerlambat }} Terlambat</p>
@@ -137,7 +137,7 @@
                             <div class="{{ $color }} h-1.5 rounded-full transition-all" style="width: {{ $pct }}%"></div>
                         </div>
                     </div>
-                    <span class="text-xs font-bold {{ $color === 'bg-blue-600' ? 'text-blue-600' : 'text-gray-600' }}">{{ $teacher->hadir_count }}x</span>
+                    <span class="text-xs font-bold {{ $color === 'bg-blue-600' ? 'text-blue-600' : 'text-gray-600' }}">{{ $teacher->hadir_count ?? 0 }}x</span>
                 </div>
                 @empty
                 <p class="text-sm text-gray-400 text-center py-4">Belum ada data kehadiran guru.</p>
