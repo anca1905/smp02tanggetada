@@ -69,9 +69,8 @@
                                 <td class="px-6 py-4">
                                     @php
                                         $avatar = $teacher->photo_url
-                                            ? asset($teacher->photo_url)
-                                            : 'https://ui-avatars.com/api/?background=random&name=' .
-                                                urlencode($teacher->name);
+                                            ? (str_starts_with($teacher->photo_url, 'img/') ? asset($teacher->photo_url) : asset('storage/' . $teacher->photo_url))
+                                            : 'https://ui-avatars.com/api/?background=random&name=' . urlencode($teacher->name);
                                     @endphp
                                     <img class="h-10 w-10 rounded-full object-cover border border-gray-200"
                                         src="{{ $avatar }}" alt="Foto">

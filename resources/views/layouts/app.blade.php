@@ -97,7 +97,7 @@
 
         // Avatar Generator (Jika tidak ada foto)
         $avatar = $photoUrl
-            ? asset('storage/' . $photoUrl)
+            ? (str_starts_with($photoUrl, 'img/') ? asset($photoUrl) : asset('storage/' . $photoUrl))
             : 'https://ui-avatars.com/api/?background=random&color=fff&name=' . urlencode($name);
     @endphp
 

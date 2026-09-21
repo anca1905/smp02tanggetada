@@ -39,7 +39,7 @@
                         @php
                             $avatar =
                                 isset($data) && $data->photo_url
-                                    ? asset($data->photo_url)
+                                    ? (str_starts_with($data->photo_url, 'img/') ? asset($data->photo_url) : asset('storage/' . $data->photo_url))
                                     : 'https://ui-avatars.com/api/?name=' . urlencode($data->name ?? 'User');
                         @endphp
                         <img id="preview-photo"

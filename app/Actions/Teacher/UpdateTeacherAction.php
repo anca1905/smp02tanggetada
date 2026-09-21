@@ -25,16 +25,16 @@ class UpdateTeacherAction
 
         // Mengecek apakah ada foto yang diunggah dan memindahkan jika ada
         if ($photoFile) {
-            if (
-                $teacher->photo_url &&
-                file_exists(public_path($teacher->photo_url))
-            ) {
-                unlink(public_path($teacher->photo_url));
+            if ($teacher->photo_url) {
+                if (str_starts_with($teacher->photo_url, 'img/') && file_exists(public_path($teacher->photo_url))) {
+                    unlink(public_path($teacher->photo_url));
+                } elseif (\Illuminate\Support\Facades\Storage::disk('public')->exists($teacher->photo_url)) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($teacher->photo_url);
+                }
             }
 
-            $filename = time().'_'.$photoFile->getClientOriginalName();
-            $photoFile->move(public_path('img/teacher-photo'), $filename);
-            $data['photo_url'] = 'img/teacher-photo/'.$filename;
+            $path = $photoFile->store('teachers/photos', 'public');
+            $data['photo_url'] = $path;
         }
 
         $teacher->update($data);

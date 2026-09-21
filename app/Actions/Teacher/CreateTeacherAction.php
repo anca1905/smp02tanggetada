@@ -18,9 +18,8 @@ class CreateTeacherAction
         }
 
         if ($photoFile instanceof UploadedFile) {
-            $filename = time().'_'.$photoFile->getClientOriginalName();
-            $photoFile->move(public_path('img/teacher-photo'), $filename);
-            $data['photo_url'] = 'img/teacher-photo/'.$filename;
+            $path = $photoFile->store('teachers/photos', 'public');
+            $data['photo_url'] = $path;
         }
 
         return Teacher::create($data);

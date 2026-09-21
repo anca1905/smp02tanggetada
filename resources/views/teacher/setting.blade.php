@@ -14,7 +14,7 @@
                     <div class="relative inline-block mb-4">
                         @php
                             $avatar = $teacher->photo_url
-                                ? asset($teacher->photo_url)
+                                ? (str_starts_with($teacher->photo_url, 'img/') ? asset($teacher->photo_url) : asset('storage/' . $teacher->photo_url))
                                 : 'https://ui-avatars.com/api/?background=random&size=128&name=' .
                                     urlencode($teacher->name);
                         @endphp
