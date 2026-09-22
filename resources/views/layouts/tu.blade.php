@@ -22,7 +22,7 @@
         ];
     @endphp
 
-    <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 z-20 bg-black bg-opacity-50 hidden lg:hidden"></div>
+    <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 z-20 bg-black/50 hidden lg:hidden"></div>
 
     <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-blue-900 text-white transition-transform duration-300 -translate-x-full lg:translate-x-0 flex flex-col">
         <div class="flex items-center h-16 px-4 border-b border-blue-800 bg-blue-950">

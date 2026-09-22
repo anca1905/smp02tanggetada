@@ -34,6 +34,7 @@ class StoreTeacherRequest extends FormRequest
             ],
             'subject' => ['nullable', 'string'],
             'homeroom_class' => ['nullable', 'string'],
+            'position' => ['nullable', 'string'],
             'status' => ['required', 'in:Active,Inactive'],
             'username' => [
                 'required',

@@ -27,7 +27,7 @@
                         <div class="p-6 space-y-6">
                             @foreach ($events as $event)
                                 <div class="flex items-start group">
-                                    <div class="flex-shrink-0 w-14 text-center border-r border-gray-100 pr-3">
+                                    <div class="shrink-0 w-14 text-center border-r border-gray-100 pr-3">
                                         <span
                                             class="block text-2xl font-bold text-gray-800 group-hover:text-blue-600 transition">
                                             {{ $event->start_date->format('d') }}

@@ -1,4 +1,4 @@
-﻿@extends('layouts.public')
+@extends('layouts.public')
 
 @section('title', 'Sarana & Prasarana')
 @section('header', 'Sarana & Prasarana')

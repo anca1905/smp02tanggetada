@@ -102,13 +102,6 @@
             #sidebar-overlay {
                 display: none !important;
             }
-
-            #main-content {
-                margin-left: 16rem !important;
-                width: calc(100% - 16rem) !important;
-                max-width: calc(100% - 16rem) !important;
-                min-width: 0 !important;
-            }
         }
 
         /* Isolated Table Horizontal Scroll */
@@ -212,8 +205,8 @@
         class="fixed inset-y-0 left-0 z-50 w-64 bg-blue-900 text-white flex flex-col shadow-xl"
         aria-label="Sidebar Navigasi">
 
-        <div class="flex items-center h-16 px-4 border-b border-blue-800 bg-blue-950 flex-shrink-0">
-            <svg class="w-8 h-8 text-white mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+        <div class="flex items-center h-16 px-4 border-b border-blue-800 bg-blue-950 shrink-0">
+            <svg class="w-8 h-8 text-white mr-2 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path
                     d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
             </svg>
@@ -443,14 +436,14 @@
             class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-20 h-16 flex items-center justify-between px-4 sm:px-6">
             <div class="flex items-center min-w-0 mr-3">
                 <button id="sidebar-toggle-btn" onclick="toggleSidebar()"
-                    class="lg:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500 flex-shrink-0 transition-colors"
+                    class="lg:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500 shrink-0 transition-colors"
                     aria-label="Buka Menu" aria-expanded="false" aria-controls="sidebar">
                     <i class="fas fa-bars text-lg sm:text-xl"></i>
                 </button>
                 <h1 class="text-base sm:text-xl font-bold text-gray-800 truncate">@yield('title')</h1>
             </div>
 
-            <div class="flex items-center space-x-3 flex-shrink-0">
+            <div class="flex items-center space-x-3 shrink-0">
                 <div class="text-right hidden md:block leading-tight">
                     <p class="text-sm font-semibold text-gray-800">{{ $name }}</p>
                     <p class="text-xs text-gray-500">{{ $roleLabel }}</p>

@@ -3,7 +3,7 @@
 @section('title', 'Data Siswa')
 
 @section('content')
-    <div class="h-full flex flex-col">
+    <div class="h-full flex flex-col min-w-0">
 
         {{-- @if (session('success'))
             <div class="mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-sm">
@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-w-0">
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left">
                     <thead class="bg-gray-50 text-gray-600 font-medium border-b border-gray-200 uppercase text-xs">
@@ -152,9 +152,9 @@
         </div>
     </div>
 
-    <div id="studentModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div id="studentModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
         <div
-            class="bg-white rounded-xl shadow-lg w-full max-w-lg transform transition-all scale-100 max-h-[90vh] overflow-y-auto">
+            class="bg-white rounded-xl shadow-lg w-full max-w-2xl transform transition-all scale-100 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center p-6 border-b border-gray-100">
                 <h3 id="modalTitle" class="text-lg font-bold text-gray-800">Tambah Siswa</h3>
                 <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
@@ -169,34 +169,22 @@
                 @csrf
                 <input type="hidden" name="_method" id="methodField" value="POST">
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-                    <input type="text" name="student_name" id="namaSiswa"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                        required>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Foto Profil Siswa (Opsional)</label>
-                    <div class="flex items-center gap-4">
-                        <div class="w-14 h-14 rounded-full overflow-hidden border border-gray-200 bg-gray-100 shrink-0 flex items-center justify-center">
-                            <img id="photoPreview" src="https://ui-avatars.com/api/?name=Siswa&background=E5E7EB&color=6B7280" alt="Preview Foto" class="w-full h-full object-cover">
-                        </div>
-                        <div class="flex-1">
-                            <input type="file" name="photo_url" id="fotoSiswa" accept="image/jpeg,image/png,image/jpg"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                            <p class="text-xs text-gray-500 mt-1">Format: JPG, JPEG, PNG. Maksimal 2MB.</p>
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                        <input type="text" name="student_name" id="namaSiswa"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                            required>
                     </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">NIS</label>
                         <input type="text" name="nis" id="nisSiswa"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                             required>
                     </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Kelas</label>
                         <select name="classroom_id" id="kelasSiswa"
@@ -208,9 +196,6 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
                         <select name="gender" id="jkSiswa"
@@ -232,11 +217,23 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">No. HP Siswa (Opsional)</label>
                         <input type="text" name="phone_number" id="hpSiswa"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Foto Profil (Opsional)</label>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full overflow-hidden border border-gray-200 bg-gray-100 shrink-0 flex items-center justify-center">
+                                <img id="photoPreview" src="https://ui-avatars.com/api/?name=Siswa&background=E5E7EB&color=6B7280" alt="Preview Foto" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1">
+                                <input type="file" name="photo_url" id="fotoSiswa" accept="image/jpeg,image/png,image/jpg"
+                                    class="w-full px-2 py-1 border border-gray-300 rounded-lg text-sm file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -268,7 +265,7 @@
     </div>
 
     <form id="deleteForm" method="POST"
-        class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
         @csrf
         @method('DELETE')
         <div class="bg-white rounded-xl shadow-lg w-full max-w-sm p-6 text-center">

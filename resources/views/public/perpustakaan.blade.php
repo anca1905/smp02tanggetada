@@ -1,4 +1,4 @@
-ï»¿@extends('layouts.public')
+@extends('layouts.public')
 
 @section('title', 'Perpustakaan')
 @section('header', 'Perpustakaan Sekolah')
@@ -15,7 +15,7 @@
 
     {{-- Hero --}}
     <div class="bg-gradient-to-br from-amber-600 to-amber-900 text-white rounded-3xl p-10 shadow-xl mb-10 flex flex-col md:flex-row items-center gap-8">
-        <div class="flex-shrink-0 w-28 h-28 bg-white/20 rounded-2xl flex items-center justify-center">
+        <div class="shrink-0 w-28 h-28 bg-white/20 rounded-2xl flex items-center justify-center">
             <i class="fas fa-book-open text-5xl"></i>
         </div>
         <div>
@@ -34,8 +34,8 @@
                 <i class="fas fa-clock text-2xl"></i>
             </div>
             <h4 class="font-bold text-gray-800 mb-2">Jam Operasional</h4>
-            <p class="text-sm text-gray-500">Senin â€“ Jumat</p>
-            <p class="text-sm font-semibold text-gray-700">08.00 â€“ 14.00 WITA</p>
+            <p class="text-sm text-gray-500">Senin – Jumat</p>
+            <p class="text-sm font-semibold text-gray-700">08.00 – 14.00 WITA</p>
         </div>
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
             <div class="w-14 h-14 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center mx-auto mb-4">
@@ -62,23 +62,23 @@
         </h3>
         <ul class="space-y-3 text-sm text-gray-600">
             <li class="flex items-start gap-3">
-                <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">1</span>
+                <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
                 Wajib menunjukkan kartu pelajar saat meminjam buku.
             </li>
             <li class="flex items-start gap-3">
-                <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">2</span>
+                <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
                 Jaga ketenangan dan kebersihan di ruang perpustakaan.
             </li>
             <li class="flex items-start gap-3">
-                <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">3</span>
+                <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
                 Kembalikan buku tepat waktu untuk menghindari denda.
             </li>
             <li class="flex items-start gap-3">
-                <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">4</span>
+                <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">4</span>
                 Dilarang merobek, mencoret, atau merusak buku perpustakaan.
             </li>
             <li class="flex items-start gap-3">
-                <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">5</span>
+                <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">5</span>
                 Tas dan jaket harap dititipkan di loker yang tersedia.
             </li>
         </ul>

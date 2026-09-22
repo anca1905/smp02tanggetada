@@ -18,7 +18,7 @@
 
                     <div class="space-y-4">
                         <div class="flex items-start">
-                            <div class="flex-shrink-0">
+                            <div class="shrink-0">
                                 <div class="flex items-center justify-center h-10 w-10 rounded-md bg-blue-100 text-blue-900">
                                     <i class="fas fa-map-marker-alt"></i>
                                 </div>
@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="flex items-start">
-                            <div class="flex-shrink-0">
+                            <div class="shrink-0">
                                 <div
                                     class="flex items-center justify-center h-10 w-10 rounded-md bg-blue-100 text-blue-900">
                                     <i class="fas fa-phone"></i>
@@ -44,7 +44,7 @@
                         </div>
 
                         <div class="flex items-start">
-                            <div class="flex-shrink-0">
+                            <div class="shrink-0">
                                 <div
                                     class="flex items-center justify-center h-10 w-10 rounded-md bg-blue-100 text-blue-900">
                                     <i class="fas fa-envelope"></i>

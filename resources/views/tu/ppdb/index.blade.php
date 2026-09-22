@@ -29,7 +29,7 @@
     {{-- Status Banner --}}
     @if ($bukaPpdb === '1')
         <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
                 <i class="fas fa-check-circle text-green-600"></i>
             </div>
             <div>
@@ -39,7 +39,7 @@
         </div>
     @else
         <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+            <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0">
                 <i class="fas fa-times-circle text-red-600"></i>
             </div>
             <div>

@@ -130,7 +130,7 @@
                                     ['Daftar Ulang', '10 – 12 Juni ' . date('Y'), 'fa-check-double', 'bg-green-400'],
                                 ] as [$label, $tanggal, $icon, $color])
                                 <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 {{ $color }} rounded-xl flex items-center justify-center flex-shrink-0 shadow">
+                                    <div class="w-10 h-10 {{ $color }} rounded-xl flex items-center justify-center shrink-0 shadow">
                                         <i class="fas {{ $icon }} text-white text-sm"></i>
                                     </div>
                                     <div>
@@ -192,7 +192,7 @@
                             ['fa-print', 'Bukti Pendaftaran', 'Calon murid mencetak formulir bukti pendaftaran online.'],
                         ] as [$icon, $judul, $keterangan])
                         <div class="flex items-start gap-4 p-4 rounded-xl bg-gray-50 border border-gray-100">
-                            <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
                                 <i class="fas {{ $icon }} text-blue-700 text-sm"></i>
                             </div>
                             <div>
@@ -216,7 +216,7 @@
                             ['4', 'Pengumuman & Daftar Ulang', 'Pantau pengumuman kelulusan dan lakukan daftar ulang sesuai jadwal.', 'bg-green-600'],
                         ] as [$no, $judul, $keterangan, $color])
                         <div class="timeline-step relative flex items-start gap-5 pb-6">
-                            <div class="w-10 h-10 {{ $color }} text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 shadow-lg z-10">
+                            <div class="w-10 h-10 {{ $color }} text-white rounded-full flex items-center justify-center font-bold text-sm shrink-0 shadow-lg z-10">
                                 {{ $no }}
                             </div>
                             <div class="pt-1">

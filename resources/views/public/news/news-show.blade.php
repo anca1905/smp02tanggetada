@@ -49,7 +49,7 @@
                     <div class="space-y-6">
                         @forelse($recent_posts as $recent)
                             <div class="flex space-x-4 group">
-                                <div class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden relative">
+                                <div class="shrink-0 w-20 h-20 rounded-lg overflow-hidden relative">
                                     <img src="{{ $recent->image ? asset('storage/' . $recent->image) : 'https://via.placeholder.com/150?text=News' }}"
                                         class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                                         alt="Thumb">

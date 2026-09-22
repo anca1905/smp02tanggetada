@@ -33,7 +33,7 @@
 
         {{-- Total Guru --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 flex items-center gap-2.5 sm:gap-4 hover:shadow-md transition-shadow">
-            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
                 <i class="fas fa-chalkboard-teacher text-blue-600 text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0">
@@ -45,7 +45,7 @@
 
         {{-- Total Siswa --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 flex items-center gap-2.5 sm:gap-4 hover:shadow-md transition-shadow">
-            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-green-50 flex items-center justify-center shrink-0">
                 <i class="fas fa-user-graduate text-green-600 text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0">
@@ -57,7 +57,7 @@
 
         {{-- Total Kelas --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 flex items-center gap-2.5 sm:gap-4 hover:shadow-md transition-shadow">
-            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-orange-50 flex items-center justify-center shrink-0">
                 <i class="fas fa-chalkboard text-orange-500 text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0">
@@ -69,7 +69,7 @@
 
         {{-- Kehadiran Siswa Hari Ini --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 flex items-center gap-2.5 sm:gap-4 hover:shadow-md transition-shadow">
-            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0 {{ $kehadiranSiswaHariIni >= 80 ? 'bg-teal-50' : 'bg-red-50' }}">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 {{ $kehadiranSiswaHariIni >= 80 ? 'bg-teal-50' : 'bg-red-50' }}">
                 <i class="fas fa-user-check text-lg sm:text-xl {{ $kehadiranSiswaHariIni >= 80 ? 'text-teal-600' : 'text-red-500' }}"></i>
             </div>
             <div class="min-w-0">
@@ -81,7 +81,7 @@
 
         {{-- Guru Hadir Hari Ini --}}
         <div class="col-span-2 sm:col-span-1 bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 flex items-center gap-2.5 sm:gap-4 hover:shadow-md transition-shadow">
-            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-indigo-50 flex items-center justify-center flex-shrink-0">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-indigo-50 flex items-center justify-center shrink-0">
                 <i class="fas fa-clock text-indigo-600 text-lg sm:text-xl"></i>
             </div>
             <div class="min-w-0">
@@ -128,7 +128,7 @@
                 @endphp
                 <div class="flex items-center gap-3">
                     <span class="text-xs font-bold text-gray-400 w-4">{{ $idx+1 }}</span>
-                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 text-xs font-bold text-blue-800">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0 text-xs font-bold text-blue-800">
                         {{ strtoupper(substr($teacher->name, 0, 1)) }}
                     </div>
                     <div class="flex-1 min-w-0">
@@ -163,21 +163,21 @@
                 </div>
                 <div class="space-y-3">
                     <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-blue-600 flex-shrink-0"></span>
+                        <span class="w-3 h-3 rounded-full bg-blue-600 shrink-0"></span>
                         <div>
                             <p class="text-xs text-gray-500">Hadir</p>
                             <p class="text-sm font-bold text-gray-800">{{ $guruHadir }}</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-orange-400 flex-shrink-0"></span>
+                        <span class="w-3 h-3 rounded-full bg-orange-400 shrink-0"></span>
                         <div>
                             <p class="text-xs text-gray-500">Terlambat</p>
                             <p class="text-sm font-bold text-gray-800">{{ $guruTerlambat }}</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-gray-200 flex-shrink-0"></span>
+                        <span class="w-3 h-3 rounded-full bg-gray-200 shrink-0"></span>
                         <div>
                             <p class="text-xs text-gray-500">Belum Hadir</p>
                             <p class="text-sm font-bold text-gray-800">{{ $totalGuru - $guruHadir }}</p>
@@ -206,7 +206,7 @@
             <div class="space-y-4">
                 @forelse($announcements as $post)
                 <div class="flex gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
-                    <div class="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
+                    <div class="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
                         <i class="fas fa-bullhorn text-blue-600 text-sm"></i>
                     </div>
                     <div class="flex-1 min-w-0">
@@ -236,7 +236,7 @@
                     $ec = $eventColors[$loop->index % 4];
                 @endphp
                 <div class="flex gap-3 items-start">
-                    <div class="flex flex-col items-center justify-center w-12 h-12 rounded-xl {{ $ec }} flex-shrink-0 text-center">
+                    <div class="flex flex-col items-center justify-center w-12 h-12 rounded-xl {{ $ec }} shrink-0 text-center">
                         <span class="text-xs font-bold leading-none">{{ $event->start_date->format('d') }}</span>
                         <span class="text-xs leading-none">{{ $event->start_date->format('M') }}</span>
                     </div>

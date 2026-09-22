@@ -1,4 +1,4 @@
-﻿@extends('layouts.public')
+@extends('layouts.public')
 
 @section('title', 'E-Dokumen - E-Learning')
 @section('header', 'E-Dokumen')
@@ -27,7 +27,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
             <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center shrink-0">
                     <i class="fas fa-file-alt text-xl"></i>
                 </div>
                 <div>
@@ -45,7 +45,7 @@
 
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
             <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 bg-green-100 text-green-700 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div class="w-12 h-12 bg-green-100 text-green-700 rounded-xl flex items-center justify-center shrink-0">
                     <i class="fas fa-book text-xl"></i>
                 </div>
                 <div>
@@ -63,7 +63,7 @@
 
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
             <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 bg-yellow-100 text-yellow-700 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div class="w-12 h-12 bg-yellow-100 text-yellow-700 rounded-xl flex items-center justify-center shrink-0">
                     <i class="fas fa-trophy text-xl"></i>
                 </div>
                 <div>
@@ -81,7 +81,7 @@
 
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
             <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div class="w-12 h-12 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center shrink-0">
                     <i class="fas fa-gavel text-xl"></i>
                 </div>
                 <div>

@@ -19,7 +19,7 @@
         {{-- Flash Success --}}
         @if (session('success'))
             <div class="mb-8 bg-green-50 border border-green-200 rounded-2xl p-6 flex items-start gap-4">
-                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center shrink-0">
                     <i class="fas fa-check-circle text-green-600 text-xl"></i>
                 </div>
                 <div class="flex-1">
@@ -393,7 +393,7 @@
                     <ul class="text-sm text-gray-600 space-y-2.5">
                         @foreach (['Bukti Pendaftaran Online (Cetak)', 'Fotokopi Ijazah / SKL (Legalisir)', 'Fotokopi Kartu Keluarga (KK)', 'Fotokopi Akta Kelahiran', 'Fotokopi KIP/KPS (Jika ada)', 'Pas Foto 3×4 (2 Lembar)', 'Map Snelhecter'] as $syarat)
                             <li class="flex items-start gap-2.5">
-                                <i class="fas fa-check-circle text-green-500 mt-0.5 flex-shrink-0"></i>
+                                <i class="fas fa-check-circle text-green-500 mt-0.5 shrink-0"></i>
                                 {{ $syarat }}
                             </li>
                         @endforeach

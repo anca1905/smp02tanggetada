@@ -36,6 +36,11 @@ function openModal(mode, data = null) {
         methodField.value = "POST";
         form.reset();
 
+        const photoPreview = document.getElementById('photoPreview');
+        if (photoPreview) {
+            photoPreview.src = 'https://ui-avatars.com/api/?name=Siswa&background=E5E7EB&color=6B7280';
+        }
+
         if (photoPreview) {
             photoPreview.src = "https://ui-avatars.com/api/?name=Siswa&background=E5E7EB&color=6B7280";
         }
@@ -70,3 +75,16 @@ window.onclick = function (event) {
     if (event.target == document.getElementById("deleteForm"))
         document.getElementById("deleteForm").classList.add("hidden");
 };
+
+// Photo Preview
+document.getElementById('fotoSiswa')?.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('photoPreview').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+

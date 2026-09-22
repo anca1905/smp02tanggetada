@@ -96,7 +96,7 @@
     </div>
 
     {{-- MODAL PENILAIAN --}}
-    <div id="gradeModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 backdrop-blur-sm">
+    <div id="gradeModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 backdrop-blur-sm">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4">
             <div class="border-b px-6 py-4 flex justify-between items-center">
                 <h3 class="text-lg font-bold text-gray-800">Penilaian Tugas</h3>

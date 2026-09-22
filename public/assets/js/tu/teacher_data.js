@@ -21,8 +21,14 @@ function openModal(mode, data = null) {
         document.getElementById('teacherGender').value = data.gender;
         document.getElementById('teacherSubject').value = data.subject;
         document.getElementById('teacherWaliKelas').value = data.homeroom_class || '';
+        document.getElementById('teacherPosition').value = data.position || '';
         document.getElementById('teacherStatus').value = data.status;
         document.getElementById('teacherUsername').value = data.username;
+
+        const photoPreview = document.getElementById('photoPreview');
+        if (photoPreview) {
+            photoPreview.src = data.photo_url ? (data.photo_url.startsWith('img/') ? '/' + data.photo_url : '/storage/' + data.photo_url) : 'https://ui-avatars.com/api/?name=' + encodeURIComponent(data.name) + '&background=E5E7EB&color=6B7280';
+        }
 
         passwordInput.removeAttribute('required');
         passwordInput.placeholder = "Kosongkan jika tidak diubah";
@@ -36,6 +42,11 @@ function openModal(mode, data = null) {
         passwordInput.setAttribute('required', 'true');
         passwordInput.placeholder = "Minimal 6 karakter";
         passwordHint.innerText = "Wajib diisi untuk guru baru.";
+
+        const photoPreview = document.getElementById('photoPreview');
+        if (photoPreview) {
+            photoPreview.src = 'https://ui-avatars.com/api/?name=Guru&background=E5E7EB&color=6B7280';
+        }
     }
 }
 
@@ -57,3 +68,16 @@ window.onclick = function (event) {
         document.getElementById('deleteForm').classList.add('hidden');
     }
 }
+// Photo Preview
+document.getElementById('fotoGuru')?.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('photoPreview').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+

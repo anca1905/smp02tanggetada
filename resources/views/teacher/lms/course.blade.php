@@ -185,7 +185,7 @@
     </div>
 
     {{-- MODAL UPLOAD --}}
-    <div id="uploadModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 backdrop-blur-sm">
+    <div id="uploadModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 backdrop-blur-sm">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4">
             <div class="border-b px-6 py-4 flex justify-between items-center">
                 <h3 class="text-lg font-bold text-gray-800">Bagikan Materi Baru</h3>
@@ -229,7 +229,7 @@
     </div>
 
     {{-- MODAL TUGAS --}}
-    <div id="assignmentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 backdrop-blur-sm">
+    <div id="assignmentModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 backdrop-blur-sm">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4">
             <div class="border-b px-6 py-4 flex justify-between items-center">
                 <h3 class="text-lg font-bold text-gray-800">Buat Tugas Baru</h3>

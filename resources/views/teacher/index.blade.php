@@ -6,7 +6,7 @@
     <div class="mb-4 sm:mb-6">
         <h2 class="text-xl sm:text-2xl font-bold text-gray-800 flex items-center gap-2">
             Selamat Datang, {{ explode(' ', $teacher->name)[0] }}
-            <svg class="w-6 h-6 inline-block text-amber-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12.5 2c-.8 0-1.5.7-1.5 1.5v6.5h-1V4.5C10 3.7 9.3 3 8.5 3S7 3.7 7 4.5v6.5h-1V6.5C6 5.7 5.3 5 4.5 5S3 5.7 3 6.5v8C3 18.6 6.4 22 10.5 22h3c4.1 0 7.5-3.4 7.5-7.5V11c0-.8-.7-1.5-1.5-1.5s-1.5.7-1.5 1.5v1h-1V8.5c0-.8-.7-1.5-1.5-1.5s-1.5.7-1.5 1.5V10h-1V3.5c0-.8-.7-1.5-1.5-1.5z"/></svg>
+            <svg class="w-6 h-6 inline-block text-amber-400 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12.5 2c-.8 0-1.5.7-1.5 1.5v6.5h-1V4.5C10 3.7 9.3 3 8.5 3S7 3.7 7 4.5v6.5h-1V6.5C6 5.7 5.3 5 4.5 5S3 5.7 3 6.5v8C3 18.6 6.4 22 10.5 22h3c4.1 0 7.5-3.4 7.5-7.5V11c0-.8-.7-1.5-1.5-1.5s-1.5.7-1.5 1.5v1h-1V8.5c0-.8-.7-1.5-1.5-1.5s-1.5.7-1.5 1.5V10h-1V3.5c0-.8-.7-1.5-1.5-1.5z"/></svg>
         </h2>
         <p class="text-gray-500 text-xs sm:text-sm">Hari ini tanggal {{ $todayFormatted }}</p>
     </div>
@@ -28,7 +28,7 @@
                     Sesi {{ $sesi['label'] }}
                 </h3>
                 <div class="flex items-center relative z-10">
-                    <div class="w-10 h-10 rounded-full {{ $sesiBadge[$key]['color_bg'] }} {{ $sesiBadge[$key]['color_text'] }} flex items-center justify-center mr-3 flex-shrink-0">
+                    <div class="w-10 h-10 rounded-full {{ $sesiBadge[$key]['color_bg'] }} {{ $sesiBadge[$key]['color_text'] }} flex items-center justify-center mr-3 shrink-0">
                         <i class="fas {{ $sesiBadge[$key]['icon'] }} text-base sm:text-lg"></i>
                     </div>
                     @if ($sesi['done'])
@@ -49,7 +49,7 @@
         <div class="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-200">
             <h3 class="text-base sm:text-lg font-bold text-gray-700 mb-4">Sesi Absensi Bulan Ini</h3>
             <div class="flex items-center">
-                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3 sm:mr-4 shrink-0">
                     <i class="fas fa-clipboard-check text-xl sm:text-2xl"></i>
                 </div>
                 <div>
@@ -72,7 +72,7 @@
             <div class="space-y-3">
                 @forelse ($aktivitas as $log)
                     <div class="flex items-start pb-3 border-b border-gray-50 last:border-0">
-                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mt-0.5">
+                        <div class="shrink-0 w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mt-0.5">
                             <i class="fas fa-clipboard-check text-xs"></i>
                         </div>
                         <div class="ml-3 min-w-0">

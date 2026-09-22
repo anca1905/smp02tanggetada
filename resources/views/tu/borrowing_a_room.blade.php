@@ -3,7 +3,7 @@
 @section('title', 'Peminjaman Ruangan')
 
 @section('content')
-    <div class="h-full flex flex-col">
+    <div class="h-full flex flex-col min-w-0">
 
         @if (session('success'))
             <div class="mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-sm">
@@ -73,7 +73,7 @@
         </div>
 
         <div id="table-container"
-            class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col">
+            class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-w-0">
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left">
                     <thead class="bg-gray-50 text-gray-600 font-medium border-b border-gray-200 uppercase text-xs">
@@ -151,7 +151,7 @@
         </div>
     </div>
 
-    <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div id="bookingModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
         <div
             class="bg-white rounded-xl shadow-lg w-full max-w-lg transform transition-all scale-100 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center p-6 border-b border-gray-100">
@@ -251,7 +251,7 @@
     </div>
 
     <form id="deleteForm" method="POST"
-        class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
         @csrf
         @method('DELETE')
         <div class="bg-white rounded-xl shadow-lg w-full max-w-sm p-6 text-center">

@@ -1,4 +1,4 @@
-﻿@extends('layouts.public')
+@extends('layouts.public')
 
 @section('title', 'Info Penting')
 @section('header', 'Info Penting')
@@ -22,7 +22,7 @@
         @forelse($posts as $post)
         <a href="{{ route('public.berita.show', $post->slug) }}"
             class="group flex gap-5 bg-white rounded-2xl shadow-sm hover:shadow-md transition p-5 border border-gray-100 items-start">
-            <div class="flex-shrink-0 w-12 h-12 bg-yellow-100 text-yellow-600 rounded-xl flex items-center justify-center">
+            <div class="shrink-0 w-12 h-12 bg-yellow-100 text-yellow-600 rounded-xl flex items-center justify-center">
                 <i class="fas fa-bell text-xl"></i>
             </div>
             <div class="flex-1 min-w-0">
@@ -35,7 +35,7 @@
                 <p class="text-sm text-gray-500 mt-2 line-clamp-2">{{ $post->excerpt }}</p>
                 @endif
             </div>
-            <i class="fas fa-chevron-right text-gray-400 group-hover:text-blue-600 transition flex-shrink-0 mt-1"></i>
+            <i class="fas fa-chevron-right text-gray-400 group-hover:text-blue-600 transition shrink-0 mt-1"></i>
         </a>
         @empty
         <div class="text-center py-20 text-gray-400">

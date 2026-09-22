@@ -1,4 +1,4 @@
-﻿@extends('layouts.public')
+@extends('layouts.public')
 
 @section('title', 'GTK - Guru & Tenaga Kependidikan')
 @section('header', 'Guru & Tenaga Kependidikan')
@@ -24,18 +24,28 @@
         @forelse($teachers as $guru)
         <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden text-center border border-gray-100 group">
             <div class="h-36 bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center overflow-hidden">
-                @if($guru->photo)
-                    <img src="{{ asset('storage/' . $guru->photo) }}" alt="{{ $guru->name }}"
+                @if($guru->photo_url)
+                    @php
+                        $photoPath = str_starts_with($guru->photo_url, 'img/') ? asset($guru->photo_url) : asset('storage/' . $guru->photo_url);
+                    @endphp
+                    <img src="{{ $photoPath }}" alt="{{ $guru->name }}"
                         class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                 @else
                     <i class="fas fa-user-tie text-5xl text-blue-400"></i>
                 @endif
             </div>
             <div class="p-4">
-                <h4 class="font-bold text-gray-800 text-sm leading-tight">{{ $guru->name }}</h4>
-                <p class="text-xs text-blue-600 mt-1">{{ $guru->subject ?? $guru->position ?? 'Guru' }}</p>
-                @if($guru->nip ?? false)
-                <p class="text-xs text-gray-400 mt-1">NIP: {{ $guru->nip }}</p>
+                <h4 class="font-bold text-gray-800 text-sm leading-tight mb-2">{{ $guru->name }}</h4>
+                @if($guru->position)
+                    <p class="text-xs text-blue-600 font-medium">{{ $guru->position }}</p>
+                @elseif($guru->subject)
+                    <p class="text-xs text-blue-600 font-medium">Guru Mapel {{ $guru->subject }}</p>
+                @else
+                    <p class="text-xs text-blue-600 font-medium">Guru</p>
+                @endif
+                
+                @if($guru->employee_id)
+                <p class="text-xs text-gray-400 mt-2 font-mono">NIP/ID: {{ $guru->employee_id }}</p>
                 @endif
             </div>
         </div>

@@ -40,6 +40,7 @@ class UpdateTeacherRequest extends FormRequest
             ],
             'subject' => ['nullable', 'string'],
             'homeroom_class' => ['nullable', 'string'],
+            'position' => ['nullable', 'string'],
             'status' => ['sometimes', 'in:Active,Inactive'],
             'username' => [
                 'sometimes',

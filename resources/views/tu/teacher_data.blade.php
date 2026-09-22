@@ -3,7 +3,7 @@
 @section('title', 'Data Guru')
 
 @section('content')
-    <div class="h-full flex flex-col">
+    <div class="h-full flex flex-col min-w-0">
 
         {{-- @if (session('success'))
             <div class="mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-sm" role="alert">
@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-w-0">
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left">
                     <thead class="bg-gray-50 text-gray-600 font-medium border-b border-gray-200 uppercase text-xs">
@@ -57,7 +57,7 @@
                             <th class="px-6 py-3">Foto</th>
                             <th class="px-6 py-3">Nama Lengkap</th>
                             <th class="px-6 py-3">NIP/UID</th>
-                            <th class="px-6 py-3">Mata Pelajaran</th>
+                            <th class="px-6 py-3">Jabatan / Mapel</th>
                             <th class="px-6 py-3">Wali Kelas</th>
                             <th class="px-6 py-3">Status</th>
                             <th class="px-6 py-3 text-center">Aksi</th>
@@ -77,7 +77,16 @@
                                 </td>
                                 <td class="px-6 py-4 font-medium text-gray-900">{{ $teacher->name }}</td>
                                 <td class="px-6 py-4 text-gray-500">{{ $teacher->employee_id }}</td>
-                                <td class="px-6 py-4">{{ $teacher->subject ?? '-' }}</td>
+                                <td class="px-6 py-4 text-sm">
+                                    @if($teacher->position)
+                                        <div class="font-medium text-gray-900">{{ $teacher->position }}</div>
+                                        @if($teacher->subject)
+                                            <div class="text-gray-500 text-xs">Guru Mapel {{ $teacher->subject }}</div>
+                                        @endif
+                                    @else
+                                        {{ $teacher->subject ?? '-' }}
+                                    @endif
+                                </td>
                                 <td class="px-6 py-4">
                                     @if ($teacher->homeroom_class && $teacher->homeroom_class != '-')
                                         <span
@@ -138,9 +147,9 @@
         </div>
     </div>
 
-    <div id="teacherModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div id="teacherModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
         <div
-            class="bg-white rounded-xl shadow-lg w-full max-w-lg transform transition-all scale-100 max-h-[90vh] overflow-y-auto">
+            class="bg-white rounded-xl shadow-lg w-full max-w-2xl transform transition-all scale-100 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center p-6 border-b border-gray-100">
                 <h3 id="modalTitle" class="text-lg font-bold text-gray-800">Tambah Guru</h3>
                 <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
@@ -194,9 +203,25 @@
                             <option value="Female">Perempuan</option>
                         </select>
                     </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Status <span
+                                class="text-red-500">*</span></label>
+                        <select name="status" id="teacherStatus"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                            required>
+                            <option value="Active">Aktif</option>
+                            <option value="Inactive">Tidak Aktif</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Jabatan / Tugas Tambahan (Opsional)</label>
+                        <input type="text" name="position" id="teacherPosition" placeholder="Contoh: Wakil Kepala Sekolah Kesiswaan"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        <p class="text-xs text-gray-500 mt-1">Jabatan ini akan ditampilkan di halaman depan (GTK).</p>
+                    </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Mata Pelajaran <span
                                 class="text-red-500">*</span></label>
@@ -204,14 +229,9 @@
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                             required>
                             <option value="">Pilih Mapel</option>
-                            <option value="Matematika">Matematika</option>
-                            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-                            <option value="Bahasa Inggris">Bahasa Inggris</option>
-                            <option value="IPA">IPA</option>
-                            <option value="IPS">IPS</option>
-                            <option value="Agama Islam">Agama Islam</option>
-                            <option value="Penjaskes">Penjaskes</option>
-                            <option value="Seni Budaya">Seni Budaya</option>
+                            @foreach($subjects as $sub)
+                                <option value="{{ $sub->name }}">{{ $sub->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div>
@@ -219,31 +239,25 @@
                         <select name="homeroom_class" id="teacherWaliKelas"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
                             <option value="">Bukan Wali Kelas</option>
-                            <option value="Wali Kelas 7">Wali Kelas 7</option>
-                            <option value="Wali Kelas 8">Wali Kelas 8</option>
-                            <option value="Wali Kelas 9">Wali Kelas 9</option>
-                            <option value="Wali Kelas 10">Wali Kelas 10</option>
-                            <option value="Wali Kelas 11">Wali Kelas 11</option>
-                            <option value="Wali Kelas 12">Wali Kelas 12</option>
+                            @foreach($classrooms as $cls)
+                                <option value="Wali Kelas {{ $cls->name }}">Wali Kelas {{ $cls->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Status <span
-                            class="text-red-500">*</span></label>
-                    <select name="status" id="teacherStatus"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                        required>
-                        <option value="Active">Aktif</option>
-                        <option value="Inactive">Tidak Aktif</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Foto Profil</label>
-                    <input type="file" name="photo_url" accept="image/*"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Foto Profil (Opsional)</label>
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-full overflow-hidden border border-gray-200 bg-gray-100 shrink-0 flex items-center justify-center">
+                            <img id="photoPreview" src="https://ui-avatars.com/api/?name=Guru&background=E5E7EB&color=6B7280" alt="Preview Foto" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1">
+                            <input type="file" name="photo_url" id="fotoGuru" accept="image/jpeg,image/png,image/jpg"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                            <p class="text-xs text-gray-500 mt-1">Format: JPG, JPEG, PNG. Maksimal 2MB.</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="border-t border-gray-100 pt-4 mt-4">
@@ -277,7 +291,7 @@
     </div>
 
     <form id="deleteForm" method="POST"
-        class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
         @csrf
         @method('DELETE')
         <div class="bg-white rounded-xl shadow-lg w-full max-w-sm p-6 text-center">

@@ -93,7 +93,7 @@
 
     {{-- MODAL TAMBAH --}}
     <div id="addModal"
-        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 backdrop-blur-sm transition-opacity">
+        class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 backdrop-blur-sm transition-opacity">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 mx-4 transform transition-all scale-100">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-lg font-bold text-gray-800">Tambah Mata Pelajaran</h3>
@@ -128,7 +128,7 @@
 
     {{-- MODAL EDIT --}}
     <div id="editModal"
-        class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 backdrop-blur-sm transition-opacity">
+        class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 backdrop-blur-sm transition-opacity">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 mx-4 transform transition-all scale-100">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-lg font-bold text-gray-800">Edit Mata Pelajaran</h3>

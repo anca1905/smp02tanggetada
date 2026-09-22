@@ -1,4 +1,4 @@
-﻿@extends('layouts.public')
+@extends('layouts.public')
 
 @section('title', 'Struktur Organisasi')
 @section('header', 'Struktur Organisasi')
@@ -29,7 +29,7 @@
                 <div class="text-center text-gray-400">
                     <i class="fas fa-sitemap text-5xl mb-4"></i>
                     <p class="font-semibold">Bagan Struktur Organisasi belum diunggah</p>
-                    <p class="text-xs mt-1">Silakan upload melalui Admin Panel → Settings</p>
+                    <p class="text-xs mt-1">Silakan upload melalui Admin Panel ? Settings</p>
                 </div>
             </div>
         @endif

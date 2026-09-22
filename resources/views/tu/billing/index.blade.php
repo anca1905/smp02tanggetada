@@ -91,7 +91,7 @@
         </div>
     </div>
 
-    <div id="generateModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div id="generateModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-lg w-full max-w-lg transform transition-all scale-100 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center p-6 border-b border-gray-100">
                 <h3 class="text-lg font-bold text-gray-800">Generate Tagihan SPP Massal</h3>

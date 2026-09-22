@@ -3,7 +3,7 @@
 @section('title', 'Rekap Absensi Siswa')
 
 @section('content')
-    <div class="h-full flex flex-col">
+    <div class="h-full flex flex-col min-w-0">
 
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-4 p-4">
             <form method="GET" action="{{ route('tu.rekap') }}">
@@ -66,7 +66,7 @@
             </form>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex-1 flex flex-col min-w-0">
             <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
                 <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wide">
                     Rekap Absensi Siswa

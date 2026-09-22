@@ -78,7 +78,7 @@
     </div>
 
     {{-- Simple Modal Tambah --}}
-    <div id="addModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div id="addModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50">
         <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
             <h3 class="text-lg font-bold mb-4">Tambah Tahun Ajaran</h3>
             <form action="{{ route('tu.academic-years.store') }}" method="POST">

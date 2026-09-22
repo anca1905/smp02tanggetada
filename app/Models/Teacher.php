@@ -19,6 +19,7 @@ class Teacher extends Authenticatable
         'phone',
         'subject',
         'homeroom_class',
+        'position',
         'status',
         'username',
         'password',

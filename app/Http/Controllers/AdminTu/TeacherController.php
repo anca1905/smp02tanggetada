@@ -22,8 +22,10 @@ class TeacherController extends Controller
     public function index(Request $request, GetTeachersAction $action)
     {
         $paginatedTeachers = $action->execute($request->input('search'), 10);
+        $subjects = \App\Models\Subject::orderBy('name')->get();
+        $classrooms = \App\Models\Classroom::orderBy('name')->get();
 
-        return view('tu.teacher_data', compact('paginatedTeachers'));
+        return view('tu.teacher_data', compact('paginatedTeachers', 'subjects', 'classrooms'));
     }
 
     /**
