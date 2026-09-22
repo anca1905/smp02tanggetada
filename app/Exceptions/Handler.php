@@ -26,5 +26,9 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        $this->renderable(function (\Illuminate\Session\TokenMismatchException $e, $request) {
+            return redirect()->back()->withInput($request->except('_token'))->with('error', 'Sesi telah berakhir atau ukuran gambar terlalu besar (melebihi batas server). Silakan muat ulang halaman dan coba gunakan gambar yang lebih kecil.');
+        });
     }
 }

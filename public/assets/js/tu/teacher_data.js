@@ -29,7 +29,7 @@ function openModal(mode, data = null) {
         passwordHint.innerText = "Isi hanya jika ingin mengubah password.";
     } else {
         modalTitle.innerText = 'Tambah Guru Baru';
-        form.action = data.action;
+        form.action = form.getAttribute('data-action');
         methodField.value = 'POST';
         form.reset();
 
