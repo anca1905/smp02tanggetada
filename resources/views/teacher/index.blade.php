@@ -93,7 +93,7 @@
             <h3 class="text-base sm:text-lg font-bold text-gray-700">Riwayat Sesi Absensi Terakhir</h3>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs sm:text-sm text-gray-600">
+            <table class="w-full text-left text-xs sm:text-sm text-gray-600 min-w-[500px]">
                 <thead class="bg-gray-50 text-[11px] sm:text-xs uppercase font-semibold text-gray-500">
                     <tr>
                         <th class="px-3 sm:px-6 py-3 whitespace-nowrap">Tanggal</th>
