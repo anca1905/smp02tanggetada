@@ -107,10 +107,10 @@
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tingkat</label>
-                    <select name="level" class="px-4 py-2 w-full border-gray-300 rounded-lg">
-                        <option value="10">Kelas 10</option>
-                        <option value="11">Kelas 11</option>
-                        <option value="12">Kelas 12</option>
+                    <select name="level" class="px-4 py-2 w-full border border-gray-300 rounded-lg">
+                        <option value="7">Kelas 7</option>
+                        <option value="8">Kelas 8</option>
+                        <option value="9">Kelas 9</option>
                     </select>
                 </div>
                 <div class="mb-6">

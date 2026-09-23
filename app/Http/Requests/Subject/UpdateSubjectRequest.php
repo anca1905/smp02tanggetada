@@ -26,7 +26,7 @@ class UpdateSubjectRequest extends FormRequest
         $id = is_object($subject) ? $subject->id : $subject;
 
         return [
-            'code' => ['sometimes', 'string', 'unique:subjects,code'.$id],
+            'code' => ['sometimes', 'string', 'unique:subjects,code,'.$id],
             'name' => ['sometimes', 'string'],
         ];
     }

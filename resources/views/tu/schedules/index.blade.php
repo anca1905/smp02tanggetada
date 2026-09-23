@@ -166,7 +166,7 @@
                 {{-- Hari --}}
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Hari</label>
-                    <select name="day" class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-gray-50" required>
+                    <select name="day" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-gray-50" required>
                         <option value="Senin">Senin</option>
                         <option value="Selasa">Selasa</option>
                         <option value="Rabu">Rabu</option>
@@ -180,18 +180,18 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Jam Mulai</label>
-                        <input type="time" name="start_time" class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                        <input type="time" name="start_time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Jam Selesai</label>
-                        <input type="time" name="end_time" class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                        <input type="time" name="end_time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
                     </div>
                 </div>
 
                 {{-- Mata Pelajaran --}}
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Mata Pelajaran</label>
-                    <select name="subject_id" class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                    <select name="subject_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
                         <option value="">-- Pilih Mapel --</option>
                         @foreach($subjects as $subject)
                             <option value="{{ $subject->id }}">{{ $subject->name }} ({{ $subject->code }})</option>
@@ -202,7 +202,7 @@
                 {{-- Guru --}}
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Guru Pengajar</label>
-                    <select name="teacher_id" class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                    <select name="teacher_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
                         <option value="">-- Pilih Guru --</option>
                         @foreach($teachers as $teacher)
                             <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>

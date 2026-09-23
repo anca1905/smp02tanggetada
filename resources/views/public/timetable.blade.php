@@ -31,8 +31,8 @@
                         <i class="fas fa-file-pdf text-2xl"></i>
                     </div>
                     <div>
-                        <h4 class="font-bold text-gray-800">Jadwal Kelas 10</h4>
-                        @if (isset($site_settings['jadwal_kelas_10']))
+                        <h4 class="font-bold text-gray-800">Jadwal Kelas 7</h4>
+                        @if (isset($site_settings['jadwal_kelas_7']))
                             <span class="text-xs text-green-600 font-medium flex items-center">
                                 <i class="fas fa-check-circle mr-1"></i> Tersedia
                             </span>
@@ -44,8 +44,8 @@
                     </div>
                 </div>
 
-                @if (isset($site_settings['jadwal_kelas_10']))
-                    <a href="{{ asset('storage/' . $site_settings['jadwal_kelas_10']) }}" target="_blank"
+                @if (isset($site_settings['jadwal_kelas_7']))
+                    <a href="{{ asset('storage/' . $site_settings['jadwal_kelas_7']) }}" target="_blank"
                         class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition"
                         title="Download PDF">
                         <i class="fas fa-download"></i>
@@ -67,8 +67,8 @@
                         <i class="fas fa-file-pdf text-2xl"></i>
                     </div>
                     <div>
-                        <h4 class="font-bold text-gray-800">Jadwal Kelas 11</h4>
-                        @if (isset($site_settings['jadwal_kelas_11']))
+                        <h4 class="font-bold text-gray-800">Jadwal Kelas 8</h4>
+                        @if (isset($site_settings['jadwal_kelas_8']))
                             <span class="text-xs text-green-600 font-medium flex items-center">
                                 <i class="fas fa-check-circle mr-1"></i> Tersedia
                             </span>
@@ -80,8 +80,8 @@
                     </div>
                 </div>
 
-                @if (isset($site_settings['jadwal_kelas_11']))
-                    <a href="{{ asset('storage/' . $site_settings['jadwal_kelas_11']) }}" target="_blank"
+                @if (isset($site_settings['jadwal_kelas_8']))
+                    <a href="{{ asset('storage/' . $site_settings['jadwal_kelas_8']) }}" target="_blank"
                         class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition"
                         title="Download PDF">
                         <i class="fas fa-download"></i>
@@ -103,8 +103,8 @@
                         <i class="fas fa-file-pdf text-2xl"></i>
                     </div>
                     <div>
-                        <h4 class="font-bold text-gray-800">Jadwal Kelas 12</h4>
-                        @if (isset($site_settings['jadwal_kelas_12']))
+                        <h4 class="font-bold text-gray-800">Jadwal Kelas 9</h4>
+                        @if (isset($site_settings['jadwal_kelas_9']))
                             <span class="text-xs text-green-600 font-medium flex items-center">
                                 <i class="fas fa-check-circle mr-1"></i> Tersedia
                             </span>
@@ -116,8 +116,8 @@
                     </div>
                 </div>
 
-                @if (isset($site_settings['jadwal_kelas_12']))
-                    <a href="{{ asset('storage/' . $site_settings['jadwal_kelas_12']) }}" target="_blank"
+                @if (isset($site_settings['jadwal_kelas_9']))
+                    <a href="{{ asset('storage/' . $site_settings['jadwal_kelas_9']) }}" target="_blank"
                         class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition"
                         title="Download PDF">
                         <i class="fas fa-download"></i>
