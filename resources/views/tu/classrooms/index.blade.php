@@ -47,20 +47,21 @@
                                 Tingkat {{ $class->level }}
                             </span>
                         </div>
-                        <div class="relative group">
-                            <button class="text-gray-400 hover:text-gray-600"><i class="fas fa-ellipsis-v"></i></button>
+                        <div class="relative">
+                            <button onclick="toggleDropdown('dropdown-{{ $class->id }}')" class="text-gray-400 hover:text-gray-600"><i class="fas fa-ellipsis-v"></i></button>
                             {{-- Dropdown Menu --}}
-                            <div
-                                class="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg hidden group-hover:block z-10">
-                                <button
-                                    onclick="editClass({{ $class->id }}, '{{ $class->name }}', '{{ $class->level }}', '{{ $class->teacher_id }}')"
-                                    class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-50">Edit</button>
-                                <form action="{{ route('tu.classrooms.destroy', $class->id) }}" method="POST"
-                                    onsubmit="confirmDelete(event, this);">
-                                    @csrf @method('DELETE')
-                                    <button type="submit"
-                                        class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Hapus</button>
-                                </form>
+                            <div id="dropdown-{{ $class->id }}" class="absolute right-0 top-full pt-2 w-32 hidden z-10 dropdown-menu">
+                                <div class="bg-white border rounded-lg shadow-lg overflow-hidden">
+                                    <button type="button"
+                                        onclick="editClass({{ $class->id }}, '{{ $class->name }}', '{{ $class->level }}', '{{ $class->teacher_id }}')"
+                                        class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-50">Edit</button>
+                                    <form action="{{ route('tu.classrooms.destroy', $class->id) }}" method="POST"
+                                        onsubmit="confirmDelete(event, this);">
+                                        @csrf @method('DELETE')
+                                        <button type="submit"
+                                            class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Hapus</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -132,5 +133,94 @@
         </div>
     </div>
 
-    {{-- Javascript untuk Edit Modal bisa ditambahkan nanti jika perlu --}}
+    {{-- Modal Edit --}}
+    <div id="editModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
+            <h3 class="text-lg font-bold mb-4">Edit Kelas</h3>
+            <form id="editForm" method="POST">
+                @csrf
+                @method('PUT')
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Kelas</label>
+                    <input type="text" id="edit_name" name="name" class="px-4 py-2 w-full border-gray-300 rounded-lg" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tingkat</label>
+                    <select id="edit_level" name="level" class="px-4 py-2 w-full border border-gray-300 rounded-lg">
+                        <option value="7">Kelas 7</option>
+                        <option value="8">Kelas 8</option>
+                        <option value="9">Kelas 9</option>
+                    </select>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Wali Kelas</label>
+                    <select id="edit_teacher_id" name="teacher_id" class="px-4 py-2 w-full border-gray-300 rounded-lg">
+                        <option value="">-- Pilih Guru --</option>
+                        @foreach ($teachers as $teacher)
+                            <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button type="button" onclick="document.getElementById('editModal').classList.add('hidden')"
+                        class="text-gray-500 px-4 py-2">Batal</button>
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 @endsection
+
+@push('js')
+<script>
+    // Toggle Dropdown
+    function toggleDropdown(id) {
+        // Tutup semua dropdown lain
+        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+            if (menu.id !== id) {
+                menu.classList.add('hidden');
+            }
+        });
+        
+        const menu = document.getElementById(id);
+        if (menu) {
+            menu.classList.toggle('hidden');
+        }
+    }
+
+    // Tutup dropdown saat klik di luar
+    document.addEventListener('click', function(event) {
+        const isClickInside = event.target.closest('.relative');
+        if (!isClickInside) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.add('hidden');
+            });
+        }
+    });
+
+    // Buka Edit Modal
+    function editClass(id, name, level, teacher_id) {
+        // Pastikan dropdown tertutup
+        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+            menu.classList.add('hidden');
+        });
+        
+        const modal = document.getElementById('editModal');
+        const form = document.getElementById('editForm');
+        
+        // Update URL action dari form, misal /tu/classrooms/1
+        form.action = `/tu/classrooms/${id}`;
+        
+        // Isi input field
+        document.getElementById('edit_name').value = name;
+        document.getElementById('edit_level').value = level;
+        document.getElementById('edit_teacher_id').value = teacher_id || '';
+        
+        // Tampilkan modal
+        modal.classList.remove('hidden');
+    }
+</script>
+@endpush

@@ -10,8 +10,14 @@ class GetClassroomsAction
     /**
      * Mengambil daftar semua kelas.
      */
-    public function execute(): Collection
+    public function execute(?int $academicYearId = null): Collection
     {
-        return Classroom::all();
+        $query = Classroom::with(['teacher', 'students', 'academicYear']);
+        
+        if ($academicYearId) {
+            $query->where('academic_year_id', $academicYearId);
+        }
+        
+        return $query->get();
     }
 }
