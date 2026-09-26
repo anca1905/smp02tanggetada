@@ -331,7 +331,7 @@
                     <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Monitoring</p>
                 </div>
                 <a href="{{ route('tu.rekap') }}"
-                    class="flex items-center px-3 py-2.5 rounded-lg text-blue-100 hover:bg-blue-800">
+                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.rekap') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                     <i class="fas fa-clipboard-list w-5 mr-3 text-center"></i> Rekap Absensi
                 </a>
 
@@ -339,11 +339,11 @@
                     <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Data Sekolah</p>
                 </div>
                 <a href="{{ route('tu.student.index') }}"
-                    class="flex items-center px-3 py-2.5 rounded-lg text-blue-100 hover:bg-blue-800">
+                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.student.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                     <i class="fas fa-user-graduate w-5 mr-3 text-center"></i> Data Siswa
                 </a>
                 <a href="{{ route('tu.teacher.index') }}"
-                    class="flex items-center px-3 py-2.5 rounded-lg text-blue-100 hover:bg-blue-800">
+                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.teacher.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                     <i class="fas fa-chalkboard-teacher w-5 mr-3 text-center"></i> Data Guru
                 </a>
 
