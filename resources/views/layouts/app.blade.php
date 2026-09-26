@@ -346,6 +346,26 @@
                     class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.teacher.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                     <i class="fas fa-chalkboard-teacher w-5 mr-3 text-center"></i> Data Guru
                 </a>
+                <a href="{{ route('tu.classrooms.index') }}"
+                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.classrooms.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
+                    <i class="fas fa-chalkboard w-5 mr-3 text-center"></i> Data Kelas
+                </a>
+
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Laporan & Publik</p>
+                </div>
+                <a href="{{ route('tu.ppdb.index') }}"
+                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.ppdb.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
+                    <i class="fas fa-user-plus w-5 mr-3 text-center"></i> Laporan PPDB
+                </a>
+                <a href="{{ route('tu.posts.index') }}"
+                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.posts.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
+                    <i class="fas fa-newspaper w-5 mr-3 text-center"></i> Portal Berita
+                </a>
+                <a href="{{ route('tu.inbox.index') }}"
+                    class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.inbox.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
+                    <i class="fas fa-inbox w-5 mr-3 text-center"></i> Kotak Masuk
+                </a>
 
                 {{-- ==================== MENU GURU ==================== --}}
             @elseif($activeRole === 'teacher')
