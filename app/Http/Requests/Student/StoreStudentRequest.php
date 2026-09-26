@@ -25,13 +25,13 @@ class StoreStudentRequest extends FormRequest
         return [
             'student_name' => ['required', 'string', 'max:100'],
             'nis' => ['required', 'string', 'max:20', 'unique:students,nis'],
+            'nisn' => ['nullable', 'string', 'size:10', 'unique:students,nisn'],
             'gender' => ['required', 'in:M,F'],
             'classroom_id' => ['required', 'exists:classrooms,id'],
             'phone_number' => [
                 'nullable',
                 'string',
                 'max:20',
-                'regex:/^(0|62|\+62)8[1-9][0-9]{6,11}$/',
             ],
             'student_status' => ['required', 'in:Active,Graduated,Inactive'],
             'photo_url' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
@@ -40,7 +40,6 @@ class StoreStudentRequest extends FormRequest
                 'nullable',
                 'string',
                 'max:20',
-                'regex:/^(0|62|\+62)8[1-9][0-9]{6,11}$/',
             ],
         ];
     }
@@ -57,6 +56,10 @@ class StoreStudentRequest extends FormRequest
             'nis.string' => 'NIS harus berupa string/karakter.',
             'nis.max' => 'NIS tidak boleh lebih dari 20 karakter.',
             'nis.unique' => 'NIS sudah terdaftar.',
+
+            'nisn.string' => 'NISN harus berupa angka.',
+            'nisn.size' => 'NISN harus tepat 10 karakter.',
+            'nisn.unique' => 'NISN sudah terdaftar.',
 
             'phone_number.string' => 'Nomor telepon harus berupa string/karakter.',
             'phone_number.max' => 'Nomor telepon tidak boleh lebih dari 20 karakter.',

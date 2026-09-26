@@ -340,7 +340,7 @@
                             <tr>
                                 <td>NIS / NISN</td>
                                 <td>:</td>
-                                <td>{{ $student->nis }}</td>
+                                <td>{{ $student->nis }} {{ $student->nisn ? '/ ' . $student->nisn : '' }}</td>
                             </tr>
                             <tr>
                                 <td>Kelas</td>

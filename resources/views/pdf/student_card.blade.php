@@ -309,7 +309,7 @@
                         <tr>
                             <td class="label-col">NIS / NISN</td>
                             <td class="sep-col">:</td>
-                            <td class="val-col">{{ $student->nis }}</td>
+                            <td class="val-col">{{ $student->nis }} {{ $student->nisn ? '/ ' . $student->nisn : '' }}</td>
                         </tr>
                         <tr>
                             <td class="label-col">Kelas</td>

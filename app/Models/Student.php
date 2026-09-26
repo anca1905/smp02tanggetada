@@ -14,6 +14,7 @@ class Student extends Authenticatable
 
     protected $fillable = [
         'nis',
+        'nisn',
         'student_name',
         'password',
         'gender',

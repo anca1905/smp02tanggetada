@@ -17,6 +17,7 @@ function openModal(mode, data = null) {
         methodField.value = "PUT";
 
         document.getElementById("namaSiswa").value = data.student_name;
+        document.getElementById("nisnSiswa").value = data.nisn || "";
         document.getElementById("nisSiswa").value = data.nis;
         document.getElementById("kelasSiswa").value = data.classroom_id ?? "";
         document.getElementById("jkSiswa").value = data.gender;

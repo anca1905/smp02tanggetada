@@ -66,7 +66,7 @@
                     <thead class="bg-gray-50 text-gray-600 font-medium border-b border-gray-200 uppercase text-xs">
                         <tr>
                             <th class="px-6 py-3">Nama Lengkap</th>
-                            <th class="px-6 py-3">NIS</th>
+                            <th class="px-6 py-3">NISN / NIS</th>
                             <th class="px-6 py-3">L/P</th>
                             <th class="px-6 py-3">Kelas</th>
                             <th class="px-6 py-3">No. HP</th>
@@ -89,13 +89,30 @@
                                         <span>{{ $siswa->student_name }}</span>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 text-gray-500">{{ $siswa->nis }}</td>
+                                <td class="px-6 py-4 text-gray-500">
+                                    <div class="flex flex-col">
+                                        <span class="font-semibold text-gray-700">{{ $siswa->nisn ?? '-' }}</span>
+                                        <span class="text-xs">{{ $siswa->nis }}</span>
+                                    </div>
+                                </td>
                                 <td class="px-6 py-4">{{ $siswa->gender_display }}</td>
                                 <td class="px-6 py-4">
                                     <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs font-semibold">Kelas
                                         {{ $siswa->classroom->name ?? '-' }}</span>
                                 </td>
-                                <td class="px-6 py-4 text-gray-500">{{ $siswa->phone_number ?? '-' }}</td>
+                                <td class="px-6 py-4">
+                                    <div class="flex flex-col text-sm">
+                                        @if($siswa->phone_number)
+                                            <span class="text-gray-900" title="No. HP Siswa">{{ $siswa->phone_number }}</span>
+                                        @endif
+                                        @if($siswa->parent_phone)
+                                            <span class="text-xs text-gray-500 mt-1" title="No. HP Ortu/Wali">Ortu: {{ $siswa->parent_phone }}</span>
+                                        @endif
+                                        @if(!$siswa->phone_number && !$siswa->parent_phone)
+                                            <span class="text-gray-400">-</span>
+                                        @endif
+                                    </div>
+                                </td>
                                 <td class="px-6 py-4">
                                     @php
                                         $statusClass = match ($siswa->student_status) {
@@ -169,7 +186,7 @@
                 @csrf
                 <input type="hidden" name="_method" id="methodField" value="POST">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
                         <input type="text" name="student_name" id="namaSiswa"
@@ -177,7 +194,12 @@
                             required>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">NIS</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">NISN (10 Digit)</label>
+                        <input type="text" name="nisn" id="nisnSiswa"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">NIS (Sekolah)</label>
                         <input type="text" name="nis" id="nisSiswa"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                             required>

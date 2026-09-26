@@ -33,13 +33,20 @@ class UpdateStudentRequest extends FormRequest
                     $this->route('student'),
                 ),
             ],
+            'nisn' => [
+                'nullable',
+                'string',
+                'size:10',
+                Rule::unique('students', 'nisn')->ignore(
+                    $this->route('student'),
+                ),
+            ],
             'gender' => ['sometimes', 'in:M,F'],
             'classroom_id' => ['sometimes', 'exists:classrooms,id'],
             'phone_number' => [
                 'nullable',
                 'string',
                 'max:20',
-                'regex:/^(0|62|\+62)8[1-9][0-9]{6,11}$/',
             ],
             'student_status' => ['sometimes', 'in:Active,Graduated,Inactive'],
             'photo_url' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
@@ -48,7 +55,6 @@ class UpdateStudentRequest extends FormRequest
                 'nullable',
                 'string',
                 'max:20',
-                'regex:/^(0|62|\+62)8[1-9][0-9]{6,11}$/',
             ],
         ];
     }
@@ -63,6 +69,10 @@ class UpdateStudentRequest extends FormRequest
             'nis.string' => 'NIS harus berupa string/karakter.',
             'nis.max' => 'NIS tidak boleh lebih dari 20 karakter.',
             'nis.unique' => 'NIS sudah terdaftar.',
+
+            'nisn.string' => 'NISN harus berupa angka.',
+            'nisn.size' => 'NISN harus tepat 10 karakter.',
+            'nisn.unique' => 'NISN sudah terdaftar.',
 
             'phone_number.string' => 'Nomor telepon harus berupa string/karakter.',
             'phone_number.max' => 'Nomor telepon tidak boleh lebih dari 20 karakter.',

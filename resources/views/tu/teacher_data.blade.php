@@ -88,9 +88,10 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
-                                    @if ($teacher->homeroom_class && $teacher->homeroom_class != '-')
-                                        <span
-                                            class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">{{ $teacher->homeroom_class }}</span>
+                                    @if ($teacher->classroom)
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">{{ $teacher->classroom->name }}</span>
+                                    @elseif ($teacher->homeroom_class && $teacher->homeroom_class != '-')
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">{{ $teacher->homeroom_class }}</span>
                                     @else
                                         <span class="text-gray-400">-</span>
                                     @endif
