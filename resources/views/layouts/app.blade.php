@@ -426,7 +426,7 @@
                 <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Profil</p>
             </div>
 
-            @if ($activeRole === 'operator')
+            @if ($activeRole === 'operator' || $activeRole === 'principal')
                 <a href="{{ route('tu.settings.index') }}"
                     class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('*.settings.index') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
                     <i class="fas fa-cog w-5 mr-3 text-center"></i> Settings

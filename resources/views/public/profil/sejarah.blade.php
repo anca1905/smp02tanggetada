@@ -32,6 +32,17 @@
         </div>
     </div>
 
+    <div class="mt-20">
+        <div class="text-center mb-10">
+            <div class="inline-block p-2 px-4 rounded-full bg-blue-100 text-blue-800 text-sm font-bold mb-4">Kepemimpinan</div>
+            <h2 class="text-3xl font-bold text-gray-900">Sejarah Kepemimpinan</h2>
+            <p class="text-gray-600 mt-3">Daftar Kepala Sekolah yang memimpin SMP Negeri 2 Tanggetada dari masa ke masa.</p>
+        </div>
+        <div class="flex justify-center">
+            <img src="{{ asset('storage/sejarah-kepemimpinan.jpg') }}" alt="Sejarah Kepemimpinan SMP Negeri 2 Tanggetada - Drs. Maslan, Wa Maami S.Pd, Drs. Nandi M.MPd, Ir. Iwan Taufik Imron S.Si M.Si" class="w-full rounded-2xl shadow-xl border border-gray-200">
+        </div>
+    </div>
+
     <div class="mt-16 border-t pt-10">
         <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4">Jelajahi Profil Lainnya</h3>
         <div class="flex flex-wrap gap-3">

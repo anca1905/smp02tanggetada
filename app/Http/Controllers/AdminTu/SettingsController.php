@@ -19,7 +19,7 @@ class SettingsController extends Controller
      */
     public function index(): View
     {
-        $data = Operator::first();
+        $data = auth()->guard('operator')->user();
 
         return view('tu.settings', compact('data'));
     }
