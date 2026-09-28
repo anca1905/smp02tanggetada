@@ -23,7 +23,7 @@ class DashboardController extends Controller
 
         $stats = $action->execute($teacher, $bulan, $tahun);
         $stats['teacher'] = $teacher;
-        $stats['bulan']   = $bulan;
+        $stats['bulan'] = $bulan;
 
         return view('teacher.index', $stats);
     }

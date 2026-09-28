@@ -60,14 +60,14 @@ return new class extends Migration
     {
         Schema::table('ppdb', function (Blueprint $table) {
             $table->string('jurusan_pilihan', 20)->nullable();
-            
+
             $table->dropColumn([
                 'no_kk', 'no_akta', 'agama', 'kewarganegaraan', 'berkebutuhan_khusus',
                 'tempat_tinggal', 'moda_transportasi', 'anak_ke', 'punya_kip',
                 'rt', 'rw', 'desa_kelurahan', 'kecamatan', 'kode_pos',
                 'nik_ayah', 'pendidikan_ayah', 'pekerjaan_ayah', 'penghasilan_ayah',
                 'nik_ibu', 'pendidikan_ibu', 'pekerjaan_ibu', 'penghasilan_ibu',
-                'nama_wali', 'nik_wali', 'pekerjaan_wali', 'penghasilan_wali'
+                'nama_wali', 'nik_wali', 'pekerjaan_wali', 'penghasilan_wali',
             ]);
         });
     }

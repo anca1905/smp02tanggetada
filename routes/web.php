@@ -43,15 +43,25 @@ Route::controller(PublicController::class)->group(function () {
 
     // Profil — sub-menu
     Route::get('/profil', 'profil')->name('public.profil');
-    Route::get('/profil/sejarah', 'profilSejarah')->name('public.profil.sejarah');
-    Route::get('/profil/visi-misi', 'profilVisiMisi')->name('public.profil.visimisi');
-    Route::get('/profil/struktur-organisasi', 'profilStruktur')->name('public.profil.struktur');
+    Route::get('/profil/sejarah', 'profilSejarah')->name(
+        'public.profil.sejarah',
+    );
+    Route::get('/profil/visi-misi', 'profilVisiMisi')->name(
+        'public.profil.visimisi',
+    );
+    Route::get('/profil/struktur-organisasi', 'profilStruktur')->name(
+        'public.profil.struktur',
+    );
     Route::get('/profil/gtk', 'profilGtk')->name('public.profil.gtk');
-    Route::get('/profil/sarana-prasarana', 'profilSarana')->name('public.profil.sarana');
+    Route::get('/profil/sarana-prasarana', 'profilSarana')->name(
+        'public.profil.sarana',
+    );
 
     // Berita — sub-menu
     Route::get('/berita', 'berita')->name('public.berita');
-    Route::get('/berita/kegiatan-sekolah', 'beritaKegiatan')->name('public.berita.kegiatan');
+    Route::get('/berita/kegiatan-sekolah', 'beritaKegiatan')->name(
+        'public.berita.kegiatan',
+    );
     Route::get('/berita/galeri', 'galeri')->name('public.galeri');
     Route::get('/berita/info-penting', 'infoNews')->name('public.info');
     Route::get('/berita/{slug}', 'showBerita')->name('public.berita.show');
@@ -71,7 +81,9 @@ Route::controller(PublicController::class)->group(function () {
     Route::get('/ppdb', 'ppdb')->name('public.ppdb');
     Route::get('/ppdb/daftar', 'ppdbForm')->name('public.ppdb.daftar');
     Route::post('/ppdb/daftar', 'storePpdb')->name('public.ppdb.store');
-    Route::get('/ppdb/bukti/{no_registrasi}', 'downloadPpdbReceipt')->name('public.ppdb.receipt');
+    Route::get('/ppdb/bukti/{no_registrasi}', 'downloadPpdbReceipt')->name(
+        'public.ppdb.receipt',
+    );
     Route::get('/spmb', 'ppdb')->name('public.spmb'); // alias ke ppdb
 });
 
@@ -81,15 +93,19 @@ Route::controller(PublicController::class)->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('guest:operator,teacher,student')->controller(AuthController::class)->group(function () {
-    Route::get('/login', 'showLoginForm')->name('login');
-    Route::get('/login/admin-tu', 'showLoginAdminTu')->name('login.admin-tu');
-    Route::get('/login/pegawai', 'showLoginPegawai')->name('login.pegawai');
-    Route::get('/login/kepala-sekolah', 'showLoginKepsek')->name(
-        'login.kepala-sekolah',
-    );
-    Route::post('/login', 'login')->name('login.post');
-});
+Route::middleware('guest:operator,teacher,student')
+    ->controller(AuthController::class)
+    ->group(function () {
+        Route::get('/login', 'showLoginForm')->name('login');
+        Route::get('/login/admin-tu', 'showLoginAdminTu')->name(
+            'login.admin-tu',
+        );
+        Route::get('/login/pegawai', 'showLoginPegawai')->name('login.pegawai');
+        Route::get('/login/kepala-sekolah', 'showLoginKepsek')->name(
+            'login.kepala-sekolah',
+        );
+        Route::post('/login', 'login')->name('login.post');
+    });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -232,11 +248,15 @@ Route::middleware(['auth:operator'])
             'exportPdf',
         ])->name('rekap.pdf');
 
-        Route::get('student/{student}/card', [AdminTuStudentController::class, 'printCard'])->name('student.card');
-        Route::get('student/{student}/card/pdf', [AdminTuStudentController::class, 'exportCardPdf'])->name('student.card.pdf');
+        Route::get('student/{student}/card', [
+            AdminTuStudentController::class,
+            'printCard',
+        ])->name('student.card');
+        Route::get('student/{student}/card/pdf', [
+            AdminTuStudentController::class,
+            'exportCardPdf',
+        ])->name('student.card.pdf');
         Route::resource('teacher', AdminTuTeacherController::class)->except([
-            'create',
-            'edit',
             'show',
         ]);
         Route::resource('student', AdminTuStudentController::class)->except([
@@ -300,11 +320,24 @@ Route::middleware(['auth:operator'])
         Route::prefix('ppdb')
             ->name('ppdb.')
             ->group(function () {
-                Route::get('/', [PpdbController::class, 'index'])->name('index');
-                Route::get('/{ppdb}', [PpdbController::class, 'show'])->name('show');
-                Route::get('/{ppdb}/pdf', [PpdbController::class, 'exportPdf'])->name('pdf');
-                Route::get('/{ppdb}/document/{field}', [PpdbController::class, 'showDocument'])->name('document');
-                Route::post('/{ppdb}/status', [PpdbController::class, 'updateStatus'])->name('updateStatus');
+                Route::get('/', [PpdbController::class, 'index'])->name(
+                    'index',
+                );
+                Route::get('/{ppdb}', [PpdbController::class, 'show'])->name(
+                    'show',
+                );
+                Route::get('/{ppdb}/pdf', [
+                    PpdbController::class,
+                    'exportPdf',
+                ])->name('pdf');
+                Route::get('/{ppdb}/document/{field}', [
+                    PpdbController::class,
+                    'showDocument',
+                ])->name('document');
+                Route::post('/{ppdb}/status', [
+                    PpdbController::class,
+                    'updateStatus',
+                ])->name('updateStatus');
                 Route::delete('/{ppdb}', [
                     PpdbController::class,
                     'destroy',
@@ -342,7 +375,9 @@ Route::middleware(['auth:student'])
     ->prefix('student')
     ->name('student.')
     ->group(function () {
-        Route::get('/dashboard', [LearningController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [LearningController::class, 'index'])->name(
+            'dashboard',
+        );
         Route::get('/lms', [LearningController::class, 'index'])->name(
             'lms.index',
         );

@@ -13,11 +13,11 @@ class GetClassroomsAction
     public function execute(?int $academicYearId = null): Collection
     {
         $query = Classroom::with(['teacher', 'students', 'academicYear']);
-        
+
         if ($academicYearId) {
             $query->where('academic_year_id', $academicYearId);
         }
-        
+
         return $query->get();
     }
 }

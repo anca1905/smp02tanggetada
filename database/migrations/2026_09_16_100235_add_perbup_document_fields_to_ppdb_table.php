@@ -31,7 +31,7 @@ return new class extends Migration
                 'doc_transkrip',
                 'doc_tka',
                 'doc_ktp_ayah',
-                'doc_ktp_ibu'
+                'doc_ktp_ibu',
             ]);
         });
     }

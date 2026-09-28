@@ -32,8 +32,8 @@ class StudentController extends Controller
             10,
         );
         $activeYearId = \App\Models\AcademicYear::where('is_active', true)->value('id');
-        $classrooms = $activeYearId 
-            ? Classroom::where('academic_year_id', $activeYearId)->get() 
+        $classrooms = $activeYearId
+            ? Classroom::where('academic_year_id', $activeYearId)->get()
             : Classroom::all();
 
         return view('tu.student_data', compact('students', 'classrooms'));

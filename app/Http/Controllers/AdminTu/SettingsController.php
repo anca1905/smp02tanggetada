@@ -83,6 +83,7 @@ class SettingsController extends Controller
     public function index_card(GetLandingSettingsAction $action): View
     {
         $settings = $action->execute();
+
         return view('tu.settings_card', compact('settings'));
     }
 

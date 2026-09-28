@@ -50,7 +50,7 @@ class UpdateTeacherRequest extends FormRequest
                     $this->route('teacher'),
                 ),
             ],
-            'password' => ['sometimes', 'string', 'min:6'],
+            'password' => ['nullable', 'string', 'min:6'],
             'photo_url' => ['nullable', 'image', 'max:2048'],
         ];
     }

@@ -24,8 +24,8 @@ class GetTeacherDashboardStatsAction
         $sessionsDone = $todaySessions->pluck('session_type')->unique()->values()->toArray();
 
         $sessionLabels = [
-            'apel'   => 'Apel Pagi',
-            'kelas'  => 'Di Kelas',
+            'apel' => 'Apel Pagi',
+            'kelas' => 'Di Kelas',
             'pulang' => 'Pulang',
         ];
 
@@ -33,7 +33,7 @@ class GetTeacherDashboardStatsAction
         foreach (['apel', 'kelas', 'pulang'] as $s) {
             $sessionStatus[$s] = [
                 'label' => $sessionLabels[$s],
-                'done'  => in_array($s, $sessionsDone),
+                'done' => in_array($s, $sessionsDone),
             ];
         }
 
@@ -51,9 +51,9 @@ class GetTeacherDashboardStatsAction
 
         $aktivitas = $recentAtts->map(function ($att) use ($sessionLabels) {
             return (object) [
-                'title' => 'Input Absensi Sesi ' . ($sessionLabels[$att->session_type] ?? $att->session_type),
-                'tipe'  => 'absensi',
-                'time'  => $att->created_at,
+                'title' => 'Input Absensi Sesi '.($sessionLabels[$att->session_type] ?? $att->session_type),
+                'tipe' => 'absensi',
+                'time' => $att->created_at,
             ];
         });
 
@@ -65,10 +65,10 @@ class GetTeacherDashboardStatsAction
             $total = StudentAttendance::where('attendance_id', $att->id)->count();
 
             return [
-                'tgl'       => Carbon::parse($att->date)->isoFormat('dddd, D MMMM Y'),
-                'sesi'      => $sessionLabels[$att->session_type] ?? $att->session_type,
-                'hadir'     => $scanned,
-                'total'     => $total,
+                'tgl' => Carbon::parse($att->date)->isoFormat('dddd, D MMMM Y'),
+                'sesi' => $sessionLabels[$att->session_type] ?? $att->session_type,
+                'hadir' => $scanned,
+                'total' => $total,
             ];
         });
 
