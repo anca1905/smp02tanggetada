@@ -281,6 +281,7 @@ Route::middleware(['auth:operator'])
         ]);
         Route::resource('posts', PostController::class);
         Route::resource('events', EventController::class);
+        Route::resource('edokumen', \App\Http\Controllers\AdminTu\EDokumenController::class)->except(['show', 'edit', 'update']);
         Route::resource('inbox', InboxController::class)->only([
             'index',
             'destroy',

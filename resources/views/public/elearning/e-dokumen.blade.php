@@ -25,77 +25,46 @@
 
     {{-- Kategori Dokumen --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center shrink-0">
-                    <i class="fas fa-file-alt text-xl"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-gray-800">Dokumen Administrasi</h3>
-                    <p class="text-xs text-gray-400">Form, surat, dan berkas administrasi</p>
-                </div>
-            </div>
-            <ul class="space-y-2 text-sm">
-                <li class="flex items-center gap-2 text-gray-500 italic py-2 border-b border-dashed">
-                    <i class="fas fa-info-circle text-blue-400"></i>
-                    Dokumen akan tersedia segera
-                </li>
-            </ul>
-        </div>
+        @php
+            $categories = [
+                'Dokumen Administrasi' => ['icon' => 'fa-file-alt', 'color' => 'blue', 'desc' => 'Form, surat, dan berkas administrasi'],
+                'Kurikulum & Program' => ['icon' => 'fa-book', 'color' => 'green', 'desc' => 'Silabus, RPP, dan program sekolah'],
+                'Prestasi & Sertifikat' => ['icon' => 'fa-trophy', 'color' => 'yellow', 'desc' => 'Piagam, sertifikat akreditasi'],
+                'Peraturan & Kebijakan' => ['icon' => 'fa-gavel', 'color' => 'purple', 'desc' => 'Tata tertib, SK, dan kebijakan sekolah']
+            ];
+        @endphp
 
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 bg-green-100 text-green-700 rounded-xl flex items-center justify-center shrink-0">
-                    <i class="fas fa-book text-xl"></i>
+        @foreach ($categories as $catName => $catStyle)
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 bg-{{ $catStyle['color'] }}-100 text-{{ $catStyle['color'] }}-700 rounded-xl flex items-center justify-center shrink-0">
+                        <i class="fas {{ $catStyle['icon'] }} text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-800">{{ $catName }}</h3>
+                        <p class="text-xs text-gray-400">{{ $catStyle['desc'] }}</p>
+                    </div>
                 </div>
-                <div>
-                    <h3 class="font-bold text-gray-800">Kurikulum &amp; Program</h3>
-                    <p class="text-xs text-gray-400">Silabus, RPP, dan program sekolah</p>
-                </div>
+                <ul class="space-y-2 text-sm">
+                    @if (isset($dokumens[$catName]) && $dokumens[$catName]->count() > 0)
+                        @foreach ($dokumens[$catName] as $dok)
+                            <li class="flex items-center justify-between py-2 border-b border-dashed">
+                                <span class="text-gray-700 flex items-center gap-2 truncate">
+                                    <i class="fas fa-file-pdf text-red-500"></i>
+                                    {{ $dok->title }}
+                                </span>
+                                <a href="{{ asset('storage/' . $dok->file_path) }}" target="_blank" class="text-{{ $catStyle['color'] }}-600 hover:underline shrink-0 ml-4 font-medium">Lihat</a>
+                            </li>
+                        @endforeach
+                    @else
+                        <li class="flex items-center gap-2 text-gray-500 italic py-2 border-b border-dashed">
+                            <i class="fas fa-info-circle text-{{ $catStyle['color'] }}-400"></i>
+                            Dokumen belum tersedia
+                        </li>
+                    @endif
+                </ul>
             </div>
-            <ul class="space-y-2 text-sm">
-                <li class="flex items-center gap-2 text-gray-500 italic py-2 border-b border-dashed">
-                    <i class="fas fa-info-circle text-green-400"></i>
-                    Dokumen akan tersedia segera
-                </li>
-            </ul>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 bg-yellow-100 text-yellow-700 rounded-xl flex items-center justify-center shrink-0">
-                    <i class="fas fa-trophy text-xl"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-gray-800">Prestasi &amp; Sertifikat</h3>
-                    <p class="text-xs text-gray-400">Piagam, sertifikat akreditasi</p>
-                </div>
-            </div>
-            <ul class="space-y-2 text-sm">
-                <li class="flex items-center gap-2 text-gray-500 italic py-2 border-b border-dashed">
-                    <i class="fas fa-info-circle text-yellow-400"></i>
-                    Dokumen akan tersedia segera
-                </li>
-            </ul>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
-            <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center shrink-0">
-                    <i class="fas fa-gavel text-xl"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-gray-800">Peraturan &amp; Kebijakan</h3>
-                    <p class="text-xs text-gray-400">Tata tertib, SK, dan kebijakan sekolah</p>
-                </div>
-            </div>
-            <ul class="space-y-2 text-sm">
-                <li class="flex items-center gap-2 text-gray-500 italic py-2 border-b border-dashed">
-                    <i class="fas fa-info-circle text-purple-400"></i>
-                    Dokumen akan tersedia segera
-                </li>
-            </ul>
-        </div>
+        @endforeach
     </div>
 
     <div class="mt-10 bg-blue-50 border border-blue-200 rounded-2xl p-6 text-center">

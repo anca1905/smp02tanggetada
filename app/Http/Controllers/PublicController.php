@@ -133,7 +133,9 @@ class PublicController extends Controller
 
     public function eDokumen()
     {
-        return view('public.elearning.e-dokumen');
+        $dokumens = \App\Models\EDokumen::all()->groupBy('category');
+
+        return view('public.elearning.e-dokumen', compact('dokumens'));
     }
 
     // ─── PERPUSTAKAAN ─────────────────────────────────────────────────────────

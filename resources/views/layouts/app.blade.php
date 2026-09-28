@@ -288,6 +288,10 @@
                     class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.posts.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
                     <i class="fas fa-newspaper w-5 mr-3 text-center"></i> <span>Berita & Artikel</span>
                 </a>
+                <a href="{{ route('tu.edokumen.index') }}"
+                    class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.edokumen.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                    <i class="fas fa-folder-open w-5 mr-3 text-center"></i> <span>E-Dokumen</span>
+                </a>
                 <a href="{{ route('tu.events.index') }}"
                     class="flex items-center px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.events.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
                     <i class="fas fa-calendar-check w-5 mr-3 text-center"></i> <span>Agenda Sekolah</span>
