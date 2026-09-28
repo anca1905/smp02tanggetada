@@ -100,6 +100,20 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 h-fit lg:col-span-2">
+                    <h3 class="font-bold text-gray-800 border-b border-gray-100 pb-3 mb-4">Integrasi & Tautan Eksternal</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">URL / Link Web Guru (E-Learning)</label>
+                            <input type="url" name="web_guru_url"
+                                value="{{ $settings['web_guru_url'] ?? '' }}"
+                                placeholder="Contoh: https://elearning.sekolah.sch.id"
+                                class="w-full border-2 border-gray-500 px-4 py-2 rounded-lg">
+                            <p class="mt-1 text-xs text-gray-500">Jika diisi, menu "Web Guru" di website publik akan otomatis mengarahkan pengunjung ke link ini. Biarkan kosong untuk menggunakan fitur bawaan.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="bg-white rounded-xl shadow-sm border mt-8 border-gray-200 p-6 h-fit lg:col-span-2">
