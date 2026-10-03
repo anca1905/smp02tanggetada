@@ -18,7 +18,7 @@ class StoreStudentAttendanceAction
      */
     public function execute(array $data): void
     {
-        $guru = Auth::guard('teacher')->user();
+        $guru = Auth::guard('teacher')->user() ?? Auth::user();
 
         DB::transaction(function () use ($data, $guru) {
             $sessionType = $data['session_type'];

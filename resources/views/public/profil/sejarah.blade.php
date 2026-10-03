@@ -35,12 +35,46 @@
     <div class="mt-20">
         <div class="text-center mb-10">
             <div class="inline-block p-2 px-4 rounded-full bg-blue-100 text-blue-800 text-sm font-bold mb-4">Kepemimpinan</div>
-            <h2 class="text-3xl font-bold text-gray-900">Sejarah Kepemimpinan</h2>
-            <p class="text-gray-600 mt-3">Daftar Kepala Sekolah yang memimpin SMP Negeri 2 Tanggetada dari masa ke masa.</p>
+            <h2 class="text-3xl font-bold text-gray-900">{{ $site_settings['sejarah_kepemimpinan_title'] ?? 'Sejarah Kepemimpinan' }}</h2>
+            <p class="text-gray-600 mt-3">{{ $site_settings['sejarah_kepemimpinan_desc'] ?? 'Daftar Kepala Sekolah yang memimpin SMP Negeri 2 Tanggetada dari masa ke masa.' }}</p>
         </div>
-        <div class="flex justify-center">
-            <img src="{{ asset('storage/sejarah-kepemimpinan.jpg') }}" alt="Sejarah Kepemimpinan SMP Negeri 2 Tanggetada - Drs. Maslan, Wa Maami S.Pd, Drs. Nandi M.MPd, Ir. Iwan Taufik Imron S.Si M.Si" class="w-full rounded-2xl shadow-xl border border-gray-200">
-        </div>
+
+        @if(isset($site_settings['sejarah_kepemimpinan_img']) && $site_settings['sejarah_kepemimpinan_img'])
+            <div class="flex justify-center">
+                <img src="{{ asset('storage/' . $site_settings['sejarah_kepemimpinan_img']) }}" 
+                     alt="{{ $site_settings['sejarah_kepemimpinan_title'] ?? 'Sejarah Kepemimpinan' }}" 
+                     class="w-full rounded-2xl shadow-xl border border-gray-200">
+            </div>
+        @else
+            {{-- Tampilan Interaktif Masa ke Masa jika bagan gambar belum diupload --}}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                @php
+                    $leaders = [
+                        ['no' => '1', 'name' => 'Drs. Maslan', 'period' => 'Kepala Sekolah Ke-1', 'status' => 'Mantan Kepala Sekolah', 'color' => 'blue'],
+                        ['no' => '2', 'name' => 'Wa Maami, S.Pd', 'period' => 'Kepala Sekolah Ke-2', 'status' => 'Mantan Kepala Sekolah', 'color' => 'indigo'],
+                        ['no' => '3', 'name' => 'Drs. Nandi, M.M.Pd', 'period' => 'Kepala Sekolah Ke-3', 'status' => 'Mantan Kepala Sekolah', 'color' => 'purple'],
+                        ['no' => '4', 'name' => 'Ir. Iwan Taufik Imron, S.Si., M.Si.', 'period' => 'Kepala Sekolah Ke-4', 'status' => 'Kepala Sekolah', 'color' => 'emerald'],
+                    ];
+                @endphp
+
+                @foreach($leaders as $leader)
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition text-center relative overflow-hidden flex flex-col justify-between">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-lg mb-4 border border-blue-100 shadow-sm">
+                            {{ $leader['no'] }}
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base mb-1">{{ $leader['name'] }}</h3>
+                            <p class="text-xs font-semibold text-blue-600 mb-2">{{ $leader['period'] }}</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-gray-100">
+                            <span class="inline-block px-3 py-1 text-xs rounded-full {{ $leader['no'] == '4' ? 'bg-emerald-100 text-emerald-800 font-bold' : 'bg-gray-100 text-gray-600' }}">
+                                {{ $leader['status'] }}
+                            </span>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
 
     <div class="mt-16 border-t pt-10">

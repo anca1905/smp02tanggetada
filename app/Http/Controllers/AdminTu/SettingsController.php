@@ -62,7 +62,7 @@ class SettingsController extends Controller
         $request->validated(); // Jalankan validasi file (gambar)
 
         // Ambil data teks saja
-        $textData = $request->except(['_token', '_method', 'hero_bg', 'school_logo', 'history_image', 'struktur_img']);
+        $textData = $request->except(['_token', '_method', 'hero_bg', 'school_logo', 'history_image', 'struktur_img', 'sejarah_kepemimpinan_img']);
 
         // Ambil data file (gambar)
         $files = [
@@ -70,6 +70,7 @@ class SettingsController extends Controller
             'struktur_img' => $request->file('struktur_img'),
             'school_logo' => $request->file('school_logo'),
             'history_image' => $request->file('history_image'),
+            'sejarah_kepemimpinan_img' => $request->file('sejarah_kepemimpinan_img'),
         ];
 
         $action->execute($textData, array_filter($files));

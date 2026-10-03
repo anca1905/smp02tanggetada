@@ -46,3 +46,16 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('student/attendance/checkin-list', [App\Http\Controllers\Api\AttendanceCheckinController::class, 'checkinList']);
 
 Route::get('teacher', [PresenceController::class, 'search']);
+
+// Teacher Mobile API
+Route::post('teacher/login', [\App\Http\Controllers\Api\TeacherApiController::class, 'login']);
+
+Route::middleware('auth:sanctum')->prefix('teacher')->group(function () {
+    Route::post('logout', [\App\Http\Controllers\Api\TeacherApiController::class, 'logout']);
+    Route::get('dashboard', [\App\Http\Controllers\Api\TeacherApiController::class, 'dashboard']);
+    Route::get('classes', [\App\Http\Controllers\Api\TeacherApiController::class, 'classes']);
+    Route::get('students', [\App\Http\Controllers\Api\TeacherApiController::class, 'students']);
+    Route::get('subjects', [\App\Http\Controllers\Api\TeacherApiController::class, 'subjects']);
+    Route::get('attendance/history', [\App\Http\Controllers\Api\TeacherApiController::class, 'attendanceHistory']);
+    Route::post('attendance/sync', [\App\Http\Controllers\Api\TeacherApiController::class, 'syncAttendance']);
+});

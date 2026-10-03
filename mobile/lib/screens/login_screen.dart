@@ -5,6 +5,8 @@ import '../theme/app_theme.dart';
 import '../theme/app_theme.dart';
 import 'home_screen.dart';
 import 'parent_main_screen.dart';
+import 'teacher/teacher_home_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -13,33 +15,44 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _nisController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool _isParentMode = false;
+  // 'student', 'teacher', 'parent'
+  String _roleMode = 'student';
 
   void _handleLogin() async {
-    final nis = _nisController.text.trim();
+    final username = _usernameController.text.trim();
     final password = _passwordController.text;
 
-    if (nis.isEmpty || password.isEmpty) {
+    if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Mohon isi NIS dan Password')),
+        SnackBar(
+          content: Text(_roleMode == 'teacher'
+              ? 'Mohon isi Username dan Password Guru'
+              : 'Mohon isi NIS dan Password'),
+        ),
       );
       return;
     }
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     bool success = false;
-    
-    if (_isParentMode) {
-      success = await authProvider.loginAsParent(nis, password);
+
+    if (_roleMode == 'teacher') {
+      success = await authProvider.loginAsTeacher(username, password);
+    } else if (_roleMode == 'parent') {
+      success = await authProvider.loginAsParent(username, password);
     } else {
-      success = await authProvider.login(nis, password);
+      success = await authProvider.login(username, password);
     }
 
     if (success) {
-      if (authProvider.isParent) {
+      if (authProvider.isTeacher) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const TeacherHomeScreen()),
+        );
+      } else if (authProvider.isParent) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const ParentMainScreen()),
         );
@@ -121,49 +134,99 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        _isParentMode ? 'Masuk sebagai Orang Tua/Wali' : 'Silakan masuk dengan NIS Anda.',
+                        _roleMode == 'teacher'
+                            ? 'Masuk sebagai Guru untuk kelola presensi kelas.'
+                            : _roleMode == 'parent'
+                                ? 'Masuk sebagai Orang Tua / Wali.'
+                                : 'Silakan masuk dengan NIS Anda.',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       const SizedBox(height: 16),
-                      // Toggle Role
-                      Row(
-                        children: [
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () => setState(() => _isParentMode = false),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 12),
-                                decoration: BoxDecoration(
-                                  color: !_isParentMode ? AppTheme.primaryColor : Colors.grey.shade200,
-                                  borderRadius: BorderRadius.circular(8),
+                      // Toggle Role (Siswa, Guru, Orang Tua)
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => setState(() => _roleMode = 'student'),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: _roleMode == 'student' ? AppTheme.primaryColor : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Siswa',
+                                      style: TextStyle(
+                                        color: _roleMode == 'student' ? Colors.white : Colors.grey.shade700,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                child: Center(child: Text('Siswa', style: TextStyle(color: !_isParentMode ? Colors.white : Colors.grey, fontWeight: FontWeight.bold))),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () => setState(() => _isParentMode = true),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 12),
-                                decoration: BoxDecoration(
-                                  color: _isParentMode ? AppTheme.primaryColor : Colors.grey.shade200,
-                                  borderRadius: BorderRadius.circular(8),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => setState(() => _roleMode = 'teacher'),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: _roleMode == 'teacher' ? AppTheme.primaryColor : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Guru',
+                                      style: TextStyle(
+                                        color: _roleMode == 'teacher' ? Colors.white : Colors.grey.shade700,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                child: Center(child: Text('Orang Tua', style: TextStyle(color: _isParentMode ? Colors.white : Colors.grey, fontWeight: FontWeight.bold))),
                               ),
                             ),
-                          ),
-                        ],
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => setState(() => _roleMode = 'parent'),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: _roleMode == 'parent' ? AppTheme.primaryColor : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Wali',
+                                      style: TextStyle(
+                                        color: _roleMode == 'parent' ? Colors.white : Colors.grey.shade700,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 24),
                       TextField(
-                        controller: _nisController,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          hintText: 'Masukkan NIS',
-                          prefixIcon: Icon(Icons.person_outline),
+                        controller: _usernameController,
+                        keyboardType: _roleMode == 'teacher' ? TextInputType.text : TextInputType.number,
+                        decoration: InputDecoration(
+                          hintText: _roleMode == 'teacher' ? 'Username Guru' : 'Masukkan NIS',
+                          prefixIcon: Icon(_roleMode == 'teacher' ? Icons.badge_outlined : Icons.person_outline),
                         ),
                       ),
                       const SizedBox(height: 16),

@@ -3,8 +3,11 @@ import 'package:provider/provider.dart';
 import 'theme/app_theme.dart';
 import 'providers/auth_provider.dart';
 import 'providers/data_provider.dart';
+import 'providers/teacher_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/parent_main_screen.dart';
+import 'screens/teacher/teacher_home_screen.dart';
 
 void main() {
   runApp(
@@ -12,6 +15,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => DataProvider()),
+        ChangeNotifierProvider(create: (_) => TeacherProvider()),
       ],
       child: const StudentApp(),
     ),
@@ -24,13 +28,19 @@ class StudentApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SIMS Edu Student',
+      title: 'SIMS Edu',
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       home: Consumer<AuthProvider>(
         builder: (context, auth, _) {
           if (auth.isAuthenticated) {
-            return const HomeScreen();
+            if (auth.isTeacher) {
+              return const TeacherHomeScreen();
+            } else if (auth.isParent) {
+              return const ParentMainScreen();
+            } else {
+              return const HomeScreen();
+            }
           }
           return const LoginScreen();
         },

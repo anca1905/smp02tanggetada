@@ -84,7 +84,7 @@ class _ParentPaymentScreenState extends State<ParentPaymentScreen> {
                       child: Column(
                         children: [
                           Text(_error, style: const TextStyle(color: Colors.red)),
-                          TextButton(onPath: _fetchBills, child: const Text('Coba Lagi'))
+                          TextButton(onPressed: _fetchBills, child: const Text('Coba Lagi'))
                         ],
                       )
                     )

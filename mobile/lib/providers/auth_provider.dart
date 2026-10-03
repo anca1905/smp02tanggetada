@@ -9,12 +9,14 @@ class AuthProvider with ChangeNotifier {
   bool _isLoading = false;
   bool _isAuthenticated = false;
   bool _isParent = false;
+  bool _isTeacher = false;
   Map<String, dynamic>? _user;
   String? _errorMessage;
 
   bool get isLoading => _isLoading;
   bool get isAuthenticated => _isAuthenticated;
   bool get isParent => _isParent;
+  bool get isTeacher => _isTeacher;
   Map<String, dynamic>? get user => _user;
   String? get errorMessage => _errorMessage;
 
@@ -26,10 +28,12 @@ class AuthProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('auth_token');
     final isParentPref = prefs.getBool('is_parent') ?? false;
+    final isTeacherPref = prefs.getBool('is_teacher') ?? false;
     
     if (token != null) {
       _isAuthenticated = true;
       _isParent = isParentPref;
+      _isTeacher = isTeacherPref;
       notifyListeners();
     }
   }
@@ -119,17 +123,66 @@ class AuthProvider with ChangeNotifier {
     return false;
   }
 
+  Future<bool> loginAsTeacher(String username, String password) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final response = await _apiService.client.post('/teacher/login', data: {
+        'username': username,
+        'password': password,
+      });
+
+      if (response.statusCode == 200 && response.data['success'] == true) {
+        final token = response.data['data']['token'];
+        final teacherData = response.data['data']['teacher'];
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('auth_token', token);
+        await prefs.setBool('is_teacher', true);
+        await prefs.setBool('is_parent', false);
+
+        _isAuthenticated = true;
+        _isTeacher = true;
+        _isParent = false;
+        _user = teacherData;
+        _isLoading = false;
+        notifyListeners();
+        return true;
+      }
+    } on DioException catch (e) {
+      if (e.response != null && e.response?.data != null) {
+        _errorMessage = e.response?.data['message'] ?? 'Login guru gagal';
+      } else {
+        _errorMessage = 'Koneksi error. Silakan periksa jaringan Anda.';
+      }
+    } catch (e) {
+      _errorMessage = 'Terjadi kesalahan sistem.';
+    }
+
+    _isLoading = false;
+    notifyListeners();
+    return false;
+  }
+
   Future<void> logout() async {
     try {
-      await _apiService.client.post('/student/logout');
+      if (_isTeacher) {
+        await _apiService.client.post('/teacher/logout');
+      } else {
+        await _apiService.client.post('/student/logout');
+      }
     } catch (e) {
       // Ignore errors on logout
     } finally {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove('auth_token');
       await prefs.remove('is_parent');
+      await prefs.remove('is_teacher');
       _isAuthenticated = false;
       _isParent = false;
+      _isTeacher = false;
       _user = null;
       notifyListeners();
     }

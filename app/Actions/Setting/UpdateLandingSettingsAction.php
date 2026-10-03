@@ -21,7 +21,7 @@ class UpdateLandingSettingsAction
         }
 
         // 2. Daftar key untuk gambar yang mungkin diupload
-        $imageKeys = ['hero_bg', 'struktur_img', 'school_logo', 'history_image'];
+        $imageKeys = ['hero_bg', 'struktur_img', 'school_logo', 'history_image', 'sejarah_kepemimpinan_img'];
 
         // 3. Proses upload setiap gambar jika ada
         foreach ($imageKeys as $key) {

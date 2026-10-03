@@ -169,6 +169,37 @@
                                 class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
                         </div>
                     </div>
+
+                    <div class="pt-6 border-t-2 border-gray-200 mt-6">
+                        <h4 class="font-bold text-gray-800 mb-3 text-base">Sejarah Kepemimpinan (Kepala Sekolah)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Judul Section</label>
+                                <input type="text" name="sejarah_kepemimpinan_title" 
+                                    class="w-full border-2 border-gray-500 px-4 py-2 rounded-lg"
+                                    value="{{ $settings['sejarah_kepemimpinan_title'] ?? 'Sejarah Kepemimpinan' }}">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Singkat</label>
+                                <input type="text" name="sejarah_kepemimpinan_desc" 
+                                    class="w-full border-2 border-gray-500 px-4 py-2 rounded-lg"
+                                    value="{{ $settings['sejarah_kepemimpinan_desc'] ?? 'Daftar Kepala Sekolah yang memimpin SMP Negeri 2 Tanggetada dari masa ke masa.' }}">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Bagan / Foto Sejarah Kepemimpinan</label>
+                            <div class="flex items-center space-x-4">
+                                @if (isset($settings['sejarah_kepemimpinan_img']))
+                                    <img src="{{ asset('storage/' . $settings['sejarah_kepemimpinan_img']) }}"
+                                        class="h-32 object-contain border border-gray-200 rounded p-1">
+                                @endif
+                                <input type="file" name="sejarah_kepemimpinan_img" accept="image/*"
+                                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500">Unggah foto bagan / infografis deretan kepala sekolah dari masa ke masa. Format: JPG, PNG, WEBP. Maks 5MB.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
