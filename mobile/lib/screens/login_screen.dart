@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../theme/app_theme.dart';
-import '../theme/app_theme.dart';
 import 'home_screen.dart';
 import 'parent_main_screen.dart';
 import 'teacher/teacher_home_screen.dart';
