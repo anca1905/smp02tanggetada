@@ -88,32 +88,35 @@
         @endphp
         <div class="py-6 bg-gray-50 -mt-2">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white shadow-lg border border-yellow-500/30 p-5 sm:p-6">
+                <div class="relative overflow-hidden rounded-2xl shadow-xl p-5 sm:p-6"
+                    style="background: linear-gradient(135deg, #091326 0%, #1e3a8a 55%, #0f172a 100%); border: 1.5px solid rgba(234, 179, 8, 0.45); color: #ffffff;">
                     <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
                         <div class="flex items-start gap-4">
                             @if ($popupImg)
                                 <button type="button" onclick="openLiterasiModal()" class="shrink-0 group relative cursor-pointer" title="Perbesar Flyer">
-                                    <img src="{{ $popupImg }}" alt="Poster" class="w-16 h-20 sm:w-20 sm:h-24 object-cover rounded-lg border border-yellow-400/40 shadow-sm group-hover:scale-105 transition">
-                                    <span class="absolute inset-0 bg-black/30 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-white text-xs">
+                                    <img src="{{ $popupImg }}" alt="Poster" class="w-16 h-20 sm:w-20 sm:h-24 object-cover rounded-lg border shadow-sm group-hover:scale-105 transition"
+                                        style="border-color: rgba(250, 204, 21, 0.5);">
+                                    <span class="absolute inset-0 bg-black/40 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-white text-xs">
                                         <i class="fas fa-search-plus"></i>
                                     </span>
                                 </button>
                             @endif
                             <div class="space-y-1.5">
-                                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-yellow-400/20 text-yellow-300 text-xs font-semibold">
-                                    <i class="fas fa-bullhorn text-[11px]"></i> {{ $site_settings['popup_badge'] ?? 'Pengumuman Penting' }}
+                                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold"
+                                    style="background-color: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.4);">
+                                    <i class="fas fa-bullhorn text-[11px]" style="color: #facc15;"></i> {{ $site_settings['popup_badge'] ?? 'Pengumuman Penting' }}
                                 </div>
-                                <h2 class="text-xl sm:text-2xl font-bold text-white leading-tight">
+                                <h2 class="text-xl sm:text-2xl font-bold leading-tight" style="color: #ffffff;">
                                     {{ $site_settings['popup_title'] ?? 'Lomba Literasi Antar Kelas' }}
                                 </h2>
                                 @if (!empty($site_settings['popup_subtitle']))
-                                    <p class="text-xs sm:text-sm text-yellow-100/90 italic line-clamp-1">
+                                    <p class="text-xs sm:text-sm italic line-clamp-1" style="color: #fef08a;">
                                         &ldquo;{{ $site_settings['popup_subtitle'] }}&rdquo;
                                     </p>
                                 @endif
                                 @if (!empty($site_settings['popup_deadline']))
-                                    <p class="text-xs text-blue-200 flex items-center gap-1.5 font-medium">
-                                        <i class="fas fa-clock text-yellow-400"></i> {{ $site_settings['popup_deadline'] }}
+                                    <p class="text-xs flex items-center gap-1.5 font-medium" style="color: #bfdbfe;">
+                                        <i class="fas fa-clock" style="color: #facc15;"></i> {{ $site_settings['popup_deadline'] }}
                                     </p>
                                 @endif
                             </div>
@@ -121,17 +124,20 @@
 
                         <div class="flex flex-wrap items-center gap-3 shrink-0">
                             <a href="{{ $popupBtnUrl }}" target="_blank" rel="noopener noreferrer"
-                                class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-blue-950 font-bold text-xs sm:text-sm shadow transition flex items-center gap-2">
+                                class="px-5 py-2.5 rounded-xl font-extrabold text-xs sm:text-sm shadow-md transition flex items-center gap-2 transform hover:scale-102"
+                                style="background-color: #facc15; color: #0f172a;">
                                 <i class="fas fa-edit"></i> {{ $site_settings['popup_btn_text'] ?? 'Daftar Sekarang' }}
                             </a>
                             <button type="button" onclick="openLiterasiModal()"
-                                class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium text-xs sm:text-sm transition flex items-center gap-1.5">
-                                <i class="fas fa-image text-yellow-400"></i> Lihat Poster
+                                class="px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition flex items-center gap-1.5"
+                                style="background-color: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3);">
+                                <i class="fas fa-image" style="color: #facc15;"></i> Lihat Poster
                             </button>
-                            @if (!empty($popupWa))
+                            @if (!empty($popupCleanWa))
                                 <a href="https://wa.me/{{ $popupCleanWa }}?text=Halo,%20saya%20ingin%20bertanya%20mengenai%20{{ urlencode($site_settings['popup_title'] ?? 'Pengumuman') }}"
                                     target="_blank" rel="noopener noreferrer"
-                                    class="px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold transition flex items-center gap-1.5" title="WhatsApp Panitia">
+                                    class="px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition flex items-center gap-1.5 shadow"
+                                    style="background-color: #10b981; color: #ffffff;" title="WhatsApp Panitia">
                                     <i class="fab fa-whatsapp text-sm"></i> WhatsApp
                                 </a>
                             @endif
@@ -253,13 +259,14 @@
 
         {{-- Floating Quick Button (Pojok Kanan Bawah) --}}
         <button type="button" onclick="openLiterasiModal()"
-            class="fixed bottom-5 right-5 z-40 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-blue-950 font-bold px-3.5 py-2.5 rounded-full shadow-xl border-2 border-white flex items-center gap-2 transition transform hover:scale-105 cursor-pointer focus:outline-none"
+            class="fixed bottom-5 right-5 z-40 font-bold px-3.5 py-2.5 rounded-full shadow-xl border-2 border-white flex items-center gap-2 transition transform hover:scale-105 cursor-pointer focus:outline-none"
+            style="background: linear-gradient(135deg, #eab308 0%, #f59e0b 100%); color: #0f172a;"
             title="Buka Pengumuman">
             <span class="relative flex h-2.5 w-2.5">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
             </span>
-            <i class="fas fa-bullhorn text-amber-900 text-sm"></i>
+            <i class="fas fa-bullhorn text-sm" style="color: #0f172a;"></i>
             <span class="text-xs font-bold tracking-wide">Pengumuman</span>
         </button>
 
@@ -268,18 +275,19 @@
             <div class="relative bg-white rounded-2xl max-w-sm sm:max-w-md w-full shadow-2xl border border-gray-100 flex flex-col overflow-hidden" style="max-height: 88vh;">
 
                 {{-- Header Modal --}}
-                <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white px-4 py-2.5 flex items-center justify-between shrink-0">
+                <div class="px-4 py-2.5 flex items-center justify-between shrink-0"
+                    style="background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%); color: #ffffff;">
                     <div class="flex items-center gap-2 min-w-0">
                         <span class="w-6 h-6 rounded-lg bg-yellow-400 text-blue-950 flex items-center justify-center font-bold text-xs shrink-0">
-                            <i class="fas fa-bullhorn"></i>
+                            <i class="fas fa-bullhorn" style="color: #0f172a;"></i>
                         </span>
                         <div class="truncate">
-                            <h3 class="font-bold text-xs sm:text-sm text-white truncate">{{ $site_settings['popup_title'] ?? 'Pengumuman' }}</h3>
-                            <p class="text-[10px] sm:text-[11px] text-blue-200 truncate">{{ $site_settings['popup_badge'] ?? 'Informasi Sekolah' }}</p>
+                            <h3 class="font-bold text-xs sm:text-sm truncate" style="color: #ffffff;">{{ $site_settings['popup_title'] ?? 'Pengumuman' }}</h3>
+                            <p class="text-[10px] sm:text-[11px] truncate" style="color: #bfdbfe;">{{ $site_settings['popup_badge'] ?? 'Informasi Sekolah' }}</p>
                         </div>
                     </div>
                     <button type="button" onclick="closeLiterasiModal()" class="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition shrink-0 ml-2" title="Tutup">
-                        <i class="fas fa-times text-base"></i>
+                        <i class="fas fa-times text-base" style="color: #ffffff;"></i>
                     </button>
                 </div>
 
@@ -290,8 +298,9 @@
                         <div class="w-full flex justify-center">
                             <a href="{{ $popupImg }}" target="_blank" class="block group relative rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-gray-50" title="Klik untuk memperbesar gambar">
                                 <img src="{{ $popupImg }}" alt="Flyer Pengumuman"
-                                    class="max-h-56 sm:max-h-64 w-auto object-contain mx-auto transition duration-300 group-hover:scale-102">
-                                <span class="absolute inset-0 bg-blue-950/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-semibold gap-1">
+                                    class="max-h-56 sm:max-h-64 w-auto object-contain mx-auto transition duration-300 group-hover:scale-102"
+                                    style="max-height: 230px; object-fit: contain;">
+                                <span class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-semibold gap-1">
                                     <i class="fas fa-search-plus"></i> Perbesar
                                 </span>
                             </a>
@@ -300,15 +309,17 @@
 
                     {{-- Info Ringkas Batas Waktu --}}
                     @if (!empty($site_settings['popup_deadline']))
-                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold bg-amber-100 text-amber-900">
-                            <i class="fas fa-clock text-amber-600"></i> {{ $site_settings['popup_deadline'] }}
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold"
+                            style="background-color: #fef3c7; color: #78350f; border: 1px solid #fde68a;">
+                            <i class="fas fa-clock" style="color: #d97706;"></i> {{ $site_settings['popup_deadline'] }}
                         </div>
                     @endif
 
                     {{-- Action Buttons --}}
                     <div class="w-full space-y-2 pt-0.5">
                         <a href="{{ $popupBtnUrl }}" target="_blank" rel="noopener noreferrer"
-                            class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-blue-950 font-extrabold text-center shadow transition flex items-center justify-center gap-2 text-xs sm:text-sm">
+                            class="w-full py-2.5 px-4 rounded-xl font-extrabold text-center shadow transition flex items-center justify-center gap-2 text-xs sm:text-sm"
+                            style="background-color: #facc15; color: #0f172a;">
                             <i class="fas fa-edit"></i> {{ $site_settings['popup_btn_text'] ?? 'Daftar Sekarang' }}
                         </a>
 
@@ -316,14 +327,15 @@
                             @if (!empty($popupWa))
                                 <a href="https://wa.me/{{ $popupCleanWa }}?text=Halo,%20saya%20ingin%20bertanya%20mengenai%20{{ urlencode($site_settings['popup_title'] ?? 'Pengumuman') }}"
                                     target="_blank" rel="noopener noreferrer"
-                                    class="py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-center text-xs transition flex items-center justify-center gap-1.5">
+                                    class="py-2 px-3 rounded-lg font-semibold text-center text-xs transition flex items-center justify-center gap-1.5 shadow"
+                                    style="background-color: #10b981; color: #ffffff;">
                                     <i class="fab fa-whatsapp text-sm"></i> WhatsApp
                                 </a>
                             @endif
 
                             @if (!empty($popupNewsUrl))
                                 <a href="{{ $popupNewsUrl }}"
-                                    class="py-2 px-3 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-center text-xs transition flex items-center justify-center gap-1.5 {{ empty($popupWa) ? 'col-span-2' : '' }}">
+                                    class="py-2 px-3 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-center text-xs transition flex items-center justify-center gap-1.5 border border-gray-200 {{ empty($popupWa) ? 'col-span-2' : '' }}">
                                     <i class="fas fa-file-alt text-xs"></i> Rilis Berita
                                 </a>
                             @endif

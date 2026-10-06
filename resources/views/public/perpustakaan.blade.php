@@ -37,7 +37,8 @@
             $perpustakaanWa = $site_settings['popup_wa_number'] ?? '0853465489992';
             $perpustakaanCleanWa = preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $perpustakaanWa));
         @endphp
-        <div class="bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl mb-10 border border-yellow-500/30">
+        <div class="rounded-3xl p-6 sm:p-8 shadow-xl mb-10"
+            style="background: linear-gradient(135deg, #091326 0%, #1e3a8a 55%, #0f172a 100%); border: 1.5px solid rgba(234, 179, 8, 0.45); color: #ffffff;">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                 <div class="md:col-span-4 flex justify-center">
                     <a href="{{ $perpustakaanImg }}" target="_blank" class="block group relative rounded-2xl overflow-hidden shadow-md max-w-[240px]">
@@ -48,45 +49,48 @@
                     </a>
                 </div>
                 <div class="md:col-span-8 space-y-3">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-400/20 text-yellow-300 text-xs font-semibold">
-                        <i class="fas fa-trophy"></i> {{ $site_settings['popup_badge'] ?? 'EVENT BULAN BAHASA' }}
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold"
+                        style="background-color: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.4);">
+                        <i class="fas fa-trophy" style="color: #facc15;"></i> {{ $site_settings['popup_badge'] ?? 'EVENT BULAN BAHASA' }}
                     </div>
-                    <h3 class="text-2xl font-bold text-white">{{ $site_settings['popup_title'] ?? 'Lomba Literasi Antar Kelas' }}</h3>
+                    <h3 class="text-2xl font-bold" style="color: #ffffff;">{{ $site_settings['popup_title'] ?? 'Lomba Literasi Antar Kelas' }}</h3>
                     @if (!empty($site_settings['popup_subtitle']))
-                        <p class="text-xs sm:text-sm text-yellow-200/90 italic">
+                        <p class="text-xs sm:text-sm italic" style="color: #fef08a;">
                             &ldquo;{{ $site_settings['popup_subtitle'] }}&rdquo;
                         </p>
                     @endif
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 py-2 text-xs">
-                        <div class="bg-white/10 rounded-xl p-2.5">
+                        <div class="rounded-xl p-2.5" style="background-color: rgba(255, 255, 255, 0.1);">
                             <div class="text-gray-300 font-medium">Cerdas Cermat</div>
                             <div class="font-bold text-white">3 Orang / Kelas</div>
                         </div>
-                        <div class="bg-white/10 rounded-xl p-2.5">
+                        <div class="rounded-xl p-2.5" style="background-color: rgba(255, 255, 255, 0.1);">
                             <div class="text-gray-300 font-medium">Pidato</div>
                             <div class="font-bold text-white">1 Orang / Kelas</div>
                         </div>
-                        <div class="bg-white/10 rounded-xl p-2.5">
+                        <div class="rounded-xl p-2.5" style="background-color: rgba(255, 255, 255, 0.1);">
                             <div class="text-gray-300 font-medium">Puisi</div>
                             <div class="font-bold text-white">1 Orang / Kelas</div>
                         </div>
                     </div>
-                    <div class="flex flex-wrap items-center gap-3 text-xs text-blue-200">
-                        <span><i class="fas fa-calendar-alt text-yellow-400 mr-1"></i> 28 Oktober 2026</span>
-                        <span><i class="fas fa-map-marker-alt text-yellow-400 mr-1"></i> Lab. Komputer SMPN 2 Tanggetada</span>
+                    <div class="flex flex-wrap items-center gap-3 text-xs" style="color: #bfdbfe;">
+                        <span><i class="fas fa-calendar-alt mr-1" style="color: #facc15;"></i> 28 Oktober 2026</span>
+                        <span><i class="fas fa-map-marker-alt mr-1" style="color: #facc15;"></i> Lab. Komputer SMPN 2 Tanggetada</span>
                         @if (!empty($site_settings['popup_deadline']))
-                            <span class="text-yellow-300 font-medium"><i class="fas fa-clock mr-1"></i> {{ $site_settings['popup_deadline'] }}</span>
+                            <span class="font-medium" style="color: #fde047;"><i class="fas fa-clock mr-1"></i> {{ $site_settings['popup_deadline'] }}</span>
                         @endif
                     </div>
                     <div class="pt-2 flex flex-wrap gap-3">
                         <a href="{{ $perpustakaanBtnUrl }}" target="_blank" rel="noopener noreferrer"
-                            class="px-5 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-blue-950 font-bold rounded-xl text-xs sm:text-sm transition shadow flex items-center gap-2">
+                            class="px-5 py-2.5 font-bold rounded-xl text-xs sm:text-sm transition shadow flex items-center gap-2"
+                            style="background-color: #facc15; color: #0f172a;">
                             <i class="fas fa-edit"></i> {{ $site_settings['popup_btn_text'] ?? 'Daftar via Google Form' }}
                         </a>
                         @if (!empty($perpustakaanWa))
                             <a href="https://wa.me/{{ $perpustakaanCleanWa }}?text=Halo%20Perpustakaan,%20saya%20ingin%20bertanya%20mengenai%20{{ urlencode($site_settings['popup_title'] ?? 'Lomba Literasi') }}" target="_blank" rel="noopener noreferrer"
-                                class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5">
-                                <i class="fab fa-whatsapp"></i> WA Panitia: {{ $perpustakaanWa }}
+                                class="px-4 py-2.5 font-semibold rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5 shadow"
+                                style="background-color: #10b981; color: #ffffff;">
+                                <i class="fab fa-whatsapp text-sm"></i> WA Panitia: {{ $perpustakaanWa }}
                             </a>
                         @endif
                     </div>

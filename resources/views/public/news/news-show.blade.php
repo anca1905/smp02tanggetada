@@ -36,23 +36,27 @@
                         </div>
 
                         @if (str_contains($post->content, 'forms.gle') || str_contains($post->slug, 'lomba-literasi'))
-                            <div class="mt-8 p-6 bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl text-white shadow-lg">
+                            <div class="mt-8 p-6 rounded-2xl shadow-lg"
+                                style="background: linear-gradient(135deg, #091326 0%, #1e3a8a 55%, #0f172a 100%); border: 1.5px solid rgba(234, 179, 8, 0.45); color: #ffffff;">
                                 <div class="flex items-center gap-3 mb-3">
-                                    <span class="w-10 h-10 rounded-full bg-yellow-400 text-blue-900 flex items-center justify-center font-bold text-lg">
+                                    <span class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shrink-0"
+                                        style="background-color: #facc15; color: #0f172a;">
                                         <i class="fas fa-trophy"></i>
                                     </span>
                                     <div>
-                                        <h3 class="text-xl font-bold">Pendaftaran & Narahubung Resmi</h3>
-                                        <p class="text-blue-200 text-sm">Silakan lakukan pendaftaran daring dan hubungi panitia jika ada pertanyaan.</p>
+                                        <h3 class="text-xl font-bold" style="color: #ffffff;">Pendaftaran & Narahubung Resmi</h3>
+                                        <p class="text-sm" style="color: #bfdbfe;">Silakan lakukan pendaftaran daring dan hubungi panitia jika ada pertanyaan.</p>
                                     </div>
                                 </div>
                                 <div class="mt-4 flex flex-wrap gap-4">
                                     <a href="https://forms.gle/frfZEwZ9x2xwuiTM9" target="_blank" rel="noopener noreferrer"
-                                        class="px-6 py-3 bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-bold rounded-xl shadow transition inline-flex items-center gap-2">
+                                        class="px-6 py-3 font-bold rounded-xl shadow transition inline-flex items-center gap-2 text-sm"
+                                        style="background-color: #facc15; color: #0f172a;">
                                         <i class="fas fa-edit"></i> Isi Formulir Pendaftaran (Google Form)
                                     </a>
                                     <a href="https://wa.me/62853465489992?text=Halo%20Perpustakaan%20SMPN%202%20Tanggetada,%20saya%20ingin%20bertanya%20mengenai%20Lomba%20Literasi" target="_blank" rel="noopener noreferrer"
-                                        class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl shadow transition inline-flex items-center gap-2">
+                                        class="px-6 py-3 font-semibold rounded-xl shadow transition inline-flex items-center gap-2 text-sm"
+                                        style="background-color: #10b981; color: #ffffff;">
                                         <i class="fab fa-whatsapp text-lg"></i> Hubungi WA Panitia
                                     </a>
                                 </div>
