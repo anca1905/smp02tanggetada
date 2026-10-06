@@ -128,6 +128,34 @@ class TeacherApiTest extends TestCase
             ->assertJson(['success' => true, 'synced_count' => 1]);
     }
 
+    public function test_teacher_can_fetch_announcements(): void
+    {
+        $token = $this->teacher->createToken('test_token')->plainTextToken;
+
+        $response = $this->withHeader('Authorization', "Bearer {$token}")
+            ->getJson('/api/teacher/announcements');
+
+        $response->assertStatus(200)
+            ->assertJson(['success' => true]);
+    }
+
+    public function test_teacher_can_fetch_notifications(): void
+    {
+        $token = $this->teacher->createToken('test_token')->plainTextToken;
+
+        $response = $this->withHeader('Authorization', "Bearer {$token}")
+            ->getJson('/api/teacher/notifications');
+
+        $response->assertStatus(200)
+            ->assertJson(['success' => true])
+            ->assertJsonStructure([
+                'success',
+                'data' => [
+                    '*' => ['id', 'title', 'message', 'type', 'created_at'],
+                ],
+            ]);
+    }
+
     protected function tearDown(): void
     {
         // Cleanup test tokens

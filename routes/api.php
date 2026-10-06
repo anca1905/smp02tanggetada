@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('student/attendances', [App\Http\Controllers\Api\StudentApiController::class, 'attendances']);
     Route::get('student/grades', [App\Http\Controllers\Api\StudentApiController::class, 'grades']);
     Route::get('student/materials', [App\Http\Controllers\Api\StudentApiController::class, 'materials']);
+    Route::get('student/announcements', [App\Http\Controllers\Api\StudentApiController::class, 'announcements']);
     Route::post('student/assignments/{id}/submit', [App\Http\Controllers\Api\StudentApiController::class, 'submitAssignment']);
 
     // QR Attendance Check-in
@@ -58,4 +59,6 @@ Route::middleware('auth:sanctum')->prefix('teacher')->group(function () {
     Route::get('subjects', [\App\Http\Controllers\Api\TeacherApiController::class, 'subjects']);
     Route::get('attendance/history', [\App\Http\Controllers\Api\TeacherApiController::class, 'attendanceHistory']);
     Route::post('attendance/sync', [\App\Http\Controllers\Api\TeacherApiController::class, 'syncAttendance']);
+    Route::get('announcements', [\App\Http\Controllers\Api\TeacherApiController::class, 'announcements']);
+    Route::get('notifications', [\App\Http\Controllers\Api\TeacherApiController::class, 'notifications']);
 });

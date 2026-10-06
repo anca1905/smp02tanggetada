@@ -268,4 +268,80 @@ class TeacherApiController extends Controller
             'errors' => $errors,
         ]);
     }
+
+    /**
+     * Get announcements for teachers.
+     */
+    public function announcements(): JsonResponse
+    {
+        $posts = \App\Models\Post::where('is_published', true)
+            ->latest()
+            ->take(20)
+            ->get(['id', 'title', 'content', 'category', 'image', 'created_at']);
+
+        return response()->json([
+            'success' => true,
+            'data' => $posts,
+        ]);
+    }
+
+    /**
+     * Get notifications for teachers.
+     */
+    public function notifications(Request $request): JsonResponse
+    {
+        /** @var \App\Models\Teacher $teacher */
+        $teacher = $request->user();
+
+        $notifications = [];
+
+        // 1. Published posts
+        $posts = \App\Models\Post::where('is_published', true)
+            ->latest()
+            ->take(5)
+            ->get();
+
+        foreach ($posts as $post) {
+            $notifications[] = [
+                'id' => 'post_'.$post->id,
+                'title' => $post->title,
+                'message' => \Illuminate\Support\Str::limit(strip_tags($post->content), 120),
+                'full_message' => strip_tags($post->content),
+                'type' => 'announcement',
+                'category' => $post->category ?? 'Pengumuman',
+                'created_at' => $post->created_at ? $post->created_at->toIso8601String() : now()->toIso8601String(),
+                'is_read' => false,
+            ];
+        }
+
+        // 2. Attendance reminder
+        $today = Carbon::today()->format('Y-m-d');
+        $notifications[] = [
+            'id' => 'att_apel_'.$today,
+            'title' => 'Pengingat Apel Pagi',
+            'message' => 'Lakukan pengecekan kehadiran apel pagi sebelum pukul 07:15 WITA.',
+            'full_message' => 'Lakukan pengecekan kehadiran apel pagi sebelum pukul 07:15 WITA di lapangan upacara.',
+            'type' => 'attendance',
+            'category' => 'Presensi',
+            'created_at' => Carbon::today()->setTime(6, 45)->toIso8601String(),
+            'is_read' => false,
+        ];
+
+        // 3. System status notification
+        $notifications[] = [
+            'id' => 'att_sync_'.$today,
+            'title' => 'Penyimpanan Offline & Sinkronisasi',
+            'message' => 'Aplikasi bekerja penuh saat offline. Data akan otomatis dikirim saat sinyal kembali.',
+            'full_message' => 'Aplikasi ini bekerja penuh saat internet mati. Anda bisa mengabsen kelas tanpa kuota, dan data akan otomatis dikirim saat sinyal kembali.',
+            'type' => 'system',
+            'category' => 'Sistem',
+            'created_at' => Carbon::today()->setTime(6, 0)->toIso8601String(),
+            'is_read' => true,
+        ];
+
+        return response()->json([
+            'success' => true,
+            'data' => $notifications,
+        ]);
+    }
 }
