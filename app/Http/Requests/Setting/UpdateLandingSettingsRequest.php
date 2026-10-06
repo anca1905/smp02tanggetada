@@ -19,6 +19,7 @@ class UpdateLandingSettingsRequest extends FormRequest
             'school_logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'history_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'sejarah_kepemimpinan_img' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'popup_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             // Field teks (data string/integer) akan diambil via validasi implicit atau $request->except()
         ];
     }
@@ -45,6 +46,10 @@ class UpdateLandingSettingsRequest extends FormRequest
             'sejarah_kepemimpinan_img.image' => 'Gambar sejarah kepemimpinan harus berupa gambar.',
             'sejarah_kepemimpinan_img.mimes' => 'Format gambar sejarah kepemimpinan harus jpeg, png, jpg, atau webp.',
             'sejarah_kepemimpinan_img.max' => 'Ukuran gambar sejarah kepemimpinan maksimal 5MB.',
+
+            'popup_image.image' => 'Poster pop-up harus berupa gambar.',
+            'popup_image.mimes' => 'Format poster pop-up harus jpeg, png, jpg, atau webp.',
+            'popup_image.max' => 'Ukuran poster pop-up maksimal 5MB.',
         ];
     }
 }

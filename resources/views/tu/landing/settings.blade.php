@@ -30,6 +30,98 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
+                {{-- Modul Pop-up & Banner Pengumuman Dinamis --}}
+                <div class="lg:col-span-2 bg-gradient-to-br from-blue-900 to-indigo-950 text-white rounded-2xl shadow-md border border-yellow-500/30 p-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-white/10 gap-3">
+                        <div class="flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-xl bg-yellow-400 text-blue-950 flex items-center justify-center font-bold text-lg">
+                                <i class="fas fa-bullhorn"></i>
+                            </span>
+                            <div>
+                                <h3 class="font-bold text-lg text-white">Pop-up & Banner Pengumuman Beranda</h3>
+                                <p class="text-xs text-blue-200">Atur pop-up flyer dan banner pengumuman dinamis untuk siswa/wali murid di beranda website.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-xl border border-white/10">
+                            <label class="text-xs font-semibold text-yellow-300">Status Pop-up:</label>
+                            <select name="popup_active" class="bg-blue-950 text-white text-xs font-bold border border-yellow-400/50 rounded-lg px-2.5 py-1 focus:ring-yellow-400">
+                                <option value="1" {{ ($settings['popup_active'] ?? '1') == '1' ? 'selected' : '' }}>Aktif (Tampilkan)</option>
+                                <option value="0" {{ ($settings['popup_active'] ?? '1') == '0' ? 'selected' : '' }}>Nonaktif (Sembunyikan)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mt-6">
+                        {{-- Kolom Poster --}}
+                        <div class="md:col-span-4 flex flex-col items-center">
+                            <label class="block text-xs font-semibold text-blue-200 mb-2 self-start">Flyer / Poster Pengumuman</label>
+                            <div class="w-full max-w-[200px] aspect-[3/4] rounded-xl border border-white/20 bg-black/20 overflow-hidden relative flex items-center justify-center group shadow-inner mb-3">
+                                @if (isset($settings['popup_image']))
+                                    <img src="{{ asset('storage/' . $settings['popup_image']) }}" class="w-full h-full object-contain p-1" alt="Poster Popup">
+                                @else
+                                    <i class="fas fa-image text-white/30 text-4xl"></i>
+                                @endif
+                            </div>
+                            <input type="file" name="popup_image" accept="image/*"
+                                class="block w-full text-xs text-blue-200 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-yellow-400 file:text-blue-950 hover:file:bg-yellow-300 cursor-pointer">
+                            <p class="text-[10px] text-blue-300/80 mt-1 self-start">Format JPG, PNG, WEBP. Maks 5MB.</p>
+                        </div>
+
+                        {{-- Kolom Konfigurasi Teks & URL --}}
+                        <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-800">
+                            <div>
+                                <label class="block text-xs font-semibold text-blue-100 mb-1">Judul Pengumuman</label>
+                                <input type="text" name="popup_title" value="{{ $settings['popup_title'] ?? 'Lomba Literasi Antar Kelas' }}"
+                                    class="w-full bg-white text-gray-900 text-sm px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-blue-100 mb-1">Badge / Kategori Singkat</label>
+                                <input type="text" name="popup_badge" value="{{ $settings['popup_badge'] ?? 'Peringatan Bulan Bahasa 2026' }}"
+                                    class="w-full bg-white text-gray-900 text-sm px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400">
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label class="block text-xs font-semibold text-blue-100 mb-1">Keterangan / Slogan Singkat</label>
+                                <input type="text" name="popup_subtitle" value="{{ $settings['popup_subtitle'] ?? 'Utamakan Bahasa Indonesia, Lestarikan Bahasa Daerah, Kuasai Bahasa Asing' }}"
+                                    class="w-full bg-white text-gray-900 text-sm px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-blue-100 mb-1">Batas Waktu / Jadwal</label>
+                                <input type="text" name="popup_deadline" value="{{ $settings['popup_deadline'] ?? 'Batas Pendaftaran: 10 - 24 Oktober 2026' }}"
+                                    class="w-full bg-white text-gray-900 text-sm px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-blue-100 mb-1">Nomor WhatsApp Panitia</label>
+                                <input type="text" name="popup_wa_number" value="{{ $settings['popup_wa_number'] ?? '0853465489992' }}"
+                                    placeholder="Contoh: 0853465489992"
+                                    class="w-full bg-white text-gray-900 text-sm px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-blue-100 mb-1">Teks Tombol Aksi Utama</label>
+                                <input type="text" name="popup_btn_text" value="{{ $settings['popup_btn_text'] ?? 'Daftar Sekarang (Google Form)' }}"
+                                    class="w-full bg-white text-gray-900 text-sm px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-blue-100 mb-1">Link Tujuan Tombol Utama (Google Form / URL)</label>
+                                <input type="url" name="popup_btn_url" value="{{ $settings['popup_btn_url'] ?? 'https://forms.gle/frfZEwZ9x2xwuiTM9' }}"
+                                    class="w-full bg-white text-gray-900 text-sm px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400">
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label class="block text-xs font-semibold text-blue-100 mb-1">Link Artikel Berita / Panduan (Opsional)</label>
+                                <input type="text" name="popup_news_url" value="{{ $settings['popup_news_url'] ?? '/berita/lomba-literasi-antar-kelas-bulan-bahasa-2026' }}"
+                                    placeholder="/berita/judul-berita atau https://..."
+                                    class="w-full bg-white text-gray-900 text-sm px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 h-fit">
                     <h3 class="font-bold text-gray-800 border-b border-gray-100 pb-3 mb-4">Identitas & Kontak</h3>
                     <div class="space-y-4">
