@@ -28,8 +28,36 @@
                         <h1 class="text-3xl font-bold text-gray-900 mb-6 leading-tight">{{ $post->title }}</h1>
 
                         <div class="prose max-w-none text-gray-700 leading-relaxed text-lg">
-                            {!! nl2br(e($post->content)) !!}
+                            {!! nl2br(preg_replace(
+                                '/(https?:\/\/[^\s<]+)/',
+                                '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline font-semibold break-all">$1</a>',
+                                e($post->content)
+                            )) !!}
                         </div>
+
+                        @if (str_contains($post->content, 'forms.gle') || str_contains($post->slug, 'lomba-literasi'))
+                            <div class="mt-8 p-6 bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl text-white shadow-lg">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="w-10 h-10 rounded-full bg-yellow-400 text-blue-900 flex items-center justify-center font-bold text-lg">
+                                        <i class="fas fa-trophy"></i>
+                                    </span>
+                                    <div>
+                                        <h3 class="text-xl font-bold">Pendaftaran & Narahubung Resmi</h3>
+                                        <p class="text-blue-200 text-sm">Silakan lakukan pendaftaran daring dan hubungi panitia jika ada pertanyaan.</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex flex-wrap gap-4">
+                                    <a href="https://forms.gle/frfZEwZ9x2xwuiTM9" target="_blank" rel="noopener noreferrer"
+                                        class="px-6 py-3 bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-bold rounded-xl shadow transition inline-flex items-center gap-2">
+                                        <i class="fas fa-edit"></i> Isi Formulir Pendaftaran (Google Form)
+                                    </a>
+                                    <a href="https://wa.me/62853465489992?text=Halo%20Perpustakaan%20SMPN%202%20Tanggetada,%20saya%20ingin%20bertanya%20mengenai%20Lomba%20Literasi" target="_blank" rel="noopener noreferrer"
+                                        class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl shadow transition inline-flex items-center gap-2">
+                                        <i class="fab fa-whatsapp text-lg"></i> Hubungi WA Panitia
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
 
                         <div class="mt-10 pt-6 border-t border-gray-100">
                             <a href="{{ route('public.berita') }}"

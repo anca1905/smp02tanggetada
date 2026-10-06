@@ -331,11 +331,30 @@ class DummyContentSeeder extends Seeder
                 'created_at' => now()->subDays(3),
                 'updated_at' => now()->subDays(3),
             ],
+            [
+                'title' => 'Semarak Bulan Bahasa: Lomba Literasi Antar Kelas Perpustakaan SMPN 2 Tanggetada',
+                'slug' => 'lomba-literasi-antar-kelas-bulan-bahasa-2026',
+                'category' => 'Pengumuman',
+                'content' => "Dalam rangka memperingati Bulan Bahasa, Perpustakaan SMP Negeri 2 Tanggetada menyelenggarakan LOMBA LITERASI ANTAR KELAS.\n\n\"Utamakan Bahasa Indonesia, Lestarikan Bahasa Daerah, Kuasai Bahasa Asing\"\n\nSaatnya generasi muda menunjukkan kreativitas, keberanian, dan semangat kompetisi! Raih hadiah dan jadilah pemenang!\n\nINFORMASI PENTING:\n- Batas Pendaftaran: 10 - 24 Oktober 2026\n- Pelaksanaan Lomba: 28 Oktober 2026\n- Waktu: 09.00 WITA - Selesai\n- Lokasi: Lab. Komputer SMPN 2 Tanggetada\n\nJENIS-JENIS LOMBA:\n1. Lomba Cerdas Cermat (Beregu: 3 Orang per kelas)\n2. Lomba Pidato (Individu: 1 Orang) - Tema: \"Bahasa Sebagai Pemersatu Bangsa\"\n3. Lomba Puisi (Individu: 1 Orang) - Tema: \"Pahlawanku\"\n\nLINK PENDAFTARAN RESMI:\nhttps://forms.gle/frfZEwZ9x2xwuiTM9\n\nINFORMASI LENGKAP & KONTAK:\nPerpustakaan SMPN 2 Tanggetada: 0853465489992 (WhatsApp)",
+                'image' => 'posts/lomba-literasi-antar-kelas-2026.jpg',
+                'is_published' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ];
         DB::table('posts')->insert($posts);
 
         // Events
         $events = [
+            [
+                'title' => 'Lomba Literasi Antar Kelas (Bulan Bahasa)',
+                'description' => 'Lomba literasi Cerdas Cermat, Pidato, dan Puisi antar kelas diselenggarakan oleh Perpustakaan di Lab. Komputer SMPN 2 Tanggetada. Pendaftaran: https://forms.gle/frfZEwZ9x2xwuiTM9',
+                'start_date' => '2026-10-28',
+                'end_date' => '2026-10-28',
+                'type' => 'event',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
             [
                 'title' => 'Ujian Tengah Semester (UTS) Ganjil',
                 'description' => 'Pelaksanaan evaluasi pembelajaran UTS semester ganjil berbasis komputer untuk seluruh tingkatan kelas.',
