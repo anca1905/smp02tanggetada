@@ -23,6 +23,42 @@ class StoreStudentAttendanceAction
         DB::transaction(function () use ($data, $guru) {
             $sessionType = $data['session_type'];
             $subjectId = ($sessionType === 'kelas') ? ($data['subject_id'] ?? null) : null;
+            $class = $data['class'];
+
+            if ($class === 'all') {
+                foreach ($data['attendance'] as $nis => $item) {
+                    $student = Student::where('nis', $nis)->first();
+                    if (! $student || ! $student->classroom_id) {
+                        continue;
+                    }
+
+                    $header = Attendance::updateOrCreate(
+                        [
+                            'class' => $student->classroom_id,
+                            'session_type' => $sessionType,
+                            'date' => $data['date'],
+                            'subject_id' => null,
+                        ],
+                        [
+                            'teacher_id' => $guru?->id,
+                            'start_time' => Carbon::now()->format('H:i:00'),
+                            'end_time' => Carbon::now()->addHour()->format('H:i:00'),
+                        ]
+                    );
+
+                    StudentAttendance::updateOrCreate(
+                        [
+                            'attendance_id' => $header->id,
+                            'student_id' => $student->id,
+                        ],
+                        [
+                            'status' => $item['status'],
+                        ]
+                    );
+                }
+
+                return;
+            }
 
             $matchAttributes = [
                 'class' => $data['class'],

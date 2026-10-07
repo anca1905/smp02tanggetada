@@ -24,7 +24,11 @@ class ScanBarcodeRequest extends FormRequest
         return [
             'nis' => ['required', 'string'],
             'session_type' => ['required', 'string', 'in:apel,kelas,pulang'],
-            'class' => ['required', 'exists:classrooms,id'],
+            'class' => ['required', function ($attribute, $value, $fail) {
+                if ($value !== 'all' && ! \App\Models\Classroom::where('id', $value)->exists()) {
+                    $fail('Kelas tidak ditemukan.');
+                }
+            }],
             'date' => ['required', 'date'],
         ];
     }

@@ -15,6 +15,7 @@ class TeacherProvider with ChangeNotifier {
   // Master Data
   List<dynamic> _classes = [];
   List<dynamic> _subjects = [];
+  List<dynamic> _allStudents = [];
   Map<String, dynamic>? _dashboardData;
 
   // Selected state
@@ -40,6 +41,7 @@ class TeacherProvider with ChangeNotifier {
 
   List<dynamic> get classes => _classes;
   List<dynamic> get subjects => _subjects;
+  List<dynamic> get allStudents => _allStudents;
   Map<String, dynamic>? get dashboardData => _dashboardData;
 
   dynamic get selectedClass => _selectedClass;
@@ -133,6 +135,17 @@ class TeacherProvider with ChangeNotifier {
 
     if (_subjects.isNotEmpty && _selectedSubject == null) {
       _selectedSubject = _subjects.first;
+    }
+
+    // Load all students across school for school-wide barcode attendance (Apel Pagi & Pulang)
+    try {
+      final allRes = await _apiService.client.get('/teacher/students?class_id=all');
+      if (allRes.statusCode == 200 && allRes.data['success'] == true) {
+        _allStudents = allRes.data['data'] ?? [];
+        await _syncService.saveAllStudents(_allStudents);
+      }
+    } catch (_) {
+      _allStudents = await _syncService.getCachedAllStudents();
     }
 
     // If a class is selected, load its students
@@ -251,6 +264,53 @@ class TeacherProvider with ChangeNotifier {
         _attendanceMap[nis] = 'present';
       }
     }
+    notifyListeners();
+  }
+
+  /// Search student across current class or the entire school student directory
+  dynamic findStudent(String query) {
+    final q = query.trim();
+    if (q.isEmpty) return null;
+
+    // 1. Search in current active classroom list
+    for (final s in _currentStudents) {
+      if (s['nis']?.toString() == q || s['nisn']?.toString() == q) {
+        return s;
+      }
+    }
+
+    // 2. Search in all students directory across the school
+    for (final s in _allStudents) {
+      if (s['nis']?.toString() == q || s['nisn']?.toString() == q) {
+        return s;
+      }
+    }
+
+    return null;
+  }
+
+  /// Record scanned student, mark status in attendanceMap if in current class,
+  /// and persist in offline sync queue.
+  Future<void> recordStudentScanned({
+    required String nis,
+    dynamic classId,
+    String? className,
+    required String sessionType,
+    required DateTime date,
+  }) async {
+    if (_attendanceMap.containsKey(nis)) {
+      _attendanceMap[nis] = 'present';
+    }
+
+    final dateStr = date.toIso8601String().substring(0, 10);
+    await _syncService.queueSingleScan(
+      nis: nis,
+      classId: classId,
+      className: className,
+      sessionType: sessionType,
+      date: dateStr,
+    );
+    await refreshQueueState();
     notifyListeners();
   }
 

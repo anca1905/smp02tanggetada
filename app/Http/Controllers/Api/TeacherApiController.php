@@ -130,18 +130,23 @@ class TeacherApiController extends Controller
     }
 
     /**
-     * Get students for a specific classroom (used for offline caching).
+     * Get students for a specific classroom or all classrooms (used for offline caching).
      */
     public function students(Request $request): JsonResponse
     {
         $request->validate([
-            'class_id' => 'required|exists:classrooms,id',
+            'class_id' => 'nullable',
         ]);
 
-        $students = Student::where('classroom_id', $request->class_id)
-            ->where('student_status', 'Active')
-            ->orderBy('student_name')
-            ->get()
+        $query = Student::where('student_status', 'Active')
+            ->with('classroom:id,name')
+            ->orderBy('student_name');
+
+        if ($request->filled('class_id') && $request->class_id !== 'all') {
+            $query->where('classroom_id', $request->class_id);
+        }
+
+        $students = $query->get()
             ->map(fn ($s) => [
                 'id' => $s->id,
                 'nis' => $s->nis,
@@ -149,6 +154,8 @@ class TeacherApiController extends Controller
                 'student_name' => $s->student_name,
                 'gender' => $s->gender,
                 'photo_url' => $s->photo_url,
+                'class_id' => $s->classroom_id,
+                'class_name' => $s->classroom?->name ?? '-',
             ]);
 
         return response()->json([
@@ -177,11 +184,30 @@ class TeacherApiController extends Controller
     public function attendanceHistory(Request $request): JsonResponse
     {
         $request->validate([
-            'class_id' => 'required|exists:classrooms,id',
+            'class_id' => 'nullable',
             'date' => 'required|date',
             'session_type' => 'required|in:apel,kelas,pulang',
             'subject_id' => 'nullable|exists:subjects,id',
         ]);
+
+        if (! $request->filled('class_id') || $request->class_id === 'all') {
+            $attendanceIds = Attendance::where('date', $request->date)
+                ->where('session_type', $request->session_type)
+                ->pluck('id');
+
+            $records = StudentAttendance::whereIn('attendance_id', $attendanceIds)
+                ->with('student:id,nis')
+                ->get()
+                ->mapWithKeys(fn ($item) => [
+                    $item->student?->nis => $item->status,
+                ]);
+
+            return response()->json([
+                'success' => true,
+                'has_data' => $records->isNotEmpty(),
+                'data' => $records,
+            ]);
+        }
 
         $query = Attendance::where('class', $request->class_id)
             ->where('date', $request->date)
@@ -277,15 +303,25 @@ class TeacherApiController extends Controller
         $request->validate([
             'nis' => 'required|string',
             'session_type' => 'required|in:apel,kelas,pulang',
-            'class_id' => 'required|exists:classrooms,id',
+            'class_id' => 'nullable',
             'date' => 'required|date',
             'subject_id' => 'nullable|exists:subjects,id',
         ]);
 
+        $classId = $request->class_id;
+        if ($classId && $classId !== 'all') {
+            if (! Classroom::where('id', $classId)->exists()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kelas tidak ditemukan.',
+                ], 422);
+            }
+        }
+
         $result = $action->execute(
             $request->nis,
             $request->session_type,
-            (string) $request->class_id,
+            $classId ? (string) $classId : 'all',
             $request->date,
         );
 

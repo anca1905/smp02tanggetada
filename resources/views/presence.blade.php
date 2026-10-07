@@ -76,6 +76,7 @@
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Pilih Kelas</label>
                     <select id="select-kelas-overlay" class="w-full bg-white border border-gray-300 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm">
                         <option value="" disabled selected>-- Pilih Kelas --</option>
+                        <option value="all" class="font-bold text-blue-700">🌟 Seluruh Siswa (Semua Kelas - Apel & Pulang)</option>
                         @foreach ($classrooms as $c)
                             <option value="{{ $c->id }}">Kelas {{ $c->name }}</option>
                         @endforeach
@@ -84,11 +85,11 @@
 
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Jenis Sesi</label>
-                    <select id="select-sesi-overlay" class="w-full bg-white border border-gray-300 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm">
+                    <select id="select-sesi-overlay" onchange="handleSesiChange(this.value)" class="w-full bg-white border border-gray-300 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm">
                         <option value="" disabled selected>-- Pilih Sesi --</option>
-                        <option value="apel">Apel Pagi</option>
-                        <option value="kelas">Di Kelas</option>
-                        <option value="pulang">Pulang</option>
+                        <option value="apel">Apel Pagi (Seluruh Siswa)</option>
+                        <option value="kelas">Di Kelas (Per Kelas)</option>
+                        <option value="pulang">Pulang (Seluruh Siswa)</option>
                     </select>
                 </div>
                 
@@ -195,6 +196,13 @@
         else if(type === 'warning') icon.className = 'fas fa-exclamation-circle text-yellow-400';
         
         setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function handleSesiChange(val) {
+        const selKelas = document.getElementById('select-kelas-overlay');
+        if ((val === 'apel' || val === 'pulang') && (!selKelas.value || selKelas.value === '')) {
+            selKelas.value = 'all';
+        }
     }
 
     function updateLabels() {

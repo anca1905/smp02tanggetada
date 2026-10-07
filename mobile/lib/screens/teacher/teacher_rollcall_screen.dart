@@ -28,20 +28,27 @@ class _TeacherRollcallScreenState extends State<TeacherRollcallScreen> {
   }
 
   void _openBarcodeScanner(BuildContext context, TeacherProvider teacher) {
-    if (teacher.selectedClass == null) {
+    final isSchoolWide = (teacher.selectedSession == 'apel' || teacher.selectedSession == 'pulang');
+
+    if (!isSchoolWide && teacher.selectedClass == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Pilih kelas terlebih dahulu.')),
       );
       return;
     }
 
+    final className = isSchoolWide
+        ? 'Seluruh Siswa (Semua Kelas)'
+        : (teacher.selectedClass?['name'] ?? 'Kelas');
+    final classId = isSchoolWide ? 'all' : teacher.selectedClass?['id'];
+
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => TeacherBarcodeScannerScreen(
           sessionType: teacher.selectedSession,
-          className: teacher.selectedClass['name'] ?? 'Kelas',
-          classId: teacher.selectedClass['id'],
+          className: className,
+          classId: classId,
           date: teacher.selectedDate,
           subjectId: teacher.selectedSubject?['id'],
         ),
@@ -244,6 +251,31 @@ class _TeacherRollcallScreenState extends State<TeacherRollcallScreen> {
               _buildSessionChip('pulang', 'Pulang', teacher),
             ],
           ),
+
+          // Informative hint for school-wide sessions
+          if (teacher.selectedSession == 'apel' || teacher.selectedSession == 'pulang') ...[
+            const SizedBox(height: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+              decoration: BoxDecoration(
+                color: const Color(0xFFEFF6FF),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: const Color(0xFFBFDBFE)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.groups_rounded, size: 16, color: Color(0xFF2563EB)),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Sesi ${teacher.selectedSession == 'apel' ? 'Apel Pagi' : 'Pulang'} mendukung Scan Barcode seluruh siswa lintas kelas.',
+                      style: const TextStyle(fontSize: 11, color: Color(0xFF1E40AF), fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
 
           // Subject picker if session is 'kelas'
           if (teacher.selectedSession == 'kelas' && teacher.subjects.isNotEmpty) ...[

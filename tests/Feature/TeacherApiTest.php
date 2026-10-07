@@ -175,7 +175,84 @@ class TeacherApiTest extends TestCase
             ->assertJson([
                 'success' => true,
                 'student_name' => $this->student->student_name,
+                'classroom_name' => $this->classroom->name,
             ]);
+    }
+
+    public function test_teacher_can_scan_student_barcode_school_wide_for_apel_and_all_classes(): void
+    {
+        $classroomB = Classroom::firstOrCreate(
+            ['name' => 'Test Class 8B'],
+            [
+                'level' => '8',
+                'teacher_id' => $this->teacher->id,
+                'academic_year_id' => $this->classroom->academic_year_id,
+            ]
+        );
+
+        $studentB = Student::firstOrCreate(
+            ['nis' => '999992'],
+            [
+                'student_name' => 'Siswa Kelas 8B',
+                'classroom_id' => $classroomB->id,
+                'password' => Hash::make('password123'),
+                'gender' => 'F',
+                'student_status' => 'Active',
+            ]
+        );
+
+        $token = $this->teacher->createToken('test_token')->plainTextToken;
+        $scanDate = now()->addDays(6)->toDateString();
+
+        // Scan Student A from Classroom A with class_id = 'all'
+        $responseA = $this->withHeader('Authorization', "Bearer {$token}")
+            ->postJson('/api/teacher/attendance/scan', [
+                'nis' => $this->student->nis,
+                'session_type' => 'apel',
+                'class_id' => 'all',
+                'date' => $scanDate,
+            ]);
+
+        $responseA->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+                'student_name' => $this->student->student_name,
+                'classroom_name' => $this->classroom->name,
+            ]);
+
+        // Scan Student B from Classroom B in the same session with class_id = 'all'
+        $responseB = $this->withHeader('Authorization', "Bearer {$token}")
+            ->postJson('/api/teacher/attendance/scan', [
+                'nis' => $studentB->nis,
+                'session_type' => 'apel',
+                'class_id' => 'all',
+                'date' => $scanDate,
+            ]);
+
+        $responseB->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+                'student_name' => $studentB->student_name,
+                'classroom_name' => $classroomB->name,
+            ]);
+
+        // Verify that separate attendance headers were created for each student's classroom
+        $this->assertDatabaseHas('attendances', [
+            'class' => $this->classroom->id,
+            'session_type' => 'apel',
+            'date' => $scanDate,
+        ]);
+
+        $this->assertDatabaseHas('attendances', [
+            'class' => $classroomB->id,
+            'session_type' => 'apel',
+            'date' => $scanDate,
+        ]);
+
+        // Cleanup
+        \App\Models\Attendance::where('class', $classroomB->id)->delete();
+        $studentB->delete();
+        $classroomB->delete();
     }
 
     protected function tearDown(): void

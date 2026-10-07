@@ -110,6 +110,34 @@ class StudentPresenceController extends Controller
             'subject_id' => 'nullable|exists:subjects,id',
         ]);
 
+        if ($request->class === 'all') {
+            $headers = \App\Models\Attendance::where('session_type', $request->session_type)
+                ->where('date', $request->date)
+                ->pluck('id');
+
+            $list = \App\Models\StudentAttendance::whereIn('attendance_id', $headers)
+                ->where('status', 'present')
+                ->with('student.classroom')
+                ->latest('updated_at')
+                ->take(50)
+                ->get()
+                ->map(fn ($a) => [
+                    'student_name' => $a->student->student_name ?? '-',
+                    'classroom' => $a->student->classroom?->name ?? '-',
+                    'scan_time' => $a->updated_at->format('H:i:s'),
+                ]);
+
+            $totalCount = \App\Models\StudentAttendance::whereIn('attendance_id', $headers)
+                ->where('status', 'present')
+                ->count();
+
+            return response()->json([
+                'success' => true,
+                'total_present' => $totalCount,
+                'data' => $list,
+            ]);
+        }
+
         $query = \App\Models\Attendance::where('class', $request->class)
             ->where('session_type', $request->session_type)
             ->where('date', $request->date);
@@ -133,7 +161,7 @@ class StudentPresenceController extends Controller
                 'scan_time' => $a->updated_at->format('H:i:s'),
             ]);
 
-        return response()->json(['success' => true, 'data' => $list]);
+        return response()->json(['success' => true, 'total_present' => $list->count(), 'data' => $list]);
     }
 
     /**

@@ -40,6 +40,8 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
   String? _lastScannedNis;
   DateTime? _lastScannedTime;
   final List<Map<String, String>> _recentScans = [];
+  final Set<String> _scannedNisSet = {};
+  int _schoolWidePresentCount = 0;
 
   // Feedback banner state
   String? _feedbackMessage;
@@ -48,6 +50,13 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
   Timer? _feedbackTimer;
 
   bool _isTorchOn = false;
+
+  bool get isSchoolWide =>
+      widget.sessionType == 'apel' ||
+      widget.sessionType == 'pulang' ||
+      widget.classId == null ||
+      widget.classId == 'all' ||
+      widget.className.toLowerCase().contains('seluruh');
 
   @override
   void initState() {
@@ -62,6 +71,41 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
     _laserAnimation = Tween<double>(begin: 0.1, end: 0.9).animate(
       CurvedAnimation(parent: _laserController, curve: Curves.easeInOut),
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final teacher = Provider.of<TeacherProvider>(context, listen: false);
+      if (isSchoolWide) {
+        _loadSchoolWideInitialCount();
+      } else {
+        setState(() {
+          _schoolWidePresentCount = teacher.countPresent;
+        });
+      }
+    });
+  }
+
+  Future<void> _loadSchoolWideInitialCount() async {
+    try {
+      final dateStr = widget.date.toIso8601String().substring(0, 10);
+      final res = await _apiService.client.get(
+        '/teacher/attendance/history?class_id=all&date=$dateStr&session_type=${widget.sessionType}',
+      );
+      if (res.statusCode == 200 && res.data['success'] == true && mounted) {
+        final Map<String, dynamic> data = res.data['data'] ?? {};
+        final presentSet = <String>{};
+        data.forEach((nis, status) {
+          if (status == 'present') {
+            presentSet.add(nis.toString());
+          }
+        });
+        setState(() {
+          _scannedNisSet.addAll(presentSet);
+          _schoolWidePresentCount = presentSet.length;
+        });
+      }
+    } catch (_) {
+      // Offline fallback: rely on local session count
+    }
   }
 
   @override
@@ -97,6 +141,10 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
     });
   }
 
+  String _formatTime(DateTime time) {
+    return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}:${time.second.toString().padLeft(2, '0')}';
+  }
+
   Future<void> _handleBarcodeDetected(BarcodeCapture capture) async {
     final barcodes = capture.barcodes;
     if (barcodes.isEmpty) return;
@@ -104,7 +152,7 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
     final raw = barcodes.first.rawValue?.trim();
     if (raw == null || raw.isEmpty) return;
 
-    // Debounce duplicate scans within 1.5 seconds for same student
+    // Debounce duplicate scans within 1.8 seconds for same student
     final now = DateTime.now();
     if (_lastScannedNis == raw &&
         _lastScannedTime != null &&
@@ -116,15 +164,12 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
     _lastScannedTime = now;
 
     final teacher = Provider.of<TeacherProvider>(context, listen: false);
-    final students = teacher.currentStudents;
 
-    // Search student in current class
-    final student = students.firstWhere(
-      (s) => (s['nis']?.toString() == raw || s['nisn']?.toString() == raw),
-      orElse: () => null,
-    );
+    // Search student using teacher.findStudent(raw)
+    dynamic student = teacher.findStudent(raw);
 
-    if (student == null) {
+    // In single-class mode, student must belong to the active class
+    if (student == null && !isSchoolWide) {
       HapticFeedback.heavyImpact();
       _showFeedback(
         'NIS $raw tidak terdaftar di kelas ${widget.className}!',
@@ -134,52 +179,117 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
       return;
     }
 
-    final studentName = student['student_name'] ?? 'Siswa';
-    final nis = student['nis']?.toString() ?? raw;
-    final currentStatus = teacher.attendanceMap[nis];
+    // In school-wide mode, if student is not found locally, attempt online scan lookup
+    if (student == null) {
+      final onlineResult = await _tryOnlineScan(raw);
+      if (onlineResult != null && onlineResult['success'] == true) {
+        final studentName = onlineResult['student_name'] ?? 'Siswa';
+        final className = onlineResult['classroom_name'] ?? 'Kelas';
+        final timeStr = _formatTime(now);
 
-    // Play feedback sound and haptic vibration
+        SystemSound.play(SystemSoundType.click);
+        HapticFeedback.mediumImpact();
+
+        setState(() {
+          _scannedNisSet.add(raw);
+          _schoolWidePresentCount++;
+          _recentScans.insert(0, {
+            'name': studentName,
+            'class': className,
+            'nis': raw,
+            'time': timeStr,
+          });
+        });
+
+        _showFeedback(
+          '$studentName • $className — HADIR',
+          const Color(0xFF10B981),
+          Icons.check_circle_rounded,
+        );
+        return;
+      } else {
+        HapticFeedback.heavyImpact();
+        _showFeedback(
+          'NIS $raw tidak terdaftar di sekolah!',
+          const Color(0xFFEF4444),
+          Icons.cancel_rounded,
+        );
+        return;
+      }
+    }
+
+    final studentName = student['student_name'] ?? 'Siswa';
+    final studentClassName = student['class_name'] ?? (student['classroom']?['name'] ?? widget.className);
+    final studentClassId = student['class_id'] ?? student['classroom_id'] ?? widget.classId;
+    final nis = student['nis']?.toString() ?? raw;
+
+    // Check if student was already scanned in this session
+    final bool alreadyScanned = _scannedNisSet.contains(nis) ||
+        (!isSchoolWide && teacher.attendanceMap[nis] == 'present');
+
     SystemSound.play(SystemSoundType.click);
     HapticFeedback.mediumImpact();
+    final timeStr = _formatTime(now);
 
-    final timeStr =
-        '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
-
-    if (currentStatus == 'present') {
+    if (alreadyScanned) {
       _showFeedback(
-        '$studentName ($nis) — Sudah Hadir Sebelumnya',
+        '$studentName • $studentClassName — Sudah Hadir',
         const Color(0xFFF59E0B),
         Icons.info_outline_rounded,
       );
     } else {
-      // Mark as present in local state
-      teacher.setStudentStatus(nis, 'present');
-
+      _scannedNisSet.add(nis);
       setState(() {
+        _schoolWidePresentCount++;
         _recentScans.insert(0, {
           'name': studentName,
+          'class': studentClassName,
           'nis': nis,
           'time': timeStr,
         });
       });
 
       _showFeedback(
-        '$studentName ($nis) — HADIR',
+        '$studentName • $studentClassName — HADIR',
         const Color(0xFF10B981),
         Icons.check_circle_rounded,
       );
 
-      // Asynchronously send to server if connected
-      _sendScanToServer(nis);
+      // Record locally in teacher provider & offline queue
+      teacher.recordStudentScanned(
+        nis: nis,
+        classId: studentClassId,
+        className: studentClassName,
+        sessionType: widget.sessionType,
+        date: widget.date,
+      );
+
+      // Asynchronously send to server
+      _sendScanToServer(nis, studentClassId);
     }
   }
 
-  Future<void> _sendScanToServer(String nis) async {
+  Future<Map<String, dynamic>?> _tryOnlineScan(String nis) async {
+    try {
+      final res = await _apiService.client.post('/teacher/attendance/scan', data: {
+        'nis': nis,
+        'session_type': widget.sessionType,
+        'class_id': 'all',
+        'date': widget.date.toIso8601String().substring(0, 10),
+      });
+      if (res.statusCode == 200 && res.data['success'] == true) {
+        return res.data;
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  Future<void> _sendScanToServer(String nis, dynamic classId) async {
     try {
       await _apiService.client.post('/teacher/attendance/scan', data: {
         'nis': nis,
         'session_type': widget.sessionType,
-        'class_id': widget.classId,
+        'class_id': isSchoolWide ? 'all' : (classId ?? widget.classId),
         'date': widget.date.toIso8601String().substring(0, 10),
         if (widget.subjectId != null) 'subject_id': widget.subjectId,
       });
@@ -249,6 +359,11 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
   }
 
   Widget _buildTopHeader(int presentCount, int totalStudents) {
+    final teacher = Provider.of<TeacherProvider>(context, listen: false);
+    final totalDisplay = isSchoolWide
+        ? (teacher.allStudents.isNotEmpty ? teacher.allStudents.length : totalStudents)
+        : totalStudents;
+
     return Container(
       padding: EdgeInsets.fromLTRB(16, MediaQuery.of(context).padding.top + 8, 16, 14),
       decoration: BoxDecoration(
@@ -269,7 +384,7 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
             onPressed: () => Navigator.pop(context),
           ),
           const SizedBox(width: 4),
-          // Title
+          // Title & Badge
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -287,10 +402,50 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
                     ),
                   ],
                 ),
-                Text(
-                  '${widget.className} • $presentCount / $totalStudents Hadir',
-                  style: const TextStyle(color: Color(0xFF93C5FD), fontSize: 12),
-                ),
+                const SizedBox(height: 3),
+                if (isSchoolWide)
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF10B981).withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(color: const Color(0xFF10B981), width: 0.8),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.groups_rounded, color: Color(0xFF34D399), size: 12),
+                            SizedBox(width: 4),
+                            Text(
+                              'Seluruh Siswa',
+                              style: TextStyle(
+                                color: Color(0xFF34D399),
+                                fontSize: 10.5,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        '$_schoolWidePresentCount Hadir',
+                        style: const TextStyle(color: Color(0xFF93C5FD), fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                      if (totalDisplay > 0)
+                        Text(
+                          ' / $totalDisplay',
+                          style: TextStyle(color: Colors.blue.shade200, fontSize: 11),
+                        ),
+                    ],
+                  )
+                else
+                  Text(
+                    '${widget.className} • $presentCount / $totalStudents Hadir',
+                    style: const TextStyle(color: Color(0xFF93C5FD), fontSize: 12),
+                  ),
               ],
             ),
           ),
@@ -319,7 +474,7 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
     return LayoutBuilder(
       builder: (context, constraints) {
         final scanAreaWidth = constraints.maxWidth * 0.82;
-        final scanAreaHeight = 180.0;
+        const scanAreaHeight = 180.0;
 
         return Stack(
           children: [
@@ -399,14 +554,16 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
                     ),
 
                     // Center Target Instruction
-                    const Positioned(
+                    Positioned(
                       bottom: 8,
                       left: 0,
                       right: 0,
                       child: Center(
                         child: Text(
-                          'Arahkan Barcode NIS ke Kotak Ini',
-                          style: TextStyle(
+                          isSchoolWide
+                              ? 'Arahkan ke Kartu Siswa (Semua Kelas)'
+                              : 'Arahkan Barcode NIS ke Kotak Ini',
+                          style: const TextStyle(
                             color: Colors.white70,
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
@@ -532,6 +689,12 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
   }
 
   Widget _buildBottomControls(int presentCount, int totalStudents) {
+    final teacher = Provider.of<TeacherProvider>(context, listen: false);
+    final effectivePresent = isSchoolWide ? _schoolWidePresentCount : presentCount;
+    final effectiveTotal = isSchoolWide
+        ? (teacher.allStudents.isNotEmpty ? teacher.allStudents.length : totalStudents)
+        : totalStudents;
+
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
       decoration: BoxDecoration(
@@ -553,40 +716,45 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Kehadiran: $presentCount dari $totalStudents Siswa',
+                isSchoolWide
+                    ? 'Total Hadir: $effectivePresent Siswa'
+                    : 'Kehadiran: $effectivePresent dari $effectiveTotal Siswa',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                '${totalStudents > 0 ? ((presentCount / totalStudents) * 100).toInt() : 0}%',
-                style: const TextStyle(
-                  color: Color(0xFF10B981),
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
+              if (effectiveTotal > 0)
+                Text(
+                  '${((effectivePresent / effectiveTotal) * 100).toInt()}%',
+                  style: const TextStyle(
+                    color: Color(0xFF10B981),
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
             ],
           ),
-          const SizedBox(height: 8),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: LinearProgressIndicator(
-              value: totalStudents > 0 ? (presentCount / totalStudents) : 0,
-              backgroundColor: const Color(0xFF334155),
-              color: const Color(0xFF10B981),
-              minHeight: 8,
+          if (effectiveTotal > 0) ...[
+            const SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: LinearProgressIndicator(
+                value: (effectivePresent / effectiveTotal).clamp(0.0, 1.0),
+                backgroundColor: const Color(0xFF334155),
+                color: const Color(0xFF10B981),
+                minHeight: 8,
+              ),
             ),
-          ),
+          ],
 
           const SizedBox(height: 12),
 
           // Recent scanned list (Collapsible / Mini list)
           if (_recentScans.isNotEmpty) ...[
             Container(
-              constraints: const BoxConstraints(maxHeight: 110),
+              constraints: const BoxConstraints(maxHeight: 120),
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
                 color: const Color(0xFF1E293B),
@@ -595,7 +763,7 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
               child: ListView.separated(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: _recentScans.length > 3 ? 3 : _recentScans.length,
+                itemCount: _recentScans.length > 4 ? 4 : _recentScans.length,
                 separatorBuilder: (_, __) => const Divider(height: 8, color: Color(0xFF334155)),
                 itemBuilder: (ctx, idx) {
                   final item = _recentScans[idx];
@@ -604,11 +772,22 @@ class _TeacherBarcodeScannerScreenState extends State<TeacherBarcodeScannerScree
                       const Icon(Icons.check_circle, color: Color(0xFF10B981), size: 16),
                       const SizedBox(width: 8),
                       Expanded(
-                        child: Text(
-                          '${item['name']} (NIS: ${item['nis']})',
-                          style: const TextStyle(color: Colors.white, fontSize: 11.5),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item['name'] ?? '',
+                              style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              '${item['class'] ?? ''} • NIS: ${item['nis'] ?? ''}',
+                              style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 10.5),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
                         ),
                       ),
                       Text(

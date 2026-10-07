@@ -8,6 +8,7 @@ class OfflineSyncService {
   static const String _keyClasses = 'cached_classes';
   static const String _keySubjects = 'cached_subjects';
   static const String _keyStudentsPrefix = 'cached_students_class_';
+  static const String _keyAllStudents = 'cached_all_students';
   static const String _keyLastSync = 'last_sync_timestamp';
 
   final ApiService _apiService = ApiService();
@@ -24,6 +25,22 @@ class OfflineSyncService {
   Future<List<dynamic>> getCachedClasses() async {
     final prefs = await SharedPreferences.getInstance();
     final data = prefs.getString(_keyClasses);
+    if (data == null) return [];
+    try {
+      return jsonDecode(data) as List<dynamic>;
+    } catch (_) {
+      return [];
+    }
+  }
+
+  Future<void> saveAllStudents(List<dynamic> students) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_keyAllStudents, jsonEncode(students));
+  }
+
+  Future<List<dynamic>> getCachedAllStudents() async {
+    final prefs = await SharedPreferences.getInstance();
+    final data = prefs.getString(_keyAllStudents);
     if (data == null) return [];
     try {
       return jsonDecode(data) as List<dynamic>;
@@ -84,6 +101,59 @@ class OfflineSyncService {
       currentQueue[existingIndex] = batch;
     } else {
       currentQueue.insert(0, batch);
+    }
+
+    final rawList = currentQueue.map((item) => item.toJson()).toList();
+    await prefs.setString(_keyQueue, jsonEncode(rawList));
+  }
+
+  Future<void> queueSingleScan({
+    required String nis,
+    required dynamic classId,
+    required String sessionType,
+    required String date,
+    String? className,
+  }) async {
+    final effectiveClassId = classId ?? 'all';
+    final batchId = '${effectiveClassId}_${sessionType}_$date';
+    final prefs = await SharedPreferences.getInstance();
+    List<OfflineAttendanceBatch> currentQueue = await getQueue();
+
+    int existingIndex = currentQueue.indexWhere((item) =>
+        item.classId.toString() == effectiveClassId.toString() &&
+        item.date == date &&
+        item.sessionType == sessionType);
+
+    if (existingIndex >= 0) {
+      final existing = currentQueue[existingIndex];
+      final newAttendance = Map<String, String>.from(existing.attendance);
+      newAttendance[nis] = 'present';
+      currentQueue[existingIndex] = OfflineAttendanceBatch(
+        id: existing.id,
+        classId: existing.classId,
+        className: existing.className,
+        sessionType: existing.sessionType,
+        subjectId: existing.subjectId,
+        subjectName: existing.subjectName,
+        date: existing.date,
+        attendance: newAttendance,
+        studentCount: newAttendance.length,
+        createdAt: DateTime.now(),
+      );
+    } else {
+      currentQueue.insert(
+        0,
+        OfflineAttendanceBatch(
+          id: batchId,
+          classId: effectiveClassId,
+          className: className ?? (effectiveClassId == 'all' ? 'Seluruh Siswa' : 'Kelas'),
+          sessionType: sessionType,
+          date: date,
+          attendance: {nis: 'present'},
+          studentCount: 1,
+          createdAt: DateTime.now(),
+        ),
+      );
     }
 
     final rawList = currentQueue.map((item) => item.toJson()).toList();

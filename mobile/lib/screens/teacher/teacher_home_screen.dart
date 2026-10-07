@@ -269,21 +269,24 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           final tp = Provider.of<TeacherProvider>(context, listen: false);
-          if (tp.selectedClass == null && tp.classes.isNotEmpty) {
+          final session = tp.selectedSession;
+          final isSchoolWide = (session == 'apel' || session == 'pulang');
+
+          if (!isSchoolWide && tp.selectedClass == null && tp.classes.isNotEmpty) {
             tp.setSelectedClass(tp.classes.first);
           }
-          if (tp.selectedClass == null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Memuat data kelas, mohon tunggu...')),
-            );
-            return;
-          }
+
+          final className = isSchoolWide
+              ? 'Seluruh Siswa (Semua Kelas)'
+              : (tp.selectedClass?['name'] ?? 'Kelas');
+          final classId = isSchoolWide ? 'all' : tp.selectedClass?['id'];
+
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) => TeacherBarcodeScannerScreen(
-                sessionType: tp.selectedSession,
-                className: tp.selectedClass['name'] ?? 'Kelas',
-                classId: tp.selectedClass['id'],
+                sessionType: session,
+                className: className,
+                classId: classId,
                 date: tp.selectedDate,
                 subjectId: tp.selectedSubject?['id'],
               ),
