@@ -12,6 +12,7 @@ import 'profile_screen.dart';
 import 'announcement_screen.dart';
 import 'material_screen.dart';
 import 'qr_scan_screen.dart';
+import 'student_card_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'leave_request_screen.dart';
 class HomeScreen extends StatefulWidget {
@@ -249,6 +250,75 @@ class _HomeScreenState extends State<HomeScreen> {
             
             const SizedBox(height: 90), // Space for overlapping card
 
+            // Banner Kartu Pelajar Digital (Barcode Siswa)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: InkWell(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const StudentCardScreen()),
+                ),
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF166534), Color(0xFF15803D)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF166534).withValues(alpha: 0.25),
+                        blurRadius: 8,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.18),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Icon(Icons.badge_outlined, color: Colors.white, size: 24),
+                      ),
+                      const SizedBox(width: 12),
+                      const Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Kartu Pelajar Digital (Barcode NIS)',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
+                            SizedBox(height: 2),
+                            Text(
+                              'Tampilkan barcode ke guru untuk absensi cepat',
+                              style: TextStyle(
+                                color: Color(0xFFDCFCE7),
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Icon(Icons.arrow_forward_ios, color: Colors.white70, size: 14),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 14),
+
             // Menu Utama Grid
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -289,10 +359,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      _buildMenuIcon(Icons.badge_outlined, 'Kartu Siswa', const Color(0xFF166534), () => Navigator.push(context, MaterialPageRoute(builder: (_) => const StudentCardScreen()))),
                       _buildMenuIcon(Icons.folder_copy_outlined, 'Materi', const Color(0xFF06B6D4), () => Navigator.push(context, MaterialPageRoute(builder: (_) => const MaterialScreen()))),
                       _buildMenuIcon(Icons.person_outline, 'Profil', const Color(0xFF64748B), () => setState(() => _currentIndex = 2)),
                       _buildMenuIcon(Icons.qr_code_scanner, 'Scan QR', const Color(0xFF10B981), () => Navigator.push(context, MaterialPageRoute(builder: (_) => const QrScanScreen()))),
-                      _buildMenuIcon(Icons.download_outlined, 'Raport', const Color(0xFF3B82F6), () => _showDownloadRaportDialog(context)),
                       _buildMenuIcon(Icons.chat_bubble_outline, 'Hubungi Guru', const Color(0xFFF59E0B), () => _showTeachersBottomSheet(context)),
                     ],
                   ),

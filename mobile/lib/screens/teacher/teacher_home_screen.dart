@@ -6,6 +6,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/teacher_provider.dart';
 import 'teacher_notification_screen.dart';
 import 'teacher_rollcall_screen.dart';
+import 'teacher_barcode_scanner_screen.dart';
 import 'teacher_settings_screen.dart';
 import 'teacher_sync_screen.dart';
 
@@ -260,8 +261,41 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
 
               // Offline Sync Status Card
               _buildSyncStatusCard(context, teacher),
+              const SizedBox(height: 40),
             ],
           ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          final tp = Provider.of<TeacherProvider>(context, listen: false);
+          if (tp.selectedClass == null && tp.classes.isNotEmpty) {
+            tp.setSelectedClass(tp.classes.first);
+          }
+          if (tp.selectedClass == null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Memuat data kelas, mohon tunggu...')),
+            );
+            return;
+          }
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => TeacherBarcodeScannerScreen(
+                sessionType: tp.selectedSession,
+                className: tp.selectedClass['name'] ?? 'Kelas',
+                classId: tp.selectedClass['id'],
+                date: tp.selectedDate,
+                subjectId: tp.selectedSubject?['id'],
+              ),
+            ),
+          );
+        },
+        backgroundColor: const Color(0xFF1E40AF),
+        foregroundColor: Colors.white,
+        icon: const Icon(Icons.qr_code_scanner, size: 22),
+        label: const Text(
+          'Scan Barcode',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
         ),
       ),
     );

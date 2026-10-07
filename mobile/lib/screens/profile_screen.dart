@@ -9,6 +9,7 @@ import 'grade_screen.dart';
 import 'edit_profile_screen.dart';
 import 'change_password_screen.dart';
 import 'settings_screen.dart';
+import 'student_card_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -315,6 +316,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                     // Pengaturan & Lainnya
                     _buildSectionCard('Pengaturan & Lainnya', null, null, [
+                      _buildSettingsRow(Icons.badge_outlined, 'Kartu Pelajar Digital (Barcode)', 'Lihat', () => Navigator.push(context, MaterialPageRoute(builder: (_) => const StudentCardScreen()))),
                       _buildSettingsRow(Icons.lock_outline, 'Ubah Password', null, () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChangePasswordScreen()))),
                       _buildSettingsRow(Icons.notifications_none, 'Notifikasi', null, () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()))),
                       _buildSettingsRow(Icons.security, 'Keamanan Akun', null, () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()))),

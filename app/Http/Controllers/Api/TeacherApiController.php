@@ -270,6 +270,31 @@ class TeacherApiController extends Controller
     }
 
     /**
+     * Scan student barcode for roll call session.
+     */
+    public function scanBarcode(Request $request, \App\Actions\Teacher\StudentPresence\ScanBarcodeAction $action): JsonResponse
+    {
+        $request->validate([
+            'nis' => 'required|string',
+            'session_type' => 'required|in:apel,kelas,pulang',
+            'class_id' => 'required|exists:classrooms,id',
+            'date' => 'required|date',
+            'subject_id' => 'nullable|exists:subjects,id',
+        ]);
+
+        $result = $action->execute(
+            $request->nis,
+            $request->session_type,
+            (string) $request->class_id,
+            $request->date,
+        );
+
+        $status = $result['success'] ? 200 : ($result['already_checked'] ? 200 : 422);
+
+        return response()->json($result, $status);
+    }
+
+    /**
      * Get announcements for teachers.
      */
     public function announcements(): JsonResponse

@@ -59,6 +59,7 @@ Route::middleware('auth:sanctum')->prefix('teacher')->group(function () {
     Route::get('subjects', [\App\Http\Controllers\Api\TeacherApiController::class, 'subjects']);
     Route::get('attendance/history', [\App\Http\Controllers\Api\TeacherApiController::class, 'attendanceHistory']);
     Route::post('attendance/sync', [\App\Http\Controllers\Api\TeacherApiController::class, 'syncAttendance']);
+    Route::post('attendance/scan', [\App\Http\Controllers\Api\TeacherApiController::class, 'scanBarcode']);
     Route::get('announcements', [\App\Http\Controllers\Api\TeacherApiController::class, 'announcements']);
     Route::get('notifications', [\App\Http\Controllers\Api\TeacherApiController::class, 'notifications']);
 });

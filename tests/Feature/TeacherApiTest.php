@@ -56,6 +56,8 @@ class TeacherApiTest extends TestCase
                 'student_status' => 'Active',
             ]
         );
+
+        \App\Models\Attendance::where('class', $this->classroom->id)->delete();
     }
 
     public function test_teacher_login_fails_with_wrong_password(): void
@@ -156,10 +158,31 @@ class TeacherApiTest extends TestCase
             ]);
     }
 
+    public function test_teacher_can_scan_student_barcode(): void
+    {
+        $token = $this->teacher->createToken('test_token')->plainTextToken;
+        $scanDate = now()->addDays(5)->toDateString();
+
+        $response = $this->withHeader('Authorization', "Bearer {$token}")
+            ->postJson('/api/teacher/attendance/scan', [
+                'nis' => $this->student->nis,
+                'session_type' => 'pulang',
+                'class_id' => $this->classroom->id,
+                'date' => $scanDate,
+            ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+                'student_name' => $this->student->student_name,
+            ]);
+    }
+
     protected function tearDown(): void
     {
-        // Cleanup test tokens
+        // Cleanup test tokens and test attendances
         $this->teacher->tokens()->delete();
+        \App\Models\Attendance::where('class', $this->classroom->id)->delete();
         parent::tearDown();
     }
 }

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/teacher_provider.dart';
+import 'teacher_barcode_scanner_screen.dart';
 
 class TeacherRollcallScreen extends StatefulWidget {
   final String initialSession;
 
   const TeacherRollcallScreen({
-    Key? key,
+    super.key,
     this.initialSession = 'apel',
-  }) : super(key: key);
+  });
 
   @override
   State<TeacherRollcallScreen> createState() => _TeacherRollcallScreenState();
@@ -24,6 +25,28 @@ class _TeacherRollcallScreenState extends State<TeacherRollcallScreen> {
         p.loadClassesAndSubjects();
       }
     });
+  }
+
+  void _openBarcodeScanner(BuildContext context, TeacherProvider teacher) {
+    if (teacher.selectedClass == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Pilih kelas terlebih dahulu.')),
+      );
+      return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => TeacherBarcodeScannerScreen(
+          sessionType: teacher.selectedSession,
+          className: teacher.selectedClass['name'] ?? 'Kelas',
+          classId: teacher.selectedClass['id'],
+          date: teacher.selectedDate,
+          subjectId: teacher.selectedSubject?['id'],
+        ),
+      ),
+    );
   }
 
   Future<void> _selectDate(BuildContext context, TeacherProvider teacher) async {
@@ -97,8 +120,13 @@ class _TeacherRollcallScreenState extends State<TeacherRollcallScreen> {
         ),
         actions: [
           IconButton(
+            tooltip: 'Scan Barcode Siswa',
+            icon: const Icon(Icons.qr_code_scanner, size: 22, color: Colors.white),
+            onPressed: () => _openBarcodeScanner(context, teacher),
+          ),
+          IconButton(
             tooltip: 'Pilih Tanggal',
-            icon: const Icon(Icons.calendar_today, size: 20, color: Colors.white),
+            icon: const Icon(Icons.calendar_today, size: 19, color: Colors.white),
             onPressed: () => _selectDate(context, teacher),
           ),
         ],
@@ -288,17 +316,31 @@ class _TeacherRollcallScreenState extends State<TeacherRollcallScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       child: Row(
         children: [
-          // Quick "Tandai Semua Hadir" button
+          // Quick "Scan Barcode" button
           ElevatedButton.icon(
-            onPressed: () => teacher.markAllPresent(),
-            icon: const Icon(Icons.done_all, size: 14),
-            label: const Text('Semua Hadir', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+            onPressed: () => _openBarcodeScanner(context, teacher),
+            icon: const Icon(Icons.qr_code_scanner, size: 14),
+            label: const Text('Scan Barcode', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF10B981), // Emerald
+              backgroundColor: const Color(0xFF2563EB), // Blue
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               minimumSize: Size.zero,
               elevation: 0,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+            ),
+          ),
+          const SizedBox(width: 6),
+          // Quick "Semua Hadir" button
+          OutlinedButton.icon(
+            onPressed: () => teacher.markAllPresent(),
+            icon: const Icon(Icons.done_all, size: 14),
+            label: const Text('Semua Hadir', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: const Color(0xFF10B981), // Emerald
+              side: const BorderSide(color: Color(0xFF10B981)),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              minimumSize: Size.zero,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
             ),
           ),
@@ -486,6 +528,25 @@ class _TeacherRollcallScreenState extends State<TeacherRollcallScreen> {
         child: Row(
           children: [
             Expanded(
+              flex: 4,
+              child: OutlinedButton.icon(
+                onPressed: () => _openBarcodeScanner(context, teacher),
+                icon: const Icon(Icons.qr_code_scanner, size: 18),
+                label: const Text(
+                  'Scan Barcode',
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                ),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color(0xFF2563EB),
+                  side: const BorderSide(color: Color(0xFF2563EB), width: 1.5),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              flex: 5,
               child: ElevatedButton.icon(
                 onPressed: teacher.isLoading ? null : () => _handleSave(teacher),
                 icon: teacher.isLoading
