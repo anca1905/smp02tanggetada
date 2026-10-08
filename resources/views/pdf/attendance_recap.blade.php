@@ -2,41 +2,38 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Rekap Absensi Siswa - {{ \Carbon\Carbon::create()->month($bulan)->locale('id')->isoFormat('MMMM') }} {{ $tahun }}</title>
+    <title>Rekap Absensi Siswa - {{ $monthName ?? \Carbon\Carbon::create()->month($bulan)->locale('id')->isoFormat('MMMM') }} {{ $tahun }}</title>
     @php
-        $schoolName = $site_settings['school_name'] ?? ($site_settings['app_name'] ?? 'SMP 02 TANGGETADA');
-        $schoolAddress = $site_settings['school_address'] ?? 'Jl. Poros Tanggetada, Kabupaten Kolaka, Sulawesi Tenggara';
-        $principalName = $site_settings['id_card_principal_name'] ?? 'Kepala Sekolah, M.Pd';
-        
-        $sesiMap = [
-            'apel' => 'Apel Pagi',
-            'kelas' => 'Di Kelas',
-            'pulang' => 'Pulang',
-        ];
-        $sesiText = $sesi ? ($sesiMap[$sesi] ?? ucfirst($sesi)) : 'Semua Sesi';
-        $kelasText = $selectedClass ? 'Kelas ' . $selectedClass->name : 'Semua Kelas';
-        $bulanText = \Carbon\Carbon::create()->month($bulan)->locale('id')->isoFormat('MMMM') . ' ' . $tahun;
+        $schoolName = $site_settings['school_name'] ?? ($site_settings['app_name'] ?? 'SMP NEGERI 2 TANGGETADA');
+        $schoolName = strtoupper($schoolName);
 
-        // Hitung rekap ringkasan
-        $summary = [
-            'present' => 0,
-            'sick' => 0,
-            'permission' => 0,
-            'absent' => 0,
-            'late' => 0,
-        ];
-        foreach ($data as $item) {
-            $st = strtolower($item->status);
-            if (isset($summary[$st])) {
-                $summary[$st]++;
-            }
+        $daysInMonth = $daysInMonth ?? \Carbon\Carbon::create($tahun, $bulan, 1)->daysInMonth;
+        $monthName = $monthName ?? \Carbon\Carbon::create()->month($bulan)->locale('id')->isoFormat('MMMM');
+        $matrix = $matrix ?? [];
+
+        // Fallback jika $sheets belum terdefinisi
+        if (!isset($sheets) || empty($sheets)) {
+            $sheets = [
+                [
+                    'classroom' => $selectedClass,
+                    'namaRombel' => $selectedClass ? $selectedClass->name : 'Semua Kelas',
+                    'academicYearName' => $tahun . '/' . ($tahun + 1),
+                    'semesterName' => ($bulan >= 7 && $bulan <= 12) ? 'Semester Ganjil' : 'Semester Genap',
+                    'waliKelasName' => $selectedClass && $selectedClass->teacher ? $selectedClass->teacher->name : '—',
+                    'waliKelasNip' => $selectedClass && $selectedClass->teacher ? ($selectedClass->teacher->employee_id ?? '') : '',
+                    'students' => collect(),
+                    'countL' => 0,
+                    'countP' => 0,
+                    'totalCount' => 0,
+                ]
+            ];
         }
     @endphp
 
     <style>
         @page {
             size: a4 landscape;
-            margin: 12mm 12mm 15mm 12mm;
+            margin: 8mm 8mm 8mm 8mm;
         }
         * {
             box-sizing: border-box;
@@ -45,146 +42,162 @@
         }
         body {
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 8.5pt;
-            color: #1f2937;
-            line-height: 1.3;
+            font-size: 8pt;
+            color: #000;
+            line-height: 1.15;
+            background: #fff;
         }
 
-        /* Kop Laporan */
-        .kop-table {
+        .page-sheet {
             width: 100%;
-            border-bottom: 2pt solid #111827;
-            padding-bottom: 6pt;
-            margin-bottom: 10pt;
-            border-collapse: collapse;
         }
-        .kop-text {
+
+        .page-break {
+            page-break-after: always;
+        }
+
+        /* Header Laporan */
+        .header-title-main {
             text-align: center;
-        }
-        .kop-title {
-            font-size: 14pt;
-            font-weight: bold;
-            color: #111827;
-            text-transform: uppercase;
-            letter-spacing: 0.5pt;
-        }
-        .kop-subtitle {
             font-size: 11pt;
             font-weight: bold;
-            color: #374151;
-            margin-top: 1pt;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
         }
-        .kop-address {
-            font-size: 7.5pt;
-            color: #6b7280;
-            margin-top: 2pt;
-        }
-
-        /* Meta Info Filter */
-        .meta-table {
-            width: 100%;
-            margin-bottom: 8pt;
-            border-collapse: collapse;
-            font-size: 8.5pt;
-        }
-        .meta-table td {
-            padding: 2pt 0;
-            vertical-align: top;
-        }
-        .meta-label {
-            font-weight: bold;
-            color: #4b5563;
-            width: 80pt;
-        }
-        .meta-val {
-            color: #111827;
-        }
-
-        /* Summary Badges */
-        .summary-box {
-            margin-bottom: 10pt;
-            padding: 5pt 8pt;
-            background: #f9fafb;
-            border: 0.5pt solid #e5e7eb;
-            font-size: 8pt;
-        }
-        .summary-box span {
-            margin-right: 15pt;
-            font-weight: 500;
-        }
-        .summary-box strong {
-            font-weight: bold;
-            color: #111827;
-        }
-
-        /* Data Table */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 8pt;
-        }
-        .data-table th {
-            background-color: #f3f4f6;
-            color: #111827;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 7.5pt;
-            border: 0.5pt solid #9ca3af;
-            padding: 4pt 5pt;
-            text-align: left;
-        }
-        .data-table td {
-            border: 0.5pt solid #d1d5db;
-            padding: 4pt 5pt;
-            vertical-align: middle;
-        }
-        .data-table tr:nth-child(even) td {
-            background-color: #fcfdfd;
-        }
-        .text-center {
+        .header-school {
             text-align: center;
+            font-size: 10.5pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+        .header-year {
+            text-align: center;
+            font-size: 9.5pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .header-meta {
+            text-align: left;
+            font-size: 8.5pt;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 4px;
         }
 
-        /* Status Pills */
-        .status-hadir {
-            color: #065f46;
-            font-weight: bold;
-        }
-        .status-sakit {
-            color: #854d0e;
-            font-weight: bold;
-        }
-        .status-izin {
-            color: #1e40af;
-            font-weight: bold;
-        }
-        .status-alpha {
-            color: #991b1b;
-            font-weight: bold;
-        }
-        .status-terlambat {
-            color: #c2410c;
-            font-weight: bold;
-        }
-
-        /* Signatures */
-        .sign-table {
+        /* Tabel Presensi Siswa */
+        .table-absen {
             width: 100%;
-            margin-top: 25pt;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: 7.5pt;
+        }
+        .table-absen th,
+        .table-absen td {
+            border: 1px solid #000;
+            text-align: center;
+            vertical-align: middle;
+            padding: 2px 1px;
+            overflow: hidden;
+        }
+        .table-absen th {
+            background-color: #ffffff;
+            font-weight: bold;
+            color: #000;
+        }
+        .table-absen td.col-nama {
+            text-align: left;
+            padding-left: 4px;
+            padding-right: 2px;
+            white-space: nowrap;
+        }
+        .table-absen td.col-nisn {
+            font-size: 7pt;
+            white-space: nowrap;
+        }
+        .table-absen td.col-day {
+            font-weight: bold;
+            font-size: 7.5pt;
+        }
+
+        /* Layout Footer */
+        .footer-table {
+            width: 100%;
+            border: none;
+            margin-top: 8px;
             border-collapse: collapse;
             page-break-inside: avoid;
         }
-        .sign-table td {
-            width: 50%;
+        .footer-table td {
+            border: none;
             vertical-align: top;
+            padding: 0;
+        }
+
+        /* Tabel Keterangan (S, I, A) */
+        .table-keterangan {
+            width: auto;
+            border-collapse: collapse;
+            font-size: 7.5pt;
+        }
+        .table-keterangan th {
+            border: 1px solid #000;
+            padding: 2px 10px;
             text-align: center;
+            font-weight: bold;
+            font-size: 8pt;
+            background-color: #fff;
+        }
+        .table-keterangan td {
+            border: 1px solid #000;
+            padding: 1.5px 10px;
+            vertical-align: middle;
+        }
+        .table-keterangan td.sym-cell {
+            text-align: center;
+            font-weight: bold;
+            width: 28px;
+        }
+        .table-keterangan td.desc-cell {
+            text-align: left;
+            width: 65px;
+        }
+
+        /* Ringkasan Jumlah Gender */
+        .table-counts {
+            margin-top: 6px;
             font-size: 8.5pt;
+            font-weight: bold;
+            border-collapse: collapse;
         }
-        .sign-space {
-            height: 45pt;
+        .table-counts td {
+            border: none;
+            padding: 1px 0;
         }
-        .sign-name {
+        .table-counts td.count-label {
+            color: #000;
+            width: 75px;
+        }
+        .table-counts td.count-val {
+            color: #dc2626; /* Merah sesuai gambar */
+            padding-left: 4px;
+        }
+
+        /* Tanda Tangan */
+        .signature-box {
+            display: inline-block;
+            text-align: center;
+            font-size: 8pt;
+            min-width: 160pt;
+        }
+        .signature-space {
+            height: 38px;
+        }
+        .signature-name {
             font-weight: bold;
             text-decoration: underline;
         }
@@ -192,113 +205,129 @@
 </head>
 <body>
 
-    <!-- KOP -->
-    <table class="kop-table">
-        <tr>
-            <td class="kop-text">
-                <div class="kop-title">{{ $schoolName }}</div>
-                <div class="kop-subtitle">LAPORAN REKAPITULASI KEHADIRAN SISWA</div>
-                <div class="kop-address">{{ $schoolAddress }}</div>
-            </td>
-        </tr>
-    </table>
+@foreach ($sheets as $sheetIndex => $sheet)
+    <div class="page-sheet {{ $sheetIndex < count($sheets) - 1 ? 'page-break' : '' }}">
 
-    <!-- META FILTER -->
-    <table class="meta-table">
-        <tr>
-            <td class="meta-label">Bulan / Tahun</td>
-            <td style="width: 10pt;">:</td>
-            <td class="meta-val"><strong>{{ $bulanText }}</strong></td>
-            <td class="meta-label" style="text-align: right; padding-right: 8pt;">Kelas :</td>
-            <td class="meta-val" style="width: 120pt;"><strong>{{ $kelasText }}</strong></td>
-        </tr>
-        <tr>
-            <td class="meta-label">Sesi Kehadiran</td>
-            <td style="width: 10pt;">:</td>
-            <td class="meta-val">{{ $sesiText }}</td>
-            <td class="meta-label" style="text-align: right; padding-right: 8pt;">Total Data :</td>
-            <td class="meta-val"><strong>{{ count($data) }} baris</strong></td>
-        </tr>
-    </table>
+        <!-- Header -->
+        <div class="header-title-main">DAFTAR HADIR SISWA</div>
+        <div class="header-school">{{ $schoolName }}</div>
+        <div class="header-year">TAHUN PELAJARAN {{ $sheet['academicYearName'] }}</div>
+        <div class="header-meta">Jenis Rombel: Kelas Utama - Nama Rombel: {{ $sheet['namaRombel'] }} - {{ $sheet['semesterName'] }} - Wali Kelas: {{ $sheet['waliKelasName'] }}</div>
 
-    <!-- RINGKASAN -->
-    <div class="summary-box">
-        <strong>Ringkasan:</strong>
-        <span>Hadir: <strong>{{ $summary['present'] }}</strong></span>
-        <span>Terlambat: <strong>{{ $summary['late'] }}</strong></span>
-        <span>Izin: <strong>{{ $summary['permission'] }}</strong></span>
-        <span>Sakit: <strong>{{ $summary['sick'] }}</strong></span>
-        <span>Alpha: <strong>{{ $summary['absent'] }}</strong></span>
-    </div>
+        <!-- Tabel Utama Presensi -->
+        <table class="table-absen">
+            <thead>
+                {{-- Baris Header 1 --}}
+                <tr>
+                    <th colspan="2" style="width: 110pt;">NOMOR</th>
+                    <th rowspan="3" style="width: 155pt;">NAMA SISWA</th>
+                    <th rowspan="3" style="width: 22pt;">L/P</th>
+                    <th colspan="{{ $daysInMonth }}">Bulan {{ $monthName }} {{ $tahun }}</th>
+                </tr>
+                {{-- Baris Header 2 --}}
+                <tr>
+                    <th rowspan="2" style="width: 25pt;">URUT</th>
+                    <th rowspan="2" style="width: 85pt;">NISN / NIS</th>
+                    <th colspan="{{ $daysInMonth }}">Tanggal</th>
+                </tr>
+                {{-- Baris Header 3: Nomor Tanggal 1 s.d. $daysInMonth --}}
+                <tr>
+                    @for ($d = 1; $d <= $daysInMonth; $d++)
+                        <th style="width: {{ 485 / $daysInMonth }}pt;">{{ $d }}</th>
+                    @endfor
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($sheet['students'] as $i => $student)
+                    @php
+                        $nisnNis = $student->nisn && $student->nis
+                            ? $student->nisn . ' / ' . $student->nis
+                            : ($student->nisn ?: ($student->nis ?: '-'));
+                        $genderCode = in_array(strtoupper($student->gender ?? ''), ['M', 'L'])
+                            ? 'L'
+                            : (in_array(strtoupper($student->gender ?? ''), ['F', 'P']) ? 'P' : '-');
+                    @endphp
+                    <tr>
+                        <td>{{ $i + 1 }}</td>
+                        <td class="col-nisn">{{ $nisnNis }}</td>
+                        <td class="col-nama">{{ $student->student_name }}</td>
+                        <td>{{ $genderCode }}</td>
+                        @for ($d = 1; $d <= $daysInMonth; $d++)
+                            @php
+                                $cellStatus = $matrix[$student->id][$d] ?? '';
+                            @endphp
+                            <td class="col-day">{{ $cellStatus }}</td>
+                        @endfor
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="{{ 4 + $daysInMonth }}" style="padding: 12px; color: #666;">
+                            Tidak ada data siswa untuk rombel ini.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
 
-    <!-- DATA TABLE -->
-    <table class="data-table">
-        <thead>
+        <!-- Bagian Bawah: Keterangan S, I, A & Jumlah Siswa & Tanda Tangan -->
+        <table class="footer-table">
             <tr>
-                <th style="width: 25pt;" class="text-center">No</th>
-                <th style="width: 75pt;">Tanggal</th>
-                <th style="width: 65pt;">Sesi</th>
-                <th style="width: 55pt;">NIS</th>
-                <th>Nama Lengkap Siswa</th>
-                <th style="width: 70pt;">Kelas</th>
-                <th style="width: 70pt;" class="text-center">Status</th>
+                <td style="width: 55%;">
+                    <!-- Tabel Keterangan -->
+                    <table class="table-keterangan">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="sym-cell">S</td>
+                                <td class="desc-cell">Sakit</td>
+                            </tr>
+                            <tr>
+                                <td class="sym-cell">I</td>
+                                <td class="desc-cell">Izin</td>
+                            </tr>
+                            <tr>
+                                <td class="sym-cell">A</td>
+                                <td class="desc-cell">Alpa</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Hitungan Gender Siswa -->
+                    <table class="table-counts">
+                        <tr>
+                            <td class="count-label">Laki-Laki</td>
+                            <td class="count-val">: {{ $sheet['countL'] }} Orang</td>
+                        </tr>
+                        <tr>
+                            <td class="count-label">Perempuan</td>
+                            <td class="count-val">: {{ $sheet['countP'] }} Orang</td>
+                        </tr>
+                        <tr>
+                            <td class="count-label">Jumlah</td>
+                            <td class="count-val">: {{ $sheet['totalCount'] }} Orang</td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width: 45%; text-align: right;">
+                    <div class="signature-box">
+                        <div>Tanggetada, {{ \Carbon\Carbon::now()->locale('id')->isoFormat('D MMMM Y') }}</div>
+                        <div style="margin-top: 2px;">Wali Kelas,</div>
+                        <div class="signature-space"></div>
+                        <div class="signature-name">{{ $sheet['waliKelasName'] }}</div>
+                        @if(!empty($sheet['waliKelasNip']))
+                            <div>NIP. {{ $sheet['waliKelasNip'] }}</div>
+                        @endif
+                    </div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @forelse ($data as $index => $item)
-                @php
-                    $sesiName = match($item->attendance->session_type ?? '') {
-                        'apel' => 'Apel Pagi',
-                        'kelas' => 'Di Kelas',
-                        'pulang' => 'Pulang',
-                        default => '—',
-                    };
+        </table>
 
-                    [$statusClass, $statusLabel] = match(strtolower($item->status)) {
-                        'present' => ['status-hadir', 'Hadir'],
-                        'sick' => ['status-sakit', 'Sakit'],
-                        'permission' => ['status-izin', 'Izin'],
-                        'absent' => ['status-alpha', 'Alpha'],
-                        'late' => ['status-terlambat', 'Terlambat'],
-                        default => ['', $item->status],
-                    };
-                @endphp
-                <tr>
-                    <td class="text-center">{{ $index + 1 }}</td>
-                    <td>{{ \Carbon\Carbon::parse($item->attendance->date)->isoFormat('dddd, D MMM Y') }}</td>
-                    <td>{{ $sesiName }}</td>
-                    <td>{{ optional($item->student)->nis ?? '-' }}</td>
-                    <td><strong>{{ optional($item->student)->student_name ?? 'Data Siswa Dihapus' }}</strong></td>
-                    <td>{{ optional(optional($item->student)->classroom)->name ?? '-' }}</td>
-                    <td class="text-center"><span class="{{ $statusClass }}">{{ $statusLabel }}</span></td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="7" class="text-center" style="padding: 15pt; color: #6b7280;">
-                        Tidak ada data absensi yang ditemukan untuk filter ini.
-                    </td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-
-    <!-- SIGNATURES -->
-    <table class="sign-table">
-        <tr>
-            <td>
-                <div>Mengetahui,</div>
-                <div>Kepala Sekolah</div>
-                <div class="sign-space"></div>
-                <div class="sign-name">{{ $principalName }}</div>
-            </td>
-            <td>
-                <div>Tanggetada, {{ \Carbon\Carbon::now()->isoFormat('D MMMM Y') }}</div>
-                <div>Petugas Administrasi / TU</div>
-                <div class="sign-space"></div>
-                <div class="sign-name">Staff Administrasi TU</div>
-            </td>
-        </tr>
-    </table>
+    </div>
+@endforeach
 
 </body>
 </html>

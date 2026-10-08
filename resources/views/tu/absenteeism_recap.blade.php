@@ -57,6 +57,11 @@
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
+                        <a href="{{ route('tu.rekap.pdf', array_merge(request()->query(), ['stream' => 1])) }}"
+                            target="_blank"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-colors shadow-sm whitespace-nowrap">
+                            <i class="fas fa-print mr-2"></i> Cetak
+                        </a>
                         <a href="{{ route('tu.rekap.pdf', request()->query()) }}"
                             class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-colors shadow-sm whitespace-nowrap">
                             <i class="fas fa-file-pdf mr-2"></i> Export PDF
@@ -129,7 +134,7 @@
                                             'present'    => ['bg-green-100 text-green-800', 'Hadir'],
                                             'sick'       => ['bg-yellow-100 text-yellow-800', 'Sakit'],
                                             'permission' => ['bg-blue-100 text-blue-800', 'Izin'],
-                                            'absent'     => ['bg-red-100 text-red-800', 'Alpha'],
+                                            'absent'     => ['bg-red-100 text-red-800', 'Alpa'],
                                             'late'       => ['bg-orange-100 text-orange-800', 'Terlambat'],
                                             default      => ['bg-gray-100 text-gray-800', 'Tidak Absen'],
                                         };
