@@ -32,7 +32,11 @@
                 <tbody class="divide-y divide-gray-200">
                     @forelse($events as $event)
                         <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 font-medium text-gray-900">{{ $event->title }}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900">
+                                <a href="{{ route('tu.events.show', $event->id) }}" class="text-blue-600 hover:text-blue-800 hover:underline">
+                                    {{ $event->title }}
+                                </a>
+                            </td>
                             <td class="px-6 py-4">{{ $event->start_date->format('d M Y') }}</td>
                             <td class="px-6 py-4">
                                 {{ $event->end_date ? $event->end_date->format('d M Y') : '-' }}
@@ -50,14 +54,26 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <form onsubmit="confirmDelete(event, this);"
-                                    action="{{ route('tu.events.destroy', $event->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
+                                <div class="flex items-center justify-center space-x-2">
+                                    <a href="{{ route('tu.events.show', $event->id) }}"
+                                        class="text-blue-600 hover:text-blue-900 p-1.5 rounded hover:bg-blue-50 transition"
+                                        title="Lihat Detail">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('tu.events.edit', $event->id) }}"
+                                        class="text-yellow-600 hover:text-yellow-900 p-1.5 rounded hover:bg-yellow-50 transition"
+                                        title="Edit Agenda">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form onsubmit="confirmDelete(event, this);"
+                                        action="{{ route('tu.events.destroy', $event->id) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:text-red-900 p-1.5 rounded hover:bg-red-50 transition" title="Hapus Agenda">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty

@@ -11,7 +11,6 @@
         $monthName = $monthName ?? \Carbon\Carbon::create()->month($bulan)->locale('id')->isoFormat('MMMM');
         $matrix = $matrix ?? [];
 
-        // Fallback jika $sheets belum terdefinisi
         if (!isset($sheets) || empty($sheets)) {
             $sheets = [
                 [
@@ -33,7 +32,7 @@
     <style>
         @page {
             size: a4 landscape;
-            margin: 8mm 8mm 8mm 8mm;
+            margin: 6mm 6mm 6mm 6mm;
         }
         * {
             box-sizing: border-box;
@@ -42,7 +41,7 @@
         }
         body {
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 8pt;
+            font-size: 7.5pt;
             color: #000;
             line-height: 1.15;
             background: #fff;
@@ -63,7 +62,7 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
         }
         .header-school {
             text-align: center;
@@ -71,7 +70,7 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
         }
         .header-year {
             text-align: center;
@@ -79,30 +78,28 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
         .header-meta {
             text-align: left;
             font-size: 8.5pt;
             font-weight: bold;
             color: #000;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         /* Tabel Presensi Siswa */
         .table-absen {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed;
-            font-size: 7.5pt;
+            font-size: 7pt;
         }
         .table-absen th,
         .table-absen td {
             border: 1px solid #000;
             text-align: center;
             vertical-align: middle;
-            padding: 2px 1px;
-            overflow: hidden;
+            padding: 1.5px 1px;
         }
         .table-absen th {
             background-color: #ffffff;
@@ -111,13 +108,13 @@
         }
         .table-absen td.col-nama {
             text-align: left;
-            padding-left: 4px;
+            padding-left: 3px;
             padding-right: 2px;
-            white-space: nowrap;
+            font-size: 7pt;
         }
         .table-absen td.col-nisn {
-            font-size: 7pt;
-            white-space: nowrap;
+            font-size: 6.8pt;
+            padding: 1.5px 1px;
         }
         .table-absen td.col-day {
             font-weight: bold;
@@ -128,7 +125,7 @@
         .footer-table {
             width: 100%;
             border: none;
-            margin-top: 8px;
+            margin-top: 6px;
             border-collapse: collapse;
             page-break-inside: avoid;
         }
@@ -142,35 +139,35 @@
         .table-keterangan {
             width: auto;
             border-collapse: collapse;
-            font-size: 7.5pt;
+            font-size: 7pt;
         }
         .table-keterangan th {
             border: 1px solid #000;
-            padding: 2px 10px;
+            padding: 1px 8px;
             text-align: center;
             font-weight: bold;
-            font-size: 8pt;
+            font-size: 7.5pt;
             background-color: #fff;
         }
         .table-keterangan td {
             border: 1px solid #000;
-            padding: 1.5px 10px;
+            padding: 1px 10px;
             vertical-align: middle;
         }
         .table-keterangan td.sym-cell {
             text-align: center;
             font-weight: bold;
-            width: 28px;
+            width: 25px;
         }
         .table-keterangan td.desc-cell {
             text-align: left;
-            width: 65px;
+            width: 60px;
         }
 
         /* Ringkasan Jumlah Gender */
         .table-counts {
-            margin-top: 6px;
-            font-size: 8.5pt;
+            margin-top: 4px;
+            font-size: 7.5pt;
             font-weight: bold;
             border-collapse: collapse;
         }
@@ -180,7 +177,7 @@
         }
         .table-counts td.count-label {
             color: #000;
-            width: 75px;
+            width: 65px;
         }
         .table-counts td.count-val {
             color: #dc2626; /* Merah sesuai gambar */
@@ -191,15 +188,18 @@
         .signature-box {
             display: inline-block;
             text-align: center;
-            font-size: 8pt;
-            min-width: 160pt;
+            font-size: 7.5pt;
+            min-width: 150pt;
         }
         .signature-space {
-            height: 38px;
+            height: 30px;
         }
         .signature-name {
             font-weight: bold;
             text-decoration: underline;
+        }
+        .signature-nip {
+            font-size: 7pt;
         }
     </style>
 </head>
@@ -217,23 +217,33 @@
         <!-- Tabel Utama Presensi -->
         <table class="table-absen">
             <thead>
-                {{-- Baris Header 1 --}}
+                {{-- Baris Definisi Lebar Kolom (Zero-Height) agar DomPDF tidak mengecilkan kolom nama & NISN --}}
+                <tr style="height: 0; line-height: 0; font-size: 0;">
+                    <th style="width: 25pt; height: 0; padding: 0; border: none; font-size: 0; line-height: 0;"></th>
+                    <th style="width: 95pt; height: 0; padding: 0; border: none; font-size: 0; line-height: 0;"></th>
+                    <th style="width: 185pt; height: 0; padding: 0; border: none; font-size: 0; line-height: 0;"></th>
+                    <th style="width: 20pt; height: 0; padding: 0; border: none; font-size: 0; line-height: 0;"></th>
+                    @for ($d = 1; $d <= $daysInMonth; $d++)
+                        <th style="width: {{ round(475 / $daysInMonth, 1) }}pt; height: 0; padding: 0; border: none; font-size: 0; line-height: 0;"></th>
+                    @endfor
+                </tr>
+                {{-- Baris Header 1: NOMOR, NAMA SISWA, L/P, Bulan --}}
                 <tr>
-                    <th colspan="2" style="width: 110pt;">NOMOR</th>
-                    <th rowspan="3" style="width: 155pt;">NAMA SISWA</th>
-                    <th rowspan="3" style="width: 22pt;">L/P</th>
+                    <th colspan="2">NOMOR</th>
+                    <th rowspan="3">NAMA SISWA</th>
+                    <th rowspan="3">L/P</th>
                     <th colspan="{{ $daysInMonth }}">Bulan {{ $monthName }} {{ $tahun }}</th>
                 </tr>
-                {{-- Baris Header 2 --}}
+                {{-- Baris Header 2: URUT, NISN / NIS, Tanggal --}}
                 <tr>
-                    <th rowspan="2" style="width: 25pt;">URUT</th>
-                    <th rowspan="2" style="width: 85pt;">NISN / NIS</th>
+                    <th rowspan="2">URUT</th>
+                    <th rowspan="2">NISN / NIS</th>
                     <th colspan="{{ $daysInMonth }}">Tanggal</th>
                 </tr>
                 {{-- Baris Header 3: Nomor Tanggal 1 s.d. $daysInMonth --}}
                 <tr>
                     @for ($d = 1; $d <= $daysInMonth; $d++)
-                        <th style="width: {{ 485 / $daysInMonth }}pt;">{{ $d }}</th>
+                        <th>{{ $d }}</th>
                     @endfor
                 </tr>
             </thead>
@@ -315,11 +325,11 @@
                 <td style="width: 45%; text-align: right;">
                     <div class="signature-box">
                         <div>Tanggetada, {{ \Carbon\Carbon::now()->locale('id')->isoFormat('D MMMM Y') }}</div>
-                        <div style="margin-top: 2px;">Wali Kelas,</div>
+                        <div style="margin-top: 1px;">Wali Kelas,</div>
                         <div class="signature-space"></div>
                         <div class="signature-name">{{ $sheet['waliKelasName'] }}</div>
                         @if(!empty($sheet['waliKelasNip']))
-                            <div>NIP. {{ $sheet['waliKelasNip'] }}</div>
+                            <div class="signature-nip">NIP. {{ $sheet['waliKelasNip'] }}</div>
                         @endif
                     </div>
                 </td>

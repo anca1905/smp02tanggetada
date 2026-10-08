@@ -5,14 +5,14 @@ namespace App\Http\Requests\Event;
 use Illuminate\Foundation\Http\FormRequest;
 use Override;
 
-class StoreEventRequest extends FormRequest
+class UpdateEventRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true; // Asumsikan middleware auth sudah menangani otorisasi
+        return true;
     }
 
     /**
