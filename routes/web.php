@@ -279,6 +279,7 @@ Route::middleware(['auth:operator'])
             'edit',
             'show',
         ]);
+        Route::post('posts/upload-image', [PostController::class, 'uploadImage'])->name('posts.upload-image');
         Route::resource('posts', PostController::class);
         Route::resource('events', EventController::class);
         Route::resource('edokumen', \App\Http\Controllers\AdminTu\EDokumenController::class)->except(['show', 'edit', 'update']);

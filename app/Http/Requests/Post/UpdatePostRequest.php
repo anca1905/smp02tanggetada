@@ -5,7 +5,7 @@ namespace App\Http\Requests\Post;
 use Illuminate\Foundation\Http\FormRequest;
 use Override;
 
-class StorePostRequest extends FormRequest
+class UpdatePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -47,7 +47,7 @@ class StorePostRequest extends FormRequest
             'content.required' => 'Isi berita tidak boleh kosong.',
             'content.string' => 'Isi berita harus berupa teks.',
             'image.image' => 'File yang diupload harus berupa gambar.',
-            'image.mimes' => 'Format gambar harus berupa jpeg, png, atau jpg.',
+            'image.mimes' => 'Format gambar harus berupa jpeg, png, jpg, atau webp.',
             'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
         ];
     }

@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class CreatePostAction
 {
     /**
-     * Membuat berita baru dan menangani upload gambar
+     * Membuat berita baru dan menangani upload gambar.
      */
     public function execute(array $data, ?UploadedFile $image = null): Post
     {
@@ -18,7 +18,15 @@ class CreatePostAction
             $imagePath = $image->store('posts', 'public');
         }
 
-        $data['slug'] = Str::slug($data['title']);
+        $slug = Str::slug($data['title']);
+        $originalSlug = $slug;
+        $count = 1;
+        while (Post::where('slug', $slug)->exists()) {
+            $slug = "{$originalSlug}-{$count}";
+            $count++;
+        }
+
+        $data['slug'] = $slug;
         $data['image'] = $imagePath;
         $data['is_published'] = true;
 

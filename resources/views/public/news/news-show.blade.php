@@ -27,12 +27,16 @@
 
                         <h1 class="text-3xl font-bold text-gray-900 mb-6 leading-tight">{{ $post->title }}</h1>
 
-                        <div class="prose max-w-none text-gray-700 leading-relaxed text-lg">
-                            {!! nl2br(preg_replace(
-                                '/(https?:\/\/[^\s<]+)/',
-                                '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline font-semibold break-all">$1</a>',
-                                e($post->content)
-                            )) !!}
+                        <div class="prose max-w-none text-gray-700 leading-relaxed text-lg [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-xl [&_img]:my-4 [&_img]:shadow-sm">
+                            @if (strip_tags($post->content) !== $post->content)
+                                {!! $post->content !!}
+                            @else
+                                {!! nl2br(preg_replace(
+                                    '/(https?:\/\/[^\s<]+)/',
+                                    '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline font-semibold break-all">$1</a>',
+                                    e($post->content)
+                                )) !!}
+                            @endif
                         </div>
 
                         @if (str_contains($post->content, 'forms.gle') || str_contains($post->slug, 'lomba-literasi'))
