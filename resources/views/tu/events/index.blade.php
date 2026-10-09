@@ -4,10 +4,13 @@
 
 @section('content')
     <div class="space-y-6">
-        <div class="flex justify-between items-center">
-            <h2 class="text-2xl font-bold text-gray-800">Agenda & Kalender Akademik</h2>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">Agenda & Kalender Akademik</h2>
+                <p class="text-sm text-gray-500">Kelola jadwal kegiatan, ujian, dan hari libur sekolah.</p>
+            </div>
             <button onclick="document.getElementById('addModal').classList.remove('hidden')"
-                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                class="bg-blue-600 text-white px-4 py-2.5 rounded-lg hover:bg-blue-700 transition inline-flex items-center justify-center font-semibold text-sm shadow-sm">
                 <i class="fas fa-plus mr-2"></i> Tambah Agenda
             </button>
         </div>
@@ -19,70 +22,72 @@
         @endif
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            <table class="w-full text-sm text-left text-gray-500">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b">
-                    <tr>
-                        <th class="px-6 py-3">Nama Agenda</th>
-                        <th class="px-6 py-3">Tanggal Mulai</th>
-                        <th class="px-6 py-3">Selesai</th>
-                        <th class="px-6 py-3">Jenis</th>
-                        <th class="px-6 py-3 text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    @forelse($events as $event)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 font-medium text-gray-900">
-                                <a href="{{ route('tu.events.show', $event->id) }}" class="text-blue-600 hover:text-blue-800 hover:underline">
-                                    {{ $event->title }}
-                                </a>
-                            </td>
-                            <td class="px-6 py-4">{{ $event->start_date->format('d M Y') }}</td>
-                            <td class="px-6 py-4">
-                                {{ $event->end_date ? $event->end_date->format('d M Y') : '-' }}
-                            </td>
-                            <td class="px-6 py-4">
-                                @if ($event->type == 'academic')
-                                    <span
-                                        class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">Akademik</span>
-                                @elseif($event->type == 'holiday')
-                                    <span
-                                        class="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded">Libur</span>
-                                @else
-                                    <span
-                                        class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">Kegiatan</span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <div class="flex items-center justify-center space-x-2">
-                                    <a href="{{ route('tu.events.show', $event->id) }}"
-                                        class="text-blue-600 hover:text-blue-900 p-1.5 rounded hover:bg-blue-50 transition"
-                                        title="Lihat Detail">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{ route('tu.events.edit', $event->id) }}"
-                                        class="text-yellow-600 hover:text-yellow-900 p-1.5 rounded hover:bg-yellow-50 transition"
-                                        title="Edit Agenda">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form onsubmit="confirmDelete(event, this);"
-                                        action="{{ route('tu.events.destroy', $event->id) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-900 p-1.5 rounded hover:bg-red-50 transition" title="Hapus Agenda">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-500 min-w-[580px]">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b">
                         <tr>
-                            <td colspan="5" class="px-6 py-8 text-center text-gray-500">Belum ada agenda terjadwal.</td>
+                            <th class="px-6 py-3">Nama Agenda</th>
+                            <th class="px-6 py-3">Tanggal Mulai</th>
+                            <th class="px-6 py-3">Selesai</th>
+                            <th class="px-6 py-3">Jenis</th>
+                            <th class="px-6 py-3 text-center">Aksi</th>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @forelse($events as $event)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 font-medium text-gray-900">
+                                    <a href="{{ route('tu.events.show', $event->id) }}" class="text-blue-600 hover:text-blue-800 hover:underline">
+                                        {{ $event->title }}
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4">{{ $event->start_date->format('d M Y') }}</td>
+                                <td class="px-6 py-4">
+                                    {{ $event->end_date ? $event->end_date->format('d M Y') : '-' }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    @if ($event->type == 'academic')
+                                        <span
+                                            class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">Akademik</span>
+                                    @elseif($event->type == 'holiday')
+                                        <span
+                                            class="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded">Libur</span>
+                                    @else
+                                        <span
+                                            class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">Kegiatan</span>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <a href="{{ route('tu.events.show', $event->id) }}"
+                                            class="text-blue-600 hover:text-blue-900 p-1.5 rounded hover:bg-blue-50 transition"
+                                            title="Lihat Detail">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('tu.events.edit', $event->id) }}"
+                                            class="text-yellow-600 hover:text-yellow-900 p-1.5 rounded hover:bg-yellow-50 transition"
+                                            title="Edit Agenda">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form onsubmit="confirmDelete(event, this);"
+                                            action="{{ route('tu.events.destroy', $event->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-900 p-1.5 rounded hover:bg-red-50 transition" title="Hapus Agenda">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-8 text-center text-gray-500">Belum ada agenda terjadwal.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
             <div class="p-4">
                 {{ $events->links() }}
             </div>
