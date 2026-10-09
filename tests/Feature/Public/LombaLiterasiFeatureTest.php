@@ -9,6 +9,24 @@ use Tests\TestCase;
 
 class LombaLiterasiFeatureTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Operator::firstOrCreate(['username' => 'admin'], [
+            'name' => 'Admin TU',
+            'password' => bcrypt('password'),
+            'role_operator' => 'operator',
+        ]);
+
+        Post::firstOrCreate(['slug' => 'lomba-literasi-antar-kelas-bulan-bahasa-2026'], [
+            'title' => 'Lomba Literasi Antar Kelas Bulan Bahasa 2026',
+            'content' => 'Lomba Cerdas Cermat Bahasa Sebagai Pemersatu Bangsa Pahlawanku https://forms.gle/frfZEwZ9x2xwuiTM9 0853465489992 Isi Formulir Pendaftaran (Google Form)',
+            'category' => 'Kegiatan',
+            'is_published' => true,
+        ]);
+    }
+
     protected function refreshSiteSettings(): void
     {
         view()->share('site_settings', Setting::pluck('value', 'key')->toArray());
