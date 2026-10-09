@@ -29,7 +29,7 @@
     </div>
 
     {{-- ── KPI Cards Row ──────────────────────────────────────────────────── --}}
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
 
         {{-- Total Guru --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 flex items-center gap-2.5 sm:gap-4 hover:shadow-md transition-shadow">
@@ -79,22 +79,6 @@
             </div>
         </div>
 
-        {{-- Guru Hadir Hari Ini --}}
-        <div class="col-span-2 sm:col-span-1 bg-white rounded-xl shadow-sm border border-gray-100 p-3 sm:p-4 flex items-center gap-2.5 sm:gap-4 hover:shadow-md transition-shadow">
-            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-indigo-50 flex items-center justify-center shrink-0">
-                <i class="fas fa-clock text-indigo-600 text-lg sm:text-xl"></i>
-            </div>
-            <div class="min-w-0">
-                <p class="text-[11px] sm:text-xs text-gray-500 font-medium leading-tight">Guru Hadir</p>
-                <p class="text-xl sm:text-2xl font-bold text-gray-800">{{ $guruHadir }}<span class="text-xs sm:text-sm text-gray-400 font-normal">/{{ $totalGuru }}</span></p>
-                @if($guruTerlambat > 0)
-                    <p class="text-[11px] sm:text-xs text-red-500 font-medium"><i class="fas fa-arrow-down mr-1"></i>{{ $guruTerlambat }} Terlambat</p>
-                @else
-                    <p class="text-[11px] sm:text-xs text-green-500 font-medium">Hari ini</p>
-                @endif
-            </div>
-        </div>
-
     </div>
 
     {{-- ── Row 2: Attendance Chart + Top Teachers ─────────────────────────── --}}
@@ -112,17 +96,17 @@
             <canvas id="attendanceChart" height="90"></canvas>
         </div>
 
-        {{-- Top 5 Active Teachers --}}
+        {{-- Top 5 Active Teachers (Berdasarkan Jam Mengajar) --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
             <div class="flex items-center justify-between mb-5">
-                <h3 class="text-base font-bold text-gray-800">Top Guru Paling Aktif</h3>
+                <h3 class="text-base font-bold text-gray-800">Top Guru Teraktif</h3>
                 <a href="{{ route('tu.teacher.index') }}" class="text-xs text-blue-600 font-medium hover:underline">Lihat Semua</a>
             </div>
             <div class="space-y-4">
                 @forelse($topTeachers as $idx => $teacher)
                 @php
-                    $maxHadir = $topTeachers->max('hadir_count') ?: 1;
-                    $pct = $maxHadir > 0 ? round(($teacher->hadir_count / $maxHadir) * 100) : 0;
+                    $maxJadwal = $topTeachers->max('schedules_count') ?: 1;
+                    $pct = $maxJadwal > 0 ? round(($teacher->schedules_count / $maxJadwal) * 100) : 0;
                     $colors = ['bg-blue-600','bg-green-500','bg-orange-500','bg-purple-500','bg-red-500'];
                     $color = $colors[$idx] ?? 'bg-gray-400';
                 @endphp
@@ -137,65 +121,18 @@
                             <div class="{{ $color }} h-1.5 rounded-full transition-all" style="width: {{ $pct }}%"></div>
                         </div>
                     </div>
-                    <span class="text-xs font-bold {{ $color === 'bg-blue-600' ? 'text-blue-600' : 'text-gray-600' }}">{{ $teacher->hadir_count ?? 0 }}x</span>
+                    <span class="text-xs font-bold {{ $color === 'bg-blue-600' ? 'text-blue-600' : 'text-gray-600' }}">{{ $teacher->schedules_count ?? 0 }} Jam/Mg</span>
                 </div>
                 @empty
-                <p class="text-sm text-gray-400 text-center py-4">Belum ada data kehadiran guru.</p>
+                <p class="text-sm text-gray-400 text-center py-4">Belum ada data guru.</p>
                 @endforelse
             </div>
         </div>
 
     </div>
 
-    {{-- ── Row 3: Guru Hari Ini + Announcements + Events ──────────────────── --}}
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-
-        {{-- Teacher Attendance Donut --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
-            <h3 class="text-base font-bold text-gray-800 mb-5">Kehadiran Guru Hari Ini</h3>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-                <div class="relative">
-                    <canvas id="guruDonut" width="120" height="120"></canvas>
-                    <div class="absolute inset-0 flex flex-col items-center justify-center">
-                        <span class="text-2xl font-bold text-gray-800">{{ $guruHadir }}</span>
-                        <span class="text-xs text-gray-400">Hadir</span>
-                    </div>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-blue-600 shrink-0"></span>
-                        <div>
-                            <p class="text-xs text-gray-500">Hadir</p>
-                            <p class="text-sm font-bold text-gray-800">{{ $guruHadir }}</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-orange-400 shrink-0"></span>
-                        <div>
-                            <p class="text-xs text-gray-500">Terlambat</p>
-                            <p class="text-sm font-bold text-gray-800">{{ $guruTerlambat }}</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-gray-200 shrink-0"></span>
-                        <div>
-                            <p class="text-xs text-gray-500">Belum Hadir</p>
-                            <p class="text-sm font-bold text-gray-800">{{ $totalGuru - $guruHadir }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-5 pt-4 border-t border-gray-100">
-                @php $guruPct = $totalGuru > 0 ? round(($guruHadir / $totalGuru) * 100) : 0; @endphp
-                <div class="flex justify-between items-center mb-1">
-                    <span class="text-xs text-gray-500">Persentase Kehadiran</span>
-                    <span class="text-xs font-bold {{ $guruPct >= 80 ? 'text-green-600' : 'text-red-500' }}">{{ $guruPct }}%</span>
-                </div>
-                <div class="w-full bg-gray-100 rounded-full h-2">
-                    <div class="{{ $guruPct >= 80 ? 'bg-green-500' : 'bg-red-400' }} h-2 rounded-full" style="width: {{ $guruPct }}%"></div>
-                </div>
-            </div>
-        </div>
+    {{-- ── Row 3: Announcements + Events ────────────────────────────────── --}}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
 
         {{-- Latest Announcements --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
@@ -359,28 +296,6 @@
                     grid: { display: false }
                 }
             }
-        }
-    });
-
-    // ── Teacher Donut Chart ───────────────────────────────────────────────
-    const guruDonutCtx = document.getElementById('guruDonut').getContext('2d');
-    const guruHadir    = {{ $guruHadir }};
-    const guruLate     = {{ $guruTerlambat }};
-    const guruAbsent   = {{ $totalGuru - $guruHadir }};
-    new Chart(guruDonutCtx, {
-        type: 'doughnut',
-        data: {
-            datasets: [{
-                data: [guruHadir, guruLate, guruAbsent > 0 ? guruAbsent : 0],
-                backgroundColor: ['#3B82F6', '#F97316', '#E5E7EB'],
-                borderWidth: 0,
-                hoverOffset: 4
-            }]
-        },
-        options: {
-            responsive: false,
-            cutout: '72%',
-            plugins: { legend: { display: false }, tooltip: { enabled: true } }
         }
     });
 
