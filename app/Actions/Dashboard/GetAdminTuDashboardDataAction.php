@@ -6,7 +6,8 @@ use App\Actions\Activity\GetRecentActivitiesAction;
 use App\Actions\Ppdb\GetPpdbStatsAction;
 use App\Actions\Student\GetActiveStudentCountAction;
 use App\Actions\Teacher\GetActiveTeacherCountAction;
-use App\Models\RoomBorrowing;
+use App\Models\Classroom;
+use App\Models\Event;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -33,36 +34,19 @@ class GetAdminTuDashboardDataAction
         $stats = [
             'total_guru' => $this->activeTeacherAction->execute(),
             'total_siswa' => $this->activeStudentAction->execute(),
-            'datang' => 0, // Fitur presensi guru sudah dihapus
-            'pulang' => 0, // Fitur presensi guru sudah dihapus
-            'total_ruang' => RoomBorrowing::whereDate('borrow_date', $today)->count(),
+            'total_kelas' => Classroom::count(),
+            'total_agenda' => Event::where('start_date', '>=', $today)->count(),
+            'total_ppdb' => $ppdbStats['total'],
+            'total_ruang' => 0, // Fitur peminjaman ruang dinonaktifkan
         ];
 
-        // 2. Room Chart (Spesifik Dashboard)
-        $roomChartRaw = RoomBorrowing::selectRaw('MONTH(borrow_date) as month, COUNT(*) as count')
-            ->whereYear('borrow_date', $today->year)
-            ->groupBy('month')
-            ->pluck('count', 'month')
-            ->toArray();
+        // 2. Agenda Mendatang untuk Widget Dashboard
+        $upcomingEvents = Event::where('start_date', '>=', $today)
+            ->orderBy('start_date', 'asc')
+            ->take(5)
+            ->get();
 
-        $roomChartData = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $roomChartData[] = $roomChartRaw[$i] ?? 0;
-        }
-
-        // 3. Teacher Chart (Spesifik Dashboard)
-        $dates = collect();
-        for ($i = 6; $i >= 0; $i--) {
-            $dates->push(Carbon::today()->subDays($i));
-        }
-
-        $teacherChartLabels = $dates->map(fn ($d) => $d->format('D, d M'))->toArray();
-        $teacherChartData = [];
-        foreach ($dates as $date) {
-            $teacherChartData[] = 0; // Fitur dihapus
-        }
-
-        // 4. Student Chart (Spesifik Dashboard)
+        // 3. Distribusi Siswa per Kelas
         $studentGroups = Student::join('classrooms', 'students.classroom_id', '=', 'classrooms.id')
             ->select('classrooms.name', DB::raw('count(students.id) as total'))
             ->groupBy('classrooms.name')
@@ -74,9 +58,10 @@ class GetAdminTuDashboardDataAction
         return [
             'stats' => $stats,
             'aktivitas' => $this->recentActivitiesAction->execute(),
-            'roomChartData' => $roomChartData,
-            'teacherChartLabels' => $teacherChartLabels,
-            'teacherChartData' => $teacherChartData,
+            'upcomingEvents' => $upcomingEvents,
+            'roomChartData' => array_fill(0, 12, 0),
+            'teacherChartLabels' => [],
+            'teacherChartData' => [],
             'studentChartLabels' => $studentChartLabels,
             'studentChartData' => $studentChartData,
             'ppdbPending' => $ppdbStats['pending'],
