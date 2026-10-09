@@ -35,7 +35,7 @@
                         <p class="text-xs text-gray-400 uppercase font-semibold tracking-wider mb-2">Info Pegawai</p>
                         <div class="flex items-center text-sm text-gray-600 mb-2">
                             <i class="fas fa-id-card w-5 text-center mr-2 text-blue-500"></i>
-                            <span>NIP/ID: {{ $teacher->ID }}</span>
+                            <span>NIP/ID: {{ $teacher->employee_id ?? $teacher->nip ?? '-' }}</span>
                         </div>
                         <div class="flex items-center text-sm text-gray-600 mb-2">
                             <i class="fas fa-book-open w-5 text-center mr-2 text-blue-500"></i>
@@ -43,7 +43,7 @@
                         </div>
                         <div class="flex items-center text-sm text-gray-600">
                             <i class="fas fa-chalkboard-teacher w-5 text-center mr-2 text-blue-500"></i>
-                            <span>Wali Kelas: {{ $teacher->homeroom_class ?? '-' }}</span>
+                            <span>Wali Kelas: {{ $teacher->classroom ? $teacher->classroom->name : ($teacher->homeroom_class && $teacher->homeroom_class !== '-' ? $teacher->homeroom_class : '-') }}</span>
                         </div>
                     </div>
                 </div>

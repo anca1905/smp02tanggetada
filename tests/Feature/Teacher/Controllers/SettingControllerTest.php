@@ -45,4 +45,23 @@ class SettingControllerTest extends TestCase
         $response->assertRedirect();
         $response->assertSessionHas('success', 'Profil berhasil diperbarui!');
     }
+
+    public function test_index_displays_employee_id_and_homeroom_classroom(): void
+    {
+        $teacher = Teacher::factory()->create([
+            'employee_id' => '198701012010011002',
+            'name' => 'Dewi Sarmila, S.Pd., Gr.',
+        ]);
+        \App\Models\Classroom::factory()->create([
+            'name' => 'VIII A',
+            'teacher_id' => $teacher->id,
+        ]);
+
+        $response = $this->actingAs($teacher, 'teacher')
+            ->get(route('teacher.settings'));
+
+        $response->assertStatus(200);
+        $response->assertSee('198701012010011002');
+        $response->assertSee('VIII A');
+    }
 }

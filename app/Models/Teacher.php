@@ -40,4 +40,20 @@ class Teacher extends Authenticatable
     {
         return $this->hasOne(Classroom::class);
     }
+
+    /**
+     * Accessor untuk NIP/ID pegawai.
+     */
+    public function getNipAttribute(): ?string
+    {
+        return $this->employee_id ?: (string) $this->id;
+    }
+
+    /**
+     * Accessor untuk nama kelas wali.
+     */
+    public function getWaliKelasNameAttribute(): ?string
+    {
+        return $this->classroom?->name ?? ($this->homeroom_class && $this->homeroom_class !== '-' ? $this->homeroom_class : null);
+    }
 }
