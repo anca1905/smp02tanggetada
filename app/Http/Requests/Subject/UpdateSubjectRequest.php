@@ -28,6 +28,7 @@ class UpdateSubjectRequest extends FormRequest
         return [
             'code' => ['sometimes', 'string', 'unique:subjects,code,'.$id],
             'name' => ['sometimes', 'string'],
+            'cover' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ];
     }
 
@@ -44,6 +45,10 @@ class UpdateSubjectRequest extends FormRequest
             'code.unique' => 'Kode mata pelajaran sudah terdaftar.',
 
             'name.string' => 'Nama mata pelajaran harus berupa string/karakter.',
+
+            'cover.image' => 'Cover harus berupa file gambar.',
+            'cover.mimes' => 'Format cover harus jpeg, png, jpg, atau webp.',
+            'cover.max' => 'Ukuran file cover maksimal 2MB.',
         ];
     }
 }

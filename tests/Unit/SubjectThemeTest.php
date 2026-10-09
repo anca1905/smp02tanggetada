@@ -14,11 +14,13 @@ class SubjectThemeTest extends TestCase
     {
         $math = new Subject(['name' => 'Matematika']);
         $this->assertSame('fas fa-calculator', $math->theme['icon']);
-        $this->assertStringContainsString('blue', $math->theme['gradient']);
+        $this->assertStringContainsString('linear-gradient', $math->theme['gradient']);
+        $this->assertSame('#2563eb', $math->theme['color']);
 
         $indo = new Subject(['name' => 'Bahasa Indonesia']);
         $this->assertSame('fas fa-book-open', $indo->theme['icon']);
-        $this->assertStringContainsString('emerald', $indo->theme['gradient']);
+        $this->assertStringContainsString('linear-gradient', $indo->theme['gradient']);
+        $this->assertSame('#059669', $indo->theme['color']);
 
         $ipa = new Subject(['name' => 'Ilmu Pengetahuan Alam (IPA)']);
         $this->assertSame('fas fa-flask', $ipa->theme['icon']);
@@ -28,5 +30,11 @@ class SubjectThemeTest extends TestCase
 
         $general = new Subject(['name' => 'Muatan Lokal']);
         $this->assertSame('fas fa-graduation-cap', $general->theme['icon']);
+    }
+
+    public function test_subject_cover_url_returns_null_when_empty(): void
+    {
+        $subject = new Subject(['name' => 'Bahasa Indonesia']);
+        $this->assertNull($subject->cover_url);
     }
 }

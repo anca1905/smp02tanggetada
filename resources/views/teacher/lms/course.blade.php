@@ -7,28 +7,46 @@
 
         @php
             $theme = $schedule->subject?->theme ?? [
-                'banner' => 'from-blue-600 via-indigo-700 to-blue-900',
+                'banner' => 'linear-gradient(135deg, #172554 0%, #1e3a8a 50%, #1d4ed8 100%)',
                 'icon' => 'fas fa-graduation-cap',
             ];
         @endphp
 
         {{-- Banner Kelas --}}
-        <div class="bg-gradient-to-r {{ $theme['banner'] }} rounded-2xl h-48 p-8 flex flex-col justify-end text-white shadow-lg relative overflow-hidden group">
-            <div class="absolute -right-8 -bottom-8 text-white/10 text-9xl pointer-events-none transform group-hover:scale-105 transition duration-500">
-                <i class="{{ $theme['icon'] }}"></i>
-            </div>
-            <div class="absolute right-36 -top-12 w-48 h-48 rounded-full bg-white/5 pointer-events-none"></div>
+        @if($schedule->subject?->cover_url)
+            <div class="rounded-2xl h-48 p-8 flex flex-col justify-end text-white shadow-lg relative overflow-hidden group">
+                <img src="{{ $schedule->subject->cover_url }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="{{ $schedule->subject->name }}">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/60 to-slate-900/30"></div>
 
-            <div class="relative z-10">
-                <div class="inline-block bg-white/20 backdrop-blur-sm text-xs font-semibold px-3 py-1 rounded-full mb-2">
-                    {{ $schedule->subject->code }}
+                <div class="relative z-10">
+                    <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-xs font-semibold px-3 py-1 rounded-full mb-2 border border-white/20">
+                        <i class="{{ $theme['icon'] }}"></i>
+                        <span>{{ $schedule->subject->code }}</span>
+                    </div>
+                    <h1 class="text-3xl font-bold text-white drop-shadow-sm">{{ $schedule->subject->name }}</h1>
+                    <p class="text-lg text-white/90 mt-1 flex items-center drop-shadow-sm">
+                        <i class="fas fa-chalkboard-teacher mr-2"></i> {{ $schedule->classroom->name }}
+                    </p>
                 </div>
-                <h1 class="text-3xl font-bold">{{ $schedule->subject->name }}</h1>
-                <p class="text-xl opacity-90 mt-1 flex items-center">
-                    <i class="fas fa-chalkboard-teacher mr-2"></i> {{ $schedule->classroom->name }}
-                </p>
             </div>
-        </div>
+        @else
+            <div class="rounded-2xl h-48 p-8 flex flex-col justify-end text-white shadow-lg relative overflow-hidden group"
+                 style="background: {{ $theme['banner'] }};">
+                <div class="absolute -right-8 -top-8 w-48 h-48 rounded-full bg-white/10 pointer-events-none"></div>
+                <div class="absolute right-32 -bottom-12 w-40 h-40 rounded-full bg-white/5 pointer-events-none"></div>
+
+                <div class="relative z-10">
+                    <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-xs font-semibold px-3 py-1 rounded-full mb-2 border border-white/20">
+                        <i class="{{ $theme['icon'] }}"></i>
+                        <span>{{ $schedule->subject->code }}</span>
+                    </div>
+                    <h1 class="text-3xl font-bold text-white drop-shadow-sm">{{ $schedule->subject->name }}</h1>
+                    <p class="text-lg text-white/90 mt-1 flex items-center drop-shadow-sm">
+                        <i class="fas fa-chalkboard-teacher mr-2"></i> {{ $schedule->classroom->name }}
+                    </p>
+                </div>
+            </div>
+        @endif
 
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             {{-- Sidebar Kiri --}}

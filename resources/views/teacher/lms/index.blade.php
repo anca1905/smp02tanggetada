@@ -14,41 +14,54 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($myClasses as $key => $schedules)
                 @php
-                    // Ambil data pertama dari grup untuk info kartu
                     $data = $schedules->first();
-                    // Hitung total jam/pertemuan dalam seminggu
                     $totalHours = $schedules->count();
                     $theme = $data->subject?->theme ?? [
-                        'gradient' => 'from-blue-600 to-indigo-800',
+                        'gradient' => 'linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)',
                         'icon' => 'fas fa-graduation-cap',
                     ];
                 @endphp
 
-                <div
-                    class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition group">
-                    <div class="h-32 bg-gradient-to-br {{ $theme['gradient'] }} relative overflow-hidden p-4 flex flex-col justify-between">
-                        {{-- Watermark Icon --}}
-                        <div class="absolute -right-3 -bottom-4 text-white/15 text-8xl pointer-events-none transform group-hover:scale-110 group-hover:rotate-6 transition duration-300">
-                            <i class="{{ $theme['icon'] }}"></i>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition group">
+                    @if($data->subject?->cover_url)
+                        {{-- Cover Dari Upload Admin TU --}}
+                        <div class="h-36 relative overflow-hidden bg-slate-900">
+                            <img src="{{ $data->subject->cover_url }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="{{ $data->subject->name }}">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+                            <div class="absolute top-3 right-3 z-10">
+                                <span class="bg-white/95 backdrop-blur text-xs font-bold px-2.5 py-1 rounded-full text-gray-800 shadow-md">
+                                    {{ $data->classroom->name }}
+                                </span>
+                            </div>
+                            <div class="absolute bottom-3 left-4 z-10">
+                                <span class="text-[11px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md bg-black/60 text-white backdrop-blur-sm border border-white/20">
+                                    {{ $data->subject->code }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="absolute -left-6 -top-6 w-24 h-24 rounded-full bg-white/10 pointer-events-none"></div>
+                    @else
+                        {{-- Fallback: Tampilan Header Berwarna Modern --}}
+                        <div class="h-36 relative overflow-hidden p-4 flex flex-col justify-between"
+                             style="background: {{ $theme['gradient'] }};">
+                            <div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-white/10 pointer-events-none"></div>
+                            <div class="absolute -left-6 -top-6 w-24 h-24 rounded-full bg-white/10 pointer-events-none"></div>
 
-                        <div class="flex items-center justify-between relative z-10">
-                            <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white/20 text-white backdrop-blur-sm shadow-sm">
-                                <i class="{{ $theme['icon'] }} text-sm"></i>
-                            </span>
-                            <span
-                                class="bg-white/95 backdrop-blur text-xs font-bold px-2.5 py-1 rounded-full text-gray-800 shadow-sm">
-                                {{ $data->classroom->name }}
-                            </span>
-                        </div>
+                            <div class="flex items-center justify-between relative z-10">
+                                <div class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white text-base shadow-sm border border-white/20">
+                                    <i class="{{ $theme['icon'] }}"></i>
+                                </div>
+                                <span class="bg-white/95 backdrop-blur text-xs font-bold px-2.5 py-1 rounded-full text-gray-800 shadow-sm">
+                                    {{ $data->classroom->name }}
+                                </span>
+                            </div>
 
-                        <div class="relative z-10 text-white">
-                            <span class="text-[11px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded bg-black/20 backdrop-blur-sm">
-                                {{ $data->subject->code }}
-                            </span>
+                            <div class="relative z-10 text-white">
+                                <span class="text-[11px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md bg-black/25 text-white backdrop-blur-sm border border-white/10">
+                                    {{ $data->subject->code }}
+                                </span>
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
                     <div class="p-5">
                         <h3 class="font-bold text-lg text-gray-800 mb-1 line-clamp-1" title="{{ $data->subject->name }}">

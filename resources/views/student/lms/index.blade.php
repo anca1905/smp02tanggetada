@@ -28,7 +28,7 @@
                 @php
                     $data = $schedules->first();
                     $theme = $data->subject?->theme ?? [
-                        'gradient' => 'from-indigo-600 to-purple-800',
+                        'gradient' => 'linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)',
                         'icon' => 'fas fa-graduation-cap',
                     ];
                 @endphp
@@ -36,24 +36,35 @@
                 <a href="{{ route('student.lms.show', $data->id) }}" class="block group">
                     <div
                         class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition duration-300 h-full flex flex-col active:scale-[0.98]">
-                        {{-- Cover --}}
-                        <div class="h-32 bg-gradient-to-br {{ $theme['gradient'] }} relative overflow-hidden p-4 flex flex-col justify-between">
-                            <div class="absolute -right-3 -bottom-4 text-white/15 text-8xl pointer-events-none group-hover:scale-110 group-hover:rotate-6 transition duration-300">
-                                <i class="{{ $theme['icon'] }}"></i>
+                        @if($data->subject?->cover_url)
+                            {{-- Cover Dari Upload Admin TU --}}
+                            <div class="h-32 relative overflow-hidden bg-slate-900">
+                                <img src="{{ $data->subject->cover_url }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="{{ $data->subject->name }}">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+                                <div class="absolute bottom-3 left-4 text-white z-10">
+                                    <h3 class="font-bold text-lg leading-tight drop-shadow-sm">{{ $data->subject->name }}</h3>
+                                    <p class="text-xs text-white/90">{{ $data->subject->code }}</p>
+                                </div>
                             </div>
-                            <div class="absolute -left-6 -top-6 w-24 h-24 rounded-full bg-white/10 pointer-events-none"></div>
+                        @else
+                            {{-- Cover --}}
+                            <div class="h-32 relative overflow-hidden p-4 flex flex-col justify-between"
+                                 style="background: {{ $theme['gradient'] }};">
+                                <div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-white/10 pointer-events-none"></div>
+                                <div class="absolute -left-6 -top-6 w-24 h-24 rounded-full bg-white/10 pointer-events-none"></div>
 
-                            <div class="flex items-center justify-between relative z-10">
-                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white/20 text-white backdrop-blur-sm shadow-sm">
-                                    <i class="{{ $theme['icon'] }} text-sm"></i>
-                                </span>
-                            </div>
+                                <div class="flex items-center justify-between relative z-10">
+                                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white/20 text-white backdrop-blur-sm shadow-sm">
+                                        <i class="{{ $theme['icon'] }} text-sm"></i>
+                                    </span>
+                                </div>
 
-                            <div class="relative z-10 text-white">
-                                <h3 class="font-bold text-lg leading-tight drop-shadow-sm">{{ $data->subject->name }}</h3>
-                                <p class="text-xs text-white/80">{{ $data->subject->code }}</p>
+                                <div class="relative z-10 text-white">
+                                    <h3 class="font-bold text-lg leading-tight drop-shadow-sm">{{ $data->subject->name }}</h3>
+                                    <p class="text-xs text-white/90">{{ $data->subject->code }}</p>
+                                </div>
                             </div>
-                        </div>
+                        @endif
 
                         {{-- Body --}}
                         <div class="p-4 flex-1 flex flex-col justify-between">

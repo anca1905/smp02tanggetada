@@ -9,14 +9,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Subject\StoreSubjectRequest;
 use App\Http\Requests\Subject\UpdateSubjectRequest;
 use App\Models\Subject;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class SubjectController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $subjects = Subject::orderBy('code')->get();
 
-        // Pastikan kamu sudah buat view di: resources/views/tu/subjects/index.blade.php
         return view('tu.subjects.index', compact('subjects'));
     }
 
@@ -24,8 +25,8 @@ class SubjectController extends Controller
     public function store(
         StoreSubjectRequest $request,
         CreateSubjectAction $action,
-    ) {
-        $action->execute($request->validated());
+    ): RedirectResponse {
+        $action->execute($request->validated(), $request->file('cover'));
 
         return back()->with('success', 'Mata pelajaran berhasil ditambahkan');
     }
@@ -35,14 +36,14 @@ class SubjectController extends Controller
         UpdateSubjectRequest $request,
         Subject $subject,
         UpdateSubjectAction $action,
-    ) {
-        $action->execute($request->validated(), $subject);
+    ): RedirectResponse {
+        $action->execute($request->validated(), $subject, $request->file('cover'));
 
         return back()->with('success', 'Data diperbarui');
     }
 
     // Hapus Mapel
-    public function destroy(Subject $subject, DeleteSubjectAction $action)
+    public function destroy(Subject $subject, DeleteSubjectAction $action): RedirectResponse
     {
         $action->execute($subject);
 

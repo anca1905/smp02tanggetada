@@ -7,34 +7,58 @@
 
         @php
             $theme = $schedule->subject?->theme ?? [
-                'banner' => 'from-indigo-700 via-purple-700 to-indigo-900',
+                'banner' => 'linear-gradient(135deg, #172554 0%, #1e3a8a 50%, #1d4ed8 100%)',
                 'icon' => 'fas fa-graduation-cap',
             ];
         @endphp
 
         {{-- Banner Kelas --}}
-        <div class="bg-gradient-to-r {{ $theme['banner'] }} rounded-2xl h-44 p-6 flex flex-col justify-end text-white shadow-lg relative overflow-hidden group">
-            <div class="absolute -right-8 -bottom-8 text-white/10 text-9xl pointer-events-none transform group-hover:scale-105 transition duration-500">
-                <i class="{{ $theme['icon'] }}"></i>
-            </div>
-            <div class="absolute right-32 -top-12 w-48 h-48 rounded-full bg-white/5 pointer-events-none"></div>
+        @if($schedule->subject?->cover_url)
+            <div class="rounded-2xl h-44 p-6 flex flex-col justify-end text-white shadow-lg relative overflow-hidden group">
+                <img src="{{ $schedule->subject->cover_url }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="{{ $schedule->subject->name }}">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/60 to-slate-900/30"></div>
 
-            <div class="relative z-10">
-                <div class="inline-block bg-white/20 backdrop-blur-sm text-[10px] font-semibold px-2.5 py-0.5 rounded-full mb-1">
-                    {{ $schedule->subject->code }}
-                </div>
-                <h1 class="text-2xl font-bold">{{ $schedule->subject->name }}</h1>
-                <div class="flex items-center mt-2 space-x-2 text-[10px]">
-                    <span class="flex items-center bg-white/20 px-3 py-1 rounded backdrop-blur-sm">
-                        <i class="fas fa-user-tie mr-2"></i> {{ $schedule->teacher->name }}
-                    </span>
-                    <span class="flex items-center bg-white/20 px-3 py-1 rounded backdrop-blur-sm">
-                        <i class="fas fa-clock mr-2"></i> {{ $schedule->day }}
-                        ({{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }})
-                    </span>
+                <div class="relative z-10">
+                    <div class="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-[10px] font-semibold px-2.5 py-0.5 rounded-full mb-1 border border-white/20">
+                        <i class="{{ $theme['icon'] }}"></i>
+                        <span>{{ $schedule->subject->code }}</span>
+                    </div>
+                    <h1 class="text-2xl font-bold text-white drop-shadow-sm">{{ $schedule->subject->name }}</h1>
+                    <div class="flex items-center mt-2 space-x-2 text-[10px]">
+                        <span class="flex items-center bg-white/20 px-3 py-1 rounded backdrop-blur-sm">
+                            <i class="fas fa-user-tie mr-2"></i> {{ $schedule->teacher->name }}
+                        </span>
+                        <span class="flex items-center bg-white/20 px-3 py-1 rounded backdrop-blur-sm">
+                            <i class="fas fa-clock mr-2"></i> {{ $schedule->day }}
+                            ({{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }})
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
+        @else
+            <div class="rounded-2xl h-44 p-6 flex flex-col justify-end text-white shadow-lg relative overflow-hidden group"
+                 style="background: {{ $theme['banner'] }};">
+                <div class="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/10 pointer-events-none"></div>
+                <div class="absolute right-32 -bottom-10 w-36 h-36 rounded-full bg-white/5 pointer-events-none"></div>
+
+                <div class="relative z-10">
+                    <div class="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-[10px] font-semibold px-2.5 py-0.5 rounded-full mb-1 border border-white/20">
+                        <i class="{{ $theme['icon'] }}"></i>
+                        <span>{{ $schedule->subject->code }}</span>
+                    </div>
+                    <h1 class="text-2xl font-bold text-white drop-shadow-sm">{{ $schedule->subject->name }}</h1>
+                    <div class="flex items-center mt-2 space-x-2 text-[10px]">
+                        <span class="flex items-center bg-white/20 px-3 py-1 rounded backdrop-blur-sm">
+                            <i class="fas fa-user-tie mr-2"></i> {{ $schedule->teacher->name }}
+                        </span>
+                        <span class="flex items-center bg-white/20 px-3 py-1 rounded backdrop-blur-sm">
+                            <i class="fas fa-clock mr-2"></i> {{ $schedule->day }}
+                            ({{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }})
+                        </span>
+                    </div>
+                </div>
+            </div>
+        @endif
 
         <div class="flex border-b border-gray-200 bg-white px-2 rounded-t-2xl sticky top-0 z-20 shadow-sm mt-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
             <button onclick="switchTab('materi')" id="btn-materi" class="px-4 py-3 text-indigo-600 border-b-2 border-indigo-600 font-bold text-sm w-1/3 text-center transition">

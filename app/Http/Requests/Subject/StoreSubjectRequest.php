@@ -25,6 +25,7 @@ class StoreSubjectRequest extends FormRequest
         return [
             'code' => ['required', 'string', 'unique:subjects,code'],
             'name' => ['required', 'string'],
+            'cover' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ];
     }
 
@@ -43,6 +44,10 @@ class StoreSubjectRequest extends FormRequest
 
             'name.required' => 'Nama mata pelajaran harus diisi.',
             'name.string' => 'Nama mata pelajaran harus berupa string/karakter.',
+
+            'cover.image' => 'Cover harus berupa file gambar.',
+            'cover.mimes' => 'Format cover harus jpeg, png, jpg, atau webp.',
+            'cover.max' => 'Ukuran file cover maksimal 2MB.',
         ];
     }
 }
