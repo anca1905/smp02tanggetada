@@ -5,13 +5,24 @@
 @section('content')
     <div class="max-w-5xl mx-auto space-y-6">
 
+        @php
+            $theme = $schedule->subject?->theme ?? [
+                'banner' => 'from-indigo-700 via-purple-700 to-indigo-900',
+                'icon' => 'fas fa-graduation-cap',
+            ];
+        @endphp
+
         {{-- Banner Kelas --}}
-        <div class="bg-indigo-700 rounded-2xl h-40 p-5 flex flex-col justify-end text-white shadow-lg relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-0"></div>
-            <img src="https://source.unsplash.com/random/1200x400/?school,study"
-                class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-40" alt="Banner">
+        <div class="bg-gradient-to-r {{ $theme['banner'] }} rounded-2xl h-44 p-6 flex flex-col justify-end text-white shadow-lg relative overflow-hidden group">
+            <div class="absolute -right-8 -bottom-8 text-white/10 text-9xl pointer-events-none transform group-hover:scale-105 transition duration-500">
+                <i class="{{ $theme['icon'] }}"></i>
+            </div>
+            <div class="absolute right-32 -top-12 w-48 h-48 rounded-full bg-white/5 pointer-events-none"></div>
 
             <div class="relative z-10">
+                <div class="inline-block bg-white/20 backdrop-blur-sm text-[10px] font-semibold px-2.5 py-0.5 rounded-full mb-1">
+                    {{ $schedule->subject->code }}
+                </div>
                 <h1 class="text-2xl font-bold">{{ $schedule->subject->name }}</h1>
                 <div class="flex items-center mt-2 space-x-2 text-[10px]">
                     <span class="flex items-center bg-white/20 px-3 py-1 rounded backdrop-blur-sm">

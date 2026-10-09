@@ -18,20 +18,34 @@
                     $data = $schedules->first();
                     // Hitung total jam/pertemuan dalam seminggu
                     $totalHours = $schedules->count();
+                    $theme = $data->subject?->theme ?? [
+                        'gradient' => 'from-blue-600 to-indigo-800',
+                        'icon' => 'fas fa-graduation-cap',
+                    ];
                 @endphp
 
                 <div
                     class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition group">
-                    <div class="h-32 bg-gray-100 relative overflow-hidden">
-                        {{-- Pattern/Gambar Cover Random --}}
-                        <div class="absolute inset-0 bg-blue-500 opacity-10 group-hover:opacity-20 transition"></div>
-                        <img src="https://source.unsplash.com/random/800x600/?education,book,{{ $loop->index }}"
-                            class="w-full h-full object-cover opacity-80" alt="Cover">
+                    <div class="h-32 bg-gradient-to-br {{ $theme['gradient'] }} relative overflow-hidden p-4 flex flex-col justify-between">
+                        {{-- Watermark Icon --}}
+                        <div class="absolute -right-3 -bottom-4 text-white/15 text-8xl pointer-events-none transform group-hover:scale-110 group-hover:rotate-6 transition duration-300">
+                            <i class="{{ $theme['icon'] }}"></i>
+                        </div>
+                        <div class="absolute -left-6 -top-6 w-24 h-24 rounded-full bg-white/10 pointer-events-none"></div>
 
-                        <div class="absolute top-3 right-3">
+                        <div class="flex items-center justify-between relative z-10">
+                            <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white/20 text-white backdrop-blur-sm shadow-sm">
+                                <i class="{{ $theme['icon'] }} text-sm"></i>
+                            </span>
                             <span
-                                class="bg-white/90 backdrop-blur text-xs font-bold px-2 py-1 rounded text-gray-700 shadow-sm">
+                                class="bg-white/95 backdrop-blur text-xs font-bold px-2.5 py-1 rounded-full text-gray-800 shadow-sm">
                                 {{ $data->classroom->name }}
+                            </span>
+                        </div>
+
+                        <div class="relative z-10 text-white">
+                            <span class="text-[11px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded bg-black/20 backdrop-blur-sm">
+                                {{ $data->subject->code }}
                             </span>
                         </div>
                     </div>

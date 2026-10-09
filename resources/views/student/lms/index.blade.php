@@ -25,20 +25,33 @@
         {{-- Grid Mapel --}}
         <div class="grid grid-cols-1 gap-4">
             @forelse($myCourses as $subjectName => $schedules)
-                @php $data = $schedules->first(); @endphp
+                @php
+                    $data = $schedules->first();
+                    $theme = $data->subject?->theme ?? [
+                        'gradient' => 'from-indigo-600 to-purple-800',
+                        'icon' => 'fas fa-graduation-cap',
+                    ];
+                @endphp
 
                 <a href="{{ route('student.lms.show', $data->id) }}" class="block group">
                     <div
                         class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition duration-300 h-full flex flex-col active:scale-[0.98]">
                         {{-- Cover --}}
-                        <div class="h-32 bg-gray-200 relative">
-                            <img src="https://source.unsplash.com/random/800x600/?book,library,{{ $loop->index }}"
-                                class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition"
-                                alt="Cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                            <div class="absolute bottom-3 left-4 text-white">
-                                <h3 class="font-bold text-lg leading-tight">{{ $data->subject->name }}</h3>
-                                <p class="text-xs opacity-90">{{ $data->subject->code }}</p>
+                        <div class="h-32 bg-gradient-to-br {{ $theme['gradient'] }} relative overflow-hidden p-4 flex flex-col justify-between">
+                            <div class="absolute -right-3 -bottom-4 text-white/15 text-8xl pointer-events-none group-hover:scale-110 group-hover:rotate-6 transition duration-300">
+                                <i class="{{ $theme['icon'] }}"></i>
+                            </div>
+                            <div class="absolute -left-6 -top-6 w-24 h-24 rounded-full bg-white/10 pointer-events-none"></div>
+
+                            <div class="flex items-center justify-between relative z-10">
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white/20 text-white backdrop-blur-sm shadow-sm">
+                                    <i class="{{ $theme['icon'] }} text-sm"></i>
+                                </span>
+                            </div>
+
+                            <div class="relative z-10 text-white">
+                                <h3 class="font-bold text-lg leading-tight drop-shadow-sm">{{ $data->subject->name }}</h3>
+                                <p class="text-xs text-white/80">{{ $data->subject->code }}</p>
                             </div>
                         </div>
 

@@ -5,13 +5,24 @@
 @section('content')
     <div class="max-w-5xl mx-auto space-y-6">
 
+        @php
+            $theme = $schedule->subject?->theme ?? [
+                'banner' => 'from-blue-600 via-indigo-700 to-blue-900',
+                'icon' => 'fas fa-graduation-cap',
+            ];
+        @endphp
+
         {{-- Banner Kelas --}}
-        <div class="bg-blue-600 rounded-xl h-48 p-8 flex flex-col justify-end text-white shadow-lg relative overflow-hidden group">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-0"></div>
-            <img src="https://source.unsplash.com/random/1200x400/?technology,code"
-                class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-50" alt="Banner">
+        <div class="bg-gradient-to-r {{ $theme['banner'] }} rounded-2xl h-48 p-8 flex flex-col justify-end text-white shadow-lg relative overflow-hidden group">
+            <div class="absolute -right-8 -bottom-8 text-white/10 text-9xl pointer-events-none transform group-hover:scale-105 transition duration-500">
+                <i class="{{ $theme['icon'] }}"></i>
+            </div>
+            <div class="absolute right-36 -top-12 w-48 h-48 rounded-full bg-white/5 pointer-events-none"></div>
 
             <div class="relative z-10">
+                <div class="inline-block bg-white/20 backdrop-blur-sm text-xs font-semibold px-3 py-1 rounded-full mb-2">
+                    {{ $schedule->subject->code }}
+                </div>
                 <h1 class="text-3xl font-bold">{{ $schedule->subject->name }}</h1>
                 <p class="text-xl opacity-90 mt-1 flex items-center">
                     <i class="fas fa-chalkboard-teacher mr-2"></i> {{ $schedule->classroom->name }}
