@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buku Panduan Operasional Sistem (User Manual) SIMS - SMPN 2 Tanggetada</title>
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 12mm 15mm 12mm 15mm;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        html, body {
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            font-family: 'Times New Roman', Times, serif;
+            color: #111827;
+            line-height: 1.5;
+            font-size: 11.5pt;
+        }
+        body {
+            padding: 20px 0;
+        }
+        .container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            border-radius: 4px;
+        }
+
+        /* ── COVER PAGE (FITS EXACTLY 1 A4 PAGE) ── */
+        .cover {
+            text-align: center;
+            height: 250mm;
+            max-height: 250mm;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            page-break-after: always;
+            break-after: page;
+            page-break-inside: avoid;
+            break-inside: avoid;
+            border: 3px double #1e3a8a;
+            padding: 24px 20px;
+            margin: 0 auto;
+        }
+        .cover-header h3 {
+            margin: 0;
+            font-size: 13pt;
+            font-weight: bold;
+            color: #1e3a8a;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .cover-header h2 {
+            margin: 4px 0 0 0;
+            font-size: 15pt;
+            font-weight: bold;
+            color: #0f172a;
+        }
+        .cover-header p {
+            margin: 3px 0 0 0;
+            font-size: 9.5pt;
+            color: #4b5563;
+        }
+        .cover-logo {
+            margin: 15px auto;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #eff6ff;
+            border: 2px solid #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28pt;
+            color: #1e40af;
+        }
+        .cover-title {
+            margin: 10px 0;
+        }
+        .cover-title h1 {
+            font-size: 17pt;
+            margin: 0 0 6px 0;
+            color: #1e3a8a;
+            line-height: 1.25;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        .cover-title h4 {
+            font-size: 11pt;
+            margin: 0;
+            color: #374151;
+            font-weight: normal;
+        }
+        .cover-meta {
+            font-size: 10pt;
+            color: #374151;
+            margin-top: 10px;
+        }
+        .cover-meta strong {
+            font-size: 10.5pt;
+            color: #111827;
+        }
+
+        /* ── DAFTAR ISI & BAB ── */
+        .page-break {
+            page-break-before: always;
+            break-before: page;
+        }
+        h1.chapter-title {
+            text-align: center;
+            font-size: 14pt;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #1e3a8a;
+            padding-bottom: 6px;
+        }
+        h2.group-title {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #1e3a8a;
+            background-color: #f1f5f9;
+            padding: 5px 8px;
+            border-left: 4px solid #2563eb;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        h3.menu-title {
+            font-size: 11.5pt;
+            font-weight: bold;
+            color: #0f172a;
+            margin-top: 12px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .menu-badge {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            font-size: 8.5pt;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-family: sans-serif;
+            font-weight: 600;
+        }
+        p, li {
+            font-size: 10.5pt;
+            color: #1f2937;
+            text-align: justify;
+            margin-bottom: 5px;
+        }
+        ol, ul {
+            margin-top: 3px;
+            margin-bottom: 10px;
+            padding-left: 22px;
+        }
+
+        /* ── TABLE STYLING ── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 10pt;
+        }
+        th, td {
+            border: 1px solid #94a3b8;
+            padding: 6px 8px;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* ── CALLOUT BOX ── */
+        .callout {
+            background-color: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 8px 12px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+            font-size: 9.5pt;
+        }
+        .callout-title {
+            font-weight: bold;
+            color: #1e40af;
+            margin-bottom: 2px;
+        }
+        .procedure-box {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 10px 14px;
+            margin: 8px 0 12px 0;
+        }
+        .procedure-box h4 {
+            margin: 0 0 5px 0;
+            font-size: 10.5pt;
+            color: #1e3a8a;
+            font-weight: bold;
+        }
+
+        /* ── DAFTAR ISI ── */
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 10.5pt;
+            border-bottom: 1px dotted #cbd5e1;
+            padding-bottom: 2px;
+        }
+        .toc-item strong {
+            color: #1e3a8a;
+        }
+
+        /* ── NO PRINT TOOLBAR ── */
+        .no-print {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .print-btn {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 12px 26px;
+            font-size: 12pt;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .print-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ── PRINT RULES (STRICT A4) ── */
+        @media print {
+            html, body {
+                width: 100% !important;
+                background: #ffffff !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .container {
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .cover {
+                width: 100% !important;
+                height: 250mm !important;
+                max-height: 250mm !important;
+                box-sizing: border-box !important;
+                border: 3px double #1e3a8a !important;
+                margin: 0 !important;
+                padding: 20px 22px !important;
+                page-break-after: always !important;
+                break-after: page !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            .page-break {
+                page-break-before: always !important;
+                break-before: page !important;
+            }
+            table, .procedure-box, .callout {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            h1.chapter-title {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            h2.group-title, h3.menu-title {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="no-print">
+    <button class="print-btn" onclick="window.print()">
+        🖨️ CETAK BUKU PANDUAN SEKARANG (Ctrl + P / Simpan PDF)
+    </button>
+    <p style="font-size: 10pt; color: #4b5563; margin-top: 6px;">
+        Format otomatis disesuaikan 100% per menu sistem untuk dokumen resmi Bimtek SMPN 2 Tanggetada.
+    </p>
+</div>
+
+<div class="container">
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- HALAMAN SAMPUL (COVER) -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="cover">
+        <div class="cover-header">
+            <h3>Pemerintah Kabupaten Kolaka &bull; Dinas Pendidikan</h3>
+            <h2>SMP NEGERI 2 TANGGETADA</h2>
+            <p>Jalan Pendidikan, Kecamatan Tanggetada, Kabupaten Kolaka, Sulawesi Tenggara</p>
+            <p>Laman Resmi: <em>https://smpn2tanggetada.sch.id</em></p>
+        </div>
+
+        <div>
+            <div class="cover-logo">
+                🏫
+            </div>
+            <div class="cover-title">
+                <h1>BUKU PANDUAN OPERASIONAL SISTEM<br>(USER MANUAL APPLICATION)</h1>
+                <h4>Sistem Informasi Manajemen Sekolah Terpadu (SIMS v2.0)<br>Berbasis Web & Mobile</h4>
+            </div>
+        </div>
+
+        <div class="cover-meta">
+            <p><strong>Materi Bimbingan Teknis (BIMTEK) Untuk:</strong></p>
+            <p>1. Tenaga Administrasi Sekolah (Admin TU)<br>
+               2. Dewan Guru Mata Pelajaran & Wali Kelas<br>
+               3. Kepala Sekolah (Pimpinan Satuan Pendidikan)<br>
+               4. Orang Tua / Wali Murid</p>
+            <p style="margin-top: 25px; font-weight: bold; color: #1e3a8a;">
+                TAHUN AJARAN 2026 / 2027
+            </p>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- DAFTAR ISI -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <h1 class="chapter-title">DAFTAR ISI</h1>
+
+    <div class="toc-list">
+        <div class="toc-item"><strong>BAB I : PENDAHULUAN & ARSITEKTUR MULTI-ROLE</strong><span>Hal. 1</span></div>
+        <div class="toc-item" style="padding-left: 20px;">1.1 Deskripsi Umum SIMS v2.0<span>1</span></div>
+        <div class="toc-item" style="padding-left: 20px;">1.2 Multi-Guard Hak Akses & Kredensial Login Bawaan<span>1</span></div>
+        <div class="toc-item" style="padding-left: 20px;">1.3 Prosedur Akses Masuk Portal SIMS<span>2</span></div>
+
+        <div class="toc-item"><strong>BAB II : PANDUAN OPERASIONAL ROLE ADMIN TU (OPERATOR)</strong><span>Hal. 3</span></div>
+        <div class="toc-item" style="padding-left: 20px;">2.1 Menu Utama: Dashboard<span>3</span></div>
+        <div class="toc-item" style="padding-left: 20px;">2.2 Master Data: Data Guru & Data Siswa<span>3</span></div>
+        <div class="toc-item" style="padding-left: 20px;">2.3 Akademik & LMS: Tahun Ajaran, Data Kelas, Mata Pelajaran, Jadwal Pelajaran<span>4</span></div>
+        <div class="toc-item" style="padding-left: 20px;">2.4 Administrasi: Rekap Absensi<span>5</span></div>
+        <div class="toc-item" style="padding-left: 20px;">2.5 Portal Website: Kotak Masuk, Berita & Artikel, E-Dokumen, Agenda Sekolah, Pengaturan Web, Desain ID Card<span>6</span></div>
+        <div class="toc-item" style="padding-left: 20px;">2.6 PPDB Online: Data Pendaftar & Halaman PPDB Publik<span>7</span></div>
+        <div class="toc-item" style="padding-left: 20px;">2.7 Profil: Settings & Logout<span>7</span></div>
+
+        <div class="toc-item"><strong>BAB III : PANDUAN OPERASIONAL ROLE DEWAN GURU (PENDIDIK)</strong><span>Hal. 8</span></div>
+        <div class="toc-item" style="padding-left: 20px;">3.1 Menu Guru: Dashboard & Presensi Siswa<span>8</span></div>
+        <div class="toc-item" style="padding-left: 20px;">3.2 Kegiatan Belajar: Kelas Saya (LMS)<span>9</span></div>
+        <div class="toc-item" style="padding-left: 20px;">3.3 Wali Kelas: Kenaikan Kelas (Otomatisasi Jenjang)<span>9</span></div>
+        <div class="toc-item" style="padding-left: 20px;">3.4 Profil: Settings<span>10</span></div>
+
+        <div class="toc-item"><strong>BAB IV : PANDUAN OPERASIONAL ROLE KEPALA SEKOLAH</strong><span>Hal. 11</span></div>
+        <div class="toc-item" style="padding-left: 20px;">4.1 Dashboard: Ringkasan Sekolah<span>11</span></div>
+        <div class="toc-item" style="padding-left: 20px;">4.2 Monitoring: Rekap Absensi<span>11</span></div>
+        <div class="toc-item" style="padding-left: 20px;">4.3 Data Sekolah: Data Siswa, Data Guru, Data Kelas<span>12</span></div>
+        <div class="toc-item" style="padding-left: 20px;">4.4 Laporan & Publik: Laporan PPDB, Portal Berita, Kotak Masuk<span>12</span></div>
+        <div class="toc-item" style="padding-left: 20px;">4.5 Profil: Settings & Logout<span>12</span></div>
+
+        <div class="toc-item"><strong>BAB V : PANDUAN CLIENT MOBILE (SISWA & ORANG TUA)</strong><span>Hal. 13</span></div>
+        <div class="toc-item"><strong>BAB VI : PEMELIHARAAN SISTEM & PUSAT BANTUAN (FAQ)</strong><span>Hal. 14</span></div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- BAB I : PENDAHULUAN -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="page-break"></div>
+    <h1 class="chapter-title">BAB I<br>PENDAHULUAN & ARSITEKTUR MULTI-ROLE</h1>
+
+    <p>
+        Sistem Informasi Manajemen Sekolah (SIMS v2.0) SMP Negeri 2 Tanggetada dirancang untuk mengintegrasikan proses administrasi tata usaha, kegiatan belajar mengajar guru, pemantauan kepala sekolah, dan transparansi akademik bagi orang tua siswa dalam satu ekosistem digital.
+    </p>
+
+    <h3 class="menu-title">Tabel Hak Akses & Kredensial Login Bawaan</h3>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 20%;">Peran Pengguna</th>
+                <th style="width: 25%;">Akun Login Default</th>
+                <th style="width: 25%;">Tautan Web Akses</th>
+                <th style="width: 30%;">Kewenangan Utama</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Admin TU</strong></td>
+                <td>Username: <code>admin</code><br>Password: <code>password</code></td>
+                <td><code>/tu/dashboard</code></td>
+                <td>Pengelolaan master data, jadwal, administrasi absensi, web portal, dan PPDB online.</td>
+            </tr>
+            <tr>
+                <td><strong>Kepala Sekolah</strong></td>
+                <td>Username: <code>admin</code> *(role Kepsek)*<br>Password: <code>password</code></td>
+                <td><code>/principal/dashboard</code></td>
+                <td>Supervisi eksekutif, rekapitulasi kehadiran, data sekolah, laporan PPDB, dan publik.</td>
+            </tr>
+            <tr>
+                <td><strong>Dewan Guru</strong></td>
+                <td>Username: <code>guru</code> *(atau NIP)*<br>Password: <code>password</code></td>
+                <td><code>/teacher/dashboard</code></td>
+                <td>Jadwal mengajar, input presensi siswa di kelas, materi LMS, dan kenaikan kelas (wali kelas).</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout">
+        <div class="callout-title">🌐 Portal Akses Resmi:</div>
+        Akses web login dapat dibuka melalui browser pada alamat: <code>https://smpn2tanggetada.sch.id/login</code> (atau <code>http://localhost:8000/login</code> pada jaringan lokal sekolah).
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- BAB II : PANDUAN ROLE ADMIN TU (OPERATOR) -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="page-break"></div>
+    <h1 class="chapter-title">BAB II<br>PANDUAN OPERASIONAL ROLE ADMIN TU (OPERATOR)</h1>
+    <p>
+        Berdasarkan panel navigasi Admin TU (Gambar 1), seluruh fitur terbagi dalam 7 grup menu utama sebagai berikut:
+    </p>
+
+    <h2 class="group-title">A. Grup Menu Utama</h2>
+    <h3 class="menu-title"><span class="menu-badge">1</span> Menu: Dashboard</h3>
+    <p>
+        Halaman ikhtisar operasional sekolah. Menampilkan 4 kartu statistik utama (Guru & Pegawai, Siswa Aktif, Rombongan Belajar, Agenda Mendatang), diagram batang Distribusi Siswa per Kelas, diagram donat Proporsi Siswa, log aktivitas terkini, agenda sekolah terdekat, dan ringkasan penerimaan PPDB Online.
+    </p>
+
+    <h2 class="group-title">B. Grup Master Data</h2>
+    <h3 class="menu-title"><span class="menu-badge">2</span> Menu: Data Guru</h3>
+    <p>
+        Pengelolaan data Pendidik dan Tenaga Kependidikan (PTK).
+    </p>
+    <div class="procedure-box">
+        <h4>Prosedur Tambah / Edit Data Guru:</h4>
+        <ol>
+            <li>Klik menu <strong>Data Guru</strong> &rarr; klik tombol <strong>+ Tambah Guru</strong>.</li>
+            <li>Isi Nama Lengkap beserta gelar, jenis kelamin, NIP / ID Pegawai, nomor telepon, dan mata pelajaran utama.</li>
+            <li>Upload foto resmi guru (format JPG/PNG).</li>
+            <li>Tentukan username dan password akun untuk login guru.</li>
+            <li>Klik <strong>Simpan</strong>.</li>
+        </ol>
+    </div>
+
+    <h3 class="menu-title"><span class="menu-badge">3</span> Menu: Data Siswa</h3>
+    <p>
+        Pengelolaan buku induk peserta didik aktif.
+    </p>
+    <div class="procedure-box">
+        <h4>Prosedur Input Siswa:</h4>
+        <ol>
+            <li>Klik menu <strong>Data Siswa</strong> &rarr; klik <strong>+ Tambah Siswa</strong>.</li>
+            <li>Isi NIS, NISN, Nama Lengkap, Jenis Kelamin, Tempat/Tanggal Lahir, Alamat, dan Kontak Orang Tua.</li>
+            <li>Pilih rombel penempatan kelas (contoh: <em>VII A</em>) dan pastikan status <strong>Active</strong>.</li>
+            <li>Klik <strong>Simpan Data Siswa</strong>.</li>
+        </ol>
+    </div>
+
+    <h2 class="group-title">C. Grup Akademik & LMS</h2>
+    <h3 class="menu-title"><span class="menu-badge">4</span> Menu: Tahun Ajaran</h3>
+    <p>
+        Mengatur tahun ajaran aktif (contoh: <em>2026/2027 Ganjil/Genap</em>) sebagai rujukan kalender akademik sekolah.
+    </p>
+
+    <h3 class="menu-title"><span class="menu-badge">5</span> Menu: Data Kelas</h3>
+    <p>
+        Mengelola rombongan belajar (rombel) tingkat VII, VIII, dan IX. Admin TU menetapkan <strong>Guru Wali Kelas</strong> yang bertanggung jawab atas rombel tersebut.
+    </p>
+
+    <h3 class="menu-title"><span class="menu-badge">6</span> Menu: Mata Pelajaran</h3>
+    <p>
+        Mengatur daftar mata pelajaran kurikulum sekolah. Dilengkapi fitur upload foto cover buku/mapel serta fallback gradien warna dan ikon otomatis jika tidak mengunggah gambar cover.
+    </p>
+
+    <h3 class="menu-title"><span class="menu-badge">7</span> Menu: Jadwal Pelajaran</h3>
+    <div class="procedure-box">
+        <h4>Prosedur Pembuatan Jadwal Pelajaran:</h4>
+        <ol>
+            <li>Buka menu <strong>Jadwal Pelajaran</strong> &rarr; pilih <strong>Rombel Kelas</strong>.</li>
+            <li>Pilih <strong>Mata Pelajaran</strong> dan <strong>Guru Pengajar</strong>.</li>
+            <li>Pilih <strong>Hari</strong> (Senin s.d. Sabtu), serta jam mulai dan jam selesai (contoh: <code>07:30 - 09:00</code>).</li>
+            <li>Klik <strong>Simpan Jadwal</strong>. Jadwal otomatis terhubung ke Dashboard Guru yang bersangkutan.</li>
+        </ol>
+    </div>
+
+    <div class="page-break"></div>
+
+    <h2 class="group-title">D. Grup Administrasi</h2>
+    <h3 class="menu-title"><span class="menu-badge">8</span> Menu: Rekap Absensi</h3>
+    <p>
+        Laporan rekapitulasi kehadiran siswa secara menyeluruh. TU dapat memfilter laporan berdasarkan rentang tanggal, rombel kelas, dan mencetak laporan resmi dalam format PDF untuk arsip kearsipan sekolah.
+    </p>
+
+    <h2 class="group-title">E. Grup Portal Website</h2>
+    <h3 class="menu-title"><span class="menu-badge">9</span> Menu: Kotak Masuk</h3>
+    <p>
+        Menampung pesan, pertanyaan, dan aspirasi masyarakat/orang tua yang dikirimkan melalui form kontak website publik.
+    </p>
+
+    <h3 class="menu-title"><span class="menu-badge">10</span> Menu: Berita & Artikel</h3>
+    <p>
+        Mempublikasikan artikel, pengumuman sekolah, liputan kegiatan, dan dokumentasi prestasi ke portal web sekolah.
+    </p>
+
+    <h3 class="menu-title"><span class="menu-badge">11</span> Menu: E-Dokumen</h3>
+    <p>
+        Pusat repositori file publik dan internal (contoh: kalender pendidikan sekolah, silabus, panduan tata tertib).
+    </p>
+
+    <h3 class="menu-title"><span class="menu-badge">12</span> Menu: Agenda Sekolah</h3>
+    <p>
+        Menjadwalkan agenda kegiatan penting (upacara, rapat komite, ujian semester, libur hari besar) yang otomatis tampil di beranda sekolah dan dashboard pimpinan.
+    </p>
+
+    <h3 class="menu-title"><span class="menu-badge">13</span> Menu: Pengaturan Web</h3>
+    <p>
+        Mengatur identitas sekolah (Nama Sekolah, NPSN, Alamat, Nomor Kontak, Email, Sambutan Kepala Sekolah, Visi-Misi, serta mengaktifkan Popup Pengumuman di beranda depan).
+    </p>
+
+    <h3 class="menu-title"><span class="menu-badge">14</span> Menu: Desain ID Card</h3>
+    <p>
+        Mencetak Kartu Tanda Pelajar (KTP Siswa) digital secara massal dengan template resmi yang dilengkapi foto dan barcode NISN siswa.
+    </p>
+
+    <h2 class="group-title">F. Grup PPDB Online</h2>
+    <h3 class="menu-title"><span class="menu-badge">15</span> Menu: Data Pendaftar</h3>
+    <p>
+        Memeriksa data calon siswa baru yang mendaftar online. Admin TU memvalidasi berkas persyaratan dan mengubah status verifikasi (<em>Menunggu Verifikasi &rarr; Diterima / Ditolak</em>).
+    </p>
+
+    <h3 class="menu-title"><span class="menu-badge">16</span> Menu: Halaman PPDB Publik</h3>
+    <p>
+        Tautan cepat untuk membuka formulir pendaftaran PPDB yang dapat diakses oleh masyarakat umum.
+    </p>
+
+    <h2 class="group-title">G. Grup Profil</h2>
+    <h3 class="menu-title"><span class="menu-badge">17</span> Menu: Settings & Logout</h3>
+    <p>
+        Pengaturan akun admin operator TU (ubah nama pengguna dan pembaruan password berkala), serta tombol Logout untuk mengakhiri sesi kerja dengan aman.
+    </p>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- BAB III : PANDUAN ROLE DEWAN GURU (PENDIDIK) -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="page-break"></div>
+    <h1 class="chapter-title">BAB III<br>PANDUAN OPERASIONAL ROLE DEWAN GURU (PENDIDIK)</h1>
+    <p>
+        Berdasarkan panel navigasi Guru (Gambar 2), seluruh aktivitas kerja tenaga pendidik tersusun dalam 4 grup menu:
+    </p>
+
+    <h2 class="group-title">A. Grup Menu Guru</h2>
+    <h3 class="menu-title"><span class="menu-badge">1</span> Menu: Dashboard</h3>
+    <p>
+        Pusat kendali guru. Menampilkan ucapan selamat datang, lencana peran (Guru Mapel / Wali Kelas), 4 kartu ringkasan (Kelas Diampu, Siswa Diajar, Beban Mengajar Mingguan, Status Wali Kelas), <strong>Jadwal Mengajar Hari Ini</strong> (dengan tombol cepat Presensi dan Materi), serta grafik batang Beban Mengajar per Hari.
+    </p>
+
+    <h3 class="menu-title"><span class="menu-badge">2</span> Menu: Presensi Siswa</h3>
+    <p>
+        Pencatatan kehadiran siswa di ruang kelas. Karena siswa SMP tidak membawa HP di kelas, pengisian dilakukan oleh Guru Pengajar:
+    </p>
+    <div class="procedure-box">
+        <h4>Prosedur Pengisian Presensi di Kelas:</h4>
+        <ol>
+            <li>Buka menu <strong>Presensi Siswa</strong> (atau klik tombol <em>Presensi</em> pada kartu jadwal di Dashboard).</li>
+            <li>Pilih kelas rombel dan mata pelajaran yang sedang diajar.</li>
+            <li>Daftar seluruh siswa aktif di kelas tersebut langsung terbuka.</li>
+            <li>Secara bawaan status seluruh siswa telah terisi <strong>Hadir</strong>.</li>
+            <li>Guru cukup mengganti opsi pada siswa yang berhalangan:
+                <ul>
+                    <li><strong style="color: #2563eb;">Sakit</strong> (dengan surat keterangan)</li>
+                    <li><strong style="color: #d97706;">Izin</strong> (dengan izin orang tua)</li>
+                    <li><strong style="color: #dc2626;">Alpa</strong> (tanpa keterangan)</li>
+                </ul>
+            </li>
+            <li>Klik tombol <strong>Simpan Presensi</strong>. Data otomatis tersimpan dan terhubung ke laporan sekolah.</li>
+        </ol>
+    </div>
+
+    <h2 class="group-title">B. Grup Kegiatan Belajar</h2>
+    <h3 class="menu-title"><span class="menu-badge">3</span> Menu: Kelas Saya (LMS)</h3>
+    <p>
+        Pengelolaan materi pembelajaran digital:
+    </p>
+    <ul>
+        <li>Guru memilih rombel dan mapel yang diampu.</li>
+        <li>Unggah file bahan ajar (PDF/Word/PPT) atau bagikan tautan video materi agar siswa dapat mengulang pelajaran di rumah.</li>
+    </ul>
+
+    <h2 class="group-title">C. Grup Wali Kelas</h2>
+    <h3 class="menu-title"><span class="menu-badge">4</span> Menu: Kenaikan Kelas</h3>
+    <div class="procedure-box">
+        <h4>Alur Kenaikan Kelas Otomatis:</h4>
+        <ol>
+            <li>Khusus guru yang bertugas sebagai Wali Kelas VII atau VIII, buka menu <strong>Kenaikan Kelas</strong>.</li>
+            <li>Sistem secara otomatis mendeteksi rombel tujuan paralel tingkat atasnya (contoh: <em>VII A otomatis diarahkan ke VIII A</em>).</li>
+            <li>Wali kelas memeriksa kelayakan siswa dan memberi centang (*checklist*) bagi siswa yang dinyatakan naik kelas.</li>
+            <li>Klik <strong>Proses Kenaikan Kelas</strong>.</li>
+            <li><em>Catatan:</em> Untuk Kelas IX, menu otomatis mendeteksi jenjang akhir dan mengarahkan konfirmasi ke menu kelulusan.</li>
+        </ol>
+    </div>
+
+    <h2 class="group-title">D. Grup Profil</h2>
+    <h3 class="menu-title"><span class="menu-badge">5</span> Menu: Settings</h3>
+    <p>
+        Memeriksa data profil diri, NIP/ID Pegawai, nama kelas perwalian, dan mengganti password akun login guru secara berkala.
+    </p>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- BAB IV : PANDUAN ROLE KEPALA SEKOLAH -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="page-break"></div>
+    <h1 class="chapter-title">BAB IV<br>PANDUAN OPERASIONAL ROLE KEPALA SEKOLAH</h1>
+    <p>
+        Berdasarkan panel navigasi Kepala Sekolah (Gambar 3), pimpinan sekolah memiliki menu supervisi sebagai berikut:
+    </p>
+
+    <h2 class="group-title">A. Grup Dashboard</h2>
+    <h3 class="menu-title"><span class="menu-badge">1</span> Menu: Ringkasan Sekolah</h3>
+    <p>
+        Dashboard eksekutif kepala sekolah. Menampilkan 4 metrik KPI (Total Guru Aktif, Total Siswa Aktif, Total Kelas Rombel, Kehadiran Siswa Hari Ini %), grafik garis tren kehadiran siswa selama 6 bulan terakhir, daftar Guru Teraktif dengan beban jam terbanyak, serta distribusi rombel kelas.
+    </p>
+
+    <h2 class="group-title">B. Grup Monitoring</h2>
+    <h3 class="menu-title"><span class="menu-badge">2</span> Menu: Rekap Absensi</h3>
+    <p>
+        Memantau kepatuhan kehadiran seluruh siswa di semua rombel, memeriksa persentase ketidakhadiran, dan mengevaluasi kedisiplinan belajar siswa.
+    </p>
+
+    <h2 class="group-title">C. Grup Data Sekolah</h2>
+    <h3 class="menu-title"><span class="menu-badge">3</span> Menu: Data Siswa</h3>
+    <p>
+        Memeriksa data lengkap peserta didik dari seluruh angkatan kelas VII, VIII, dan IX.
+    </p>
+
+    <h3 class="menu-title"><span class="menu-badge">4</span> Menu: Data Guru</h3>
+    <p>
+        Memeriksa kelengkapan administrasi guru, beban mengajar, dan NIP/NUPTK tenaga pendidik.
+    </p>
+
+    <h3 class="menu-title"><span class="menu-badge">5</span> Menu: Data Kelas</h3>
+    <p>
+        Melihat struktur rombongan belajar, nama wali kelas yang bertugas, dan jumlah persebaran siswa per rombel.
+    </p>
+
+    <h2 class="group-title">D. Grup Laporan & Publik</h2>
+    <h3 class="menu-title"><span class="menu-badge">6</span> Menu: Laporan PPDB</h3>
+    <p>
+        Memantau grafik dan jumlah pendaftar calon siswa baru yang masuk pada periode PPDB berjalan.
+    </p>
+
+    <h3 class="menu-title"><span class="menu-badge">7</span> Menu: Portal Berita</h3>
+    <p>
+        Memeriksa publikasi rilis berita, artikel edukasi, dan dokumentasi kegiatan sekolah.
+    </p>
+
+    <h3 class="menu-title"><span class="menu-badge">8</span> Menu: Kotak Masuk</h3>
+    <p>
+        Membaca kritik, saran, dan aspirasi masyarakat yang masuk melalui website sekolah.
+    </p>
+
+    <h2 class="group-title">E. Grup Profil</h2>
+    <h3 class="menu-title"><span class="menu-badge">9</span> Menu: Settings & Logout</h3>
+    <p>
+        Pengaturan kredensial keamanan akun kepala sekolah dan keluar sesi.
+    </p>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- BAB V & VI : MOBILE & TROUBLESHOOTING -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <div class="page-break"></div>
+    <h1 class="chapter-title">BAB V<br>PANDUAN CLIENT MOBILE (SISWA & ORANG TUA)</h1>
+    <p>
+        Aplikasi mobile <strong>SIMS Edu</strong> ditujukan untuk dipasang di smartphone Android orang tua murid:
+    </p>
+    <ul>
+        <li><strong>Instalasi APK:</strong> Pasang file <code>SIMS_Edu_SMPN2Tanggetada.apk</code> di smartphone.</li>
+        <li><strong>Login Orang Tua:</strong> Masukkan NIS anak dan Kata Sandi Orang Tua yang dibagikan oleh TU sekolah.</li>
+        <li><strong>Fitur Orang Tua:</strong> Memantau apakah anak hadir/izin di sekolah setiap hari secara transparan, melihat jadwal pelajaran, pengumuman sekolah, dan memeriksa kartu pelajar digital.</li>
+    </ul>
+
+    <h1 class="chapter-title" style="margin-top: 35px;">BAB VI<br>PEMELIHARAAN SISTEM & FAQ</h1>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 35%;">Kendala</th>
+                <th style="width: 65%;">Solusi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Guru Lupa Password</strong></td>
+                <td>Admin TU membuka menu <em>Data Guru</em> &rarr; klik <em>Edit</em> pada nama guru &rarr; masukkan password baru &rarr; Simpan.</td>
+            </tr>
+            <tr>
+                <td><strong>Jadwal Mengajar Belum Muncul</strong></td>
+                <td>Admin TU harus menginput jadwal pada menu <em>Jadwal Pelajaran</em> dengan memilih nama guru yang tepat.</td>
+            </tr>
+            <tr>
+                <td><strong>Halaman Tidak Terupdate</strong></td>
+                <td>Tekan <strong>Ctrl + F5</strong> pada keyboard laptop untuk membersihkan cache browser dan memuat data terbaru.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="margin-top: 40px; text-align: center; border-top: 1px solid #cbd5e1; padding-top: 15px;">
+        <p style="font-size: 10pt; color: #6b7280; margin: 0;">
+            Buku Panduan Operasional Resmi &bull; Sistem Informasi Manajemen Sekolah (SIMS v2.0)<br>
+            <strong>SMP NEGERI 2 TANGGETADA &copy; 2026</strong>
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>
