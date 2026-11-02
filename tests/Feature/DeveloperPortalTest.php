@@ -42,6 +42,7 @@ class DeveloperPortalTest extends TestCase
     public function test_feature_gate_aborts_404_when_feature_disabled(): void
     {
         Setting::updateOrCreate(['key' => 'feature_spp_billing'], ['value' => '0']);
+        Setting::updateOrCreate(['key' => 'feature_absensi_guru'], ['value' => '0']);
 
         $operator = \App\Models\Operator::create([
             'name' => 'Operator Test',
@@ -51,9 +52,34 @@ class DeveloperPortalTest extends TestCase
         ]);
 
         // Testing direct access while disabled
-        $response = $this->actingAs($operator, 'operator')->get('/tu/billing');
+        $responseBilling = $this->actingAs($operator, 'operator')->get('/tu/billing');
+        $this->assertEquals(404, $responseBilling->getStatusCode());
 
-        $this->assertEquals(404, $response->getStatusCode());
+        $responseTeacherAttendance = $this->actingAs($operator, 'operator')->get('/tu/teacher-attendance');
+        $this->assertEquals(404, $responseTeacherAttendance->getStatusCode());
+    }
+
+    public function test_sidebar_displays_sims_pro_module_section(): void
+    {
+        Setting::updateOrCreate(['key' => 'feature_absensi_guru'], ['value' => '0']);
+        Setting::updateOrCreate(['key' => 'feature_spp_billing'], ['value' => '0']);
+
+        $operator = \App\Models\Operator::create([
+            'name' => 'Operator Sidebar Test',
+            'username' => uniqid('op_side_'),
+            'password' => bcrypt('password'),
+            'role' => 'SMP',
+        ]);
+
+        $response = $this->actingAs($operator, 'operator')->get('/tu/dashboard');
+
+        $response->assertStatus(200);
+        $response->assertSee('Modul SIMS PRO');
+        $response->assertSee('Presensi Guru');
+        $response->assertSee('Tagihan & SPP Siswa', false);
+        $response->assertSee('WhatsApp Gateway');
+        $response->assertSee('CBT Ujian Online');
+        $response->assertSee('simsProModal');
     }
 
     public function test_favicon_renders_uploaded_school_logo(): void

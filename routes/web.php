@@ -23,6 +23,7 @@ use App\Http\Controllers\AdminTu\ScheduleController;
 use App\Http\Controllers\AdminTu\SettingsController as AdminTuSettingsController;
 use App\Http\Controllers\AdminTu\StudentController as AdminTuStudentController;
 use App\Http\Controllers\AdminTu\SubjectController;
+use App\Http\Controllers\AdminTu\TeacherAttendanceController;
 use App\Http\Controllers\AdminTu\TeacherController as AdminTuTeacherController;
 use App\Http\Controllers\Auth\AuthController;
 // Teacher Controllers
@@ -316,6 +317,14 @@ Route::middleware(['auth:operator'])
                 Route::post('/generate', 'generate')->name('generate');
                 Route::post('/{bill}/pay', 'markAsPaid')->name('pay');
                 Route::delete('/{bill}', 'destroy')->name('destroy');
+            });
+
+        Route::controller(TeacherAttendanceController::class)
+            ->middleware('feature.enabled:feature_absensi_guru')
+            ->prefix('teacher-attendance')
+            ->name('teacher-attendance.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
             });
 
         Route::controller(AdminTuSettingsController::class)

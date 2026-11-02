@@ -349,6 +349,86 @@
                     <i class="fas fa-external-link-alt w-5 mr-3 text-center text-xs"></i> <span>Halaman PPDB Publik</span>
                 </a>
 
+            {{-- Modul SIMS PRO (Add-on) --}}
+                <div class="pt-4 pb-2">
+                    <div class="flex items-center justify-between px-4">
+                        <p class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fas fa-crown text-amber-400 text-xs"></i> Modul SIMS PRO
+                        </p>
+                        <span class="text-[9px] bg-amber-400/20 text-amber-300 border border-amber-400/40 px-1.5 py-0.5 rounded font-bold">ADD-ON</span>
+                    </div>
+                </div>
+
+                {{-- 1. Presensi Guru PRO --}}
+                @if (($site_settings['feature_absensi_guru'] ?? '0') === '1')
+                    <a href="{{ route('tu.teacher-attendance.index') }}"
+                        class="flex items-center justify-between px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.teacher-attendance.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                        <div class="flex items-center">
+                            <i class="fas fa-user-clock w-5 mr-3 text-center text-emerald-400"></i>
+                            <span>Presensi Guru & GTK</span>
+                        </div>
+                        <span class="text-[10px] bg-emerald-500 text-white font-bold px-1.5 py-0.5 rounded shadow-sm">AKTIF</span>
+                    </a>
+                @else
+                    <button type="button" onclick="openProModal('absensi_guru')"
+                        class="w-full flex items-center justify-between px-4 py-2 text-blue-200/90 hover:bg-blue-800 hover:text-white transition-colors group text-left cursor-pointer">
+                        <div class="flex items-center">
+                            <i class="fas fa-user-clock w-5 mr-3 text-center text-amber-400 group-hover:scale-110 transition-transform"></i>
+                            <span>Presensi Guru & GTK</span>
+                        </div>
+                        <span class="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold px-1.5 py-0.5 rounded shadow flex items-center gap-1">
+                            <i class="fas fa-lock text-[9px]"></i> PRO
+                        </span>
+                    </button>
+                @endif
+
+                {{-- 2. Tagihan & SPP PRO --}}
+                @if (($site_settings['feature_spp_billing'] ?? '0') === '1')
+                    <a href="{{ route('tu.billing.index') }}"
+                        class="flex items-center justify-between px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.billing.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                        <div class="flex items-center">
+                            <i class="fas fa-money-bill-wave w-5 mr-3 text-center text-emerald-400"></i>
+                            <span>Tagihan & SPP</span>
+                        </div>
+                        <span class="text-[10px] bg-emerald-500 text-white font-bold px-1.5 py-0.5 rounded shadow-sm">AKTIF</span>
+                    </a>
+                @else
+                    <button type="button" onclick="openProModal('spp_billing')"
+                        class="w-full flex items-center justify-between px-4 py-2 text-blue-200/90 hover:bg-blue-800 hover:text-white transition-colors group text-left cursor-pointer">
+                        <div class="flex items-center">
+                            <i class="fas fa-money-bill-wave w-5 mr-3 text-center text-amber-400 group-hover:scale-110 transition-transform"></i>
+                            <span>Tagihan & SPP Siswa</span>
+                        </div>
+                        <span class="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold px-1.5 py-0.5 rounded shadow flex items-center gap-1">
+                            <i class="fas fa-lock text-[9px]"></i> PRO
+                        </span>
+                    </button>
+                @endif
+
+                {{-- 3. WhatsApp Gateway PRO --}}
+                <button type="button" onclick="openProModal('whatsapp_gateway')"
+                    class="w-full flex items-center justify-between px-4 py-2 text-blue-200/90 hover:bg-blue-800 hover:text-white transition-colors group text-left cursor-pointer">
+                    <div class="flex items-center">
+                        <i class="fab fa-whatsapp w-5 mr-3 text-center text-amber-400 group-hover:scale-110 transition-transform"></i>
+                        <span>WhatsApp Gateway</span>
+                    </div>
+                    <span class="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold px-1.5 py-0.5 rounded shadow flex items-center gap-1">
+                        <i class="fas fa-lock text-[9px]"></i> PRO
+                    </span>
+                </button>
+
+                {{-- 4. CBT Ujian Online PRO --}}
+                <button type="button" onclick="openProModal('cbt_exam')"
+                    class="w-full flex items-center justify-between px-4 py-2 text-blue-200/90 hover:bg-blue-800 hover:text-white transition-colors group text-left cursor-pointer">
+                    <div class="flex items-center">
+                        <i class="fas fa-laptop-code w-5 mr-3 text-center text-amber-400 group-hover:scale-110 transition-transform"></i>
+                        <span>CBT Ujian Online</span>
+                    </div>
+                    <span class="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold px-1.5 py-0.5 rounded shadow flex items-center gap-1">
+                        <i class="fas fa-lock text-[9px]"></i> PRO
+                    </span>
+                </button>
+
             {{-- ==================== MENU KEPALA SEKOLAH ==================== --}}
             @elseif($activeRole === 'principal')
                 <p class="px-3 text-xs font-semibold text-blue-400 uppercase tracking-wider mb-2">Dashboard</p>
@@ -422,7 +502,87 @@
                     <i class="fas fa-inbox w-5 mr-3 text-center"></i> Kotak Masuk
                 </a>
 
-                {{-- ==================== MENU GURU ==================== --}}
+                {{-- Modul SIMS PRO (Add-on) --}}
+                <div class="pt-4 pb-2">
+                    <div class="flex items-center justify-between px-4">
+                        <p class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fas fa-crown text-amber-400 text-xs"></i> Modul SIMS PRO
+                        </p>
+                        <span class="text-[9px] bg-amber-400/20 text-amber-300 border border-amber-400/40 px-1.5 py-0.5 rounded font-bold">ADD-ON</span>
+                    </div>
+                </div>
+
+                {{-- 1. Presensi Guru PRO --}}
+                @if (($site_settings['feature_absensi_guru'] ?? '0') === '1')
+                    <a href="{{ route('tu.teacher-attendance.index') }}"
+                        class="flex items-center justify-between px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.teacher-attendance.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                        <div class="flex items-center">
+                            <i class="fas fa-user-clock w-5 mr-3 text-center text-emerald-400"></i>
+                            <span>Presensi Guru & GTK</span>
+                        </div>
+                        <span class="text-[10px] bg-emerald-500 text-white font-bold px-1.5 py-0.5 rounded shadow-sm">AKTIF</span>
+                    </a>
+                @else
+                    <button type="button" onclick="openProModal('absensi_guru')"
+                        class="w-full flex items-center justify-between px-4 py-2 text-blue-200/90 hover:bg-blue-800 hover:text-white transition-colors group text-left cursor-pointer">
+                        <div class="flex items-center">
+                            <i class="fas fa-user-clock w-5 mr-3 text-center text-amber-400 group-hover:scale-110 transition-transform"></i>
+                            <span>Presensi Guru & GTK</span>
+                        </div>
+                        <span class="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold px-1.5 py-0.5 rounded shadow flex items-center gap-1">
+                            <i class="fas fa-lock text-[9px]"></i> PRO
+                        </span>
+                    </button>
+                @endif
+
+                {{-- 2. Tagihan & SPP PRO --}}
+                @if (($site_settings['feature_spp_billing'] ?? '0') === '1')
+                    <a href="{{ route('tu.billing.index') }}"
+                        class="flex items-center justify-between px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.billing.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
+                        <div class="flex items-center">
+                            <i class="fas fa-money-bill-wave w-5 mr-3 text-center text-emerald-400"></i>
+                            <span>Tagihan & SPP</span>
+                        </div>
+                        <span class="text-[10px] bg-emerald-500 text-white font-bold px-1.5 py-0.5 rounded shadow-sm">AKTIF</span>
+                    </a>
+                @else
+                    <button type="button" onclick="openProModal('spp_billing')"
+                        class="w-full flex items-center justify-between px-4 py-2 text-blue-200/90 hover:bg-blue-800 hover:text-white transition-colors group text-left cursor-pointer">
+                        <div class="flex items-center">
+                            <i class="fas fa-money-bill-wave w-5 mr-3 text-center text-amber-400 group-hover:scale-110 transition-transform"></i>
+                            <span>Tagihan & SPP Siswa</span>
+                        </div>
+                        <span class="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold px-1.5 py-0.5 rounded shadow flex items-center gap-1">
+                            <i class="fas fa-lock text-[9px]"></i> PRO
+                        </span>
+                    </button>
+                @endif
+
+                {{-- 3. WhatsApp Gateway PRO --}}
+                <button type="button" onclick="openProModal('whatsapp_gateway')"
+                    class="w-full flex items-center justify-between px-4 py-2 text-blue-200/90 hover:bg-blue-800 hover:text-white transition-colors group text-left cursor-pointer">
+                    <div class="flex items-center">
+                        <i class="fab fa-whatsapp w-5 mr-3 text-center text-amber-400 group-hover:scale-110 transition-transform"></i>
+                        <span>WhatsApp Gateway</span>
+                    </div>
+                    <span class="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold px-1.5 py-0.5 rounded shadow flex items-center gap-1">
+                        <i class="fas fa-lock text-[9px]"></i> PRO
+                    </span>
+                </button>
+
+                {{-- 4. CBT Ujian Online PRO --}}
+                <button type="button" onclick="openProModal('cbt_exam')"
+                    class="w-full flex items-center justify-between px-4 py-2 text-blue-200/90 hover:bg-blue-800 hover:text-white transition-colors group text-left cursor-pointer">
+                    <div class="flex items-center">
+                        <i class="fas fa-laptop-code w-5 mr-3 text-center text-amber-400 group-hover:scale-110 transition-transform"></i>
+                        <span>CBT Ujian Online</span>
+                    </div>
+                    <span class="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold px-1.5 py-0.5 rounded shadow flex items-center gap-1">
+                        <i class="fas fa-lock text-[9px]"></i> PRO
+                    </span>
+                </button>
+
+            {{-- ==================== MENU GURU ==================== --}}
             @elseif($activeRole === 'teacher')
                 <p class="px-3 text-xs font-semibold text-blue-400 uppercase tracking-wider mb-2">Menu Guru</p>
 
@@ -661,6 +821,8 @@
         }
     </script>
     @stack('js')
+@include('partials.pro-modal')
+
 </body>
 
 </html>

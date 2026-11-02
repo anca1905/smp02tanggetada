@@ -29,7 +29,10 @@ class Teacher extends Authenticatable
 
     protected $hidden = ['password'];
 
-    // Relasi presensi guru dihapus — sekolah tidak menggunakan presensi guru
+    public function teacherAttendances()
+    {
+        return $this->hasMany(TeacherAbsence::class, 'teacher_id');
+    }
 
     public function schedules()
     {
