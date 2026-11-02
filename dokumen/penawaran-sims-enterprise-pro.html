@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surat Penawaran SIMS Enterprise PRO & Kontrak 1 Tahun - SMPN 2 Tanggetada</title>
+    <title>Surat Penawaran SIMS Enterprise PRO & Kontrak 1 Tahun - SMPN 2 Tanggetada (Format A4)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -32,49 +32,86 @@
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-page);
             color: var(--text-dark);
-            line-height: 1.55;
-            padding: 24px 0 60px;
+            line-height: 1.45;
+            padding: 20px 0 60px;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
 
         /* Screen Action Bar */
         .action-bar {
-            max-width: 820px;
-            margin: 0 auto 20px;
-            padding: 14px 20px;
+            width: 210mm;
+            max-width: calc(100vw - 32px);
+            margin: 0 auto 16px;
+            padding: 12px 18px;
             background: #ffffff;
-            border-radius: 12px;
+            border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.06);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
+            gap: 10px;
             border: 1px solid var(--border);
             flex-wrap: wrap;
         }
 
-        .action-bar span {
-            font-size: 13px;
+        .action-bar .info-tip {
+            font-size: 12.5px;
             color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .action-bar .info-tip strong {
+            color: var(--accent);
+        }
+
+        .tab-group {
+            display: inline-flex;
+            background: #f1f5f9;
+            padding: 3px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            gap: 4px;
+        }
+
+        .tab-btn {
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            color: #475569;
+            transition: all 0.15s;
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: #2563eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
         .action-buttons {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            align-items: center;
         }
 
         .btn {
             font-family: inherit;
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 600;
-            padding: 9px 18px;
-            border-radius: 8px;
+            padding: 8px 16px;
+            border-radius: 7px;
             cursor: pointer;
             border: none;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             text-decoration: none;
             transition: all 0.2s;
         }
@@ -101,68 +138,75 @@
             transform: translateY(-1px);
         }
 
-        /* Document Canvas / Pages */
-        .doc-page {
-            max-width: 820px;
-            margin: 0 auto 24px;
+        /* STRICT A4 DIMENSIONS (210mm x 297mm) */
+        .a4-page {
+            width: 210mm;
+            min-height: 297mm;
+            max-height: 297mm;
+            margin: 0 auto 20px;
             background: #ffffff;
-            padding: 44px 54px;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            padding: 12mm 15mm;
+            border-radius: 6px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
             border: 1px solid #e2e8f0;
+            box-sizing: border-box;
             position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         /* Kop Surat Resmi */
         .kop-surat {
-            border-bottom: 3px double #0f172a;
-            padding-bottom: 12px;
-            margin-bottom: 20px;
+            border-bottom: 2.5px double #0f172a;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
             text-align: center;
         }
 
         .kop-brand {
-            font-size: 20px;
+            font-size: 17px;
             font-weight: 800;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
             color: #0f172a;
             text-transform: uppercase;
         }
 
         .kop-sub {
-            font-size: 12px;
+            font-size: 11px;
             color: #475569;
-            margin-top: 2px;
+            margin-top: 1px;
             font-weight: 500;
         }
 
         .kop-contact {
-            font-size: 11px;
+            font-size: 10px;
             color: #64748b;
-            margin-top: 2px;
+            margin-top: 1px;
         }
 
-        /* Document Meta */
+        /* Meta Table */
         .meta-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 12.5px;
-            margin-bottom: 16px;
+            font-size: 11px;
+            margin-bottom: 10px;
         }
 
         .meta-table td {
-            padding: 2.5px 0;
+            padding: 1.5px 0;
             vertical-align: top;
         }
 
         .meta-table td:first-child {
-            width: 85px;
+            width: 75px;
             color: #64748b;
             font-weight: 500;
         }
 
         .meta-table td:nth-child(2) {
-            width: 15px;
+            width: 12px;
             text-align: center;
         }
 
@@ -174,23 +218,24 @@
         .recipient-box {
             background: #f8fafc;
             border-left: 3px solid var(--accent);
-            padding: 10px 14px;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 16px;
-            font-size: 12.5px;
+            padding: 6px 12px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 10px;
+            font-size: 11px;
+            line-height: 1.4;
         }
 
         .recipient-box strong {
             color: #0f172a;
-            font-size: 13px;
+            font-size: 11.5px;
         }
 
         /* Text Content */
         .content-text {
-            font-size: 12.5px;
-            line-height: 1.65;
+            font-size: 11px;
+            line-height: 1.5;
             text-align: justify;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             color: #334155;
         }
 
@@ -198,9 +243,9 @@
         .price-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 14px 0 16px;
-            font-size: 12px;
-            border-radius: 8px;
+            margin: 8px 0 10px;
+            font-size: 10.5px;
+            border-radius: 6px;
             overflow: hidden;
             border: 1px solid #cbd5e1;
         }
@@ -208,16 +253,16 @@
         .price-table th {
             background: #0f172a;
             color: #ffffff;
-            padding: 9px 12px;
+            padding: 6px 10px;
             text-align: left;
             font-weight: 700;
-            font-size: 11.5px;
+            font-size: 10px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.4px;
         }
 
         .price-table td {
-            padding: 9px 12px;
+            padding: 6px 10px;
             border-bottom: 1px solid #e2e8f0;
             vertical-align: middle;
             color: #1e293b;
@@ -228,7 +273,7 @@
         }
 
         .price-table .col-no {
-            width: 32px;
+            width: 26px;
             text-align: center;
             font-weight: 700;
             color: #64748b;
@@ -239,6 +284,7 @@
             white-space: nowrap;
             font-weight: 700;
             font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
         }
 
         .price-table .highlight-row {
@@ -253,22 +299,22 @@
         }
 
         .price-table .total-row td {
-            font-size: 13px;
+            font-size: 11.5px;
             color: #1e3a8a;
-            padding: 11px 12px;
+            padding: 8px 10px;
         }
 
         /* Badges */
         .badge {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            padding: 2px 7px;
+            gap: 3px;
+            padding: 1.5px 6px;
             border-radius: 4px;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.3px;
         }
 
         .badge-free {
@@ -293,10 +339,10 @@
         .terbilang-card {
             background: #f8fafc;
             border: 1px dashed #cbd5e1;
-            border-radius: 8px;
-            padding: 8px 14px;
-            font-size: 12px;
-            margin-bottom: 14px;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 10.5px;
+            margin-bottom: 10px;
             color: #334155;
         }
 
@@ -307,43 +353,43 @@
         /* BOS Compliance Box */
         .bos-card {
             background: #fefce8;
-            border: 1.5px solid #fef08a;
-            border-radius: 10px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            font-size: 11.5px;
+            border: 1px solid #fde047;
+            border-radius: 8px;
+            padding: 9px 12px;
+            margin-bottom: 10px;
+            font-size: 10px;
             color: #713f12;
-            line-height: 1.5;
+            line-height: 1.45;
         }
 
         .bos-card h4 {
-            font-size: 12px;
+            font-size: 10.5px;
             font-weight: 800;
             color: #854d0e;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
 
-        /* Feature Specification Cards (Page 2) */
+        /* Feature Specification Cards */
         .feature-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 8px;
-            margin-bottom: 14px;
+            gap: 6px;
+            margin-bottom: 10px;
         }
 
         .feature-card {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 9px 13px;
-            font-size: 11.5px;
+            border-radius: 6px;
+            padding: 7px 10px;
+            font-size: 10px;
         }
 
         .feature-card h5 {
-            font-size: 12px;
+            font-size: 10.5px;
             font-weight: 700;
             color: #0f172a;
             margin-bottom: 2px;
@@ -354,7 +400,7 @@
 
         .feature-card p {
             color: #475569;
-            line-height: 1.4;
+            line-height: 1.35;
             margin: 0;
         }
 
@@ -362,16 +408,16 @@
         .bonus-box {
             background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
             border: 1.5px solid #86efac;
-            border-radius: 10px;
-            padding: 13px 16px;
-            margin-bottom: 14px;
+            border-radius: 8px;
+            padding: 9px 12px;
+            margin-bottom: 10px;
         }
 
         .bonus-box h4 {
-            font-size: 12.5px;
+            font-size: 11px;
             font-weight: 800;
             color: #14532d;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -381,75 +427,75 @@
             list-style: none;
             padding: 0;
             margin: 0;
-            font-size: 11.5px;
+            font-size: 10px;
             color: #166534;
         }
 
         .bonus-list li {
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             display: flex;
             align-items: flex-start;
-            gap: 6px;
-            line-height: 1.45;
+            gap: 5px;
+            line-height: 1.4;
         }
 
         /* Payment & Signatures */
         .payment-box {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 11.5px;
-            margin-bottom: 16px;
+            border-radius: 6px;
+            padding: 7px 12px;
+            font-size: 10px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 6px;
         }
 
         .payment-info strong {
             color: var(--accent);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 12.5px;
+            font-size: 11px;
         }
 
         .signatures {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-top: 10px;
+            gap: 24px;
+            margin-top: 6px;
         }
 
         .sig-block {
             text-align: center;
-            font-size: 12px;
+            font-size: 10.5px;
         }
 
         .sig-role {
-            font-size: 11px;
+            font-size: 10px;
             color: #64748b;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
 
         .sig-name {
             font-weight: 700;
-            font-size: 12.5px;
+            font-size: 11px;
             color: #0f172a;
             border-bottom: 1px solid #0f172a;
             display: inline-block;
             padding-bottom: 1px;
-            min-width: 170px;
+            min-width: 150px;
         }
 
         .sig-nip {
-            font-size: 11px;
+            font-size: 9.5px;
             color: #475569;
             margin-top: 2px;
         }
 
         .sig-space {
-            height: 60px;
+            height: 48px;
             position: relative;
             display: flex;
             align-items: center;
@@ -457,21 +503,52 @@
         }
 
         .stamp-mark {
-            border: 1.5px dashed #94a3b8;
-            border-radius: 6px;
-            padding: 4px 10px;
-            font-size: 9.5px;
+            border: 1px dashed #94a3b8;
+            border-radius: 4px;
+            padding: 3px 8px;
+            font-size: 8.5px;
             color: #94a3b8;
             text-transform: uppercase;
             font-weight: 700;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.4px;
         }
 
         .page-number {
             text-align: right;
-            font-size: 10.5px;
+            font-size: 9.5px;
             color: #94a3b8;
-            margin-top: 16px;
+            margin-top: 8px;
+            padding-top: 4px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        /* 1-Page Compact Specific Styles */
+        .compact-feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            margin-bottom: 8px;
+        }
+
+        .compact-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            padding: 5px 8px;
+            font-size: 9.5px;
+        }
+
+        .compact-card strong {
+            color: #0f172a;
+            font-size: 9.5px;
+            display: block;
+            margin-bottom: 1px;
+        }
+
+        .compact-card span {
+            color: #475569;
+            line-height: 1.3;
+            display: block;
         }
 
         /* Editable highlight */
@@ -487,330 +564,544 @@
             box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.3);
         }
 
-        /* Print Settings */
+        /* STRICT A4 PRINT SETTINGS (NO SCALING DISTORTION & NO CUT OFF) */
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+
         @media print {
-            body {
-                background: white !important;
+            html, body {
+                width: 210mm !important;
+                height: auto !important;
+                margin: 0 !important;
                 padding: 0 !important;
+                background: #ffffff !important;
             }
 
             .action-bar {
                 display: none !important;
             }
 
-            .doc-page {
-                box-shadow: none !important;
-                border: none !important;
-                padding: 16mm 18mm !important;
+            .a4-page {
+                width: 210mm !important;
+                height: 297mm !important;
+                max-height: 297mm !important;
+                min-height: 297mm !important;
+                padding: 10mm 14mm !important;
                 margin: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
                 border-radius: 0 !important;
-                page-break-after: always;
-                break-after: page;
+                box-sizing: border-box !important;
+                page-break-after: always !important;
+                break-after: page !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                overflow: hidden !important;
             }
 
-            .doc-page:last-child {
-                page-break-after: avoid;
-                break-after: avoid;
+            .a4-page:last-child {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
             }
 
-            @page {
-                size: A4 portrait;
-                margin: 0;
+            /* Hide whichever view is not active */
+            .hidden-print {
+                display: none !important;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Bar Navigasi & Print -->
+    <!-- Bar Navigasi & Print (Layar Saja) -->
     <div class="action-bar">
-        <span>💡 Dokumen surat penawaran ini dapat diklik langsung untuk mengedit tanggal, nomor surat, dll. Siap cetak 2 halaman A4.</span>
+        <div class="info-tip">
+            <span>📄 <strong>Format A4 Presisi:</strong> Teks interaktif dapat diedit langsung. Pilih mode cetak:</span>
+        </div>
+        <div class="tab-group">
+            <button id="btn2Page" class="tab-btn active" onclick="switchPrintMode('2page')">
+                📄 Mode 2 Halaman (Lengkap)
+            </button>
+            <button id="btn1Page" class="tab-btn" onclick="switchPrintMode('1page')">
+                📑 Mode 1 Halaman (Ringkas / 1 Lembar Pas)
+            </button>
+        </div>
         <div class="action-buttons">
             <a href="berkas-smp2-tanggetada.html" class="btn btn-outline">
-                📂 Kembali ke Hub Berkas
+                📂 Kembali
             </a>
             <button class="btn btn-primary" onclick="window.print()">
-                🖨️ Cetak / Simpan PDF (A4)
+                🖨️ Cetak A4 Sekarang
             </button>
         </div>
     </div>
 
     <!-- ========================================================
-         HALAMAN 1: SURAT PENAWARAN RESMI & RINCIAN BIAYA INVESTASI
+         CONTAINER 1: MODE 2 HALAMAN (PROPOSAL DETAIL PAS 2 LEMBAR A4)
          ======================================================== -->
-    <div class="doc-page">
+    <div id="mode2PageContainer">
 
-        <!-- Kop Surat -->
-        <div class="kop-surat">
-            <div class="kop-brand" contenteditable="true">SKILLANCE DIGITAL INDONESIA</div>
-            <div class="kop-sub" contenteditable="true">Penyedia Solusi Teknologi Informasi, Software House & Konsultan Pendidikan Digital</div>
-            <div class="kop-contact" contenteditable="true">Website: skillance.cloud | Kontak: 0853-4654-8999 | Kolaka, Sulawesi Tenggara</div>
-        </div>
+        <!-- ================= HALAMAN 1 (A4) ================= -->
+        <div class="a4-page">
+            <div>
+                <!-- Kop Surat Resmi -->
+                <div class="kop-surat">
+                    <div class="kop-brand" contenteditable="true">SKILLANCE DIGITAL INDONESIA</div>
+                    <div class="kop-sub" contenteditable="true">Penyedia Solusi Teknologi Informasi, Software House & Konsultan Pendidikan Digital</div>
+                    <div class="kop-contact" contenteditable="true">Website: skillance.cloud | Kontak: 0853-4654-8999 | Kolaka, Sulawesi Tenggara</div>
+                </div>
 
-        <!-- Meta Surat -->
-        <table class="meta-table">
-            <tr>
-                <td>Nomor</td>
-                <td>:</td>
-                <td contenteditable="true">003/PWH-SDI/XI/2026</td>
-                <td style="text-align: right; color: #64748b; font-weight: 500;" contenteditable="true">Kolaka, 03 November 2026</td>
-            </tr>
-            <tr>
-                <td>Lampiran</td>
-                <td>:</td>
-                <td contenteditable="true">1 (Satu) Berkas Proposal Spesifikasi & Rincian Fasilitas</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Perihal</td>
-                <td>:</td>
-                <td contenteditable="true">
-                    <strong>Penawaran Kontrak Operasional 1 Tahun & Lisensi Permanen SIMS Enterprise PRO</strong>
-                    <div style="font-size: 11px; color: #16a34a; font-weight: 700; margin-top: 1px;">
-                        (Paket Lengkap + Bonus Smart Card Siswa PVC RFID & Perangkat USB RFID Reader)
+                <!-- Meta Surat -->
+                <table class="meta-table">
+                    <tr>
+                        <td>Nomor</td>
+                        <td>:</td>
+                        <td contenteditable="true">003/PWH-SDI/XI/2026</td>
+                        <td style="text-align: right; color: #64748b; font-weight: 500;" contenteditable="true">Kolaka, 03 November 2026</td>
+                    </tr>
+                    <tr>
+                        <td>Lampiran</td>
+                        <td>:</td>
+                        <td contenteditable="true">1 (Satu) Berkas Proposal Spesifikasi Fitur & Bonus Hardware</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Perihal</td>
+                        <td>:</td>
+                        <td contenteditable="true">
+                            <strong>Penawaran Kontrak 1 Tahun & Lisensi SIMS Enterprise PRO</strong>
+                            <span style="font-size: 10px; color: #16a34a; font-weight: 700;">(Bonus Smart Card PVC RFID + Scanner)</span>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+
+                <!-- Penerima Surat -->
+                <div class="recipient-box">
+                    <div style="color: #64748b; font-size: 10.5px;">Kepada Yth.</div>
+                    <div contenteditable="true"><strong>Bapak Ir. Iwan Taufik</strong> (Kepala Sekolah)</div>
+                    <div contenteditable="true">SMP Negeri 2 Tanggetada &mdash; di Tempat</div>
+                </div>
+
+                <!-- Paragraf Pembuka -->
+                <p class="content-text" contenteditable="true">
+                    Dengan hormat,<br>
+                    Sehubungan dengan operasional Sistem Informasi Manajemen Sekolah (SIMS) di lingkungan <strong>SMP Negeri 2 Tanggetada</strong>, kami dari <strong>Skillance Digital Indonesia</strong> mengajukan penawaran program kemitraan resmi berupa <strong>Kontrak Layanan Operasional Selama 1 (Satu) Tahun Penuh</strong> sekaligus <strong>Upgrade Lisensi Permanen SIMS Enterprise PRO (Sekali Bayar Selamanya)</strong>.
+                </p>
+
+                <p class="content-text" contenteditable="true">
+                    Program ini dirancang khusus untuk menjamin kepastian operasional sistem sekolah selama 12 bulan bebas hambatan, membuka seluruh 5 modul premium sekolah digital terintegrasi, serta memberikan <strong>Bonus Cuma-cuma Pengadaan Kartu Siswa Pintar Bahan PVC RFID dan Perangkat Hardware USB RFID Reader</strong> untuk seluruh siswa.
+                </p>
+
+                <!-- Tabel Investasi Penawaran -->
+                <div style="font-size: 11px; font-weight: 700; color: #0f172a; margin-top: 6px; margin-bottom: 3px; text-transform: uppercase;">
+                    📊 Rincian Paket Penawaran Investasi Sekolah:
+                </div>
+
+                <table class="price-table">
+                    <thead>
+                        <tr>
+                            <th class="col-no">No</th>
+                            <th>Komponen Layanan / Modul Sistem</th>
+                            <th style="width: 130px; text-align: center;">Skema Lisensi</th>
+                            <th style="width: 120px; text-align: right;">Nilai Investasi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-no">1</td>
+                            <td>
+                                <strong contenteditable="true">Kontrak Operasional, Cloud VPS & Maintenance 1 Tahun (12 Bulan)</strong>
+                                <div style="font-size: 9.5px; color: #64748b; margin-top: 1px;" contenteditable="true">
+                                    Dedicated Server VPS, database, domain resmi <code>smpn2tanggetada.sch.id</code>, SSL HTTPS, backup harian otomatis, SLA uptime 99.9%, dan pendampingan teknis prioritas.
+                                </div>
+                            </td>
+                            <td style="text-align: center;">
+                                <span class="badge badge-contract" contenteditable="true">Kontrak 1 Tahun</span>
+                            </td>
+                            <td class="col-price" contenteditable="true">Rp 10.000.000</td>
+                        </tr>
+                        <tr>
+                            <td class="col-no">2</td>
+                            <td>
+                                <strong contenteditable="true">Lisensi Permanen Paket SIMS Enterprise PRO (All-In-One)</strong>
+                                <div style="font-size: 9.5px; color: #64748b; margin-top: 1px;" contenteditable="true">
+                                    Aktivasi seumur hidup tanpa biaya bulanan untuk 5 Modul PRO: Presensi Guru/GTK, Tagihan & SPP Siswa, CBT Ujian Online Paperless, Kelulusan & SKL QR Code, WhatsApp Gateway.
+                                </div>
+                            </td>
+                            <td style="text-align: center;">
+                                <span class="badge badge-pro" contenteditable="true">Sekali Bayar (Lifetime)</span>
+                            </td>
+                            <td class="col-price" contenteditable="true">Rp 2.500.000</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td class="col-no" style="color: #16a34a; font-weight: 800;">✓</td>
+                            <td>
+                                <strong style="color: #15803d;" contenteditable="true">BONUS EKSKLUSIF: Cetak Kartu Siswa PVC RFID + USB RFID Reader</strong>
+                                <div style="font-size: 9.5px; color: #166534; margin-top: 1px;" contenteditable="true">
+                                    • Cetak Kartu Pelajar Bahan Tebal PVC Standar ATM ber-Chip RFID untuk seluruh siswa aktif.<br>
+                                    • 1 (Satu) Unit Alat Scanner Hardware USB RFID Reader Plug & Play untuk presensi tap di piket.
+                                </div>
+                            </td>
+                            <td style="text-align: center;">
+                                <span class="badge badge-free" contenteditable="true">GRATIS (BONUS)</span>
+                            </td>
+                            <td class="col-price" style="color: #16a34a;" contenteditable="true">
+                                <span style="text-decoration: line-through; color: #94a3b8; font-size: 9.5px; font-weight: normal; margin-right: 3px;">Rp 2.000.000</span>
+                                Rp 0
+                            </td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="3" style="text-align: right; padding-right: 12px;">
+                                TOTAL NILAI PENAWARAN PAKET LENGKAP:
+                            </td>
+                            <td class="col-price" style="font-size: 13px; color: #1e3a8a;" contenteditable="true">
+                                Rp 12.500.000
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Terbilang Box -->
+                <div class="terbilang-card">
+                    <strong>Terbilang:</strong> <span contenteditable="true"><em>"Dua Belas Juta Lima Ratus Ribu Rupiah"</em></span>
+                </div>
+
+                <!-- Legalitas DANA BOS Reguler -->
+                <div class="bos-card">
+                    <h4>
+                        <span>🏛️</span> KELAYAKAN ALOKASI PENGANGGARAN DANA BOS REGULER
+                    </h4>
+                    <div contenteditable="true">
+                        Berdasarkan <strong>Permendikbudristek No. 63 Tahun 2022 / 2023</strong> tentang Petunjuk Teknis Pengelolaan Dana BOSP, biaya ini <strong>100% Sah dan Legal</strong> dianggarkan pada komponen <em>Pemeliharaan Sarana dan Prasarana Sekolah</em> serta <em>Penyediaan Alat/Aplikasi Pembelajaran Digital Berbasis IT</em>. Pihak penyedia melengkapi seluruh syarat SPJ mencakup: Kuitansi Bermaterai, Berita Acara Serah Terima (BAST), Faktur Pajak/Invoice Resmi, dan Dokumen PKS.
                     </div>
-                </td>
-                <td></td>
-            </tr>
-        </table>
-
-        <!-- Penerima Surat -->
-        <div class="recipient-box">
-            <div style="color: #64748b; font-size: 11.5px;">Kepada Yth.</div>
-            <div contenteditable="true"><strong>Bapak Ir. Iwan Taufik</strong></div>
-            <div contenteditable="true">Kepala Sekolah SMP Negeri 2 Tanggetada</div>
-            <div style="color: #64748b;" contenteditable="true">di - Tempat</div>
-        </div>
-
-        <!-- Paragraf Pembuka -->
-        <p class="content-text" contenteditable="true">
-            Dengan hormat,<br>
-            Sehubungan dengan implementasi Sistem Informasi Manajemen Sekolah (SIMS) di lingkungan <strong>SMP Negeri 2 Tanggetada</strong> yang saat ini telah berjalan, kami dari <strong>Skillance Digital Indonesia</strong> bermaksud mengajukan penawaran program kemitraan strategis jangka panjang berupa <strong>Kontrak Layanan Operasional Selama 1 (Satu) Tahun Penuh</strong> sekaligus <strong>Upgrade Lisensi Permanen SIMS Enterprise PRO (Sekali Bayar Selamanya)</strong>.
-        </p>
-
-        <p class="content-text" contenteditable="true">
-            Program penawaran terpadu ini kami rancang khusus untuk menjamin kepastian operasional sistem sekolah bebas kendala selama 12 bulan penuh, membuka seluruh modul premium sekolah digital (Presensi GTK, SPP, CBT Online, SKL, & WhatsApp Gateway), serta memberikan apresiasi berupa <strong>Bonus Pengadaan Kartu Siswa Pintar Ber-RFID (PVC) dan Perangkat Scanner RFID Reader USB</strong> tanpa biaya tambahan.
-        </p>
-
-        <!-- Tabel Investasi Penawaran -->
-        <div style="font-size: 12px; font-weight: 700; color: #0f172a; margin-top: 8px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px;">
-            📊 Rincian Paket Penawaran Investasi Sekolah:
-        </div>
-
-        <table class="price-table">
-            <thead>
-                <tr>
-                    <th class="col-no">No</th>
-                    <th>Komponen Layanan / Modul Sistem</th>
-                    <th style="width: 140px; text-align: center;">Skema Lisensi</th>
-                    <th style="width: 130px; text-align: right;">Nilai Investasi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="col-no">1</td>
-                    <td>
-                        <strong contenteditable="true">Kontrak Operasional, Cloud VPS & Pemeliharaan 1 Tahun (12 Bulan)</strong>
-                        <div style="font-size: 11px; color: #64748b; margin-top: 2px;" contenteditable="true">
-                            Dedicated Server VPS, database, domain resmi <code>smpn2tanggetada.sch.id</code>, SSL HTTPS, backup otomatis harian, SLA uptime 99.9%, dan pendampingan teknis prioritas 1 tahun.
-                        </div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge badge-contract" contenteditable="true">Kontrak 1 Tahun</span>
-                    </td>
-                    <td class="col-price" contenteditable="true">Rp 10.000.000</td>
-                </tr>
-                <tr>
-                    <td class="col-no">2</td>
-                    <td>
-                        <strong contenteditable="true">Lisensi Permanen Paket SIMS Enterprise PRO (All-In-One)</strong>
-                        <div style="font-size: 11px; color: #64748b; margin-top: 2px;" contenteditable="true">
-                            Aktivasi permanen seumur hidup untuk 5 Modul PRO: Presensi Guru/GTK, Tagihan & SPP Siswa, CBT Ujian Online Paperless, Kelulusan & SKL Ber-QR Code, dan WhatsApp Gateway.
-                        </div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge badge-pro" contenteditable="true">Sekali Bayar (Lifetime)</span>
-                    </td>
-                    <td class="col-price" contenteditable="true">Rp 2.500.000</td>
-                </tr>
-                <tr class="highlight-row">
-                    <td class="col-no" style="color: #16a34a; font-weight: 800;">✓</td>
-                    <td>
-                        <strong style="color: #15803d;" contenteditable="true">BONUS EKSKLUSIF: Cetak Kartu Siswa PVC RFID + USB RFID Reader</strong>
-                        <div style="font-size: 11px; color: #166534; margin-top: 2px;" contenteditable="true">
-                            • Cetak Kartu Pelajar Pintar Bahan Tebal PVC Standar ATM ber-Chip RFID untuk seluruh siswa aktif.<br>
-                            • 1 (Satu) Unit Alat Scanner Hardware USB RFID Reader Plug & Play untuk presensi tap kilat di meja piket.
-                        </div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge badge-free" contenteditable="true">GRATIS (BONUS)</span>
-                    </td>
-                    <td class="col-price" style="color: #16a34a;" contenteditable="true">
-                        <span style="text-decoration: line-through; color: #94a3b8; font-size: 10.5px; font-weight: normal; margin-right: 4px;">Rp 2.000.000</span>
-                        Rp 0
-                    </td>
-                </tr>
-                <tr class="total-row">
-                    <td colspan="3" style="text-align: right; padding-right: 16px;">
-                        TOTAL NILAI PENAWARAN PAKET LENGKAP:
-                    </td>
-                    <td class="col-price" style="font-size: 14.5px; color: #1e3a8a;" contenteditable="true">
-                        Rp 12.500.000
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- Terbilang Box -->
-        <div class="terbilang-card">
-            <strong>Terbilang:</strong> <span contenteditable="true"><em>"Dua Belas Juta Lima Ratus Ribu Rupiah"</em></span>
-        </div>
-
-        <!-- Legalitas DANA BOS Reguler -->
-        <div class="bos-card">
-            <h4>
-                <span>🏛️</span> KELAYAKAN ALOKASI PENGANGGARAN DANA BOS REGULER
-            </h4>
-            <div contenteditable="true">
-                Berdasarkan <strong>Permendikbudristek No. 63 Tahun 2022 / 2023</strong> tentang Petunjuk Teknis Pengelolaan Dana BOSP, biaya pengadaan dan pemeliharaan sistem informasi manajemen sekolah ini <strong>100% Sah dan Legal</strong> dianggarkan pada komponen <em>Pemeliharaan Sarana dan Prasarana Sekolah</em> serta <em>Penyediaan Alat/Aplikasi Pembelajaran Digital Berbasis IT</em>. Pihak penyedia melengkapi seluruh syarat SPJ mencakup: Kuitansi Bermaterai, Berita Acara Serah Terima (BAST), Faktur Pajak/Invoice Resmi, dan Dokumen PKS.
+                </div>
             </div>
+
+            <div class="page-number">Halaman 1 dari 2 &mdash; Format Baku A4 Presisi</div>
         </div>
 
-        <div class="page-number">Halaman 1 dari 2 &mdash; Bersambung ke Halaman 2</div>
+        <!-- ================= HALAMAN 2 (A4) ================= -->
+        <div class="a4-page">
+            <div>
+                <div style="border-bottom: 2px solid #0f172a; padding-bottom: 4px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="font-size: 11.5px; font-weight: 800; color: #0f172a; text-transform: uppercase;">
+                        Lampiran: Rincian Fitur PRO, Spesifikasi Bonus & Lembar Pengesahan
+                    </div>
+                    <div style="font-size: 10px; color: #64748b; font-family: 'JetBrains Mono', monospace;">
+                        003/PWH-SDI/XI/2026
+                    </div>
+                </div>
+
+                <!-- Rincian 5 Fitur Enterprise PRO -->
+                <div style="font-size: 11px; font-weight: 700; color: #0f172a; margin-bottom: 6px; text-transform: uppercase;">
+                    🚀 5 Modul Unggulan SIMS Enterprise PRO (Aktif Selamanya):
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h5>
+                            <span contenteditable="true">1. Presensi Digital Guru & Pegawai GTK</span>
+                            <span class="badge badge-pro">MODUL PRO</span>
+                        </h5>
+                        <p contenteditable="true">
+                            Pencatatan jam kehadiran/pulang dinas guru, rekap bulanan otomatis siap cetak PDF/Excel untuk kelengkapan berkas verifikasi Tunjangan Profesi Guru (Sertifikasi) dan TPP tanpa kalkulasi manual.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h5>
+                            <span contenteditable="true">2. Manajemen Tagihan, Iuran Komite & SPP Siswa</span>
+                            <span class="badge badge-pro">MODUL PRO</span>
+                        </h5>
+                        <p contenteditable="true">
+                            Pengelolaan kas komite, seragam, dan iuran siswa dengan bukti kuitansi digital bernomor unik, monitoring tunggakan realtime, dan pembukuan transparan anti-selisih.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h5>
+                            <span contenteditable="true">3. CBT Ujian Online Paperless (Bebas Kertas)</span>
+                            <span class="badge badge-pro">MODUL PRO</span>
+                        </h5>
+                        <p contenteditable="true">
+                            Pelaksanaan ujian PTS/PAS online via HP/laptop siswa dengan pengaman anti-curang (kunci layar), menghemat anggaran fotokopi dan cetak naskah soal hingga jutaan rupiah per tahun.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h5>
+                            <span contenteditable="true">4. Kelulusan Online & Penerbitan SKL Ber-QR Code</span>
+                            <span class="badge badge-pro">MODUL PRO</span>
+                        </h5>
+                        <p contenteditable="true">
+                            Portal pengumuman kelulusan terpadu online mandiri dari rumah serta cetak Surat Keterangan Lulus (SKL) resmi dengan QR Code validasi keaslian dokumen dinas anti-pemalsuan.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h5>
+                            <span contenteditable="true">5. WhatsApp Gateway Notifikasi Otomatis</span>
+                            <span class="badge badge-pro">MODUL PRO</span>
+                        </h5>
+                        <p contenteditable="true">
+                            Broadcast pengumuman darurat sekolah serta kirim notifikasi otomatis ke WhatsApp orang tua secara realtime saat siswa menempelkan kartu presensi masuk maupun pulang.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Box Rincian Bonus Fisik Hardware & Smart Card -->
+                <div class="bonus-box">
+                    <h4>
+                        <span>🎁 SPESIFIKASI BONUS FISIK (CUMA-CUMA / FREE OF CHARGE):</span>
+                        <span class="badge badge-free">NILAI RP 2.000.000 &rarr; GRATIS</span>
+                    </h4>
+                    <ul class="bonus-list">
+                        <li contenteditable="true">
+                            <strong>1. Kartu Pelajar Pintar PVC RFID (Seluruh Siswa):</strong> Bahan PVC tebal standar kartu ATM (0.8mm) anti-air, cetak full-color 300 DPI dengan foto siswa, NISN, barcode, dan chip RFID tertanam yang terhubung ke sistem presensi SIMS.
+                        </li>
+                        <li contenteditable="true">
+                            <strong>2. Perangkat Hardware USB RFID Card Reader (1 Unit):</strong> Alat pembaca kartu USB 2.0/3.0 kecepatan tinggi (respon 0.5 detik). Langsung dicolokkan ke laptop/PC meja piket tanpa instal driver (*plug-and-play*).
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Ketentuan Pembayaran -->
+                <div class="payment-box">
+                    <div class="payment-info">
+                        <div style="font-weight: 700; color: #0f172a; margin-bottom: 1px;">Metode Pembayaran & Rekening Resmi:</div>
+                        <div style="color: #475569;" contenteditable="true">
+                            Bank: <strong>SeaBank</strong> &nbsp;|&nbsp; No. Rekening: <strong>901376460015</strong> &nbsp;|&nbsp; A.n: <strong>Muh Arsyad Ramsi</strong>
+                        </div>
+                        <div style="font-size: 9.5px; color: #64748b; margin-top: 2px;" contenteditable="true">
+                            * Pembayaran dapat disesuaikan dengan termin pencairan Dana BOS Sekolah (Termin I dan II) atau sekaligus lunas.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paragraf Penutup -->
+                <p class="content-text" style="margin-bottom: 10px;" contenteditable="true">
+                    Demikian surat penawaran ini kami sampaikan. Besar harapan kami kemitraan ini terus berlanjut guna mewujudkan SMP Negeri 2 Tanggetada sebagai sekolah percontohan digital terbaik di Kabupaten Kolaka. Atas perhatian dan kerja samanya, kami ucapkan terima kasih.
+                </p>
+
+                <!-- Lembar Pengesahan / Tanda Tangan -->
+                <div class="signatures">
+                    <div class="sig-block">
+                        <div class="sig-role">Pihak Pengaju Penawaran,</div>
+                        <div style="font-weight: 700; color: #0f172a; margin-bottom: 1px;" contenteditable="true">Skillance Digital Indonesia</div>
+                        <div class="sig-space">
+                            <span class="stamp-mark" contenteditable="true">[ TTD & STEMPEL PENYEDIA ]</span>
+                        </div>
+                        <div class="sig-name" contenteditable="true">Muh Arsyad Ramsi</div>
+                        <div class="sig-nip" contenteditable="true">Direktur Utama / Tim Pengembang</div>
+                    </div>
+
+                    <div class="sig-block">
+                        <div class="sig-role">Menyetujui / Menerima Penawaran,</div>
+                        <div style="font-weight: 700; color: #0f172a; margin-bottom: 1px;" contenteditable="true">SMP Negeri 2 Tanggetada</div>
+                        <div class="sig-space">
+                            <span class="stamp-mark" contenteditable="true">[ MATERAI 10.000 / STEMPEL ]</span>
+                        </div>
+                        <div class="sig-name" contenteditable="true">Ir. Iwan Taufik</div>
+                        <div class="sig-nip" contenteditable="true">NIP. ....................................................</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-number">Halaman 2 dari 2 &mdash; Format Baku A4 Presisi</div>
+        </div>
 
     </div>
+
 
     <!-- ========================================================
-         HALAMAN 2: SPESIFIKASI MODUL, BONUS HARDWARE, & LEMBAR PENGESAHAN
+         CONTAINER 2: MODE 1 HALAMAN RINGKAS (PAS 1 LEMBAR A4)
          ======================================================== -->
-    <div class="doc-page">
-
-        <div style="border-bottom: 2px solid #0f172a; padding-bottom: 6px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="font-size: 13px; font-weight: 800; color: #0f172a; text-transform: uppercase;">
-                Lampiran: Rincian Spesifikasi Fitur PRO, Fasilitas Hardware & Lembar Persetujuan
-            </div>
-            <div style="font-size: 11px; color: #64748b; font-family: 'JetBrains Mono', monospace;">
-                003/PWH-SDI/XI/2026
-            </div>
-        </div>
-
-        <!-- Rincian 5 Fitur Enterprise PRO -->
-        <div style="font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 8px; text-transform: uppercase;">
-            🚀 5 Modul Unggulan SIMS Enterprise PRO (Aktif Selamanya):
-        </div>
-
-        <div class="feature-grid">
-            <div class="feature-card">
-                <h5>
-                    <span contenteditable="true">1. Presensi Digital Guru & Pegawai GTK</span>
-                    <span class="badge badge-pro">MODUL PRO</span>
-                </h5>
-                <p contenteditable="true">
-                    Pencatatan jam kehadiran/pulang dinas guru dan staf, rekap bulanan otomatis siap cetak PDF/Excel sebagai kelengkapan berkas verifikasi Tunjangan Profesi Guru (Sertifikasi) dan TPP tanpa kalkulasi manual.
-                </p>
-            </div>
-
-            <div class="feature-card">
-                <h5>
-                    <span contenteditable="true">2. Manajemen Tagihan, Iuran Komite & SPP Siswa</span>
-                    <span class="badge badge-pro">MODUL PRO</span>
-                </h5>
-                <p contenteditable="true">
-                    Pengelolaan kas sekolah, seragam, sumbangan komite, dan iuran bulanan siswa. Dilengkapi penerbitan kuitansi digital bernomor unik, monitoring tunggakan realtime, dan pembukuan transparan anti-selisih.
-                </p>
-            </div>
-
-            <div class="feature-card">
-                <h5>
-                    <span contenteditable="true">3. CBT Ujian Online Paperless (Bebas Kertas)</span>
-                    <span class="badge badge-pro">MODUL PRO</span>
-                </h5>
-                <p contenteditable="true">
-                    Platform ujian semester PTS/PAS online berbasis gawai/smartphone/komputer dengan keamanan anti-curang (kunci layar). Menghemat anggaran fotokopi dan cetak lembar soal sekolah hingga jutaan rupiah per tahun.
-                </p>
-            </div>
-
-            <div class="feature-card">
-                <h5>
-                    <span contenteditable="true">4. Kelulusan Online & Penerbitan SKL Ber-QR Code</span>
-                    <span class="badge badge-pro">MODUL PRO</span>
-                </h5>
-                <p contenteditable="true">
-                    Portal pengumuman kelulusan terpadu yang dapat diakses mandiri oleh siswa/wali dari rumah, serta cetak otomatis Surat Keterangan Lulus (SKL) resmi berstempel dan QR Code verifikasi keaslian dokumen dinas.
-                </p>
-            </div>
-
-            <div class="feature-card">
-                <h5>
-                    <span contenteditable="true">5. WhatsApp Gateway Notifikasi Otomatis</span>
-                    <span class="badge badge-pro">MODUL PRO</span>
-                </h5>
-                <p contenteditable="true">
-                    Broadcast pengumuman darurat/undangan rapat komite dan pengiriman notifikasi otomatis ke WhatsApp orang tua secara realtime saat siswa menempelkan kartu presensi masuk maupun pulang sekolah.
-                </p>
-            </div>
-        </div>
-
-        <!-- Box Rincian Bonus Fisik Hardware & Smart Card -->
-        <div class="bonus-box">
-            <h4>
-                <span>🎁 SPESIFIKASI BONUS FISIK (DIBERIKAN 100% CUMA-CUMA):</span>
-                <span class="badge badge-free">NILAI RP 2.000.000 &rarr; GRATIS</span>
-            </h4>
-            <ul class="bonus-list">
-                <li contenteditable="true">
-                    <strong>1. Kartu Pelajar Pintar PVC RFID (Seluruh Siswa):</strong> Menggunakan material PVC premium tebal (standar kartu ATM 0.8mm) anti-air, anti-luntur, cetak full-color 300 DPI dengan foto siswa, NISN, barcode, dan chip RFID tertanam yang terhubung langsung dengan sistem SIMS.
-                </li>
-                <li contenteditable="true">
-                    <strong>2. Perangkat Hardware USB RFID Card Reader (1 Unit):</strong> Alat pembaca kartu nirkabel berbasis USB 2.0/3.0 kecepatan tinggi (respon 0.5 detik). Langsung dicolokkan ke laptop/PC meja piket tanpa perlu instal driver (*plug-and-play*), siap digunakan untuk presensi tap siswa setiap pagi.
-                </li>
-            </ul>
-        </div>
-
-        <!-- Ketentuan Pembayaran -->
-        <div class="payment-box">
-            <div class="payment-info">
-                <div style="font-weight: 700; color: #0f172a; margin-bottom: 2px;">Metode Pembayaran & Rekening Resmi:</div>
-                <div style="color: #475569;" contenteditable="true">
-                    Bank: <strong>SeaBank</strong> &nbsp;|&nbsp; No. Rekening: <strong>901376460015</strong> &nbsp;|&nbsp; A.n: <strong>Muh Arsyad Ramsi</strong>
+    <div id="mode1PageContainer" style="display: none;">
+        <div class="a4-page">
+            <div>
+                <!-- Kop Surat Resmi -->
+                <div class="kop-surat" style="padding-bottom: 6px; margin-bottom: 8px;">
+                    <div class="kop-brand" style="font-size: 16px;" contenteditable="true">SKILLANCE DIGITAL INDONESIA</div>
+                    <div class="kop-sub" style="font-size: 10.5px;" contenteditable="true">Solusi Teknologi Informasi, Software House & Konsultan Pendidikan Digital</div>
+                    <div class="kop-contact" style="font-size: 9.5px;" contenteditable="true">Website: skillance.cloud | Kontak: 0853-4654-8999 | Kolaka, Sulawesi Tenggara</div>
                 </div>
-                <div style="font-size: 10.5px; color: #64748b; margin-top: 3px;" contenteditable="true">
-                    * Pembayaran dapat disesuaikan dengan termin pencairan Dana BOS Sekolah (Termin I dan Termin II) atau sekaligus lunas.
+
+                <!-- Meta Surat -->
+                <table class="meta-table" style="font-size: 10px; margin-bottom: 6px;">
+                    <tr>
+                        <td style="width: 70px;">Nomor</td>
+                        <td style="width: 10px;">:</td>
+                        <td contenteditable="true">003/PWH-SDI/XI/2026</td>
+                        <td style="text-align: right; color: #64748b;" contenteditable="true">Kolaka, 03 November 2026</td>
+                    </tr>
+                    <tr>
+                        <td>Perihal</td>
+                        <td>:</td>
+                        <td colspan="2" contenteditable="true">
+                            <strong>Penawaran Kontrak 1 Tahun & Lisensi SIMS Enterprise PRO (Bonus Smart Card PVC RFID + Scanner)</strong>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Penerima Surat -->
+                <div class="recipient-box" style="padding: 4px 10px; margin-bottom: 8px; font-size: 10px;">
+                    <span style="color: #64748b;">Kepada Yth.</span>
+                    <strong contenteditable="true">Bapak Ir. Iwan Taufik</strong> (Kepala Sekolah) &mdash; <span contenteditable="true">SMP Negeri 2 Tanggetada</span>
+                </div>
+
+                <p class="content-text" style="font-size: 10px; margin-bottom: 6px;" contenteditable="true">
+                    Dengan hormat, guna menjamin keberlanjutan digitalisasi sekolah di <strong>SMP Negeri 2 Tanggetada</strong>, kami mengajukan penawaran kemitraan resmi <strong>Kontrak Operasional 1 Tahun</strong> sekaligus <strong>Upgrade Lisensi Permanen SIMS Enterprise PRO</strong> berhadiah langsung smart card siswa dan alat scanner presensi:
+                </p>
+
+                <!-- Tabel Investasi Ringkas -->
+                <table class="price-table" style="font-size: 10px; margin: 4px 0 6px;">
+                    <thead>
+                        <tr>
+                            <th class="col-no">No</th>
+                            <th>Komponen Layanan / Modul Sistem</th>
+                            <th style="width: 120px; text-align: center;">Skema</th>
+                            <th style="width: 110px; text-align: right;">Biaya</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-no">1</td>
+                            <td>
+                                <strong contenteditable="true">Kontrak Operasional, Cloud VPS & Maintenance 1 Tahun (12 Bulan)</strong>
+                                <div style="font-size: 9px; color: #64748b;" contenteditable="true">Server VPS, domain .sch.id, backup harian otomatis, SLA uptime 99.9%, pendampingan teknis prioritas.</div>
+                            </td>
+                            <td style="text-align: center;"><span class="badge badge-contract">Kontrak 1 Th</span></td>
+                            <td class="col-price" contenteditable="true">Rp 10.000.000</td>
+                        </tr>
+                        <tr>
+                            <td class="col-no">2</td>
+                            <td>
+                                <strong contenteditable="true">Lisensi Permanen Paket SIMS Enterprise PRO (All-In-One Lifetime)</strong>
+                                <div style="font-size: 9px; color: #64748b;" contenteditable="true">5 Fitur PRO Aktif Selamanya: Presensi GTK, SPP/Tagihan, CBT Ujian Online, Kelulusan & SKL, WhatsApp Gateway.</div>
+                            </td>
+                            <td style="text-align: center;"><span class="badge badge-pro">Sekali Bayar</span></td>
+                            <td class="col-price" contenteditable="true">Rp 2.500.000</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td class="col-no" style="color: #16a34a; font-weight: 800;">✓</td>
+                            <td>
+                                <strong style="color: #15803d;" contenteditable="true">BONUS EKSKLUSIF: Kartu Siswa PVC RFID (Semua Siswa) + USB RFID Reader</strong>
+                                <div style="font-size: 9px; color: #166534;" contenteditable="true">Cetak smart card PVC standar ATM tebal anti-air ber-chip RFID + 1 unit alat hardware scanner USB piket.</div>
+                            </td>
+                            <td style="text-align: center;"><span class="badge badge-free">GRATIS</span></td>
+                            <td class="col-price" style="color: #16a34a;" contenteditable="true">Rp 0</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="3" style="text-align: right; padding-right: 10px; font-size: 10.5px;">TOTAL NILAI PENAWARAN:</td>
+                            <td class="col-price" style="font-size: 11.5px; color: #1e3a8a;" contenteditable="true">Rp 12.500.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="terbilang-card" style="padding: 4px 10px; font-size: 9.5px; margin-bottom: 6px;">
+                    <strong>Terbilang:</strong> <span contenteditable="true"><em>"Dua Belas Juta Lima Ratus Ribu Rupiah"</em></span>
+                </div>
+
+                <!-- 5 Fitur Ringkas (2 Kolom) -->
+                <div style="font-size: 10px; font-weight: 700; color: #0f172a; margin-bottom: 4px; text-transform: uppercase;">
+                    🚀 5 Modul PRO & Fasilitas Bonus yang Didapatkan Sekolah:
+                </div>
+                <div class="compact-feature-grid">
+                    <div class="compact-card">
+                        <strong contenteditable="true">1. Presensi Digital Guru & GTK</strong>
+                        <span contenteditable="true">Rekapitulasi dinas otomatis siap cetak syarat TPP & Sertifikasi guru.</span>
+                    </div>
+                    <div class="compact-card">
+                        <strong contenteditable="true">2. Manajemen Tagihan & SPP Siswa</strong>
+                        <span contenteditable="true">Kuitansi digital sah, pembukuan komite/seragam, laporan tunggakan transparan.</span>
+                    </div>
+                    <div class="compact-card">
+                        <strong contenteditable="true">3. CBT Ujian Online Paperless</strong>
+                        <span contenteditable="true">Ujian PTS/PAS via HP/laptop anti-curang, hemat jutaan rupiah cetak soal.</span>
+                    </div>
+                    <div class="compact-card">
+                        <strong contenteditable="true">4. Kelulusan Online & SKL QR Code</strong>
+                        <span contenteditable="true">Pengumuman online & cetak Surat Keterangan Lulus ber-QR Code valid.</span>
+                    </div>
+                    <div class="compact-card">
+                        <strong contenteditable="true">5. WhatsApp Gateway Notifikasi</strong>
+                        <span contenteditable="true">Kirim notifikasi otomatis ke WhatsApp orang tua saat siswa tap presensi.</span>
+                    </div>
+                    <div class="compact-card" style="background: #f0fdf4; border-color: #86efac;">
+                        <strong style="color: #15803d;" contenteditable="true">🎁 BONUS: Kartu PVC RFID + Scanner USB</strong>
+                        <span style="color: #166534;" contenteditable="true">Smart card tebal standar ATM untuk seluruh siswa + 1 unit scanner USB piket.</span>
+                    </div>
+                </div>
+
+                <!-- Legalitas BOS & Rekening -->
+                <div class="bos-card" style="padding: 6px 10px; font-size: 9px; margin-bottom: 6px; line-height: 1.4;">
+                    <div contenteditable="true">
+                        <strong>🏛️ 100% Sah Dialokasikan Lewat DANA BOS Reguler:</strong> Berdasarkan Permendikbudristek No. 63 Tahun 2022/2023 (Komponen Pemeliharaan Sarpras & IT Belajar). Disediakan Kuitansi Bermaterai, BAST, Faktur & PKS. Pembayaran via <strong>SeaBank 901376460015 a.n. Muh Arsyad Ramsi</strong> (Fleksibel Termin BOS).
+                    </div>
+                </div>
+
+                <!-- Paragraf Penutup Ringkas -->
+                <p class="content-text" style="font-size: 9.5px; margin-bottom: 8px;" contenteditable="true">
+                    Demikian penawaran ini disampaikan untuk kemajuan digitalisasi SMP Negeri 2 Tanggetada. Atas perhatian dan kerja sama Bapak Kepala Sekolah, kami ucapkan terima kasih.
+                </p>
+
+                <!-- TTD Ringkas -->
+                <div class="signatures" style="margin-top: 2px;">
+                    <div class="sig-block">
+                        <div class="sig-role" style="font-size: 9.5px;">Pihak Pengaju Penawaran,</div>
+                        <div style="font-weight: 700; color: #0f172a; font-size: 10px;" contenteditable="true">Skillance Digital Indonesia</div>
+                        <div class="sig-space" style="height: 40px;">
+                            <span class="stamp-mark" style="font-size: 8px;">[ TTD & STEMPEL ]</span>
+                        </div>
+                        <div class="sig-name" style="font-size: 10.5px; min-width: 140px;" contenteditable="true">Muh Arsyad Ramsi</div>
+                        <div class="sig-nip" style="font-size: 9px;" contenteditable="true">Direktur Utama</div>
+                    </div>
+
+                    <div class="sig-block">
+                        <div class="sig-role" style="font-size: 9.5px;">Menyetujui Penawaran,</div>
+                        <div style="font-weight: 700; color: #0f172a; font-size: 10px;" contenteditable="true">SMP Negeri 2 Tanggetada</div>
+                        <div class="sig-space" style="height: 40px;">
+                            <span class="stamp-mark" style="font-size: 8px;">[ MATERAI 10.000 / STEMPEL ]</span>
+                        </div>
+                        <div class="sig-name" style="font-size: 10.5px; min-width: 140px;" contenteditable="true">Ir. Iwan Taufik</div>
+                        <div class="sig-nip" style="font-size: 9px;" contenteditable="true">Kepala Sekolah</div>
+                    </div>
                 </div>
             </div>
+
+            <div class="page-number" style="font-size: 9px;">Format Ringkas Eksekutif &mdash; 1 Halaman A4 Pas Tanpa Terpotong</div>
         </div>
-
-        <!-- Paragraf Penutup -->
-        <p class="content-text" style="margin-bottom: 18px;" contenteditable="true">
-            Demikian surat penawaran ini kami sampaikan. Besar harapan kami agar kemitraan transformasi digital ini dapat terus berlanjut guna mewujudkan SMP Negeri 2 Tanggetada sebagai sekolah percontohan digitalisasi terbaik di Kabupaten Kolaka. Atas perhatian, kepercayaan, dan kerja sama yang baik, kami ucapkan terima kasih.
-        </p>
-
-        <!-- Lembar Pengesahan / Tanda Tangan -->
-        <div class="signatures">
-            <div class="sig-block">
-                <div class="sig-role">Pihak Pengaju Penawaran,</div>
-                <div style="font-weight: 700; color: #0f172a; margin-bottom: 2px;" contenteditable="true">Skillance Digital Indonesia</div>
-                <div class="sig-space">
-                    <span class="stamp-mark" contenteditable="true">[ TTD & STEMPEL PENYEDIA ]</span>
-                </div>
-                <div class="sig-name" contenteditable="true">Muh Arsyad Ramsi</div>
-                <div class="sig-nip" contenteditable="true">Direktur Utama / Tim Pengembang</div>
-            </div>
-
-            <div class="sig-block">
-                <div class="sig-role">Menyetujui / Menerima Penawaran,</div>
-                <div style="font-weight: 700; color: #0f172a; margin-bottom: 2px;" contenteditable="true">SMP Negeri 2 Tanggetada</div>
-                <div class="sig-space">
-                    <span class="stamp-mark" contenteditable="true">[ MATERAI 10.000 / STEMPEL ]</span>
-                </div>
-                <div class="sig-name" contenteditable="true">Ir. Iwan Taufik</div>
-                <div class="sig-nip" contenteditable="true">NIP. ....................................................</div>
-            </div>
-        </div>
-
-        <div class="page-number">Halaman 2 dari 2 &mdash; Dokumen Sah Penawaran Resmi SIMS 2026</div>
-
     </div>
 
+    <script>
+        function switchPrintMode(mode) {
+            const container2 = document.getElementById('mode2PageContainer');
+            const container1 = document.getElementById('mode1PageContainer');
+            const btn2 = document.getElementById('btn2Page');
+            const btn1 = document.getElementById('btn1Page');
+
+            if (mode === '1page') {
+                container2.style.display = 'none';
+                container2.classList.add('hidden-print');
+                container1.style.display = 'block';
+                container1.classList.remove('hidden-print');
+                btn1.classList.add('active');
+                btn2.classList.remove('active');
+            } else {
+                container1.style.display = 'none';
+                container1.classList.add('hidden-print');
+                container2.style.display = 'block';
+                container2.classList.remove('hidden-print');
+                btn2.classList.add('active');
+                btn1.classList.remove('active');
+            }
+        }
+
+        // Initialize state
+        switchPrintMode('2page');
+    </script>
 </body>
 </html>

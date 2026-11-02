@@ -286,9 +286,11 @@
 
         /* Print Settings */
         @media print {
-            body {
-                background: white !important;
+            html, body {
+                width: 210mm !important;
+                margin: 0 !important;
                 padding: 0 !important;
+                background: white !important;
             }
 
             .action-bar {
@@ -296,9 +298,12 @@
             }
 
             .doc-page {
+                width: 210mm !important;
+                max-width: 210mm !important;
+                box-sizing: border-box !important;
                 box-shadow: none !important;
                 border: none !important;
-                padding: 18mm 20mm !important;
+                padding: 14mm 16mm !important;
                 margin: 0 !important;
                 border-radius: 0 !important;
                 page-break-after: always;
