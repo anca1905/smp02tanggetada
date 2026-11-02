@@ -159,12 +159,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 <div class="bg-gray-50 p-8 rounded-lg border border-gray-100 hover:shadow-lg transition duration-300">
                     <div class="w-12 h-12 bg-blue-100 text-blue-900 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-id-card-alt text-xl"></i>
+                        <i class="fas fa-qrcode text-xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Presensi Wajah</h3>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Presensi QR Code</h3>
                     <p class="text-gray-600 text-sm leading-relaxed">
-                        Sistem pencatatan kehadiran modern dengan bukti foto wajah (Face Capture) dan lokasi untuk
-                        memastikan validitas kehadiran guru dan siswa.
+                        Sistem pencatatan kehadiran modern berbasis pemindaian QR Code interaktif secara real-time untuk
+                        memastikan validitas kehadiran guru dan siswa secara cepat dan akurat.
                     </p>
                 </div>
 

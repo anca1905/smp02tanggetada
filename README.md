@@ -35,9 +35,9 @@ Halaman depan yang profesional dan responsif untuk pengunjung.
 - **Download Jadwal:** Orang tua bisa mengunduh jadwal pelajaran (PDF) per kelas.
 - **Form Kontak:** Pengunjung bisa mengirim pesan langsung ke Inbox Admin.
 
-#### 2. 📸 Kiosk Presensi Biometrik
+#### 2. 📱 Presensi Digital (QR Code)
 Sistem absensi modern untuk guru dan siswa.
-- **Face Capture:** Validasi kehadiran menggunakan bukti foto wajah (*anti-fraud*).
+- **Scan QR Code:** Validasi kehadiran cepat menggunakan pemindaian QR Code interaktif (*real-time*).
 - **Real-time Recording:** Data kehadiran langsung tersimpan di database.
 
 #### 3. ⚙️ Admin Dashboard (Back Office)
