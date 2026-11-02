@@ -505,6 +505,24 @@ Route::get('/dashboard-admin', function () {
 
 /*
 |--------------------------------------------------------------------------
+| Dokumen Kerja Sama & Administrasi SIMS
+|--------------------------------------------------------------------------
+| Akses dokumen cetak A4 (PKS, BAST, Penawaran Enterprise PRO, Kuitansi, Invoice)
+*/
+Route::get('/dokumen/{file?}', function (?string $file = 'berkas-smp2-tanggetada.html') {
+    $target = $file ?: 'berkas-smp2-tanggetada.html';
+    $baseDir = realpath(base_path('dokumen'));
+    $filePath = realpath(base_path('dokumen/'.$target));
+
+    if (! $baseDir || ! $filePath || ! str_starts_with($filePath, $baseDir) || ! file_exists($filePath)) {
+        abort(404);
+    }
+
+    return response()->file($filePath);
+})->where('file', '.*')->name('dokumen.show');
+
+/*
+|--------------------------------------------------------------------------
 | Skillance Developer & PRO Module Control Gateway
 |--------------------------------------------------------------------------
 | Jalur rahasia pengembang sistem untuk aktivasi fitur PRO & audit keamanan.
