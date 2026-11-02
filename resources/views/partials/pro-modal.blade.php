@@ -179,6 +179,19 @@
                 'Nilai siswa terhitung otomatis dan langsung terekap ke buku nilai guru'
             ],
             waMsg: 'Halo Skillance / Tim Pengembang SIMS, kami dari SMP Negeri 2 Tanggetada berminat mengaktifkan Fitur PRO CBT Ujian Online. Mohon info aktivasi dan persyaratannya.'
+        },
+        'kelulusan_skl': {
+            title: 'Kelulusan & SKL Online Mandiri',
+            category: 'Kelulusan & Alumni',
+            icon: '🎓',
+            price: 'Rp 150.000 <span style="font-size: 12px; font-family: sans-serif; font-weight: normal; color: #b45309;">/ bulan</span>',
+            desc: 'Portal pengumuman kelulusan terpadu, cetak Surat Keterangan Lulus (SKL) digital ber-QR Code, dan verifikasi keaslian anti-pemalsuan.',
+            benefits: [
+                'Siswa dan orang tua dapat mengecek status kelulusan secara mandiri dari HP',
+                'Download dan cetak SKL format resmi ber-barcode/QR Code tanpa perlu antre di sekolah',
+                'Mencegah kerumunan dan aksi konvoi liar saat pengumuman kelulusan serentak'
+            ],
+            waMsg: 'Halo Skillance / Tim Pengembang SIMS, kami dari SMP Negeri 2 Tanggetada berminat mengaktifkan Fitur PRO Kelulusan & SKL Online. Mohon info aktivasi dan persyaratannya.'
         }
     };
 

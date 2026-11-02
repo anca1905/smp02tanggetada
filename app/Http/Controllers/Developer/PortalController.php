@@ -39,6 +39,11 @@ class PortalController extends Controller
             'desc' => 'Pelaksanaan ujian tengah/akhir semester bebas kertas via HP/komputer sekolah.',
             'category' => 'Ujian & Penilaian',
         ],
+        'feature_kelulusan_skl' => [
+            'name' => 'Kelulusan & SKL Online Terpadu',
+            'desc' => 'Portal pengumuman kelulusan siswa, cetak Surat Keterangan Lulus (SKL) otomatis, dan verifikasi QR Code.',
+            'category' => 'Kelulusan & Alumni',
+        ],
     ];
 
     /**

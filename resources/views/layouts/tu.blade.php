@@ -43,36 +43,8 @@
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998a12.078 12.078 0 01.665-6.479L12 14z"/></svg>
                 Data Guru
             </a>
-            <a href="{{ route('tu.student.index') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.student.index') ? 'bg-blue-800 text-white' : 'text-blue-100 hover:bg-blue-800' }} transition-colors">
-                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                Data Siswa
-            </a>
-            <a href="{{ route('tu.rekap') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.rekap') ? 'bg-blue-800 text-white' : 'text-blue-100 hover:bg-blue-800' }} transition-colors">
-                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                Rekap Absensi
-            </a>
-            <a href="{{ route('tu.settings') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.settings') ? 'bg-blue-800 text-white' : 'text-blue-100 hover:bg-blue-800' }} transition-colors">
-                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                Settings Profil
-            </a>
-            <a href="{{ route('tu.settings.website') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.settings.website') ? 'bg-blue-800 text-white' : 'text-blue-100 hover:bg-blue-800' }} transition-colors">
-                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                Web Settings
-            </a>
-            <a href="{{ route('tu.settings.card') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.settings.card') ? 'bg-blue-800 text-white' : 'text-blue-100 hover:bg-blue-800' }} transition-colors">
-                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
-                Desain ID Card
-            </a>
 
-                        {{-- Bagian Fitur SIMS PRO --}}
-            <div class="pt-4 pb-1">
-                <div class="px-3 flex items-center justify-between">
-                    <p class="text-[11px] font-bold text-amber-400 uppercase tracking-wider">Modul SIMS PRO</p>
-                    <span class="text-[9px] bg-amber-400/20 text-amber-300 border border-amber-400/30 px-1.5 py-0.5 rounded font-bold">ADD-ON</span>
-                </div>
-            </div>
-
-            {{-- 1. Presensi Guru PRO --}}
+            {{-- Presensi Guru PRO --}}
             @if (($site_settings['feature_absensi_guru'] ?? '0') === '1')
                 <a href="{{ route('tu.teacher-attendance.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-blue-100 hover:bg-blue-800 transition-colors">
                     <div class="flex items-center">
@@ -93,7 +65,12 @@
                 </button>
             @endif
 
-            {{-- 2. SPP & Tagihan Siswa PRO --}}
+            <a href="{{ route('tu.student.index') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.student.index') ? 'bg-blue-800 text-white' : 'text-blue-100 hover:bg-blue-800' }} transition-colors">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                Data Siswa
+            </a>
+
+            {{-- SPP & Tagihan Siswa PRO --}}
             @if (($site_settings['feature_spp_billing'] ?? '0') === '1')
                 <a href="{{ route('tu.billing.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.billing.*') ? 'bg-blue-800 text-white' : 'text-blue-100 hover:bg-blue-800' }} transition-colors">
                     <div class="flex items-center">
@@ -114,22 +91,61 @@
                 </button>
             @endif
 
-            {{-- 3. WhatsApp Gateway PRO --}}
-            <button type="button" onclick="openProModal('whatsapp_gateway')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-blue-200/80 hover:bg-blue-800/60 hover:text-white transition-colors group text-left">
+            {{-- Kelulusan & SKL PRO --}}
+            @if (($site_settings['feature_kelulusan_skl'] ?? '0') === '1')
+                <a href="{{ route('tu.graduations.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.graduations.*') ? 'bg-blue-800 text-white' : 'text-blue-100 hover:bg-blue-800' }} transition-colors">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998a12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+                        Kelulusan & SKL
+                    </div>
+                    <span class="text-[10px] bg-emerald-400 text-emerald-950 font-bold px-1.5 py-0.5 rounded">AKTIF</span>
+                </a>
+            @else
+                <button type="button" onclick="openProModal('kelulusan_skl')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-blue-200/80 hover:bg-blue-800/60 hover:text-white transition-colors group text-left">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 text-amber-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998a12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+                        Kelulusan & SKL
+                    </div>
+                    <span class="text-[10px] bg-amber-400 text-amber-950 font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1 shadow-sm">
+                        <span>🔒</span> PRO
+                    </span>
+                </button>
+            @endif
+
+            <a href="{{ route('tu.rekap') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.rekap') ? 'bg-blue-800 text-white' : 'text-blue-100 hover:bg-blue-800' }} transition-colors">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Rekap Absensi
+            </a>
+
+            {{-- CBT Ujian Online PRO --}}
+            <button type="button" onclick="openProModal('cbt_exam')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-blue-200/80 hover:bg-blue-800/60 hover:text-white transition-colors group text-left">
                 <div class="flex items-center">
-                    <svg class="w-5 h-5 mr-3 text-amber-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                    WhatsApp Gateway
+                    <svg class="w-5 h-5 mr-3 text-amber-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    CBT Ujian Online
                 </div>
                 <span class="text-[10px] bg-amber-400 text-amber-950 font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1 shadow-sm">
                     <span>🔒</span> PRO
                 </span>
             </button>
 
-            {{-- 4. CBT Ujian Online PRO --}}
-            <button type="button" onclick="openProModal('cbt_exam')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-blue-200/80 hover:bg-blue-800/60 hover:text-white transition-colors group text-left">
+            <a href="{{ route('tu.settings') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.settings') ? 'bg-blue-800 text-white' : 'text-blue-100 hover:bg-blue-800' }} transition-colors">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                Settings Profil
+            </a>
+            <a href="{{ route('tu.settings.website') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.settings.website') ? 'bg-blue-800 text-white' : 'text-blue-100 hover:bg-blue-800' }} transition-colors">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                Web Settings
+            </a>
+            <a href="{{ route('tu.settings.card') }}" class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.settings.card') ? 'bg-blue-800 text-white' : 'text-blue-100 hover:bg-blue-800' }} transition-colors">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                Desain ID Card
+            </a>
+
+            {{-- WhatsApp Gateway PRO --}}
+            <button type="button" onclick="openProModal('whatsapp_gateway')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-blue-200/80 hover:bg-blue-800/60 hover:text-white transition-colors group text-left">
                 <div class="flex items-center">
-                    <svg class="w-5 h-5 mr-3 text-amber-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                    CBT Ujian Online
+                    <svg class="w-5 h-5 mr-3 text-amber-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    WhatsApp Gateway
                 </div>
                 <span class="text-[10px] bg-amber-400 text-amber-950 font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1 shadow-sm">
                     <span>🔒</span> PRO

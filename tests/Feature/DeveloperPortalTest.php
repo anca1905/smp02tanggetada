@@ -74,7 +74,7 @@ class DeveloperPortalTest extends TestCase
         $response = $this->actingAs($operator, 'operator')->get('/tu/dashboard');
 
         $response->assertStatus(200);
-        $response->assertSee('Modul SIMS PRO');
+        $response->assertSee('Kelulusan & SKL', false);
         $response->assertSee('Presensi Guru');
         $response->assertSee('Tagihan & SPP Siswa', false);
         $response->assertSee('WhatsApp Gateway');
