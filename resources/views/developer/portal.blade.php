@@ -415,6 +415,20 @@
                 <span style="font-size: 12px; color: #94a3b8;">Hanya fitur bertanda <strong>AKTIF</strong> yang akan muncul di menu sekolah.</span>
             </div>
 
+            <div style="margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; background: rgba(30, 41, 59, 0.6); padding: 12px 18px; border-radius: 12px; border: 1px solid #334155;">
+                <div style="font-size: 13px; color: #cbd5e1;">
+                    <strong>Mode Sekali Bayar (Full Unlock):</strong> Kontrol aktivasi seluruh modul sekolah secara serentak.
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button type="button" onclick="toggleAllFeatures(true)" class="btn" style="background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); padding: 6px 14px; font-size: 12px;">
+                        ⚡ Buka Semua (Sekali Bayar)
+                    </button>
+                    <button type="button" onclick="toggleAllFeatures(false)" class="btn" style="background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); padding: 6px 14px; font-size: 12px;">
+                        🔒 Kunci Semua
+                    </button>
+                </div>
+            </div>
+
             <div class="features-grid">
                 @foreach ($features as $key => $feature)
                     <div class="feature-card {{ $feature['is_active'] ? 'active' : '' }}">
@@ -495,5 +509,17 @@
 
     </div>
 
+<script>
+    function toggleAllFeatures(state) {
+        document.querySelectorAll('.features-grid input[type="checkbox"]').forEach(function(cb) {
+            cb.checked = state;
+            var card = cb.closest('.feature-card');
+            if (card) {
+                if (state) card.classList.add('active');
+                else card.classList.remove('active');
+            }
+        });
+    }
+</script>
 </body>
 </html>
