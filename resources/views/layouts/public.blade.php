@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="id">
+<html lang="id" class="overflow-x-hidden">
 
 
 
@@ -22,6 +22,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
 
         body {
 
@@ -289,7 +294,7 @@
 
 
 
-<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen overflow-x-hidden">
 
 
 
@@ -328,15 +333,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
 
-                {{-- Logo Sekolah --}}
-                <a href="{{ route('home') }}" class="flex items-center space-x-3 shrink-0 mr-4 group">
+                {{-- Logo Sekolah (Responsive & Anti-Overflow) --}}
+                <a href="{{ route('home') }}" class="flex items-center space-x-2 sm:space-x-3 shrink min-w-0 mr-2 sm:mr-4 group">
                     <img src="{{ isset($site_settings['school_logo']) ? asset('storage/' . $site_settings['school_logo']) : 'https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg' }}"
-                        alt="Logo Sekolah" class="h-10 w-auto shrink-0 group-hover:scale-105 transition-transform">
-                    <div class="flex flex-col whitespace-nowrap">
-                        <span class="text-blue-900 font-bold text-base lg:text-lg leading-tight tracking-wide whitespace-nowrap">
+                        alt="Logo Sekolah" class="h-9 sm:h-10 w-auto shrink-0 group-hover:scale-105 transition-transform">
+                    <div class="flex flex-col min-w-0">
+                        <span class="text-blue-900 font-bold text-sm sm:text-base lg:text-lg leading-tight tracking-wide truncate">
                             {{ $site_settings['app_name'] ?? 'SIMS' }}
                         </span>
-                        <span class="text-[11px] text-gray-500 font-medium whitespace-nowrap">
+                        <span class="hidden sm:inline text-[11px] text-gray-500 font-medium truncate">
                             Sistem Informasi Manajemen Sekolah
                         </span>
                     </div>
@@ -425,31 +430,34 @@
                     }
                 @endphp
 
-                {{-- Right: Login / Dashboard + Logout + Hamburger --}}
-                <div class="flex items-center space-x-2 shrink-0">
+                {{-- Right: Login / Dashboard + Logout + Hamburger (Mobile Optimized) --}}
+                <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
                     @if ($activeUser && $activeDashboardRoute)
                         <a href="{{ $activeDashboardRoute }}"
-                            class="bg-blue-900 hover:bg-blue-800 text-white font-medium px-3.5 py-2 rounded-lg shadow-sm transition flex items-center text-xs md:text-sm whitespace-nowrap">
-                            <i class="fas fa-tachometer-alt mr-2"></i> <span>Dashboard</span>
+                            class="bg-blue-900 hover:bg-blue-800 text-white font-medium p-2 sm:px-3.5 sm:py-2 rounded-lg shadow-sm transition flex items-center text-xs md:text-sm"
+                            title="Dashboard">
+                            <i class="fas fa-tachometer-alt sm:mr-2"></i> <span class="hidden sm:inline">Dashboard</span>
                         </a>
                         <form action="{{ route('logout') }}" method="POST" class="inline">
                             @csrf
                             <button type="submit"
-                                class="bg-red-600 hover:bg-red-700 text-white font-medium px-3 py-2 rounded-lg shadow-sm transition flex items-center text-xs md:text-sm whitespace-nowrap"
+                                class="bg-red-600 hover:bg-red-700 text-white font-medium p-2 sm:px-3 sm:py-2 rounded-lg shadow-sm transition flex items-center text-xs md:text-sm"
                                 title="Keluar">
-                                <i class="fas fa-sign-out-alt md:mr-1"></i> <span class="hidden md:inline">Logout</span>
+                                <i class="fas fa-sign-out-alt sm:mr-1"></i> <span class="hidden sm:inline">Logout</span>
                             </button>
                         </form>
                     @else
                         <a href="{{ route('login') }}"
-                            class="bg-blue-900 hover:bg-blue-800 text-white font-medium px-4 py-2 rounded-lg shadow-sm transition flex items-center text-xs md:text-sm whitespace-nowrap">
-                            <i class="fas fa-sign-in-alt mr-2"></i> <span>Login Portal</span>
+                            class="bg-blue-900 hover:bg-blue-800 text-white font-medium px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-lg shadow-sm transition flex items-center text-xs sm:text-sm whitespace-nowrap"
+                            title="Login">
+                            <i class="fas fa-sign-in-alt sm:mr-2"></i> <span class="hidden sm:inline">Login Portal</span><span class="sm:hidden">Login</span>
                         </a>
                     @endif
 
                     {{-- Hamburger (Tampil pada layar di bawah lg) --}}
                     <button id="hamburger-btn" type="button"
-                        class="lg:hidden text-gray-700 hover:text-blue-900 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ml-1">
+                        class="lg:hidden text-gray-700 hover:text-blue-900 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ml-0.5"
+                        aria-label="Buka Menu">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                 </div>
