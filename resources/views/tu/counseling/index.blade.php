@@ -6,19 +6,19 @@
 <div class="space-y-6">
 
     {{-- Top Header / Hero --}}
-    <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4" style="background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #172554 100%); background-color: #1e3a8a;">
         <div>
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-blue-200 text-xs font-medium mb-2">
                 <i class="fas fa-user-shield"></i> Layanan BK & Tata Tertib Siswa
             </div>
             <h1 class="text-2xl font-bold">Modul Bimbingan Konseling & Poin Kedisiplinan</h1>
-            <p class="text-blue-200 text-sm mt-1">Pencatatan pelanggaran, apresiasi prestasi, rekap skor kedisiplinan, dan pembinaan berkala siswa.</p>
+            <p class="text-sm mt-1" style="color: #dbeafe;">Pencatatan pelanggaran, apresiasi prestasi, rekap skor kedisiplinan, dan pembinaan berkala siswa.</p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
-            <button onclick="openModal('modal-add-record')" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-medium text-sm shadow-md hover:shadow-lg transition flex items-center gap-2">
+            <button onclick="openModal('modal-add-record')" class="px-4 py-2.5 rounded-xl font-bold text-sm shadow-md transition flex items-center gap-2" style="background-color: #16a34a; color: #ffffff;">
                 <i class="fas fa-plus-circle"></i> Catat Kasus / Konseling
             </button>
-            <button onclick="openModal('modal-add-category')" class="px-4 py-2.5 bg-blue-700/80 hover:bg-blue-600 text-white rounded-xl font-medium text-sm transition flex items-center gap-2">
+            <button onclick="openModal('modal-add-category')" class="px-4 py-2.5 rounded-xl font-bold text-sm transition flex items-center gap-2" style="background-color: #2563eb; color: #ffffff;">
                 <i class="fas fa-tags"></i> Tambah Kategori
             </button>
         </div>

@@ -6,13 +6,13 @@
 <div class="space-y-6">
 
     {{-- Header Banner --}}
-    <div class="bg-gradient-to-r from-amber-700 via-orange-800 to-yellow-900 rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4" style="background: linear-gradient(135deg, #b45309 0%, #d97706 50%, #78350f 100%); background-color: #b45309;">
         <div>
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-amber-200 text-xs font-medium mb-2">
                 <i class="fas fa-trophy"></i> Hall of Fame & Prestasi Siswa
             </div>
             <h1 class="text-2xl font-bold">Galeri Prestasi & Rekam Jejak Siswa</h1>
-            <p class="text-amber-100 text-sm mt-1">Dokumentasi kejuaraan, penghargaan akademik & non-akademik siswa yang tampil pada portal publik.</p>
+            <p class="text-sm mt-1" style="color: #fef08a;">Dokumentasi kejuaraan, penghargaan akademik & non-akademik siswa yang tampil pada portal publik.</p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
             <button onclick="openModal('modal-add-achievement')" class="px-4 py-2.5 bg-white text-amber-900 hover:bg-amber-50 rounded-xl font-bold text-sm shadow transition flex items-center gap-2">

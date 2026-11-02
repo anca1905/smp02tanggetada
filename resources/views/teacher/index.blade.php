@@ -6,7 +6,7 @@
 <div class="space-y-6">
 
     {{-- ── Greeting Banner ───────────────────────────────────────────────── --}}
-    <div class="relative bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-800 rounded-2xl p-4 sm:p-6 text-white shadow-lg overflow-hidden">
+    <div class="relative rounded-2xl p-4 sm:p-6 text-white shadow-lg overflow-hidden" style="background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 60%, #172554 100%); background-color: #1e3a8a;">
         <div class="absolute top-0 right-0 w-64 h-full opacity-10 pointer-events-none">
             <svg viewBox="0 0 200 200" class="w-full h-full" fill="white">
                 <circle cx="150" cy="50" r="80"/><circle cx="50" cy="150" r="60"/>
@@ -14,7 +14,7 @@
         </div>
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <p class="text-blue-200 text-xs sm:text-sm font-medium">Selamat Datang,</p>
+                <p class="text-xs sm:text-sm font-medium" style="color: #dbeafe;">Selamat Datang,</p>
                 <h1 class="text-xl sm:text-2xl font-bold mt-1">{{ $teacher->name }}</h1>
                 <div class="flex flex-wrap items-center gap-2 sm:gap-3 mt-2">
                     <span class="bg-white/20 text-white text-xs font-semibold px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full">

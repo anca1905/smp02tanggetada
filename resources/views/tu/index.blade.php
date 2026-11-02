@@ -6,7 +6,7 @@
 <div class="space-y-6">
 
     {{-- ── Greeting Banner ───────────────────────────────────────────────── --}}
-    <div class="relative bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-800 rounded-2xl p-4 sm:p-6 text-white shadow-lg overflow-hidden">
+    <div class="relative rounded-2xl p-4 sm:p-6 text-white shadow-lg overflow-hidden" style="background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 60%, #172554 100%); background-color: #1e3a8a;">
         <div class="absolute top-0 right-0 w-64 h-full opacity-10 pointer-events-none">
             <svg viewBox="0 0 200 200" class="w-full h-full" fill="white">
                 <circle cx="150" cy="50" r="80"/><circle cx="50" cy="150" r="60"/>
@@ -14,7 +14,7 @@
         </div>
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <p class="text-blue-200 text-xs sm:text-sm font-medium">Selamat Datang,</p>
+                <p class="text-xs sm:text-sm font-medium" style="color: #dbeafe;">Selamat Datang,</p>
                 <h1 class="text-xl sm:text-2xl font-bold mt-1 flex items-center gap-2">
                     {{ $operator->name ?? 'Admin TU' }}
                     <svg class="w-6 h-6 inline-block text-amber-300 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12.5 2c-.8 0-1.5.7-1.5 1.5v6.5h-1V4.5C10 3.7 9.3 3 8.5 3S7 3.7 7 4.5v6.5h-1V6.5C6 5.7 5.3 5 4.5 5S3 5.7 3 6.5v8C3 18.6 6.4 22 10.5 22h3c4.1 0 7.5-3.4 7.5-7.5V11c0-.8-.7-1.5-1.5-1.5s-1.5.7-1.5 1.5v1h-1V8.5c0-.8-.7-1.5-1.5-1.5s-1.5.7-1.5 1.5V10h-1V3.5c0-.8-.7-1.5-1.5-1.5z"/></svg>

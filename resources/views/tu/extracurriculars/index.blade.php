@@ -6,19 +6,19 @@
 <div class="space-y-6">
 
     {{-- Top Header / Hero --}}
-    <div class="bg-gradient-to-r from-emerald-800 via-teal-900 to-slate-900 rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4" style="background: linear-gradient(135deg, #065f46 0%, #047857 50%, #064e3b 100%); background-color: #065f46;">
         <div>
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-emerald-200 text-xs font-medium mb-2">
                 <i class="fas fa-campground"></i> Kesiswaan & Pengembangan Bakat Siswa
             </div>
             <h1 class="text-2xl font-bold">Ekstrakurikuler & Organisasi Siswa (OSIS)</h1>
-            <p class="text-emerald-100 text-sm mt-1">Kelola cabang kegiatan minat bakat, jadwal latihan pembina, serta verifikasi berkas pendaftaran siswa.</p>
+            <p class="text-sm mt-1" style="color: #d1fae5;">Kelola cabang kegiatan minat bakat, jadwal latihan pembina, serta verifikasi berkas pendaftaran siswa.</p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
-            <button onclick="openModal('modal-add-reg')" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium text-sm shadow-md hover:shadow-lg transition flex items-center gap-2">
+            <button onclick="openModal('modal-add-reg')" class="px-4 py-2.5 rounded-xl font-bold text-sm shadow-md transition flex items-center gap-2" style="background-color: #2563eb; color: #ffffff;">
                 <i class="fas fa-user-plus"></i> Daftarkan Siswa
             </button>
-            <button onclick="openModal('modal-add-ekskul')" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-medium text-sm shadow-md transition flex items-center gap-2">
+            <button onclick="openModal('modal-add-ekskul')" class="px-4 py-2.5 rounded-xl font-bold text-sm shadow-md transition flex items-center gap-2" style="background-color: #16a34a; color: #ffffff;">
                 <i class="fas fa-plus"></i> Tambah Kegiatan Ekskul
             </button>
         </div>

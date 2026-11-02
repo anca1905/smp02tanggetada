@@ -5,7 +5,7 @@
 @section('content')
 <div class="space-y-6">
     {{-- Header Banner --}}
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-blue-900 to-indigo-800 p-6 rounded-2xl text-white shadow-lg">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl text-white shadow-lg" style="background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%); background-color: #1e3a8a;">
         <div>
             <div class="flex items-center gap-2 mb-1">
                 <span class="bg-amber-400 text-amber-950 text-xs font-bold px-2 py-0.5 rounded shadow">👑 FITUR PRO</span>

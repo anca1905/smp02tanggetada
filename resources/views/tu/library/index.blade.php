@@ -6,22 +6,22 @@
 <div class="space-y-6">
 
     {{-- Top Header / Hero --}}
-    <div class="bg-gradient-to-r from-amber-700 via-amber-800 to-slate-900 rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4" style="background: linear-gradient(135deg, #78350f 0%, #92400e 50%, #451a03 100%); background-color: #78350f;">
         <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-amber-200 text-xs font-medium mb-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-2" style="background-color: rgba(255, 255, 255, 0.2); color: #fef08a;">
                 <i class="fas fa-book-reader"></i> Perpustakaan & Sirkulasi Buku BOS
             </div>
-            <h1 class="text-2xl font-bold">Sirkulasi & Katalog Buku Perpustakaan</h1>
-            <p class="text-amber-100 text-sm mt-1">Kelola sirkulasi buku teks BOS per rombel/kelas, buku umum, serta peminjaman mandiri siswa.</p>
+            <h1 class="text-2xl font-bold" style="color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.25);">Sirkulasi & Katalog Buku Perpustakaan</h1>
+            <p class="text-sm mt-1" style="color: #fef08a; opacity: 0.95;">Kelola sirkulasi buku teks BOS per rombel/kelas, buku umum, serta peminjaman mandiri siswa.</p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
-            <button onclick="openModal('modal-add-loan')" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-medium text-sm shadow-md hover:shadow-lg transition flex items-center gap-2">
+            <button onclick="openModal('modal-add-loan')" class="px-4 py-2.5 rounded-xl font-bold text-sm shadow-md transition flex items-center gap-2" style="background-color: #16a34a; color: #ffffff;">
                 <i class="fas fa-plus"></i> Pinjam Buku
             </button>
-            <button onclick="openModal('modal-bulk-loan')" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium text-sm shadow-md hover:shadow-lg transition flex items-center gap-2">
+            <button onclick="openModal('modal-bulk-loan')" class="px-4 py-2.5 rounded-xl font-bold text-sm shadow-md transition flex items-center gap-2" style="background-color: #2563eb; color: #ffffff;">
                 <i class="fas fa-users-cog"></i> Distribusi Rombel (Buku BOS)
             </button>
-            <button onclick="openModal('modal-add-book')" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-medium text-sm transition flex items-center gap-2">
+            <button onclick="openModal('modal-add-book')" class="px-4 py-2.5 rounded-xl font-bold text-sm transition flex items-center gap-2" style="background-color: #d97706; color: #ffffff;">
                 <i class="fas fa-book"></i> Tambah Judul Buku
             </button>
         </div>

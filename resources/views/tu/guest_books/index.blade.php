@@ -6,19 +6,19 @@
 <div class="space-y-6">
 
     {{-- Header Banner --}}
-    <div class="bg-gradient-to-r from-teal-900 via-emerald-900 to-slate-900 rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4" style="background: linear-gradient(135deg, #0f766e 0%, #115e59 50%, #134e4a 100%); background-color: #0f766e;">
         <div>
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-teal-200 text-xs font-medium mb-2">
                 <i class="fas fa-address-book"></i> Pelayanan Tamu & Administrasi Humas
             </div>
             <h1 class="text-2xl font-bold">Register Buku Tamu Digital Sekolah</h1>
-            <p class="text-teal-100 text-sm mt-1">Pencatatan kunjungan kedinasan, wali murid, alumni, dan pihak eksternal untuk arsip serta instrumen akreditasi.</p>
+            <p class="text-sm mt-1" style="color: #ccfbf1;">Pencatatan kunjungan kedinasan, wali murid, alumni, dan pihak eksternal untuk arsip serta instrumen akreditasi.</p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
             <a href="{{ route('tu.guest-books.export-pdf', request()->query()) }}" target="_blank" class="px-4 py-2.5 bg-white/15 hover:bg-white/25 text-white rounded-xl font-medium text-sm transition flex items-center gap-2">
                 <i class="fas fa-file-pdf text-red-400"></i> Unduh Rekap PDF
             </a>
-            <a href="{{ route('public.buku-tamu') }}" target="_blank" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm shadow transition flex items-center gap-2">
+            <a href="{{ route('public.buku-tamu') }}" target="_blank" class="px-4 py-2.5 rounded-xl font-bold text-sm shadow transition flex items-center gap-2" style="background-color: #16a34a; color: #ffffff;">
                 <i class="fas fa-tablet-alt"></i> Buka Kiosk Tamu (Publik)
             </a>
         </div>

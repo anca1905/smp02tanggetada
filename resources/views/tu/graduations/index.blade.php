@@ -6,19 +6,19 @@
 <div class="space-y-6">
 
     {{-- Header Banner --}}
-    <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-cyan-900 rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4" style="background: linear-gradient(135deg, #1e1b4b 0%, #1e3a8a 50%, #0f172a 100%); background-color: #1e3a8a;">
         <div>
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-cyan-200 text-xs font-medium mb-2">
                 <i class="fas fa-graduation-cap"></i> Portal Akademik & Kelulusan Kelas IX
             </div>
             <h1 class="text-2xl font-bold">Manajemen Kelulusan & SKL Mandiri</h1>
-            <p class="text-blue-100 text-sm mt-1">Pengelolaan data kelulusan, penomoran SKL ber-barcode, dan kontrol jadwal rilis pengumuman online.</p>
+            <p class="text-sm mt-1" style="color: #bfdbfe;">Pengelolaan data kelulusan, penomoran SKL ber-barcode, dan kontrol jadwal rilis pengumuman online.</p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
             @if($classNineUnimportedCount > 0)
                 <form action="{{ route('tu.graduations.import') }}" method="POST" onsubmit="return confirm('Tarik {{ $classNineUnimportedCount }} siswa aktif kelas 9 ke daftar kelulusan?')">
                     @csrf
-                    <button type="submit" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm shadow transition flex items-center gap-2">
+                    <button type="submit" class="px-4 py-2.5 rounded-xl font-bold text-sm shadow transition flex items-center gap-2" style="background-color: #16a34a; color: #ffffff;">
                         <i class="fas fa-file-import"></i> Tarik Siswa Kelas 9 ({{ $classNineUnimportedCount }})
                     </button>
                 </form>
