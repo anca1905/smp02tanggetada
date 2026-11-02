@@ -663,6 +663,15 @@
                     <i class="fas fa-sign-out-alt w-5 mr-3 text-center"></i> Logout
                 </button>
             </form>
+            <div class="mt-3 pt-3 border-t border-blue-900/60 flex items-center justify-between text-[11px] text-blue-300">
+                <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    <span>SIMS Terpadu</span>
+                </span>
+                <span class="px-2 py-0.5 rounded bg-blue-900 text-blue-200 font-mono text-[10px] font-semibold border border-blue-800/80">
+                    v{{ config('app.version', '2.5.0') }} Pro
+                </span>
+            </div>
         </div>
     </aside>
 
@@ -692,8 +701,12 @@
             @yield('content')
         </main>
 
-        <footer class="bg-white border-t py-4 px-4 text-center text-xs text-gray-500">
-            &copy; {{ date('Y') }} Sistem Informasi Manajemen Sekolah. All rights reserved.
+        <footer class="bg-white border-t py-4 px-4 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span>&copy; {{ date('Y') }} Sistem Informasi Manajemen Sekolah. All rights reserved.</span>
+            <span class="inline-flex items-center gap-1.5 text-gray-400 text-[11px]">
+                <i class="fas fa-shield-alt text-blue-600"></i>
+                <span>Versi {{ config('app.version', '2.5.0') }} &bull; {{ config('app.edition', 'Enterprise Pro') }}</span>
+            </span>
         </footer>
     </div>
 

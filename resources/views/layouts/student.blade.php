@@ -53,6 +53,11 @@
         {{-- Main Content --}}
         <main class="p-5 -mt-6 relative z-20">
             @yield('content')
+
+            <div class="mt-8 mb-4 text-center text-xs text-gray-400">
+                <p class="font-medium text-gray-500">SIMS Ruang Belajar &bull; v{{ config('app.version', '2.5.0') }}</p>
+                <p class="text-[10px] text-gray-400 mt-0.5">{{ config('app.edition', 'Enterprise Pro') }}</p>
+            </div>
         </main>
 
         {{-- Bottom Navigation --}}

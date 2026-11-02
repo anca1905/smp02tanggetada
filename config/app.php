@@ -19,6 +19,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Version & Edition
+    |--------------------------------------------------------------------------
+    |
+    | Versi rilis aplikasi SIMS untuk informasi rilis sistem dan pembaruan.
+    |
+    */
+
+    'version' => env('APP_VERSION', '2.5.0'),
+
+    'edition' => env('APP_EDITION', 'Enterprise Pro'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

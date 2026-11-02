@@ -400,8 +400,9 @@
                 <h1>SMP Negeri 2 Tanggetada</h1>
                 <p>Domain: <code>https://smpn2tanggetada.sch.id</code> &nbsp;|&nbsp; Klien: Ir. Iwan Taufik</p>
             </div>
-            <div class="client-badge">
-                Pilot Project SaaS
+            <div class="client-badge" style="display: flex; align-items: center; gap: 8px;">
+                <span>Pilot Project SaaS</span>
+                <span style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 6px; font-family: monospace; font-size: 11px;">v{{ config('app.version', '2.5.0') }}</span>
             </div>
         </div>
 
@@ -455,6 +456,10 @@
                     <span style="font-size: 11px; color: #10b981; font-weight: 600;">STATUS: TERLINDUNGI</span>
                 </div>
                 <div class="audit-grid">
+                    <div class="audit-item">
+                        <div class="audit-label">App Release</div>
+                        <div class="audit-val">v{{ config('app.version', '2.5.0') }} ({{ config('app.edition', 'Enterprise Pro') }})</div>
+                    </div>
                     <div class="audit-item">
                         <div class="audit-label">Environment</div>
                         <div class="audit-val">{{ $securityAudit['app_env'] }}</div>

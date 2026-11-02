@@ -624,6 +624,13 @@
                 </div>
             </nav>
 
+            {{-- Drawer Version Footer --}}
+            <div class="px-5 py-3 text-center text-xs text-gray-400 border-t border-gray-100 bg-gray-50/70">
+                <span class="font-semibold text-gray-600">SIMS v{{ config('app.version', '2.5.0') }}</span>
+                <span class="mx-1">&bull;</span>
+                <span class="text-blue-600 font-medium">{{ config('app.edition', 'Enterprise Pro') }}</span>
+            </div>
+
         </div>
 
     </div>
@@ -726,11 +733,16 @@
 
             </div>
 
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-sm">
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left text-sm text-gray-400">
 
-                <p>&copy; {{ date('Y') }} Sistem Informasi Manajemen Sekolah. Hak Cipta Dilindungi Undang-Undang.
+                <p>&copy; {{ date('Y') }} Sistem Informasi Manajemen Sekolah. Hak Cipta Dilindungi Undang-Undang.</p>
 
-                </p>
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-800 text-gray-300 text-xs border border-gray-700/80 shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>v{{ config('app.version', '2.5.0') }} {{ config('app.edition', 'Enterprise Pro') }}</span>
+                    </span>
+                </div>
 
             </div>
 

@@ -139,14 +139,23 @@
 
         </div>
 
-        <div class="p-4 border-t border-blue-800">
-            <form action="" method="POST">
+        <div class="p-4 border-t border-blue-800 bg-blue-950">
+            <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="submit" class="flex items-center w-full px-3 py-2 text-blue-100 rounded-lg hover:bg-red-600 transition-colors">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                     Logout
                 </button>
             </form>
+            <div class="mt-3 pt-3 border-t border-blue-900/60 flex items-center justify-between text-[11px] text-blue-300">
+                <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    <span>SIMS Terpadu</span>
+                </span>
+                <span class="px-2 py-0.5 rounded bg-blue-900 text-blue-200 font-mono text-[10px] font-semibold border border-blue-800/80">
+                    v{{ config('app.version', '2.5.0') }} Pro
+                </span>
+            </div>
         </div>
     </aside>
 
@@ -170,6 +179,14 @@
         <main class="flex-1 p-6">
             @yield('content')
         </main>
+
+        <footer class="bg-white border-t py-4 px-6 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span>&copy; {{ date('Y') }} Sistem Informasi Manajemen Sekolah. All rights reserved.</span>
+            <span class="inline-flex items-center gap-1.5 text-gray-400 text-[11px]">
+                <i class="fas fa-shield-alt text-blue-600"></i>
+                <span>Versi {{ config('app.version', '2.5.0') }} &bull; {{ config('app.edition', 'Enterprise Pro') }}</span>
+            </span>
+        </footer>
     </div>
 
     <script>
