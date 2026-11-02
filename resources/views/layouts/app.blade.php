@@ -512,29 +512,6 @@
                     </button>
                 @endif
 
-                {{-- Presensi Guru PRO --}}
-                @if (($site_settings['feature_absensi_guru'] ?? '0') === '1')
-                    <a href="{{ route('tu.teacher-attendance.index') }}"
-                        class="flex items-center justify-between px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.teacher-attendance.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
-                        <div class="flex items-center">
-                            <i class="fas fa-user-clock w-5 mr-3 text-center text-emerald-400"></i>
-                            <span>Presensi Guru & GTK</span>
-                        </div>
-                        <span class="text-[10px] bg-emerald-500 text-white font-bold px-1.5 py-0.5 rounded shadow-sm">AKTIF</span>
-                    </a>
-                @else
-                    <button type="button" onclick="openProModal('absensi_guru')"
-                        class="w-full flex items-center justify-between px-4 py-2 text-blue-200/90 hover:bg-blue-800 hover:text-white transition-colors group text-left cursor-pointer">
-                        <div class="flex items-center">
-                            <i class="fas fa-user-clock w-5 mr-3 text-center text-amber-400 group-hover:scale-110 transition-transform"></i>
-                            <span>Presensi Guru & GTK</span>
-                        </div>
-                        <span class="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold px-1.5 py-0.5 rounded shadow flex items-center gap-1">
-                            <i class="fas fa-lock text-[9px]"></i> PRO
-                        </span>
-                    </button>
-                @endif
-
                 <a href="{{ route('tu.student.index') }}"
 
                     class="flex items-center px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.student.*') ? 'bg-blue-800 text-white border-l-4 border-blue-400' : 'text-blue-100 hover:bg-blue-800' }}">
@@ -556,29 +533,6 @@
                 @else
                     <button type="button" onclick="openProModal('spp_billing')"
                         class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-blue-200/90 hover:bg-blue-800 hover:text-white transition-colors group text-left cursor-pointer">
-                        <div class="flex items-center">
-                            <i class="fas fa-money-bill-wave w-5 mr-3 text-center text-amber-400 group-hover:scale-110 transition-transform"></i>
-                            <span>Tagihan & SPP Siswa</span>
-                        </div>
-                        <span class="text-[10px] bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold px-1.5 py-0.5 rounded shadow flex items-center gap-1">
-                            <i class="fas fa-lock text-[9px]"></i> PRO
-                        </span>
-                    </button>
-                @endif
-
-                {{-- Tagihan & SPP PRO --}}
-                @if (($site_settings['feature_spp_billing'] ?? '0') === '1')
-                    <a href="{{ route('tu.billing.index') }}"
-                        class="flex items-center justify-between px-4 py-2 text-gray-100 hover:bg-blue-800 {{ request()->routeIs('tu.billing.*') ? 'bg-blue-800 border-l-4 border-blue-400' : '' }}">
-                        <div class="flex items-center">
-                            <i class="fas fa-money-bill-wave w-5 mr-3 text-center text-emerald-400"></i>
-                            <span>Tagihan & SPP Siswa</span>
-                        </div>
-                        <span class="text-[10px] bg-emerald-500 text-white font-bold px-1.5 py-0.5 rounded shadow-sm">AKTIF</span>
-                    </a>
-                @else
-                    <button type="button" onclick="openProModal('spp_billing')"
-                        class="w-full flex items-center justify-between px-4 py-2 text-blue-200/90 hover:bg-blue-800 hover:text-white transition-colors group text-left cursor-pointer">
                         <div class="flex items-center">
                             <i class="fas fa-money-bill-wave w-5 mr-3 text-center text-amber-400 group-hover:scale-110 transition-transform"></i>
                             <span>Tagihan & SPP Siswa</span>

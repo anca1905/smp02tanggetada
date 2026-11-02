@@ -8,7 +8,7 @@
 @endphp
 
 <div id="simsProModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden transition-all duration-300" style="background-color: rgba(15, 23, 42, 0.8); backdrop-filter: blur(5px);">
-    <div class="relative w-full max-w-xl overflow-hidden bg-white rounded-2xl shadow-2xl border border-gray-200" style="animation: modalFadeIn 0.2s ease-out; max-height: 92vh; display: flex; flex-col; overflow-y: auto;">
+    <div class="relative w-full max-w-xl overflow-hidden bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col" style="animation: modalFadeIn 0.2s ease-out; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column;">
         
         {{-- Header Solid Navy Bersih & Elegan --}}
         <div style="background-color: #1e3a8a; padding: 20px 24px; color: #ffffff; width: 100%;">
@@ -197,6 +197,16 @@
     }
 
     // Close on backdrop click
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('simsProModal');
+            if (modal && !modal.classList.contains('hidden')) {
+                closeProModal();
+            }
+        }
+    });
+
     document.getElementById('simsProModal')?.addEventListener('click', function(e) {
         if (e.target === this) {
             closeProModal();
