@@ -55,6 +55,7 @@ class ProcessQrCheckinAction
                 'sick' => 'Sakit',
                 'permission' => 'Izin',
                 'absent' => 'Alpa',
+                'bolos' => 'Bolos',
             ][$existing->status] ?? $existing->status;
 
             return [

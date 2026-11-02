@@ -292,6 +292,14 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td class="sym-cell">H</td>
+                                <td class="desc-cell">Hadir</td>
+                            </tr>
+                            <tr>
+                                <td class="sym-cell">T</td>
+                                <td class="desc-cell">Terlambat</td>
+                            </tr>
+                            <tr>
                                 <td class="sym-cell">S</td>
                                 <td class="desc-cell">Sakit</td>
                             </tr>
@@ -302,6 +310,10 @@
                             <tr>
                                 <td class="sym-cell">A</td>
                                 <td class="desc-cell">Alpa</td>
+                            </tr>
+                            <tr>
+                                <td class="sym-cell">B</td>
+                                <td class="desc-cell">Bolos</td>
                             </tr>
                         </tbody>
                     </table>

@@ -55,4 +55,34 @@ class StoreStudentAttendanceActionTest extends TestCase
             'student_id' => $student->id,
         ]);
     }
+
+    public function test_it_can_store_bolos_status()
+    {
+        $teacher = Teacher::factory()->create();
+        Auth::guard('teacher')->login($teacher);
+
+        $classroom = Classroom::factory()->create();
+        $student = Student::factory()->create([
+            'classroom_id' => $classroom->id,
+            'nis' => '12346',
+        ]);
+
+        $action = new StoreStudentAttendanceAction;
+        $action->execute([
+            'class' => $classroom->id,
+            'session_type' => 'apel',
+            'date' => Carbon::today()->format('Y-m-d'),
+            'attendance' => [
+                '12346' => ['status' => 'bolos'],
+            ],
+        ]);
+
+        $header = Attendance::latest('id')->first();
+
+        $this->assertDatabaseHas('student_attendance_details', [
+            'attendance_id' => $header->id,
+            'status' => 'bolos',
+            'student_id' => $student->id,
+        ]);
+    }
 }

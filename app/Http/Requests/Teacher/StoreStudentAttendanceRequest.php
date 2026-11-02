@@ -27,7 +27,7 @@ class StoreStudentAttendanceRequest extends FormRequest
             'subject_id' => ['nullable', 'required_if:session_type,kelas', 'exists:subjects,id'],
             'date' => ['required', 'date'],
             'attendance' => ['required', 'array'],
-            'attendance.*.status' => ['required', 'string', 'in:present,sick,permission,absent,late'],
+            'attendance.*.status' => ['required', 'string', 'in:present,sick,permission,absent,late,bolos'],
         ];
     }
 

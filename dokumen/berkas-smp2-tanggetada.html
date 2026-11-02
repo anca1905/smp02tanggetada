@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paket Berkas Administrasi SIMS - SMP Negeri 2 Tanggetada</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --accent-soft: #eff6ff;
+            --success: #16a34a;
+            --success-soft: #dcfce7;
+            --warning: #d97706;
+            --warning-soft: #fef3c7;
+            --border: #e2e8f0;
+            --bg-page: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-page);
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 36px 20px 80px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Hero */
+        .hero-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 32px 36px;
+            border-radius: 16px;
+            margin-bottom: 28px;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::after {
+            content: 'SIMS';
+            position: absolute;
+            right: -20px;
+            bottom: -30px;
+            font-size: 110px;
+            font-weight: 900;
+            color: rgba(255,255,255,0.03);
+            pointer-events: none;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(37, 99, 235, 0.3);
+            color: #93c5fd;
+            border: 1px solid rgba(147, 197, 253, 0.3);
+            margin-bottom: 12px;
+        }
+
+        .hero-card h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-card p {
+            color: #94a3b8;
+            font-size: 14px;
+            max-width: 650px;
+        }
+
+        /* Document Grid */
+        .section-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            margin-bottom: 32px;
+        }
+
+        .doc-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .doc-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.08);
+        }
+
+        .doc-meta {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .doc-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .doc-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 3px;
+        }
+
+        .doc-desc {
+            font-size: 12.5px;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
+        .doc-tags {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .tag {
+            font-size: 10.5px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .tag.print {
+            background: var(--warning-soft);
+            color: var(--warning);
+        }
+
+        .doc-actions {
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 9px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: 1px solid var(--accent);
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        /* Checklist Card */
+        .checklist-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin-bottom: 28px;
+        }
+
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 12px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 13px;
+            color: #334155;
+        }
+
+        .check-box {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 800;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Tips Card */
+        .tips-card {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 20px 24px;
+            font-size: 13px;
+            color: #166534;
+        }
+
+        .tips-card h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #14532d;
+            margin-bottom: 6px;
+        }
+
+        .tips-card ul {
+            padding-left: 20px;
+        }
+
+        .tips-card li {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Hero Header -->
+        <div class="hero-card">
+            <div class="badge">Administrasi & Kontrak SIMS</div>
+            <h1>SMP Negeri 2 Tanggetada</h1>
+            <p>
+                Paket lengkap dokumen legalitas, perjanjian kerja sama, berita acara serah terima, dan bukti kuitansi untuk pertemuan tatap muka bersama Kepala Sekolah <strong>Ir. Iwan Taufik</strong>.
+            </p>
+        </div>
+
+        <!-- Document List -->
+        <div class="section-title">📂 Dokumen Siap Cetak (A4)</div>
+        <div class="docs-grid">
+            
+            <!-- Dokumen 1: Kontrak PKS -->
+            <div class="doc-item">
+                <div class="doc-meta">
+                    <div class="doc-icon">1</div>
+                    <div>
+                        <div class="doc-title">Surat Perjanjian Kerja Sama (PKS / Kontrak Layanan)</div>
+                        <div class="doc-desc">
+                            Mengikat kerja sama 1 tahun (Rp 400.000/bulan), hak milik data sekolah, SLA server, dan tempat materai 10.000.
+                        </div>
+                        <div class="doc-tags">
+                            <span class="tag">Format 2 Halaman A4</span>
+                            <span class="tag print">Wajib Cetak 2 Rangkap</span>
+                            <span class="tag">Butuh Materai 10.000</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="doc-actions">
+                    <a href="kontrak-kerjasama-sims.html" target="_blank" class="btn btn-primary">
+                        📄 Buka & Cetak
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dokumen 2: BAST -->
+            <div class="doc-item">
+                <div class="doc-meta">
+                    <div class="doc-icon">2</div>
+                    <div>
+                        <div class="doc-title">Berita Acara Serah Terima (BAST) Pekerjaan</div>
+                        <div class="doc-desc">
+                            Bukti sah bahwa sistem SIMS, domain <code>smpn2tanggetada.sch.id</code>, dan cloud database 100% online & aktif.
+                        </div>
+                        <div class="doc-tags">
+                            <span class="tag">Format 1 Halaman A4</span>
+                            <span class="tag print">Wajib Cetak 2 Rangkap</span>
+                            <span class="tag">Disukai Auditor BOS</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="doc-actions">
+                    <a href="bast-serah-terima-sims.html" target="_blank" class="btn btn-primary">
+                        📄 Buka & Cetak
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dokumen 3: Invoice Bulan ke-2 -->
+            <div class="doc-item">
+                <div class="doc-meta">
+                    <div class="doc-icon">3</div>
+                    <div>
+                        <div class="doc-title">Invoice Penagihan Bulan ke-2 (Rp 400.000)</div>
+                        <div class="doc-desc">
+                            Surat tagihan biaya sewa SaaS, server & maintenance bulan berjalan (November 2026) rekening SeaBank.
+                        </div>
+                        <div class="doc-tags">
+                            <span class="tag">Format 1 Halaman A4</span>
+                            <span class="tag print">Cetak 1 Lembar</span>
+                            <span class="tag">Status: Menunggu Pembayaran</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="doc-actions">
+                    <a href="invoice-smp2-tanggetada.html" target="_blank" class="btn btn-primary">
+                        📄 Buka & Cetak
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dokumen 4: Kuitansi Bulan ke-1 -->
+            <div class="doc-item">
+                <div class="doc-meta">
+                    <div class="doc-icon">4</div>
+                    <div>
+                        <div class="doc-title">Kuitansi Pembayaran Lunas Bulan ke-1 (Rp 500.000)</div>
+                        <div class="doc-desc">
+                            Tanda terima sah uang pembayaran awal (setup + domain .sch.id) untuk kelengkapan SPJ bendahara sekolah.
+                        </div>
+                        <div class="doc-tags">
+                            <span class="tag">Format 1 Halaman A4</span>
+                            <span class="tag print">Cetak 1 Lembar</span>
+                            <span class="tag">Status: LUNAS</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="doc-actions">
+                    <a href="kuitansi-bulan-1.html" target="_blank" class="btn btn-primary">
+                        📄 Buka & Cetak
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Checklist Fisik -->
+        <div class="checklist-card">
+            <div class="section-title" style="margin-bottom: 8px;">🎒 Checklist Fisik Perlengkapan Besok</div>
+            <div class="checklist-grid">
+                <div class="check-item">
+                    <div class="check-box">✓</div>
+                    <div><strong>2 Stopmap Kertas Formal</strong> (1 map diserahkan ke Pak Kepsek, 1 map untuk arsip Anda).</div>
+                </div>
+                <div class="check-item">
+                    <div class="check-box">✓</div>
+                    <div><strong>2 s.d 4 Keping Materai 10.000</strong> (untuk lembar tanda tangan Kontrak PKS).</div>
+                </div>
+                <div class="check-item">
+                    <div class="check-box">✓</div>
+                    <div><strong>Pulpen Hitam / Biru Formal</strong> (untuk tanda tangan kedua pihak).</div>
+                </div>
+                <div class="check-item">
+                    <div class="check-box">✓</div>
+                    <div><strong>Laptop / HP yang Terpasang Aplikasi SIMS</strong> (siap demo jika sewaktu-waktu diminta melihat fitur).</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips Pertemuan -->
+        <div class="tips-card">
+            <h4>💡 Strategi Saat Berbincang dengan Pak Iwan Besok:</h4>
+            <ul>
+                <li><strong>Serahkan Kuitansi Bulan ke-1 Terlebih Dahulu:</strong> <em>"Pak Iwan, ini kuitansi resmi Rp 500.000 untuk bulan kemarin ya Pak, agar bisa diarsip di bendahara untuk laporan SPJ."</em> (Ini langsung membangun trust tinggi).</li>
+                <li><strong>Jelaskan Kontrak 1 Tahun:</strong> Sampaikan bahwa kontrak ini menjaga kelangsungan sistem sekolah selama 1 tahun ajaran dengan biaya tetap Rp 400.000/bulan tanpa ada kenaikan biaya sepihak.</li>
+                <li><strong>Minta Restu & Rekomendasi Pilot Project:</strong> <em>"Pak Iwan, kami ingin menjadikan SMP 2 Tanggetada sebagai sekolah percontohan digitalisasi terbaik. Mohon dukungan dan rekomendasi Pak Iwan ke rekan-rekan kepala sekolah lain di pertemuan MKKS ya Pak."</em></li>
+            </ul>
+        </div>
+
+    </div>
+
+</body>
+</html>

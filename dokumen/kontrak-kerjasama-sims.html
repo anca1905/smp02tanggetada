@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Perjanjian Kerja Sama (PKS) - SIMS SMPN 2 Tanggetada</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border: #cbd5e1;
+            --bg-page: #f1f5f9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', Georgia, serif;
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 24px 0 60px;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Screen Action Bar */
+        .action-bar {
+            max-width: 820px;
+            margin: 0 auto 20px;
+            padding: 14px 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .action-bar span {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .btn {
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 9px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        /* Contract Document Canvas */
+        .doc-page {
+            max-width: 820px;
+            margin: 0 auto 24px;
+            background: #ffffff;
+            padding: 48px 56px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            border: 1px solid #e2e8f0;
+            position: relative;
+        }
+
+        /* Letterhead / Kop Surat */
+        .kop-surat {
+            border-bottom: 3px double #0f172a;
+            padding-bottom: 14px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .kop-brand {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #0f172a;
+            text-transform: uppercase;
+        }
+
+        .kop-sub {
+            font-size: 12px;
+            color: #475569;
+            margin-top: 3px;
+        }
+
+        .kop-contact {
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        /* Document Title */
+        .doc-title {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .doc-title h2 {
+            font-size: 16px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: underline;
+            color: #0f172a;
+        }
+
+        .doc-title .doc-number {
+            font-size: 12px;
+            color: #475569;
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 4px;
+        }
+
+        /* Opening text */
+        .content-text {
+            font-size: 13px;
+            line-height: 1.7;
+            text-align: justify;
+            margin-bottom: 14px;
+        }
+
+        /* Parties */
+        .party-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 18px;
+            margin-bottom: 14px;
+            font-size: 13px;
+        }
+
+        .party-card table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .party-card td {
+            padding: 3px 0;
+            vertical-align: top;
+        }
+
+        .party-card td:first-child {
+            width: 140px;
+            color: #475569;
+        }
+
+        .party-card td:nth-child(2) {
+            width: 15px;
+            text-align: center;
+        }
+
+        .party-card td:last-child {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        /* Articles / Pasal-Pasal */
+        .pasal-block {
+            margin-bottom: 18px;
+        }
+
+        .pasal-header {
+            text-align: center;
+            font-weight: 800;
+            font-size: 13.5px;
+            color: #0f172a;
+            margin-top: 16px;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+        }
+
+        .pasal-title {
+            text-align: center;
+            font-weight: 700;
+            font-size: 12px;
+            color: #475569;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pasal-body {
+            font-size: 13px;
+            line-height: 1.7;
+            text-align: justify;
+        }
+
+        .pasal-body ol, .pasal-body ul {
+            padding-left: 20px;
+            margin: 6px 0;
+        }
+
+        .pasal-body li {
+            margin-bottom: 4px;
+        }
+
+        /* Signatures block */
+        .sig-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+            page-break-inside: avoid;
+        }
+
+        .sig-col {
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .sig-title {
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #0f172a;
+        }
+
+        .sig-sub {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .materai-box {
+            width: 110px;
+            height: 65px;
+            border: 1px dashed #94a3b8;
+            border-radius: 6px;
+            margin: 14px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #64748b;
+            text-align: center;
+            background: #fafafa;
+        }
+
+        .sig-name {
+            font-weight: 700;
+            color: #0f172a;
+            text-decoration: underline;
+        }
+
+        .sig-nip {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        /* Editable highlight */
+        [contenteditable="true"] {
+            outline: none;
+            transition: background 0.15s;
+            border-radius: 3px;
+            padding: 1px 2px;
+        }
+
+        [contenteditable="true"]:hover {
+            background: rgba(37, 99, 235, 0.08);
+            box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Print Settings */
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+            }
+
+            .action-bar {
+                display: none !important;
+            }
+
+            .doc-page {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 18mm 20mm !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                page-break-after: always;
+                break-after: page;
+            }
+
+            .doc-page:last-child {
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bar Navigasi & Print -->
+    <div class="action-bar">
+        <span>💡 Dokumen ini dapat diklik langsung untuk mengedit tanggal, nomor surat, dll. Siap cetak 2 halaman A4.</span>
+        <button class="btn" onclick="window.print()">
+            🖨️ Cetak / Simpan PDF (A4)
+        </button>
+    </div>
+
+    <!-- ================= HALAMAN 1 ================= -->
+    <div class="doc-page">
+        
+        <!-- Kop Surat -->
+        <div class="kop-surat">
+            <div class="kop-brand" contenteditable="true">SKILLANCE DIGITAL INDONESIA</div>
+            <div class="kop-sub" contenteditable="true">Layanan Teknologi Informasi, Software House & Konsultan Pendidikan Digital</div>
+            <div class="kop-contact" contenteditable="true">Website: skillance.cloud | Kontak: +62 821-xxxx-xxxx | Kolaka, Sulawesi Tenggara</div>
+        </div>
+
+        <!-- Judul Kontrak -->
+        <div class="doc-title">
+            <h2>SURAT PERJANJIAN KERJA SAMA (PKS)</h2>
+            <div style="font-size: 13px; font-weight: 700; color: #1e293b; margin-top: 2px;">
+                LAYANAN SISTEM INFORMASI MANAJEMEN SEKOLAH (SIMS)
+            </div>
+            <div class="doc-number" contenteditable="true">
+                Nomor: 001/PKS-SDI/XI/2026 &nbsp;|&nbsp; Nomor Sekolah: ........................................
+            </div>
+        </div>
+
+        <p class="content-text" contenteditable="true">
+            Pada hari ini, <strong>Selasa</strong> tanggal <strong>Tiga</strong> bulan <strong>November</strong> tahun <strong>Dua Ribu Dua Puluh Enam</strong> (03-11-2026), bertempat di Tanggetada, Kabupaten Kolaka, kami yang bertanda tangan di bawah ini:
+        </p>
+
+        <!-- Pihak Pertama -->
+        <div class="party-card">
+            <table>
+                <tr>
+                    <td>Nama</td>
+                    <td>:</td>
+                    <td contenteditable="true">Muh Arsyad Ramsi</td>
+                </tr>
+                <tr>
+                    <td>Jabatan</td>
+                    <td>:</td>
+                    <td contenteditable="true">Direktur Utama</td>
+                </tr>
+                <tr>
+                    <td>Instansi/Perusahaan</td>
+                    <td>:</td>
+                    <td contenteditable="true">Skillance Digital Indonesia</td>
+                </tr>
+                <tr>
+                    <td>Alamat</td>
+                    <td>:</td>
+                    <td contenteditable="true">Kabupaten Kolaka, Sulawesi Tenggara</td>
+                </tr>
+            </table>
+            <div style="font-size: 12px; color: #64748b; margin-top: 6px;">
+                Dalam hal ini bertindak untuk dan atas nama <strong>Skillance Digital Indonesia</strong>, selanjutnya disebut sebagai <strong>PIHAK PERTAMA</strong> (Penyedia Jasa).
+            </div>
+        </div>
+
+        <!-- Pihak Kedua -->
+        <div class="party-card">
+            <table>
+                <tr>
+                    <td>Nama</td>
+                    <td>:</td>
+                    <td contenteditable="true">Ir. Iwan Taufik</td>
+                </tr>
+                <tr>
+                    <td>Jabatan</td>
+                    <td>:</td>
+                    <td contenteditable="true">Kepala Sekolah</td>
+                </tr>
+                <tr>
+                    <td>Instansi Sekolah</td>
+                    <td>:</td>
+                    <td contenteditable="true">SMP Negeri 2 Tanggetada</td>
+                </tr>
+                <tr>
+                    <td>Alamat Sekolah</td>
+                    <td>:</td>
+                    <td contenteditable="true">Kecamatan Tanggetada, Kabupaten Kolaka, Sulawesi Tenggara</td>
+                </tr>
+            </table>
+            <div style="font-size: 12px; color: #64748b; margin-top: 6px;">
+                Dalam hal ini bertindak untuk dan atas nama <strong>SMP Negeri 2 Tanggetada</strong>, selanjutnya disebut sebagai <strong>PIHAK KEDUA</strong> (Penerima Layanan).
+            </div>
+        </div>
+
+        <p class="content-text">
+            Kedua belah pihak sepakat untuk mengikatkan diri dalam Perjanjian Kerja Sama Pengadaan, Pengoperasian, dan Pemeliharaan Sistem Informasi Manajemen Sekolah (SIMS) dengan ketentuan sebagai berikut:
+        </p>
+
+        <!-- Pasal 1 -->
+        <div class="pasal-block">
+            <div class="pasal-header">PASAL 1</div>
+            <div class="pasal-title">MAKSUD DAN TUJUAN</div>
+            <div class="pasal-body" contenteditable="true">
+                Maksud dan tujuan perjanjian ini adalah terselenggaranya digitalisasi manajemen sekolah di lingkungan SMP Negeri 2 Tanggetada meliputi web portal manajemen sekolah terpadu, aplikasi absensi dan pemantauan mobile siswa/orang tua, serta pengelolaan domain resmi sekolah.
+            </div>
+        </div>
+
+        <!-- Pasal 2 -->
+        <div class="pasal-block">
+            <div class="pasal-header">PASAL 2</div>
+            <div class="pasal-title">RUANG LINGKUP PEKERJAAN</div>
+            <div class="pasal-body">
+                <ol type="1">
+                    <li contenteditable="true">Penyediaan dan pengelolaan domain resmi sekolah: <strong>smpn2tanggetada.sch.id</strong>.</li>
+                    <li contenteditable="true">Penyediaan infrastruktur Cloud Server dan Basis Data (MySQL) dengan jaminan ketersediaan layanan (*uptime*) optimal.</li>
+                    <li contenteditable="true">Penyediaan portal Web SIMS untuk Administrator Tata Usaha, Kepala Sekolah, Guru, dan Siswa.</li>
+                    <li contenteditable="true">Penyediaan integrasi aplikasi Android SIMS untuk kemudahan absensi dan akses wali murid.</li>
+                    <li contenteditable="true">Layanan pemeliharaan sistem (*maintenance*), pencadangan (*backup*) data berkala, serta bantuan teknis (*technical support*) prioritas.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Pasal 3 -->
+        <div class="pasal-block">
+            <div class="pasal-header">PASAL 3</div>
+            <div class="pasal-title">JANGKA WAKTU PERJANJIAN</div>
+            <div class="pasal-body" contenteditable="true">
+                Perjanjian kerja sama ini berlaku selama <strong>1 (satu) Tahun</strong>, terhitung mulai tanggal <strong>01 November 2026</strong> sampai dengan tanggal <strong>31 Oktober 2027</strong>, dan dapat diperpanjang atas kesepakatan tertulis kedua belah pihak.
+            </div>
+        </div>
+
+        <div style="text-align: right; font-size: 11px; color: #94a3b8; margin-top: 20px;">
+            Hal 1 dari 2 &nbsp;|&nbsp; Paraf Pihak 1: [........] &nbsp; Pihak 2: [........]
+        </div>
+    </div>
+
+    <!-- ================= HALAMAN 2 ================= -->
+    <div class="doc-page">
+
+        <!-- Pasal 4 -->
+        <div class="pasal-block">
+            <div class="pasal-header">PASAL 4</div>
+            <div class="pasal-title">BIAYA LAYANAN DAN TATA CARA PEMBAYARAN</div>
+            <div class="pasal-body">
+                <ol type="1">
+                    <li contenteditable="true">Biaya berlangganan dan pemeliharaan operasional sistem SIMS disepakati sebesar <strong>Rp 400.000,- (Empat Ratus Ribu Rupiah)</strong> per bulan.</li>
+                    <li contenteditable="true">Biaya pendaftaran awal dan aktivasi domain resmi <code>.sch.id</code> telah diselesaikan pada pembayaran bulan pertama.</li>
+                    <li contenteditable="true">Pembayaran dilakukan secara bulanan selambat-lambatnya antara tanggal <strong>1 (satu) sampai tanggal 5 (lima)</strong> pada setiap bulan berjalan.</li>
+                    <li contenteditable="true">Pembayaran disalurkan melalui transfer ke rekening resmi PIHAK PERTAMA:
+                        <ul style="list-style-type: disc; margin-top: 4px;">
+                            <li>Bank: <strong>SeaBank</strong></li>
+                            <li>Nomor Rekening: <strong>901376460015</strong></li>
+                            <li>Atas Nama: <strong>Muh Arsyad Ramsi</strong></li>
+                        </ul>
+                    </li>
+                    <li contenteditable="true">Setiap pembayaran akan diterbitkan Invoice resmi dan Kuitansi sebagai bukti administrasi/SPJ sekolah.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Pasal 5 -->
+        <div class="pasal-block">
+            <div class="pasal-header">PASAL 5</div>
+            <div class="pasal-title">HAK DAN KEWAJIBAN PIHAK PERTAMA</div>
+            <div class="pasal-body">
+                <ol type="1">
+                    <li contenteditable="true"><strong>Kewajiban:</strong> Menjamin sistem berjalan dengan baik, menjaga keamanan data, melakukan backup berkala, serta memberikan respon pendampingan teknis saat sekolah menghadapi kendala operasional sistem.</li>
+                    <li contenteditable="true"><strong>Hak:</strong> Menerima pembayaran biaya berlangganan dan pemeliharaan tepat waktu sesuai kesepakatan pada Pasal 4.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Pasal 6 -->
+        <div class="pasal-block">
+            <div class="pasal-header">PASAL 6</div>
+            <div class="pasal-title">HAK DAN KEWAJIBAN PIHAK KEDUA</div>
+            <div class="pasal-body">
+                <ol type="1">
+                    <li contenteditable="true"><strong>Kewajiban:</strong> Melakukan pembayaran biaya operasional bulanan tepat waktu dan menunjuk operator/guru penanggung jawab dalam pengelolaan data harian.</li>
+                    <li contenteditable="true"><strong>Hak:</strong> Memperoleh akses penuh terhadap seluruh modul sistem SIMS, mendapatkan pembaruan (*update*) sistem, serta mendapatkan layanan bantuan teknis.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Pasal 7 -->
+        <div class="pasal-block">
+            <div class="pasal-header">PASAL 7</div>
+            <div class="pasal-title">KEPEMILIKAN DAN KERAHASIAAN DATA</div>
+            <div class="pasal-body" contenteditable="true">
+                Seluruh data sekolah, data guru, data siswa, nilai, dan rekapitulasi kehadiran adalah <strong>100% Hak Milik Sah SMP Negeri 2 Tanggetada</strong>. PIHAK PERTAMA berkewajiban menjaga kerahasiaan data tersebut dan dilarang menyebarluaskan atau menyalahgunakannya kepada pihak ketiga mana pun tanpa persetujuan tertulis dari PIHAK KEDUA.
+            </div>
+        </div>
+
+        <!-- Pasal 8 -->
+        <div class="pasal-block">
+            <div class="pasal-header">PASAL 8</div>
+            <div class="pasal-title">PENUTUP</div>
+            <div class="pasal-body" contenteditable="true">
+                Surat Perjanjian Kerja Sama ini dibuat rangkap 2 (dua) bermaterai cukup dan masing-masing memiliki kekuatan hukum yang sama. Ditandatangani oleh kedua belah pihak secara sadar tanpa ada paksaan dari pihak mana pun.
+            </div>
+        </div>
+
+        <!-- Tanda Tangan -->
+        <div class="sig-container">
+            <div class="sig-col">
+                <div class="sig-title">PIHAK KEDUA</div>
+                <div class="sig-sub" contenteditable="true">Kepala SMP Negeri 2 Tanggetada</div>
+                <div class="materai-box">
+                    MATERAI<br>Rp 10.000<br>(di Lembar Pihak 1)
+                </div>
+                <div class="sig-name" contenteditable="true">Ir. Iwan Taufik</div>
+                <div class="sig-nip" contenteditable="true">Kepala Sekolah</div>
+            </div>
+
+            <div class="sig-col">
+                <div class="sig-title">PIHAK PERTAMA</div>
+                <div class="sig-sub" contenteditable="true">Skillance Digital Indonesia</div>
+                <div class="materai-box">
+                    MATERAI<br>Rp 10.000<br>(di Lembar Pihak 2)
+                </div>
+                <div class="sig-name" contenteditable="true">Muh Arsyad Ramsi</div>
+                <div class="sig-nip" contenteditable="true">Direktur Utama</div>
+            </div>
+        </div>
+
+        <div style="text-align: right; font-size: 11px; color: #94a3b8; margin-top: 24px;">
+            Hal 2 dari 2 &nbsp;|&nbsp; Dokumen Resmi Skillance Digital Indonesia
+        </div>
+
+    </div>
+
+</body>
+</html>

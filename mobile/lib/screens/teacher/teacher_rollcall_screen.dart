@@ -387,6 +387,8 @@ class _TeacherRollcallScreenState extends State<TeacherRollcallScreen> {
           _buildCountBadge('I', teacher.countPermission, const Color(0xFF3B82F6)),
           const SizedBox(width: 4),
           _buildCountBadge('A', teacher.countAbsent, const Color(0xFFEF4444)),
+          const SizedBox(width: 4),
+          _buildCountBadge('B', teacher.countBolos, const Color(0xFF8B5CF6)),
         ],
       ),
     );
@@ -461,27 +463,31 @@ class _TeacherRollcallScreenState extends State<TeacherRollcallScreen> {
 
           const SizedBox(height: 8),
 
-          // 5 Status Toggle Buttons: [H] [T] [S] [I] [A]
+          // 6 Status Toggle Buttons: [H] [T] [S] [I] [A] [B]
           Row(
             children: [
               _buildStatusButton('present', 'Hadir', 'H', const Color(0xFF10B981), currentStatus, () {
                 teacher.setStudentStatus(nis, 'present');
               }),
-              const SizedBox(width: 6),
+              const SizedBox(width: 4),
               _buildStatusButton('late', 'Terlambat', 'T', const Color(0xFFF59E0B), currentStatus, () {
                 teacher.setStudentStatus(nis, 'late');
               }),
-              const SizedBox(width: 6),
+              const SizedBox(width: 4),
               _buildStatusButton('sick', 'Sakit', 'S', const Color(0xFFEAB308), currentStatus, () {
                 teacher.setStudentStatus(nis, 'sick');
               }),
-              const SizedBox(width: 6),
+              const SizedBox(width: 4),
               _buildStatusButton('permission', 'Izin', 'I', const Color(0xFF3B82F6), currentStatus, () {
                 teacher.setStudentStatus(nis, 'permission');
               }),
-              const SizedBox(width: 6),
+              const SizedBox(width: 4),
               _buildStatusButton('absent', 'Alpa', 'A', const Color(0xFFEF4444), currentStatus, () {
                 teacher.setStudentStatus(nis, 'absent');
+              }),
+              const SizedBox(width: 4),
+              _buildStatusButton('bolos', 'Bolos', 'B', const Color(0xFF8B5CF6), currentStatus, () {
+                teacher.setStudentStatus(nis, 'bolos');
               }),
             ],
           ),

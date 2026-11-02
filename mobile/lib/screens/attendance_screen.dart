@@ -29,6 +29,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     'sick': 'Sakit',
     'permission': 'Izin',
     'absent': 'Alpa',
+    'bolos': 'Bolos',
   };
 
   Color _statusColor(String status) {
@@ -43,6 +44,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         return Colors.blue;
       case 'absent':
         return Colors.red;
+      case 'bolos':
+        return Colors.purple;
       default:
         return Colors.grey;
     }
@@ -60,6 +63,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         return Icons.assignment_turned_in;
       case 'absent':
         return Icons.cancel;
+      case 'bolos':
+        return Icons.directions_run;
       default:
         return Icons.help;
     }
@@ -85,13 +90,14 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     final attendances = dataProvider.allAttendances;
 
     // Hitung statistik
-    int hadir = 0, sakit = 0, izin = 0, alpa = 0;
+    int hadir = 0, sakit = 0, izin = 0, alpa = 0, bolos = 0;
     for (var att in attendances) {
       final s = (att['status'] ?? '').toLowerCase();
       if (s == 'present') hadir++;
       else if (s == 'sick') sakit++;
       else if (s == 'permission') izin++;
       else if (s == 'absent') alpa++;
+      else if (s == 'bolos') bolos++;
     }
     final total = attendances.length;
     final persen = total > 0 ? ((hadir / total) * 100).toStringAsFixed(0) : '0';
@@ -199,6 +205,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             _statChip('Sakit', sakit, Colors.orangeAccent),
                             _statChip('Izin', izin, Colors.lightBlueAccent),
                             _statChip('Alpa', alpa, Colors.redAccent),
+                            _statChip('Bolos', bolos, Colors.purpleAccent),
                           ],
                         ),
                       ],

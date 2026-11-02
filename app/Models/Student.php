@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -43,6 +45,31 @@ class Student extends Authenticatable
     public function getGenderDisplayAttribute(): string
     {
         return $this->gender === 'M' ? 'Laki-laki' : ($this->gender === 'F' ? 'Perempuan' : '-');
+    }
+
+    public function counselingRecords(): HasMany
+    {
+        return $this->hasMany(StudentCounselingRecord::class, 'student_id');
+    }
+
+    public function achievements(): HasMany
+    {
+        return $this->hasMany(Achievement::class, 'student_id');
+    }
+
+    public function graduation(): HasOne
+    {
+        return $this->hasOne(Graduation::class, 'student_id');
+    }
+
+    public function libraryLoans(): HasMany
+    {
+        return $this->hasMany(LibraryLoan::class, 'student_id');
+    }
+
+    public function extracurricularRegistrations(): HasMany
+    {
+        return $this->hasMany(ExtracurricularRegistration::class, 'student_id');
     }
 
     // public function submissions()

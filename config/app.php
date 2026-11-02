@@ -187,4 +187,12 @@ return [
             // 'Example' => App\Facades\Example::class,
         ])
         ->toArray(),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Skillance Developer Master Key
+    |--------------------------------------------------------------------------
+    | Secret key for developer/vendor to access hidden PRO module management.
+    */
+    'skillance_dev_key' => env('SKILLANCE_DEV_KEY', 'skillance-tanggetada-2026-pro-master'),
 ];

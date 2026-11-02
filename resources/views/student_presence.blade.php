@@ -175,6 +175,18 @@
                                                     <span
                                                         class="text-[10px] mt-1 text-gray-400 peer-checked:text-red-600 font-medium">Alpha</span>
                                                 </label>
+
+                                                <label class="cursor-pointer flex flex-col items-center group">
+                                                    <input type="radio" name="attendance[{{ $student->nis }}][status]"
+                                                        value="bolos" class="peer sr-only"
+                                                        {{ $status == 'bolos' ? 'checked' : '' }}>
+                                                    <div
+                                                        class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-purple-600 peer-checked:border-purple-700 peer-checked:text-white text-gray-400 transition-all hover:bg-purple-50">
+                                                        <span class="font-bold text-xs sm:text-sm">B</span>
+                                                    </div>
+                                                    <span
+                                                        class="text-[10px] mt-1 text-gray-400 peer-checked:text-purple-600 font-medium">Bolos</span>
+                                                </label>
                                             </div>
                                         </td>
                                     </tr>

@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard Admin') - Yayasan Megatama Jambi</title>
+    <title>@yield('title', 'Dashboard Admin') - {{ $site_settings['school_name'] ?? 'SIMS Sekolah' }}</title>
+    @include('partials.favicon')
 
     <link rel="stylesheet" href="{{ asset('css/final.css') }}">
     @vite('resources/css/app.css')
@@ -62,6 +63,80 @@
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
                 Desain ID Card
             </a>
+
+                        {{-- Bagian Fitur SIMS PRO --}}
+            <div class="pt-4 pb-1">
+                <div class="px-3 flex items-center justify-between">
+                    <p class="text-[11px] font-bold text-amber-400 uppercase tracking-wider">Modul SIMS PRO</p>
+                    <span class="text-[9px] bg-amber-400/20 text-amber-300 border border-amber-400/30 px-1.5 py-0.5 rounded font-bold">ADD-ON</span>
+                </div>
+            </div>
+
+            {{-- 1. Presensi Guru PRO --}}
+            @if (($site_settings['feature_absensi_guru'] ?? '0') === '1')
+                <a href="{{ route('tu.guru.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-blue-100 hover:bg-blue-800 transition-colors">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                        Presensi Guru
+                    </div>
+                    <span class="text-[10px] bg-emerald-400 text-emerald-950 font-bold px-1.5 py-0.5 rounded">AKTIF</span>
+                </a>
+            @else
+                <button type="button" onclick="openProModal('absensi_guru')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-blue-200/80 hover:bg-blue-800/60 hover:text-white transition-colors group text-left">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 text-amber-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                        Presensi Guru
+                    </div>
+                    <span class="text-[10px] bg-amber-400 text-amber-950 font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1 shadow-sm">
+                        <span>🔒</span> PRO
+                    </span>
+                </button>
+            @endif
+
+            {{-- 2. SPP & Tagihan Siswa PRO --}}
+            @if (($site_settings['feature_spp_billing'] ?? '0') === '1')
+                <a href="{{ route('tu.billing.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-lg {{ request()->routeIs('tu.billing.*') ? 'bg-blue-800 text-white' : 'text-blue-100 hover:bg-blue-800' }} transition-colors">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Tagihan & SPP
+                    </div>
+                    <span class="text-[10px] bg-emerald-400 text-emerald-950 font-bold px-1.5 py-0.5 rounded">AKTIF</span>
+                </a>
+            @else
+                <button type="button" onclick="openProModal('spp_billing')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-blue-200/80 hover:bg-blue-800/60 hover:text-white transition-colors group text-left">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 text-amber-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Tagihan & SPP
+                    </div>
+                    <span class="text-[10px] bg-amber-400 text-amber-950 font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1 shadow-sm">
+                        <span>🔒</span> PRO
+                    </span>
+                </button>
+            @endif
+
+            {{-- 3. WhatsApp Gateway PRO --}}
+            <button type="button" onclick="openProModal('whatsapp_gateway')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-blue-200/80 hover:bg-blue-800/60 hover:text-white transition-colors group text-left">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-3 text-amber-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    WhatsApp Gateway
+                </div>
+                <span class="text-[10px] bg-amber-400 text-amber-950 font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1 shadow-sm">
+                    <span>🔒</span> PRO
+                </span>
+            </button>
+
+            {{-- 4. CBT Ujian Online PRO --}}
+            <button type="button" onclick="openProModal('cbt_exam')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-blue-200/80 hover:bg-blue-800/60 hover:text-white transition-colors group text-left">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-3 text-amber-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    CBT Ujian Online
+                </div>
+                <span class="text-[10px] bg-amber-400 text-amber-950 font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1 shadow-sm">
+                    <span>🔒</span> PRO
+                </span>
+            </button>
+
+
         </div>
 
         <div class="p-4 border-t border-blue-800">
@@ -110,5 +185,6 @@
             }
         }
     </script>
+    @include('partials.pro-modal')
 </body>
 </html>

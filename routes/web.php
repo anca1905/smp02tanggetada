@@ -1,15 +1,20 @@
 <?php
 
 use App\Http\Controllers\AdminTu\AcademicController;
+use App\Http\Controllers\AdminTu\AchievementController;
 // Auth & Public Controllers
 use App\Http\Controllers\AdminTu\BillingController;
 use App\Http\Controllers\AdminTu\BorrowingController;
 use App\Http\Controllers\AdminTu\ClassroomController;
+use App\Http\Controllers\AdminTu\CounselingController;
 use App\Http\Controllers\AdminTu\DashboardController as AdminTuDashboardController;
-// Admin TU Controllers
 use App\Http\Controllers\AdminTu\EventController;
+use App\Http\Controllers\AdminTu\ExtracurricularController;
 use App\Http\Controllers\AdminTu\FacilityController;
+use App\Http\Controllers\AdminTu\GraduationManagementController;
+use App\Http\Controllers\AdminTu\GuestBookController;
 use App\Http\Controllers\AdminTu\InboxController;
+use App\Http\Controllers\AdminTu\LibraryController;
 use App\Http\Controllers\AdminTu\PostController;
 use App\Http\Controllers\AdminTu\PpdbController;
 use App\Http\Controllers\AdminTu\RecapController;
@@ -21,6 +26,7 @@ use App\Http\Controllers\AdminTu\SubjectController;
 use App\Http\Controllers\AdminTu\TeacherController as AdminTuTeacherController;
 use App\Http\Controllers\Auth\AuthController;
 // Teacher Controllers
+use App\Http\Controllers\Developer\PortalController as DeveloperPortalController;
 use App\Http\Controllers\GraduationController;
 use App\Http\Controllers\Principal\DashboardController as PrincipalDashboardController;
 use App\Http\Controllers\PublicController;
@@ -71,7 +77,16 @@ Route::controller(PublicController::class)->group(function () {
     Route::get('/elearning/web-guru', 'webGuru')->name('public.webguru');
 
     // Halaman lain
+    Route::get('/prestasi', 'prestasi')->name('public.prestasi');
+    Route::get('/kelulusan', 'kelulusan')->name('public.kelulusan');
+    Route::post('/kelulusan/cek', 'cekKelulusan')->name('public.kelulusan.cek');
+    Route::get('/kelulusan/skl/{graduation}/download', 'downloadSkl')->name('public.kelulusan.skl.download');
+    Route::get('/kelulusan/verify/{code}', 'verifySkl')->name('public.kelulusan.verify');
+    Route::get('/buku-tamu', 'bukuTamu')->name('public.buku-tamu');
+    Route::post('/buku-tamu', 'storeBukuTamu')->name('public.buku-tamu.store');
     Route::get('/perpustakaan', 'perpustakaan')->name('public.perpustakaan');
+    Route::get('/ekstrakurikuler', 'ekstrakurikuler')->name('public.ekstrakurikuler');
+    Route::post('/ekstrakurikuler/daftar', 'storeEkstrakurikuler')->name('public.ekstrakurikuler.store');
     Route::get('/kontak', 'kontak')->name('public.kontak');
     Route::post('/kontak', 'storeContact')->name('public.kontak.store');
     Route::get('/jadwal', 'jadwal')->name('public.jadwal');
@@ -247,6 +262,10 @@ Route::middleware(['auth:operator'])
             RecapController::class,
             'exportPdf',
         ])->name('rekap.pdf');
+        Route::patch('/absenteeism-recap/{studentAttendance}', [
+            RecapController::class,
+            'update',
+        ])->name('rekap.update');
 
         Route::get('student/{student}/card', [
             AdminTuStudentController::class,
@@ -289,6 +308,7 @@ Route::middleware(['auth:operator'])
         ]);
 
         Route::controller(BillingController::class)
+            ->middleware('feature.enabled:feature_spp_billing')
             ->prefix('billing')
             ->name('billing.')
             ->group(function () {
@@ -349,6 +369,77 @@ Route::middleware(['auth:operator'])
                     'toggleStatus',
                 ])->name('toggleStatus');
             });
+
+        // Bimbingan Konseling (BK) & Kedisiplinan Siswa
+        Route::controller(CounselingController::class)
+            ->prefix('counseling')
+            ->name('counseling.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/record', 'storeRecord')->name('record.store');
+                Route::put('/record/{record}', 'updateRecord')->name('record.update');
+                Route::delete('/record/{record}', 'destroyRecord')->name('record.destroy');
+                Route::post('/category', 'storeCategory')->name('category.store');
+                Route::delete('/category/{category}', 'destroyCategory')->name('category.destroy');
+            });
+
+        // Galeri Prestasi Siswa
+        Route::post('achievements/{achievement}/toggle-featured', [
+            AchievementController::class,
+            'toggleFeatured',
+        ])->name('achievements.toggle-featured');
+        Route::resource('achievements', AchievementController::class)->except(['create', 'edit', 'show']);
+
+        // Kelulusan & SKL Siswa (Admin TU)
+        Route::post('graduations/import-class-nine', [
+            GraduationManagementController::class,
+            'importClassNine',
+        ])->name('graduations.import');
+        Route::post('graduations/settings', [
+            GraduationManagementController::class,
+            'updateSettings',
+        ])->name('graduations.settings');
+        Route::resource('graduations', GraduationManagementController::class)->except(['create', 'edit', 'show']);
+
+        // Buku Tamu Digital (Admin TU)
+        Route::get('guest-books/export-pdf', [
+            GuestBookController::class,
+            'exportPdf',
+        ])->name('guest-books.export-pdf');
+        Route::patch('guest-books/{guestBook}/status', [
+            GuestBookController::class,
+            'updateStatus',
+        ])->name('guest-books.status');
+        Route::resource('guest-books', GuestBookController::class)->only(['index', 'destroy']);
+
+        // Sirkulasi Buku Paket BOS & Perpustakaan (Admin TU)
+        Route::controller(LibraryController::class)
+            ->prefix('library')
+            ->name('library.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/books', 'storeBook')->name('books.store');
+                Route::put('/books/{book}', 'updateBook')->name('books.update');
+                Route::delete('/books/{book}', 'destroyBook')->name('books.destroy');
+                Route::post('/loans', 'storeLoan')->name('loans.store');
+                Route::post('/bulk-loan', 'bulkLoan')->name('loans.bulk');
+                Route::patch('/loans/{loan}/return', 'returnLoan')->name('loans.return');
+                Route::delete('/loans/{loan}', 'destroyLoan')->name('loans.destroy');
+            });
+
+        // Ekstrakurikuler & OSIS (Admin TU)
+        Route::controller(ExtracurricularController::class)
+            ->prefix('extracurriculars')
+            ->name('extracurriculars.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/', 'store')->name('store');
+                Route::put('/{extracurricular}', 'update')->name('update');
+                Route::delete('/{extracurricular}', 'destroy')->name('destroy');
+                Route::post('/registrations', 'storeRegistration')->name('registrations.store');
+                Route::patch('/registrations/{registration}/status', 'updateRegistrationStatus')->name('registrations.status');
+                Route::delete('/registrations/{registration}', 'destroyRegistration')->name('registrations.destroy');
+            });
     });
 
 /*
@@ -402,3 +493,20 @@ Route::middleware(['auth:student'])
 Route::get('/dashboard-admin', function () {
     return 'Halo Admin TU! (Route Test)';
 })->middleware('auth');
+
+/*
+|--------------------------------------------------------------------------
+| Skillance Developer & PRO Module Control Gateway
+|--------------------------------------------------------------------------
+| Jalur rahasia pengembang sistem untuk aktivasi fitur PRO & audit keamanan.
+| Tidak ditampilkan di menu publik / web manapun.
+*/
+Route::prefix('skillance-control')->name('dev.portal.')->group(function () {
+    Route::get('/', [DeveloperPortalController::class, 'showLogin'])->name('login');
+    Route::post('/auth', [DeveloperPortalController::class, 'authenticate'])
+        ->middleware('throttle:5,1')
+        ->name('auth');
+    Route::get('/dashboard', [DeveloperPortalController::class, 'index'])->name('index');
+    Route::post('/features', [DeveloperPortalController::class, 'update'])->name('update');
+    Route::post('/logout', [DeveloperPortalController::class, 'logout'])->name('logout');
+});

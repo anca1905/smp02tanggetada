@@ -179,9 +179,12 @@ class ExportPdfTest extends TestCase
         $this->assertStringContainsString('0119324778 / 875', $rendered);
         $this->assertStringContainsString('Alif', $rendered);
         $this->assertStringContainsString('Keterangan', $rendered);
+        $this->assertStringContainsString('Hadir', $rendered);
+        $this->assertStringContainsString('Terlambat', $rendered);
         $this->assertStringContainsString('Sakit', $rendered);
         $this->assertStringContainsString('Izin', $rendered);
         $this->assertStringContainsString('Alpa', $rendered);
+        $this->assertStringContainsString('Bolos', $rendered);
         $this->assertStringContainsString('Laki-Laki', $rendered);
         $this->assertStringContainsString('Perempuan', $rendered);
         $this->assertStringContainsString('Jumlah', $rendered);

@@ -21,7 +21,7 @@ class StudentAttendanceDetailFactory extends Factory
         return [
             'attendance_id' => Attendance::factory(),
             'student_id' => Student::factory(),
-            'status' => $this->faker->randomElement(['present', 'late', 'absent', 'permission', 'sick']),
+            'status' => $this->faker->randomElement(['present', 'late', 'absent', 'permission', 'sick', 'bolos']),
         ];
     }
 }

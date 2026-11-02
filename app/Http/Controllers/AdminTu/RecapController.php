@@ -4,13 +4,17 @@ namespace App\Http\Controllers\AdminTu;
 
 use App\Actions\Classroom\GetClassroomsAction;
 use App\Actions\Recap\GetStudentRecapAction;
+use App\Actions\Recap\UpdateStudentAttendanceStatusAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Recap\UpdateStudentAttendanceRequest;
 use App\Models\AcademicYear;
 use App\Models\Setting;
 use App\Models\Student;
 use App\Models\StudentAttendance;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
@@ -112,8 +116,18 @@ class RecapController extends Controller
             'attendances.session_type',
         ])->get();
 
-        // Matriks absensi: [student_id][day] => 'S'|'I'|'A'
+        // Matriks absensi: [student_id][day] => 'H'|'T'|'S'|'I'|'A'|'B'
         $matrix = [];
+        $priority = [
+            'B' => 6,
+            'A' => 5,
+            'S' => 4,
+            'I' => 3,
+            'T' => 2,
+            'H' => 1,
+            '' => 0,
+        ];
+
         foreach ($attendanceRecords as $record) {
             $day = (int) Carbon::parse($record->date)->format('j');
             $sid = $record->student_id;
@@ -123,13 +137,16 @@ class RecapController extends Controller
                 'sick', 'sakit', 's' => 'S',
                 'permission', 'izin', 'i' => 'I',
                 'absent', 'alpa', 'alpha', 'a' => 'A',
+                'late', 'terlambat', 't' => 'T',
+                'present', 'hadir', 'h' => 'H',
+                'bolos', 'b' => 'B',
                 default => '',
             };
 
             if ($sym !== '') {
                 $existing = $matrix[$sid][$day] ?? '';
-                // Prioritas jika multi-sesi: Alpa > Sakit > Izin
-                if ($existing === '' || $sym === 'A' || ($sym === 'S' && $existing === 'I')) {
+                // Prioritas jika multi-sesi: Bolos > Alpa > Sakit > Izin > Terlambat > Hadir
+                if (($priority[$sym] ?? 0) >= ($priority[$existing] ?? 0)) {
                     $matrix[$sid][$day] = $sym;
                 }
             }
@@ -207,5 +224,25 @@ class RecapController extends Controller
         $fileName = "rekap-absensi-siswa-{$monthName}-{$tahun}.pdf";
 
         return $isStream ? $pdf->stream($fileName) : $pdf->download($fileName);
+    }
+
+    /**
+     * Memperbarui status absensi siswa oleh Admin TU.
+     */
+    public function update(
+        UpdateStudentAttendanceRequest $request,
+        StudentAttendance $studentAttendance,
+        UpdateStudentAttendanceStatusAction $action
+    ): RedirectResponse|JsonResponse {
+        $action->execute($studentAttendance, $request->validated('status'));
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Status presensi siswa berhasil diperbarui!',
+            ]);
+        }
+
+        return back()->with('success', 'Status presensi siswa berhasil diperbarui!');
     }
 }

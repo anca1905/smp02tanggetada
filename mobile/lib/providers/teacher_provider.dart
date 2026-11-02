@@ -63,6 +63,7 @@ class TeacherProvider with ChangeNotifier {
   int get countSick => _attendanceMap.values.where((v) => v == 'sick').length;
   int get countPermission => _attendanceMap.values.where((v) => v == 'permission').length;
   int get countAbsent => _attendanceMap.values.where((v) => v == 'absent').length;
+  int get countBolos => _attendanceMap.values.where((v) => v == 'bolos').length;
 
   TeacherProvider() {
     refreshQueueState();

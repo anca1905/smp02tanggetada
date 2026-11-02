@@ -57,6 +57,7 @@ class TeacherApiController extends Controller
             'permission' => 0,
             'absent' => 0,
             'late' => 0,
+            'bolos' => 0,
         ];
 
         if ($classroom) {

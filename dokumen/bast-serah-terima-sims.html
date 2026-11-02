@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berita Acara Serah Terima (BAST) - SIMS SMPN 2 Tanggetada</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border: #cbd5e1;
+            --bg-page: #f1f5f9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            line-height: 1.5;
+            padding: 24px 0 60px;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Screen Action Bar */
+        .action-bar {
+            max-width: 820px;
+            margin: 0 auto 20px;
+            padding: 14px 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .action-bar span {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .btn {
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 9px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        /* Canvas */
+        .doc-canvas {
+            max-width: 820px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 52px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Kop Surat */
+        .kop-surat {
+            border-bottom: 3px double #0f172a;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .kop-brand {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #0f172a;
+            text-transform: uppercase;
+        }
+
+        .kop-sub {
+            font-size: 11.5px;
+            color: #475569;
+            margin-top: 2px;
+        }
+
+        .kop-contact {
+            font-size: 10.5px;
+            color: #64748b;
+        }
+
+        /* Title */
+        .doc-title {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .doc-title h2 {
+            font-size: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: underline;
+            color: #0f172a;
+        }
+
+        .doc-number {
+            font-size: 11.5px;
+            color: #475569;
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 3px;
+        }
+
+        .intro-text {
+            font-size: 12.5px;
+            line-height: 1.6;
+            text-align: justify;
+            margin-bottom: 10px;
+        }
+
+        /* Parties Table */
+        .party-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+            margin-bottom: 10px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 10px;
+        }
+
+        .party-table td {
+            padding: 3px 8px;
+            vertical-align: top;
+        }
+
+        .party-table td:first-child {
+            width: 130px;
+            color: #64748b;
+        }
+
+        .party-table td:nth-child(2) {
+            width: 15px;
+            text-align: center;
+        }
+
+        .party-table td:last-child {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        /* Deliverables Table */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin: 12px 0;
+        }
+
+        .items-table th {
+            background: #f1f5f9;
+            color: #1e293b;
+            font-weight: 700;
+            padding: 8px 10px;
+            border: 1px solid #cbd5e1;
+            text-align: left;
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+
+        .items-table td {
+            padding: 7px 10px;
+            border: 1px solid #e2e8f0;
+            vertical-align: middle;
+        }
+
+        .items-table td:first-child {
+            text-align: center;
+            width: 5%;
+        }
+
+        .items-table td:last-child {
+            text-align: center;
+            width: 15%;
+            font-weight: 700;
+            color: #16a34a;
+        }
+
+        .closing-text {
+            font-size: 12.5px;
+            line-height: 1.6;
+            text-align: justify;
+            margin-top: 10px;
+            margin-bottom: 18px;
+        }
+
+        /* Signatures */
+        .sig-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .sig-col {
+            text-align: center;
+            font-size: 12.5px;
+        }
+
+        .sig-role {
+            color: #64748b;
+            font-size: 11.5px;
+            margin-bottom: 3px;
+        }
+
+        .sig-org {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .sig-space {
+            height: 60px;
+        }
+
+        .sig-name {
+            font-weight: 700;
+            color: #0f172a;
+            text-decoration: underline;
+        }
+
+        .sig-id {
+            font-size: 11.5px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        /* Editable helper */
+        [contenteditable="true"] {
+            outline: none;
+            border-radius: 3px;
+            padding: 1px 2px;
+        }
+
+        [contenteditable="true"]:hover {
+            background: rgba(37, 99, 235, 0.08);
+            box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Print setup */
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+            }
+
+            .action-bar {
+                display: none !important;
+            }
+
+            .doc-canvas {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 12mm 18mm !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="action-bar">
+        <span>💡 Dokumen BAST (Berita Acara Serah Terima) 1 Halaman A4. Bukti sah pekerjaan telah diserahkan & berjalan baik.</span>
+        <button class="btn" onclick="window.print()">
+            🖨️ Cetak / Simpan PDF (A4)
+        </button>
+    </div>
+
+    <div class="doc-canvas">
+        
+        <!-- Kop Surat -->
+        <div class="kop-surat">
+            <div class="kop-brand" contenteditable="true">SKILLANCE DIGITAL INDONESIA</div>
+            <div class="kop-sub" contenteditable="true">Layanan Teknologi Informasi, Software House & Konsultan Pendidikan Digital</div>
+            <div class="kop-contact" contenteditable="true">Website: skillance.cloud | Kontak: +62 821-xxxx-xxxx | Kolaka, Sulawesi Tenggara</div>
+        </div>
+
+        <!-- Title -->
+        <div class="doc-title">
+            <h2>BERITA ACARA SERAH TERIMA (BAST)</h2>
+            <div style="font-size: 12.5px; font-weight: 700; color: #1e293b; margin-top: 2px;">
+                PEKERJAAN PENGADAAN & IMPLEMENTASI SISTEM INFORMASI MANAJEMEN SEKOLAH (SIMS)
+            </div>
+            <div class="doc-number" contenteditable="true">
+                Nomor: 001/BAST-SDI/X/2026
+            </div>
+        </div>
+
+        <p class="intro-text" contenteditable="true">
+            Pada hari ini, <strong>Senin</strong> tanggal <strong>Tiga Puluh Satu</strong> bulan <strong>Oktober</strong> tahun <strong>Dua Ribu Dua Puluh Enam</strong> (31-10-2026), bertempat di SMP Negeri 2 Tanggetada, yang bertanda tangan di bawah ini:
+        </p>
+
+        <!-- Pihak 1 -->
+        <table class="party-table">
+            <tr>
+                <td>1. Nama</td>
+                <td>:</td>
+                <td contenteditable="true">Muh Arsyad Ramsi</td>
+            </tr>
+            <tr>
+                <td>&nbsp;&nbsp;&nbsp;Jabatan</td>
+                <td>:</td>
+                <td contenteditable="true">Direktur Utama Skillance Digital Indonesia</td>
+            </tr>
+            <tr>
+                <td colspan="3" style="color: #64748b; font-size: 11px; padding-top: 4px;">
+                    Bertindak untuk dan atas nama penyedia layanan, selanjutnya disebut sebagai <strong>PIHAK PERTAMA</strong>.
+                </td>
+            </tr>
+        </table>
+
+        <!-- Pihak 2 -->
+        <table class="party-table">
+            <tr>
+                <td>2. Nama</td>
+                <td>:</td>
+                <td contenteditable="true">Ir. Iwan Taufik</td>
+            </tr>
+            <tr>
+                <td>&nbsp;&nbsp;&nbsp;Jabatan</td>
+                <td>:</td>
+                <td contenteditable="true">Kepala SMP Negeri 2 Tanggetada</td>
+            </tr>
+            <tr>
+                <td colspan="3" style="color: #64748b; font-size: 11px; padding-top: 4px;">
+                    Bertindak untuk dan atas nama sekolah penerima, selanjutnya disebut sebagai <strong>PIHAK KEDUA</strong>.
+                </td>
+            </tr>
+        </table>
+
+        <p class="intro-text" contenteditable="true">
+            Dengan ini menyatakan bahwa <strong>PIHAK PERTAMA</strong> telah menyerahkan hasil pekerjaan pengadaan dan implementasi sistem kepada <strong>PIHAK KEDUA</strong>, dan <strong>PIHAK KEDUA</strong> telah menerima hasil pekerjaan tersebut dengan rincian sebagai berikut:
+        </p>
+
+        <!-- Rincian Serah Terima -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Uraian Pekerjaan / Modul Sistem</th>
+                    <th>Detail Teknis / Spesifikasi</th>
+                    <th>Status Uji</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td contenteditable="true"><strong>Domain Resmi Sekolah (.sch.id)</strong></td>
+                    <td contenteditable="true">Aktivasi dan verifikasi domain <code>smpn2tanggetada.sch.id</code> (PANDI)</td>
+                    <td>100% AKTIF</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td contenteditable="true"><strong>Infrastruktur Cloud & SSL</strong></td>
+                    <td contenteditable="true">Cloud Hosting, Database MySQL terenkripsi, dan sertifikat HTTPS/SSL</td>
+                    <td>100% ONLINE</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td contenteditable="true"><strong>Web Portal SIMS Terintegrasi</strong></td>
+                    <td contenteditable="true">Dashboard Admin TU, Dashboard Kepala Sekolah, Modul Guru, dan Data Siswa</td>
+                    <td>100% BERFUNGSI</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td contenteditable="true"><strong>Integrasi Aplikasi Mobile SIMS</strong></td>
+                    <td contenteditable="true">Presensi QR/Online dan portal pantau wali murid via aplikasi Android</td>
+                    <td>100% BERFUNGSI</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td contenteditable="true"><strong>Serah Terima Akses & Panduan</strong></td>
+                    <td contenteditable="true">Penyerahan kredensial login akun admin utama dan pendampingan operator</td>
+                    <td>SELESAI</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="closing-text" contenteditable="true">
+            Berdasarkan hasil uji coba dan verifikasi bersama, seluruh item pekerjaan di atas dinyatakan telah <strong>selesai 100% (seratus persen)</strong>, berjalan dengan baik, dan memenuhi standar operasional yang disepakati. Demikian Berita Acara Serah Terima ini dibuat dalam rangkap 2 (dua) untuk dipergunakan sebagaimana mestinya.
+        </p>
+
+        <!-- Signatures -->
+        <div class="sig-container">
+            <div class="sig-col">
+                <div class="sig-role">Yang Menerima:</div>
+                <div class="sig-org" contenteditable="true">Kepala SMP Negeri 2 Tanggetada</div>
+                <div class="sig-space"></div>
+                <div class="sig-name" contenteditable="true">Ir. Iwan Taufik</div>
+                <div class="sig-id" contenteditable="true">Kepala Sekolah</div>
+            </div>
+
+            <div class="sig-col">
+                <div class="sig-role">Yang Menyerahkan:</div>
+                <div class="sig-org" contenteditable="true">Skillance Digital Indonesia</div>
+                <div class="sig-space"></div>
+                <div class="sig-name" contenteditable="true">Muh Arsyad Ramsi</div>
+                <div class="sig-id" contenteditable="true">Direktur Utama</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -28,20 +28,21 @@ class AppServiceProvider extends ServiceProvider
             $operator = Auth::guard('operator')->user();
             $teacher = Auth::guard('teacher')->user();
 
+            $globalSettings = [];
+            try {
+                $globalSettings = Setting::pluck('value', 'key')->toArray();
+            } catch (\Exception $e) {
+            }
+
             $view->with([
                 'operator' => $operator,
                 'user' => $teacher,
+                'site_settings' => $globalSettings,
             ]);
         });
 
         config(['app.locale' => 'id']);
         Carbon::setLocale('id');
         date_default_timezone_set(config('app.timezone'));
-
-        try {
-            $globalSettings = Setting::pluck('value', 'key')->toArray();
-            View::share('site_settings', $globalSettings);
-        } catch (\Exception $e) {
-        }
     }
 }
