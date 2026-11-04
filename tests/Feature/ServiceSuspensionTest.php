@@ -31,6 +31,8 @@ class ServiceSuspensionTest extends TestCase
         $response->assertSee('901376460015');
         $response->assertSee('Muh Arsyad Ramsi');
         $response->assertSee('Rp 400.000,-');
+        $response->assertSee('082291700778');
+        $response->assertSee('https://wa.me/6282291700778', false);
     }
 
     public function test_when_suspended_login_routes_return_503(): void

@@ -1,6 +1,6 @@
 {{-- Modal Penawaran & Aktivasi Paket SIMS Enterprise PRO (Sekali Bayar / All-In-One Lifetime) --}}
 @php
-    $devWa = $site_settings['popup_wa_number'] ?? ($site_settings['developer_whatsapp'] ?? '0853465489992');
+    $devWa = $site_settings['developer_whatsapp'] ?? ($site_settings['popup_wa_number'] ?? '082291700778');
     $cleanWa = preg_replace('/[^0-9]/', '', (string)$devWa);
     if (str_starts_with($cleanWa, '0')) {
         $cleanWa = '62' . substr($cleanWa, 1);

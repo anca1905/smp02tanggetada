@@ -59,8 +59,8 @@ class CheckServiceSuspension
             'accountNumber' => '901376460015',
             'accountName' => 'Muh Arsyad Ramsi',
             'nominal' => 'Rp 400.000,-',
-            'whatsapp' => '0853465489992',
-            'whatsappUrl' => 'https://wa.me/62853465489992?text='.urlencode('Halo Pengembang SIMS (Skillance Cloud), kami dari SMPN 2 Tanggetada ingin melakukan konfirmasi penyelesaian pembayaran tagihan operasional sistem (INV-2026/XI-SIMS/001).'),
+            'whatsapp' => '082291700778',
+            'whatsappUrl' => 'https://wa.me/6282291700778?text='.urlencode('Halo Pengembang SIMS (Skillance Cloud), kami dari SMPN 2 Tanggetada ingin melakukan konfirmasi penyelesaian pembayaran tagihan operasional sistem (INV-2026/XI-SIMS/001).'),
             'invoiceUrl' => url('/dokumen/invoice-smp2-tanggetada.html'),
         ], 503);
     }

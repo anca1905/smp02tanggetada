@@ -501,7 +501,7 @@
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.993.587 1.956.887 2.801.887 3.177 0 5.766-2.588 5.766-5.768 0-3.18-2.587-5.772-5.771-5.772zm3.392 8.243c-.145.409-.844.757-1.18.796-.341.04-.77.065-2.228-.537-1.742-.722-2.855-2.482-2.942-2.597-.087-.116-.708-.941-.708-1.793 0-.852.447-1.272.607-1.446.16-.175.348-.219.465-.219.116 0 .233.001.335.006.107.005.25.04.39.378.145.349.494 1.206.538 1.293.044.088.073.19.015.305-.058.117-.088.19-.175.292-.087.102-.184.227-.263.306-.087.087-.179.182-.077.357.102.175.453.747.971 1.208.667.594 1.23.778 1.405.865.175.088.277.073.379-.044.102-.117.437-.51.554-.685.117-.175.233-.146.393-.087.16.058 1.018.48 1.193.568.175.087.292.131.335.204.043.073.043.423-.102.832z"/>
                         </svg>
-                        Konfirmasi Pembayaran via WhatsApp
+                        Konfirmasi Pembayaran via WhatsApp ({{ $whatsapp }})
                     </a>
                     <a href="{{ $invoiceUrl }}" target="_blank" class="btn btn-invoice">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -517,7 +517,7 @@
 
                 <!-- Recovery Procedure -->
                 <div class="recovery-info">
-                    <strong>Prosedur Pemulihan Akses:</strong> Segera lakukan penyelesaian pembayaran sesuai invoice dan kirimkan bukti transfer ke WhatsApp Pengembang. Sistem dan seluruh data sekolah akan dipulihkan secara instan (*instant reactivation*) dalam waktu kurang dari 5 menit setelah verifikasi.
+                    <strong>Prosedur Pemulihan Akses:</strong> Segera lakukan penyelesaian pembayaran sesuai invoice dan kirimkan bukti transfer ke WhatsApp Pengembang (<strong>{{ $whatsapp }}</strong>). Sistem dan seluruh data sekolah akan dipulihkan secara instan (*instant reactivation*) dalam waktu kurang dari 5 menit setelah verifikasi.
                 </div>
             </div>
         </main>
