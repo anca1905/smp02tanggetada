@@ -11,18 +11,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-body: #0b0f19;
-            --card-bg: #111827;
-            --card-border: #1f2937;
+            --bg-body: #f8fafc;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
             --danger-primary: #dc2626;
-            --danger-glow: rgba(220, 38, 38, 0.25);
-            --danger-soft: rgba(239, 68, 68, 0.12);
-            --danger-border: rgba(239, 68, 68, 0.35);
+            --danger-soft: #fef2f2;
+            --danger-border: #fecaca;
             --warning: #f59e0b;
             --accent: #2563eb;
-            --text-main: #f9fafb;
-            --text-muted: #9ca3af;
-            --text-light: #d1d5db;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --text-light: #334155;
         }
 
         * {
@@ -34,6 +33,8 @@
         body {
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-body);
+            background-image: radial-gradient(#e2e8f0 1.2px, transparent 1.2px);
+            background-size: 24px 24px;
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -45,15 +46,15 @@
             overflow-x: hidden;
         }
 
-        /* Subtle Background Atmosphere */
+        /* Subtle Ambient Glow */
         .ambient-glow {
             position: fixed;
-            top: -150px;
+            top: -120px;
             left: 50%;
             transform: translateX(-50%);
             width: 750px;
-            height: 450px;
-            background: radial-gradient(circle, rgba(220, 38, 38, 0.15) 0%, rgba(11, 15, 25, 0) 70%);
+            height: 380px;
+            background: radial-gradient(circle, rgba(239, 68, 68, 0.08) 0%, rgba(248, 250, 252, 0) 70%);
             pointer-events: none;
             z-index: 0;
         }
@@ -84,8 +85,9 @@
             width: 44px;
             height: 44px;
             border-radius: 10px;
-            background: #1e293b;
-            border: 1px solid #334155;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -103,18 +105,18 @@
             font-size: 15px;
             font-weight: 800;
             letter-spacing: 0.3px;
-            color: #ffffff;
+            color: #0f172a;
         }
 
         .school-info p {
             font-size: 12px;
-            color: var(--text-muted);
+            color: #64748b;
         }
 
         .system-badge {
-            background: rgba(37, 99, 235, 0.15);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            color: #93c5fd;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1d4ed8;
             font-size: 11px;
             font-weight: 700;
             padding: 4px 10px;
@@ -125,28 +127,28 @@
 
         /* Main Notice Card */
         .notice-card {
-            background: var(--card-bg);
-            border: 1px solid var(--danger-border);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
             border-radius: 20px;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), 0 0 40px var(--danger-glow);
+            box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(220, 38, 38, 0.08);
             overflow: hidden;
         }
 
         /* Banner Alert Ribbon */
         .alert-banner {
-            background: linear-gradient(135deg, rgba(220, 38, 38, 0.95), rgba(185, 28, 28, 0.95));
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
             color: #ffffff;
             padding: 24px 28px;
             display: flex;
             align-items: flex-start;
             gap: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
         }
 
         .alert-icon {
             width: 48px;
             height: 48px;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -170,11 +172,12 @@
             letter-spacing: 0.2px;
             line-height: 1.3;
             margin-bottom: 4px;
+            color: #ffffff;
         }
 
         .alert-title p {
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.88);
+            color: #fee2e2;
             font-weight: 500;
         }
 
@@ -185,13 +188,13 @@
 
         .formal-text {
             font-size: 13.5px;
-            color: var(--text-light);
+            color: #334155;
             margin-bottom: 22px;
             line-height: 1.6;
         }
 
         .formal-text strong {
-            color: #ffffff;
+            color: #0f172a;
         }
 
         /* Grid Details */
@@ -209,8 +212,8 @@
         }
 
         .detail-item {
-            background: #1a2234;
-            border: 1px solid #283548;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
             border-radius: 10px;
             padding: 12px 16px;
         }
@@ -219,31 +222,33 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: var(--text-muted);
+            color: #64748b;
             margin-bottom: 3px;
+            font-weight: 600;
         }
 
         .detail-val {
             font-size: 14px;
             font-weight: 700;
-            color: #ffffff;
+            color: #0f172a;
         }
 
         .detail-val.danger {
-            color: #f87171;
+            color: #dc2626;
             font-family: 'JetBrains Mono', monospace;
         }
 
         .detail-val.amount {
-            color: #38bdf8;
+            color: #0284c7;
             font-family: 'JetBrains Mono', monospace;
             font-size: 16px;
+            font-weight: 800;
         }
 
         /* Bank Account Box */
         .bank-box {
-            background: rgba(37, 99, 235, 0.08);
-            border: 1px solid rgba(59, 130, 246, 0.25);
+            background: #f0f7ff;
+            border: 1px solid #bfdbfe;
             border-radius: 12px;
             padding: 16px 20px;
             margin-bottom: 24px;
@@ -280,26 +285,26 @@
         .bank-name {
             font-size: 13px;
             font-weight: 600;
-            color: #93c5fd;
+            color: #1e40af;
         }
 
         .account-number {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 18px;
-            font-weight: 700;
-            color: #ffffff;
+            font-size: 19px;
+            font-weight: 800;
+            color: #0f172a;
             letter-spacing: 1px;
         }
 
         .account-holder {
             font-size: 12px;
-            color: var(--text-muted);
+            color: #475569;
         }
 
         .copy-btn {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #ffffff;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
             font-family: inherit;
             font-size: 12px;
             font-weight: 600;
@@ -310,11 +315,12 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
         .copy-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
+            background: #f1f5f9;
+            border-color: #94a3b8;
         }
 
         /* Action Buttons */
@@ -345,36 +351,38 @@
         .btn-wa {
             background: #16a34a;
             color: #ffffff;
-            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3);
+            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.25);
             border: none;
         }
 
         .btn-wa:hover {
             background: #15803d;
             transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4);
+            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.35);
         }
 
         .btn-invoice {
-            background: #1e293b;
-            color: #e2e8f0;
-            border: 1px solid #334155;
+            background: #f8fafc;
+            color: #1e293b;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
         }
 
         .btn-invoice:hover {
-            background: #273549;
-            color: #ffffff;
-            border-color: #475569;
+            background: #f1f5f9;
+            color: #0f172a;
+            border-color: #94a3b8;
         }
 
         /* Legal / Recovery Notice */
         .recovery-info {
-            background: rgba(245, 158, 11, 0.08);
-            border-left: 3px solid var(--warning);
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-left: 4px solid #f59e0b;
             padding: 12px 16px;
             border-radius: 0 8px 8px 0;
-            font-size: 12px;
-            color: #fde68a;
+            font-size: 12.5px;
+            color: #92400e;
             line-height: 1.5;
         }
 
@@ -383,7 +391,7 @@
             margin-top: 24px;
             text-align: center;
             font-size: 12px;
-            color: #6b7280;
+            color: #64748b;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -391,13 +399,13 @@
         }
 
         .footer-note a {
-            color: #9ca3af;
+            color: #64748b;
             text-decoration: none;
             transition: color 0.2s;
         }
 
         .footer-note a:hover {
-            color: #ffffff;
+            color: #0f172a;
         }
     </style>
 </head>
@@ -518,7 +526,7 @@
         <footer class="footer-note">
             <span>&copy; {{ date('Y') }} Skillance Cloud &bull; Layanan Pengelolaan SIMS Sekolah</span>
             <span>&bull;</span>
-            <a href="{{ route('dev.portal.login') }}" style="opacity: 0.4;">Pengembang</a>
+            <a href="{{ route('dev.portal.login') }}">Pengembang</a>
         </footer>
     </div>
 
