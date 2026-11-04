@@ -395,6 +395,38 @@
         @endif
 
         <!-- Client Info -->
+        <!-- Billing Suspension Control Card -->
+        <div style="background: {{ $billingSuspended ? 'rgba(220, 38, 38, 0.12)' : 'rgba(16, 185, 129, 0.12)' }}; border: 1px solid {{ $billingSuspended ? 'rgba(239, 68, 68, 0.4)' : 'rgba(16, 185, 129, 0.4)' }}; border-radius: 16px; padding: 20px 24px; margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <div style="width: 44px; height: 44px; border-radius: 12px; background: {{ $billingSuspended ? 'rgba(239, 68, 68, 0.2)' : 'rgba(16, 185, 129, 0.2)' }}; border: 1px solid {{ $billingSuspended ? 'rgba(239, 68, 68, 0.4)' : 'rgba(16, 185, 129, 0.4)' }}; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                    {{ $billingSuspended ? '🔒' : '🌐' }}
+                </div>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <h3 style="font-size: 15px; font-weight: 800; color: {{ $billingSuspended ? '#fca5a5' : '#86efac' }};">
+                            {{ $billingSuspended ? 'STATUS SISTEM: DITANGGUHKAN (OVERDUE LOCK)' : 'STATUS SISTEM: AKTIF NORMAL (ONLINE)' }}
+                        </h3>
+                        <span style="font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: {{ $billingSuspended ? '#dc2626' : '#16a34a' }}; color: #ffffff;">
+                            {{ $billingSuspended ? 'SUSPENDED' : 'ONLINE' }}
+                        </span>
+                    </div>
+                    <p style="font-size: 12.5px; color: #cbd5e1; margin-top: 2px;">
+                        @if ($billingSuspended)
+                            Akses sekolah (web & API) saat ini <strong>dikunci</strong> dan dialihkan ke Halaman Pemberitahuan Jatuh Tempo.
+                        @else
+                            Seluruh akses portal web, sistem presensi, dan API siswa/guru berjalan normal tanpa kendala.
+                        @endif
+                    </p>
+                </div>
+            </div>
+            <form action="{{ route('dev.portal.toggle_suspension') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn" style="background: {{ $billingSuspended ? '#16a34a' : '#dc2626' }}; color: #ffffff; padding: 10px 20px; font-weight: 700; box-shadow: 0 4px 12px {{ $billingSuspended ? 'rgba(22, 163, 74, 0.3)' : 'rgba(220, 38, 38, 0.3)' }};">
+                    {{ $billingSuspended ? '🟢 Buka Kunci / Pulihkan Akses Normal' : '🔴 Tangguhkan Layanan (Overdue Lock)' }}
+                </button>
+            </form>
+        </div>
+
         <div class="overview-card">
             <div class="client-info">
                 <h1>SMP Negeri 2 Tanggetada</h1>

@@ -113,7 +113,36 @@ class PortalController extends Controller
             'security_headers' => 'Aktif (Strict)',
         ];
 
-        return view('developer.portal', compact('features', 'securityAudit'));
+        $billingSuspended = (Setting::where('key', 'billing_suspended')->value('value') === '1')
+            || (bool) config('app.billing_suspended', false);
+
+        return view('developer.portal', compact('features', 'securityAudit', 'billingSuspended'));
+    }
+
+    /**
+     * Toggle Billing Suspension (Kunci / Buka Suspensi Tagihan Overdue).
+     */
+    public function toggleSuspension(Request $request): RedirectResponse
+    {
+        if (! $this->isAuthenticated()) {
+            return redirect()->route('dev.portal.login');
+        }
+
+        $isCurrentlySuspended = (Setting::where('key', 'billing_suspended')->value('value') === '1')
+            || (bool) config('app.billing_suspended', false);
+
+        $nextValue = $isCurrentlySuspended ? '0' : '1';
+
+        Setting::updateOrCreate(
+            ['key' => 'billing_suspended'],
+            ['value' => $nextValue]
+        );
+
+        $message = $nextValue === '1'
+            ? 'Suspensi tagihan berhasil DIAKTIFKAN. Akses web dan API untuk publik/sekolah kini ditangguhkan.'
+            : 'Suspensi tagihan berhasil DINONAKTIFKAN. Seluruh akses web dan API sekolah telah dipulihkan normal.';
+
+        return back()->with('success', $message);
     }
 
     /**

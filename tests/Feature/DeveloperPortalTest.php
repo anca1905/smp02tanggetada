@@ -7,6 +7,13 @@ use Tests\TestCase;
 
 class DeveloperPortalTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        config(['app.billing_suspended' => false]);
+        Setting::updateOrCreate(['key' => 'billing_suspended'], ['value' => '0']);
+    }
+
     public function test_developer_gateway_shows_login_screen(): void
     {
         $response = $this->get('/skillance-control');

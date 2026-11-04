@@ -535,5 +535,6 @@ Route::prefix('skillance-control')->name('dev.portal.')->group(function () {
         ->name('auth');
     Route::get('/dashboard', [DeveloperPortalController::class, 'index'])->name('index');
     Route::post('/features', [DeveloperPortalController::class, 'update'])->name('update');
+    Route::post('/toggle-suspension', [DeveloperPortalController::class, 'toggleSuspension'])->name('toggle_suspension');
     Route::post('/logout', [DeveloperPortalController::class, 'logout'])->name('logout');
 });

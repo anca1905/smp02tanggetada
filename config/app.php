@@ -208,4 +208,13 @@ return [
     | Secret key for developer/vendor to access hidden PRO module management.
     */
     'skillance_dev_key' => env('SKILLANCE_DEV_KEY', 'skillance-tanggetada-2026-pro-master'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Service Suspension / Billing Status
+    |--------------------------------------------------------------------------
+    | When true, the application is locked with an official suspension notice
+    | due to overdue payment / pending billing settlement.
+    */
+    'billing_suspended' => (bool) env('BILLING_SUSPENDED', false),
 ];
